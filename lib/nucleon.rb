@@ -66,6 +66,7 @@ lib_dir          = File.dirname(__FILE__)
 core_dir         = File.join(lib_dir, 'nucleon')
 mixin_dir        = File.join(core_dir, 'mixin')
 mixin_config_dir = File.join(mixin_dir, 'config')
+mixin_action_dir = File.join(mixin_dir, 'action')
 macro_dir        = File.join(mixin_dir, 'macro')
 util_dir         = File.join(core_dir, 'util')
 mod_dir          = File.join(core_dir, 'mod')
@@ -167,5 +168,5 @@ nucleon_require(core_dir, :plugin)
 # Basic information
 
 module Nucleon
-  VERSION = File.read(File.join(File.dirname(__FILE__), '..', '..', 'VERSION'))
+  VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
 end
