@@ -8,7 +8,7 @@ require 'rspec/core/rake_task'
 require 'rdoc/task'
 require 'yard'
 
-require './lib/coral_gem.rb'
+require './lib/coral_core.rb'
 
 #-------------------------------------------------------------------------------
 # Dependencies
@@ -26,23 +26,24 @@ end
 
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name                  = "coral_gem"
-  gem.homepage              = "http://github.com/coraltech/ruby-coral_gem"
-  gem.rubyforge_project     = 'coral_gem'
+  gem.name                  = "coral_core"
+  gem.homepage              = "http://github.com/coralnexus/ruby-coral_core"
+  gem.rubyforge_project     = 'coral_core'
   gem.license               = "GPLv3"
   gem.email                 = "adrian.webb@coraltech.net"
   gem.authors               = ["Adrian Webb"]
-  gem.summary               = %Q{Provides a starter scaffolding Gem for further development}
-  gem.description           = File.read('README.rdoc')
+  gem.summary               = %Q{Provides core data elements and utilities used in other Coral gems}
+  gem.description           = File.read('README.rdoc')  
   gem.required_ruby_version = '>= 1.8.1'
   gem.has_rdoc              = true
-  gem.rdoc_options << '--title' << 'Coral Starter Gem' <<
+  gem.rdoc_options << '--title' << 'Coral Core library' <<
                       '--main' << 'README.rdoc' <<
-                      '--line-numbers' 
+                      '--line-numbers'
+                      
+  gem.files.include Dir.glob('bootstrap/**/*') 
   
   # Dependencies defined in Gemfile
 end
-
 Jeweler::RubygemsDotOrgTasks.new
 
 #-------------------------------------------------------------------------------
@@ -59,8 +60,8 @@ task :default => :spec
 #-------------------------------------------------------------------------------
 # Documentation
 
-version   = Coral::Gem::VERSION
-doc_title = "coral_gem #{version}"
+version   = Coral::VERSION
+doc_title = "coral_core #{version}"
 
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
