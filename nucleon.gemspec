@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/nucleon.rb",
     "locales/en.yml",
+    "nucleon.gemspec",
     "spec/coral_mock_input.rb",
     "spec/coral_test_kernel.rb",
     "spec/spec_helper.rb"
