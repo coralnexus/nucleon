@@ -162,3 +162,10 @@ nucleon_require(core_dir, :gems)
 nucleon_require(core_dir, :manager)
 nucleon_require(plugin_dir, :base)
 nucleon_require(core_dir, :plugin)
+
+#-------------------------------------------------------------------------------
+# Basic information
+
+module Nucleon
+  VERSION = File.read(File.join(File.dirname(__FILE__), '..', '..', 'VERSION'))
+end

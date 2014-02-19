@@ -8,7 +8,7 @@ require 'rspec/core/rake_task'
 require 'rdoc/task'
 require 'yard'
 
-require './lib/coral_core.rb'
+require './lib/nucleon.rb'
 
 #-------------------------------------------------------------------------------
 # Dependencies
@@ -26,22 +26,20 @@ end
 
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name                  = "coral_core"
-  gem.homepage              = "http://github.com/coralnexus/ruby-coral_core"
-  gem.rubyforge_project     = 'coral_core'
+  gem.name                  = "nucleon"
+  gem.homepage              = "http://github.com/coralnexus/nucleon"
+  gem.rubyforge_project     = 'nucleon'
   gem.license               = "GPLv3"
-  gem.email                 = "adrian.webb@coraltech.net"
+  gem.email                 = "adrian.webb@coralnexus.com"
   gem.authors               = ["Adrian Webb"]
-  gem.summary               = %Q{Provides core data elements and utilities used in other Coral gems}
-  gem.description           = File.read('README.rdoc')  
+  gem.summary               = %Q{Framework that provides a simple foundation for building distributively configured, extremely pluggable and extendable, and easily parallel Ruby applications}
+  gem.description           = %Q{Framework that provides a simple foundation for building distributively configured, extremely pluggable and extendable, and easily parallel Ruby applications}
   gem.required_ruby_version = '>= 1.8.1'
   gem.has_rdoc              = true
-  gem.rdoc_options << '--title' << 'Coral Core library' <<
+  gem.rdoc_options << '--title' << 'Nucleon' <<
                       '--main' << 'README.rdoc' <<
                       '--line-numbers'
                       
-  gem.files.include Dir.glob('bootstrap/**/*') 
-  
   # Dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -60,8 +58,8 @@ task :default => :spec
 #-------------------------------------------------------------------------------
 # Documentation
 
-version   = Coral::VERSION
-doc_title = "coral_core #{version}"
+version   = Nucleon::VERSION
+doc_title = "nucleon #{version}"
 
 Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
