@@ -5,7 +5,8 @@ class Core < Config
   #-----------------------------------------------------------------------------
   # Properties
   
-  @@ui = Util::Interface.new("core")
+  @@logger = Util::Logger.new('core')
+  @@ui     = Util::Console.new('core')
   
   #-----------------------------------------------------------------------------
   # Constructor / Destructor
@@ -13,18 +14,24 @@ class Core < Config
   def initialize(data = {}, defaults = {}, force = true)
     super(data, defaults, force)   
     
-    class_label      = self.class.to_s.downcase.gsub(/^nucleon::/, '')
-    logger_name      = delete(:logger, class_label)
-    interface_config = Config.new(export).defaults({ :logger => logger_name, :resource => class_label })
+    class_label = self.class.to_s.downcase.gsub(/^nucleon::/, '')
     
-    @ui = Util::Interface.new(interface_config)
-    logger.debug("Initialized instance interface")
+    @logger = Util::Logger.new(delete(:logger, class_label))
+    @ui     = Util::Console.new(Config.new(export).defaults({ :resource => class_label }))
+    
+    logger.debug('Initialized instance logger and interface')
   end
   
   #-----------------------------------------------------------------------------
   # Accessor / Modifiers
   
-  attr_accessor :ui
+  attr_accessor :logger, :ui
+  
+  #---
+  
+  def self.logger
+    return @@logger
+  end
   
   #---
   
@@ -32,18 +39,6 @@ class Core < Config
     return @@ui
   end
   
-  #---
-  
-  def self.logger
-    return @@ui.logger
-  end
-  
-  #--- 
-   
-  def logger
-    return @ui.logger
-  end
- 
   #-----------------------------------------------------------------------------
   # General utilities
   
