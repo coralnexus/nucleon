@@ -110,6 +110,26 @@ class Manager
   
   #---
   
+  def reload
+    current_time     = Time.now    
+    Celluloid.logger = logger
+      
+    logger.info("Initializing the Nucleon plugin system at #{current_time}")
+    
+    define_type :extension     => nil,     # Core
+                :action        => :update, # Core
+                :project       => :git,    # Core
+                :command       => :bash,   # Core
+                :event         => :regex,  # Utility
+                :template      => :json,   # Utility
+                :translator    => :json    # Utility
+                           
+    load_plugins(true)                                  
+    logger.info("Finished initializing Nucleon plugin system at #{Time.now}")    
+  end
+  
+  #---
+  
   def define_type(type_info)
     if type_info.is_a?(Hash)
       logger.info("Defining plugin types at #{Time.now}")
@@ -157,7 +177,7 @@ class Manager
       logger.info("Loading directories from #{base_path} at #{Time.now}")
       Dir.entries(base_path).each do |path|
         unless path.match(/^\.\.?$/)
-          register_type(base_path, path)          
+          register_type(base_path, path) if types.include?(path.to_sym)         
         end
       end
     end  
@@ -218,15 +238,35 @@ class Manager
         
         nucleon_require(plugin[:directory], provider)
         
-        @load_info[type][provider][:class] = Nucleon.class_const([ :nucleon, type, provider ])
+        @load_info[type][provider][:class] = class_const([ :nucleon, type, provider ])
         logger.debug("Updated #{type} #{provider} load info: #{@load_info[type][provider].inspect}")
         
         # Make sure extensions are listening from the time they are loaded
-        create(:extension, provider) if type == :extension # Create a persistent instance
+        load(:extension, provider, { :name => provider }) if type == :extension # Create a persistent instance
       end
     end
   end    
  
+  #---
+  
+  def load(type, provider, options = {})
+    config = Config.ensure(options)
+    name   = config.get(:name, nil)
+    
+    logger.info("Fetching plugin #{type} provider #{provider} at #{Time.now}")
+    logger.debug("Plugin options: #{config.export.inspect}")
+    
+    if name
+      logger.debug("Looking up existing instance of #{name}")
+      
+      existing_instance = get(type, name)
+      logger.info("Using existing instance of #{type}, #{name}") if existing_instance
+    end
+    
+    return existing_instance if existing_instance
+    create(type, provider, config.export)  
+  end
+  
   #---
   
   def create(type, provider, options = {})
@@ -255,7 +295,7 @@ class Manager
         
         logger.info("Creating new plugin #{provider} #{type} with #{options.inspect}")
        
-        plugin = Nucleon.class_const([ :nucleon, type, provider ]).new(type, provider, options)
+        plugin = class_const([ :nucleon, type, provider ]).new(type, provider, options)
         
         @plugins[type][instance_name] = plugin 
       end
@@ -400,12 +440,30 @@ class Manager
     logger.debug("Extension #{method} retrieved value: #{value.inspect}")
     value
   end
+  
+  #---
+  
+  def collect(method, options = {})
+    config = Config.ensure(options)
+    values = []
+    
+    logger.debug("Collecting extension #{method} values")
+    
+    exec(method, config.import({ :extension_type => :collect })) do |op, data|
+      if op == :process
+        values << data unless data.nil?  
+      end
+    end
+    
+    logger.debug("Extension #{method} collected values: #{values.inspect}")  
+    values
+  end
        
   #-----------------------------------------------------------------------------
   # Utilities
   
   def translate_type(type, info, method = :translate)
-    klass = Nucleon.class_const([ :nucleon, :plugin, type ])
+    klass = class_const([ :nucleon, :plugin, type ])
     logger.debug("Executing option translation for: #{klass.inspect}")          
     
     info = klass.send(method, info) if klass.respond_to?(method)
@@ -415,11 +473,47 @@ class Manager
   #---
   
   def translate(type, provider, info, method = :translate)
-    klass = Nucleon.class_const([ :nucleon, type, provider ])
+    klass = class_const([ :nucleon, type, provider ])
     logger.debug("Executing option translation for: #{klass.inspect}")
               
     info = klass.send(method, info) if klass.respond_to?(method)
     info  
+  end
+  
+  #---
+  
+  def class_name(name, separator = '::', want_array = FALSE)
+    components = []
+    
+    case name
+    when String, Symbol
+      components = name.to_s.split(separator)
+    when Array
+      components = name 
+    end
+    
+    components.collect! do |value|
+      value.to_s.strip.capitalize  
+    end
+    
+    if want_array
+      return components
+    end    
+    components.join(separator)
+  end
+  
+  #---
+  
+  def class_const(name, separator = '::')
+    components = class_name(name, separator, TRUE)
+    constant   = Object
+    
+    components.each do |component|
+      constant = constant.const_defined?(component) ? 
+                  constant.const_get(component) : 
+                  constant.const_missing(component)
+    end
+    constant
   end  
 end
 end
