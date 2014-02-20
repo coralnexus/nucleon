@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+
+Signal.trap("INT") { exit 1 }
+
+#---
+
+require 'nucleon'
+
+logger = Nucleon.logger
+logger.info("`nucleon` invoked: #{ARGV.inspect}")
+
+#---
+
+$stdout.sync = true
+$stderr.sync = true
+
+#---
+
+begin
+  logger.debug("Beginning execution run")
+  
+  arg_components = Nucleon::Util::CLI::Parser.split(ARGV, 'corl <action> [ <arg> ... ]')
+  main_command   = arg_components.shift
+  sub_command    = arg_components.shift
+  sub_args       = arg_components
+  
+  if main_command.processed && sub_command
+    exit_status = Nucleon.action_cli(sub_command, sub_args)
+  else
+    puts I18n.t('nucleon.core.exec.help.usage') + ': ' + main_command.help + "\n"
+    puts I18n.t('nucleon.core.exec.help.header') + ":\n\n"
+    
+    Nucleon::Manager.connection.loaded_plugins(:action).each do |provider, action|
+      puts sprintf("   %-10s : %s\n", 
+        "<#{provider}>", 
+        Nucleon.action(provider, { :settings => {}, :quiet => true }).help
+      )
+    end
+    
+    puts "\n" + I18n.t('nucleon.core.exec.help.footer') + "\n\n"   
+    exit_status = Nucleon.code.help_wanted  
+  end 
+  
+rescue Exception => error
+  logger.error("Nucleon executable experienced an error:")
+  logger.error(error.inspect)
+  logger.error(error.message)
+  logger.error(Nucleon::Util::Data.to_yaml(error.backtrace))
+
+  Nucleon.ui.error(error.message, { :prefix => false }) if error.message
+  
+  exit_status = error.status_code if error.respond_to?(:status_code)
+end
+
+exit(exit_status)
