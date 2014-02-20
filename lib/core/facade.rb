@@ -9,24 +9,22 @@ module Nucleon
     Core.ui
   end
   
+  def self.quiet=quiet
+    Util::Console.quiet = quiet  
+  end
+  
   #---
   
   def self.logger
     Core.logger
   end
   
-  #---
-  
-  def self.add_log_levels(*levels)
-    Util::Interface.add_log_levels(levels)  
-  end
-  
   def self.log_level
-    Util::Interface.log_level
+    Util::Logger.level
   end
   
   def self.log_level=log_level
-    Util::Interface.log_level = log_level
+    Util::Logger.level = log_level
   end
   
   #-----------------------------------------------------------------------------
@@ -57,58 +55,47 @@ module Nucleon
   end
 
   #-----------------------------------------------------------------------------
-  # Initialization
-  
-  def self.initialize
-    current_time = Time.now
-    
-    Celluloid.logger = logger
-      
-    logger.info("Initializing the Nucleon plugin system at #{current_time}")
-    Config.set_property('time', current_time.to_i)
-    
-    connection = Manager.connection
-      
-    connection.define_type :extension     => nil,         # Core
-                           :action        => :update,     # Core
-                           :project       => :git,        # Core
-                           :command       => :shell,      # Core
-                           :event         => :regex,      # Utility
-                           :template      => :json,       # Utility
-                           :translator    => :json        # Utility
-                           
-    connection.load_plugins(true)
-                                  
-    logger.info("Finished initializing Nucleon plugin system at #{Time.now}")    
-  end
-  
-  #-----------------------------------------------------------------------------
   # Core plugin interface
   
-  def self.plugin_load(type, provider, options = {})
-    config = Config.ensure(options)
-    name   = config.get(:name, nil)
-    
-    logger.info("Fetching plugin #{type} provider #{provider} at #{Time.now}")
-    logger.debug("Plugin options: #{config.export.inspect}")
-    
-    connection = Manager.connection
-    
-    if name
-      logger.debug("Looking up existing instance of #{name}")
-      
-      existing_instance = connection.get(type, name)
-      logger.info("Using existing instance of #{type}, #{name}") if existing_instance
-    end
-    
-    return existing_instance if existing_instance
-    connection.create(type, provider, config.export)  
+  def self.reload
+    Manager.connection.reload  
+  end
+  
+  #---
+  
+  def self.types
+    Manager.connection.types
+  end
+  
+  def self.define_type(type_info)
+    Manager.connection.define_type(type_info)
+  end
+   
+  def self.type_default(type)
+    Manager.connection.type_default(type)
+  end
+  
+  #---
+  
+  def self.register(path)
+    Manager.connection.register(path)
+    Manager.connection.autoload
+  end
+  
+  def self.loaded_plugins(type = nil, provider = nil)
+    Manager.connection.loaded_plugins(type, provider)    
+  end
+  
+  #---
+  
+  def self.active_plugins(type = nil, provider = nil)
+    Manager.connection.plugins(type, provider)    
   end
   
   #---
   
   def self.plugin(type, provider, options = {})
-    default_provider = Manager.connection.type_default(type)
+    default_provider = type_default(type)
     
     if options.is_a?(Hash) || options.is_a?(Nucleon::Config)
       config   = Config.ensure(options)
@@ -117,7 +104,7 @@ module Nucleon
     end
     provider = default_provider unless provider # Sanity checking (see plugins)
     
-    plugin_load(type, provider, options)
+    Manager.connection.load(type, provider, options)
   end
   
   #---
@@ -155,15 +142,92 @@ module Nucleon
   def self.remove_plugin(plugin)
     Manager.connection.remove(plugin)
   end
-
+    
+  #-----------------------------------------------------------------------------
+  # Core plugin type facade
+  
+  def self.extension(provider)
+    plugin(:extension, provider, {})
+  end
+  
+  #---
+  
+  def self.action(provider, options)
+    plugin(:action, provider, options)
+  end
+  
+  def self.action_config(provider)
+    action(provider, { :settings => {}, :quiet => true }).configure
+  end
+  
+  def self.actions(data, build_hash = false, keep_array = false)
+    plugins(:action, data, build_hash, keep_array)  
+  end
+  
+  def self.action_run(provider, options = {}, quiet = true)
+    Plugin::Action.exec(provider, options, quiet)
+  end
+  
+  def self.action_cli(provider, args = [], quiet = false)
+    Plugin::Action.exec_cli(provider, args, quiet)
+  end
+  
+  #---
+  
+  def self.project(options, provider = nil)
+    plugin(:project, provider, options)
+  end
+  
+  def self.projects(data, build_hash = false, keep_array = false)
+    plugins(:project, data, build_hash, keep_array)
+  end
+   
+  #-----------------------------------------------------------------------------
+  # Utility plugin type facade
+  
+  def self.command(options, provider = nil)
+    plugin(:command, provider, options)
+  end
+  
+  def self.commands(data, build_hash = false, keep_array = false)
+    plugins(:command, data, build_hash, keep_array)
+  end
+   
+  #---
+  
+  def self.event(options, provider = nil)
+    plugin(:event, provider, options)
+  end
+  
+  def self.events(data, build_hash = false, keep_array = false)
+    plugins(:event, data, build_hash, keep_array)
+  end
+  
+  #---
+  
+  def self.template(options, provider = nil)
+    plugin(:template, provider, options)
+  end
+  
+  def self.templates(data, build_hash = false, keep_array = false)
+    plugins(:template, data, build_hash, keep_array)
+  end
+   
+  #---
+  
+  def self.translator(options, provider = nil)
+    plugin(:translator, provider, options)
+  end
+  
+  def self.translators(data, build_hash = false, keep_array = false)
+    plugins(:translator, data, build_hash, keep_array)
+  end
+  
   #-----------------------------------------------------------------------------
   # Plugin extensions
    
-  def self.exec(method, options = {})
-    Manager.connection.exec(method, options) do |op, data|
-      data = yield(op, data) if block_given?
-      data
-    end
+  def self.exec(method, options = {}, &code)
+    Manager.connection.exec(method, options, &code)
   end
   
   #---
@@ -183,7 +247,13 @@ module Nucleon
   def self.value(method, value, options = {})
     Manager.connection.value(method, value, options)
   end
-       
+  
+  #---
+  
+  def self.collect(method, options = {})
+    Manager.connection.collect(method, options)
+  end
+        
   #-----------------------------------------------------------------------------
   # External execution
    
@@ -203,41 +273,33 @@ module Nucleon
     end
   end
   
+  #---
+    
+  def self.cli_run(command, options = {}, &code)
+    command = command.join(' ') if command.is_a?(Array)
+    config  = Config.ensure(options)
+    
+    logger.info("Executing command #{command}")
+        
+    result = Util::Shell.connection.exec(command, config, &code)
+    
+    unless result.status == Nucleon.code.success
+      ui.error("Command #{command} failed to execute")
+    end     
+    result
+  end
+  
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def self.class_name(name, separator = '::', want_array = FALSE)
-    components = []
-    
-    case name
-    when String, Symbol
-      components = name.to_s.split(separator)
-    when Array
-      components = name 
-    end
-    
-    components.collect! do |value|
-      value.to_s.strip.capitalize  
-    end
-    
-    if want_array
-      return components
-    end    
-    components.join(separator)
+  def self.class_name(name, separator = '::', want_array = false)
+    Manager.connection.class_name(name, separator, want_array)
   end
   
   #---
   
   def self.class_const(name, separator = '::')
-    components = class_name(name, separator, TRUE)
-    constant   = Object
-    
-    components.each do |component|
-      constant = constant.const_defined?(component) ? 
-                  constant.const_get(component) : 
-                  constant.const_missing(component)
-    end
-    constant
+    Manager.connection.class_const(name, separator)
   end
   
   #---
