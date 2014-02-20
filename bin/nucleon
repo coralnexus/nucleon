@@ -19,7 +19,7 @@ $stderr.sync = true
 begin
   logger.debug("Beginning execution run")
   
-  arg_components = Nucleon::Util::CLI::Parser.split(ARGV, 'corl <action> [ <arg> ... ]')
+  arg_components = Nucleon::Util::CLI::Parser.split(ARGV, 'nucleon <action> [ <arg> ... ]')
   main_command   = arg_components.shift
   sub_command    = arg_components.shift
   sub_args       = arg_components
