@@ -156,12 +156,12 @@ module Nucleon
     plugin(:action, provider, options)
   end
   
-  def self.action_config(provider)
-    action(provider, { :settings => {}, :quiet => true }).configure
-  end
-  
   def self.actions(data, build_hash = false, keep_array = false)
     plugins(:action, data, build_hash, keep_array)  
+  end
+  
+  def self.action_config(provider)
+    action(provider, { :settings => {}, :quiet => true }).configure
   end
   
   def self.action_run(provider, options = {}, quiet = true)
