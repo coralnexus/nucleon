@@ -3,7 +3,7 @@ require 'spec_helper'
 
 module Nucleon
 
-  describe Util::Interface do
+  describe Util::Console do
 
     #---------------------------------------------------------------------------
     # UI functionality
@@ -17,11 +17,11 @@ module Nucleon
         output  = double('output')
         output.should_receive(:puts).with('message')
         
-        ui = Util::Interface.new({
+        ui = Util::Console.new({
           :output  => output,
           :printer => :puts,
         })        
-        Util::Interface.new({ :ui_delegate => ui }).say(:info, 'message')
+        Util::Console.new({ :console_delegate => ui }).say(:info, 'message')
       end
       
       #-------------------------------------------------------------------------
@@ -31,12 +31,12 @@ module Nucleon
         output1 = double('output1')
         output1.should_receive(:puts).with('message')
         
-        Util::Interface.new({ :output => output1 }).say(:info, 'message')
+        Util::Console.new({ :output => output1 }).say(:info, 'message')
         
         output2 = double('output2')
         output2.should_receive(:puts).with('[component] message')
         
-        Util::Interface.new({
+        Util::Console.new({
           :resource => 'component', 
           :output   => output2, 
         }).say(:info, 'message')      
@@ -48,13 +48,13 @@ module Nucleon
         output1 = double('output1')
         output1.should_receive(:puts).with('message')
         
-        test = Util::Interface.new({ :output => output1 })
+        test = Util::Console.new({ :output => output1 })
         test.say(:info, 'message', { :new_line => true })
         
         output2 = double('output2')
         output2.should_receive(:print).with('message')
         
-        test = Util::Interface.new({ :output => output2 })
+        test = Util::Console.new({ :output => output2 })
         test.say(:info, 'message', { :new_line => false })      
       end
       
@@ -65,7 +65,7 @@ module Nucleon
           output = double('output')
           output.should_receive(:puts).with('message')
         
-          Util::Interface.new({
+          Util::Console.new({
             :output  => output,
             :printer => :puts,
             :color   => false,
@@ -75,7 +75,7 @@ module Nucleon
         error = double('error')
         error.should_receive(:puts).with('message')
         
-        Util::Interface.new({
+        Util::Console.new({
           :error   => error,
           :printer => :puts,
           :color   => false,
@@ -89,7 +89,7 @@ module Nucleon
           output = double('output')
           output.should_receive(:puts).with('message')
         
-          Util::Interface.new({
+          Util::Console.new({
             :output  => output,
             :printer => :puts,
           }).say(:info, 'message', { :channel => type })        
@@ -98,7 +98,7 @@ module Nucleon
         error = double('error')
         error.should_receive(:puts).with('message')
         
-        Util::Interface.new({
+        Util::Console.new({
           :error   => error,
           :printer => :puts,
           :color   => false,
@@ -132,11 +132,11 @@ module Nucleon
         output  = double('output')
         output.should_receive(:puts).with('message')
         
-        ui = Util::Interface.new({
+        ui = Util::Console.new({
           :output  => output,
           :printer => :puts,
         })        
-        Util::Interface.new({ :ui_delegate => ui }).info('message')
+        Util::Console.new({ :console_delegate => ui }).info('message')
       end
       
       #-------------------------------------------------------------------------
@@ -146,7 +146,7 @@ module Nucleon
         output = double('output')
         output.should_receive(:puts).with('message')
         
-        Util::Interface.new({ 
+        Util::Console.new({ 
           :output  => output,
           :printer => :puts, 
         }).info('message')
@@ -164,12 +164,12 @@ module Nucleon
         output  = double('output')
         output.should_receive(:puts).with('message')
         
-        ui = Util::Interface.new({
+        ui = Util::Console.new({
           :output  => output,
           :printer => :puts,
           :color   => false,
         })        
-        Util::Interface.new({ :ui_delegate => ui }).warn('message')
+        Util::Console.new({ :console_delegate => ui }).warn('message')
       end
       
       #-------------------------------------------------------------------------
@@ -179,7 +179,7 @@ module Nucleon
         output = double('output')
         output.should_receive(:puts).with('message')
         
-        Util::Interface.new({ 
+        Util::Console.new({ 
           :output  => output,
           :printer => :puts,
           :color   => false, 
@@ -192,7 +192,7 @@ module Nucleon
         output = double('output')
         output.should_receive(:print).with(/^\e\[33mmessage\e\[0m$/)
         
-        Util::Interface.new({ 
+        Util::Console.new({ 
           :output => output,
           :color  => true, 
         }).warn('message', { :new_line => false })
@@ -210,12 +210,12 @@ module Nucleon
         error  = double('error')
         error.should_receive(:puts).with('message')
         
-        ui = Util::Interface.new({
+        ui = Util::Console.new({
           :error   => error,
           :printer => :puts,
           :color   => false,
         })        
-        Util::Interface.new({ :ui_delegate => ui }).error('message')
+        Util::Console.new({ :console_delegate => ui }).error('message')
       end
       
       #-------------------------------------------------------------------------
@@ -225,7 +225,7 @@ module Nucleon
         error = double('error')
         error.should_receive(:puts).with('message')
         
-        Util::Interface.new({ 
+        Util::Console.new({ 
           :error   => error,
           :printer => :puts,
           :color   => false, 
@@ -238,7 +238,7 @@ module Nucleon
         error = double('error')
         error.should_receive(:print).with(/^\e\[31mmessage\e\[0m$/)
         
-        Util::Interface.new({ 
+        Util::Console.new({ 
           :error => error,
           :color => true, 
         }).error('message', { :new_line => false })
@@ -256,12 +256,12 @@ module Nucleon
         output  = double('output')
         output.should_receive(:puts).with('message')
         
-        ui = Util::Interface.new({
+        ui = Util::Console.new({
           :output  => output,
           :printer => :puts,
           :color   => false,
         })        
-        Util::Interface.new({ :ui_delegate => ui }).success('message')
+        Util::Console.new({ :ui_delegate => ui }).success('message')
       end
       
       #-------------------------------------------------------------------------
@@ -271,7 +271,7 @@ module Nucleon
         output = double('output')
         output.should_receive(:puts).with('message')
         
-        Util::Interface.new({ 
+        Util::Console.new({ 
           :output  => output,
           :printer => :puts,
           :color   => false, 
@@ -284,7 +284,7 @@ module Nucleon
         output = double('output')
         output.should_receive(:print).with(/^\e\[32mmessage\e\[0m$/)
         
-        Util::Interface.new({ 
+        Util::Console.new({ 
           :output => output,
           :color  => true, 
         }).success('message', { :new_line => false })
@@ -300,8 +300,8 @@ module Nucleon
       # Delegation
       
       it "can delegate to another class that contains this method" do
-        message = Util::Interface.new({ 
-          :ui_delegate => Util::Interface.new('delegate')
+        message = Util::Console.new({ 
+          :ui_delegate => Util::Console.new('delegate')
         }).format_message(:info, 'message', { :prefix => true })
         
         message.should == '[delegate] message'
@@ -311,28 +311,28 @@ module Nucleon
       # Prefix specifications
       
       it "returns without a prefix because no resource" do
-        message = Util::Interface.new.format_message(:info, 'message', { :prefix => true })
+        message = Util::Console.new.format_message(:info, 'message', { :prefix => true })
         message.should == 'message'
       end
       
       #---
       
       it "returns without a prefix because prefix is false" do
-        message = Util::Interface.new('component').format_message(:info, 'message', { :prefix => false })
+        message = Util::Console.new('component').format_message(:info, 'message', { :prefix => false })
         message.should == 'message'
       end
       
       #---
             
       it "returns without a prefix because no prefix option given" do
-        message = Util::Interface.new('component').format_message(:info, 'message')
+        message = Util::Console.new('component').format_message(:info, 'message')
         message.should == 'message'
       end
       
       #---
             
       it "returns with a prefix if resource and prefix option given" do
-        message = Util::Interface.new('component').format_message(:info, 'message', { :prefix => true })
+        message = Util::Console.new('component').format_message(:info, 'message', { :prefix => true })
         message.should == '[component] message'
       end
       
@@ -340,7 +340,7 @@ module Nucleon
       # Color specifications
       
       it "formats a error message in red if color enabled" do
-        message = Util::Interface.new({
+        message = Util::Console.new({
           :resource => 'component',
           :color    => true,
         }).format_message(:error, 'message')
@@ -350,7 +350,7 @@ module Nucleon
       #---
       
       it "formats a warning message in yellow if color enabled" do
-        message = Util::Interface.new({
+        message = Util::Console.new({
           :resource => 'component',
           :color    => true,
         }).format_message(:warn, 'message')
@@ -360,7 +360,7 @@ module Nucleon
       #---
       
       it "formats a success message in green if color enabled" do
-        message = Util::Interface.new({
+        message = Util::Console.new({
           :resource => 'component',
           :color    => true,
         }).format_message(:success, 'message')
@@ -379,11 +379,11 @@ module Nucleon
         output  = double('output')
         output.should_receive(:puts).with('message')
         
-        ui = Util::Interface.new({
+        ui = Util::Console.new({
           :output  => output,
           :printer => :puts,
         })        
-        Util::Interface.new({ :ui_delegate => ui }).safe_puts('message')
+        Util::Console.new({ :console_delegate => ui }).safe_puts('message')
       end
       
       #-------------------------------------------------------------------------
@@ -393,7 +393,7 @@ module Nucleon
         output  = double('output')
         output.should_receive(:puts).with('')
         
-        Util::Interface.new({
+        Util::Console.new({
           :output  => output,
           :printer => :puts,
         }).safe_puts()
@@ -405,7 +405,7 @@ module Nucleon
         output1 = double('output1')
         output1.should_receive(:puts).with('message')
         
-        test = Util::Interface.new({
+        test = Util::Console.new({
           :output  => output1,
           :printer => :puts,
         })
@@ -424,7 +424,7 @@ module Nucleon
         output = double('output')
         output.should_receive(:puts).with('message')
         
-        Util::Interface.new({
+        Util::Console.new({
           :output  => output,
           :printer => :puts,
         }).safe_puts('message')
@@ -436,7 +436,7 @@ module Nucleon
         output = double('output')
         output.should_receive(:print).with('message')
         
-        Util::Interface.new({
+        Util::Console.new({
           :output  => output,
           :printer => :print,
         }).safe_puts('message')
@@ -452,7 +452,7 @@ module Nucleon
         output2 = double('output2')
         output2.should_receive(:puts).with('message')
         
-        Util::Interface.new({
+        Util::Console.new({
           :output  => output1,
           :printer => :puts,
         }).safe_puts('message', { :channel => output2 })  
@@ -465,7 +465,7 @@ module Nucleon
         output.should_not_receive(:puts).with('message')
         output.should_receive(:print).with('message')
         
-        Util::Interface.new({
+        Util::Console.new({
           :output  => output,
           :printer => :puts,
         }).safe_puts('message', { :printer => :print })
@@ -477,10 +477,10 @@ module Nucleon
     describe "#check_delegate" do
       
       it "returns false if no delegate exists" do
-        Util::Interface.new.check_delegate('safe_puts').should be_false
+        Util::Console.new.check_delegate('safe_puts').should be_false
       end
       it "returns true if a delegate exists and it implements given method" do
-        test = Util::Interface.new({ :ui_delegate => Util::Interface.new })
+        test = Util::Console.new({ :console_delegate => Util::Console.new })
         test.check_delegate('safe_puts').should be_true
         test.check_delegate('nonexistent').should be_false
       end
