@@ -30,7 +30,7 @@ begin
     puts I18n.t('nucleon.core.exec.help.usage') + ': ' + main_command.help + "\n"
     puts I18n.t('nucleon.core.exec.help.header') + ":\n\n"
     
-    Nucleon::Manager.connection.loaded_plugins(:action).each do |provider, action|
+    Nucleon.loaded_plugins(:action).each do |provider, action|
       puts sprintf("   %-10s : %s\n", 
         "<#{provider}>", 
         Nucleon.action(provider, { :settings => {}, :quiet => true }).help
