@@ -83,17 +83,19 @@ $:.unshift(lib_dir) unless $:.include?(lib_dir) || $:.include?(File.expand_path(
   
 require 'rubygems'
 
+require 'optparse'
 require 'pp'
 require 'i18n'
 require 'log4r'
 require 'log4r/configurator'
-require 'base64'
 require 'deep_merge'
-require 'facter'
+
+require 'digest/sha1'
+require 'base64'
+
 require 'yaml'
 require 'multi_json'
-require 'digest/sha1'
-require 'optparse'
+
 require 'thread' # Eventually depreciated
 require 'celluloid'
 require 'celluloid/autostart'
@@ -158,15 +160,9 @@ nucleon_require(core_dir, :core)
 end
 
 # Include core systems
-nucleon_require(core_dir, :facade)
+nucleon_require(core_dir, :nucleon)
 nucleon_require(core_dir, :gems)
 nucleon_require(core_dir, :manager)
 nucleon_require(plugin_dir, :base)
 nucleon_require(core_dir, :plugin)
-
-#-------------------------------------------------------------------------------
-# Basic information
-
-module Nucleon
-  VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
-end
+nucleon_require(core_dir, :facade)
