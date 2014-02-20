@@ -8,6 +8,7 @@ class Base < Core
   def initialize(type, provider, options)
     config = Util::Data.clean(Config.ensure(options))
     name   = Util::Data.ensure_value(config.delete(:plugin_name), config.delete(:name, provider))
+    
     @quiet = config.delete(:quiet, false)
        
     set_meta(config.delete(:meta, Config.new))
@@ -16,8 +17,7 @@ class Base < Core
     super(config.import({ :logger => "#{plugin_type}->#{plugin_provider}" }))
     myself.plugin_name = name
     
-    logger.debug("Set #{plugin_type} plugin #{plugin_name} meta data: #{meta.inspect}")    
-    logger.debug("Normalizing #{plugin_type} plugin #{plugin_name}")
+    logger.debug("Normalizing #{plugin_type} plugin #{plugin_name} with meta data: #{meta.inspect}")
     normalize
   end
   
@@ -72,12 +72,10 @@ class Base < Core
   def plugin_name
     return meta.get(:name)
   end
-  alias_method :name, :plugin_name
   
   def plugin_name=plugin_name
     meta.set(:name, string(plugin_name))
   end
-  alias_method :name=, :plugin_name=
   
   #---
   
@@ -144,6 +142,7 @@ class Base < Core
   # Plugin operations
     
   def normalize
+    # Implement in sub classes
   end
   
   #-----------------------------------------------------------------------------
@@ -155,94 +154,32 @@ class Base < Core
   
   #---
   
-  def extension(hook, options = {})
-    method = hook_method(hook)
-    
-    logger.debug("Executing plugin hook #{hook} (#{method})")
-    
-    return Manager.connection.exec(method, Config.ensure(options).defaults({ :extension_type => :base }).import({ :plugin => myself })) do |op, results|
-      results = yield(op, results) if block_given?
-      results
-    end
+  def extension(hook, options = {}, &code)
+    Nucleon.exec(hook_method(hook), Config.ensure(options).import({ :plugin => myself }), &code)
   end
   
   #---
   
   def extended_config(type, options = {})
-    config = Config.ensure(options)
-    
-    logger.debug("Generating #{type} extended configuration from: #{config.export.inspect}")
-      
-    extension("#{type}_config", Config.new(config.export).import({ :extension_type => :config })) do |op, results|
-      if op == :reduce
-        results.each do |provider, result|
-          config.defaults(result)
-        end
-        nil
-      else
-        hash(results)
-      end
-    end    
-    config.delete(:extension_type)
-     
-    logger.debug("Final extended configuration: #{config.export.inspect}")   
-    config 
+    Nucleon.config(type, Config.ensure(options).import({ :plugin => myself }))
   end
   
   #---
   
   def extension_check(hook, options = {})
-    config = Config.ensure(options)
-    
-    logger.debug("Checking extension #{plugin_provider} #{hook} given: #{config.export.inspect}")
-    
-    success = extension(hook, config.import({ :extension_type => :check })) do |op, results|
-      if op == :reduce
-        ! results.values.include?(false)
-      else
-        results ? true : false
-      end
-    end
-    
-    success = success.nil? || success ? true : false
-    
-    logger.debug("Extension #{plugin_provider} #{hook} check result: #{success.inspect}")  
-    success
+    Nucleon.check(hook_method(hook), Config.ensure(options).import({ :plugin => myself }))
   end
   
   #---
   
   def extension_set(hook, value, options = {})
-    config = Config.ensure(options)
-    
-    logger.debug("Setting extension #{plugin_provider} #{hook} value given: #{value.inspect}")
-    
-    extension(hook, config.import({ :value => value, :extension_type => :set })) do |op, results|
-      if op == :process
-        value = results unless results.nil?  
-      end
-    end
-    
-    logger.debug("Extension #{plugin_provider} #{hook} set value to: #{value.inspect}")  
-    value
+    Nucleon.set(hook_method(hook), value, Config.ensure(options).import({ :plugin => myself }))
   end
   
   #---
   
   def extension_collect(hook, options = {})
-    config = Config.ensure(options)
-    values = []
-    
-    logger.debug("Collecting extension #{plugin_provider} #{hook} values")
-    
-    extension(hook, config.import({ :extension_type => :add })) do |op, results|
-      if op == :process
-        values << results unless results.nil?  
-      end
-    end
-    
-    logger.debug("Extension #{plugin_provider} #{hook} collected values: #{values.inspect}")  
-    values
+    Nucleon.collect(hook_method(hook), Config.ensure(options).import({ :plugin => myself }))
   end
   
   #-----------------------------------------------------------------------------
@@ -307,7 +244,7 @@ class Base < Core
           info = translate(info)
           
           if Util::Data.empty?(info[:provider])
-            info[:provider] = Manager.connection.type_default(type)
+            info[:provider] = Nucleon.type_default(type)
           end
           
           logger.debug("Translated plugin info: #{info.inspect}")
@@ -340,26 +277,26 @@ class Base < Core
   
   #---
   
-  def safe_exec(return_result = true)
+  def safe_exec(return_result = true, &code)
     begin
-      result = yield
+      result = code.call
       return result if return_result
       return true
       
-    rescue Exception => e
-      logger.error(e.inspect)
-      logger.error(e.message)
+    rescue Exception => error
+      logger.error(error.inspect)
+      logger.error(error.message)
       
-      ui.error(e.message, { :prefix => false }) if e.message
+      ui.error(error.message, { :prefix => false }) if error.message
     end
     return false
   end
   
   #---
   
-  def admin_exec
+  def admin_exec(return_result = true, &code)
     if Nucleon.admin?
-      yield if block_given?
+      safe_exec(return_result, &code) if block_given?
     else
       ui.warn("The #{plugin_provider} action must be run as a machine administrator")
       myself.status = code.access_denied    
