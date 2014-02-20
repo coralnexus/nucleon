@@ -1,9 +1,17 @@
-= coral_gem
+= Nucleon
 
-This gem provides starter scaffolding for further development.  It is 
-scaffolding but it is functional.
+A framework that provides a simple foundation for building apps that are:
 
-== Contributing to coral_gem
+1. Distributively configured
+2. Extremely pluggable and extendable
+3. Easily parallel
+
+More coming soon!
+
+Note: This library is still very early in development!
+
+
+== Contributing to Nucleon
  
 * Check out the latest {major}.{minor} branch to make sure the feature hasn't 
   been implemented or the bug hasn't been fixed yet.
@@ -22,5 +30,5 @@ scaffolding but it is functional.
 
 Licensed under GPLv3.  See LICENSE.txt for further details.
 
-Copyright (c) 2013  Adrian Webb <adrian.webb@coraltech.net>
+Copyright (c) 2014  Adrian Webb <adrian.webb@coralnexus.com>
 Coral Technology Group LLC
