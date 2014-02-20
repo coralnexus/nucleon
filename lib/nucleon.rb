@@ -60,7 +60,7 @@ module Kernel
 end
 
 #-------------------------------------------------------------------------------
-# Top level properties 
+# Load paths 
 
 lib_dir          = File.dirname(__FILE__)
 core_dir         = File.join(lib_dir, 'core')
@@ -74,8 +74,6 @@ plugin_dir       = File.join(core_dir, 'plugin')
   
 #-------------------------------------------------------------------------------
 # Coral requirements
-
-git_location = nucleon_locate('git')
 
 $:.unshift(lib_dir) unless $:.include?(lib_dir) || $:.include?(File.expand_path(lib_dir))
 
@@ -109,10 +107,15 @@ I18n.load_path << File.expand_path(File.join('..', 'locales', 'en.yml'), lib_dir
 
 #---
 
-if git_location
+if nucleon_locate('git')
   require 'grit'
   nucleon_require(util_dir, :git)
 end
+
+#---
+
+# Make sure logger is at the top of our load order priorities
+nucleon_require(util_dir, :logger)
 
 #---
 
@@ -144,7 +147,7 @@ nucleon_require(core_dir, :errors)
 nucleon_require(core_dir, :codes)
 nucleon_require(util_dir, :data)
 nucleon_require(core_dir, :config)
-nucleon_require(util_dir, :interface) 
+nucleon_require(util_dir, :console) 
 nucleon_require(core_dir, :core) 
 
 #---
@@ -159,10 +162,14 @@ nucleon_require(core_dir, :core)
   nucleon_require(util_dir, name)
 end
 
-# Include core systems
-nucleon_require(core_dir, :nucleon)
+# Include plugin system
+nucleon_require(core_dir, :facade)
 nucleon_require(core_dir, :gems)
 nucleon_require(core_dir, :manager)
 nucleon_require(plugin_dir, :base)
 nucleon_require(core_dir, :plugin)
-nucleon_require(core_dir, :facade)
+
+#-------------------------------------------------------------------------------
+# Nucleon initialization
+
+Nucleon.reload
