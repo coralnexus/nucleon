@@ -7,7 +7,6 @@ class Config
 
   extend Mixin::ConfigOptions
   extend Mixin::ConfigCollection
-  extend Mixin::Lookup
   
   #-----------------------------------------------------------------------------
   # Instance generators
