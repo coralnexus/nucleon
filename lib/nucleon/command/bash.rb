@@ -1,17 +1,15 @@
 
 module Nucleon
 module Command
-class Shell < Plugin::Command
+class Bash < Plugin::Command
 
   #-----------------------------------------------------------------------------
   # Command plugin interface
   
   def normalize
     super
-    command = executable(self)
-    
+    myself.command = executable(myself)    
     logger.info("Setting command executable to #{command}")
-    set(:command, command)
   end
    
   #-----------------------------------------------------------------------------
@@ -129,18 +127,9 @@ class Shell < Plugin::Command
   
   #---
     
-  def exec(options = {}, overrides = nil)
+  def exec(options = {}, overrides = nil, &code)
     config = Config.ensure(options)
-    
-    logger.info("Executing command #{command}")
-    
-    config[:ui] = @ui
-    result = Util::Shell.connection.exec(build(export, overrides), config) do |op, command, data|
-      block_given? ? yield(op, command, data) : true
-    end
-    
-    logger.warn("Command #{command} failed to execute") unless result.status == Nucleon.code.success    
-    return result
+    Nucleon.cli_run(build(export, overrides), config.import({ :ui => @ui }), &code)
   end
   
   #-----------------------------------------------------------------------------
@@ -149,12 +138,8 @@ class Shell < Plugin::Command
   def executable(options)
     config = Config.ensure(options)
     
-    if config.get(:nucleon, false)
-      return 'nucleon ' + config[:nucleon]
-        
-    elsif config.get(:command, false)
-      return config[:command]
-    end
+    return 'nucleon ' + config[:nucleon] if config.get(:nucleon, false)
+    config[:command]
   end  
 end
 end
