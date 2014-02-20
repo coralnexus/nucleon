@@ -63,7 +63,7 @@ end
 # Top level properties 
 
 lib_dir          = File.dirname(__FILE__)
-core_dir         = File.join(lib_dir, 'nucleon')
+core_dir         = File.join(lib_dir, 'core')
 mixin_dir        = File.join(core_dir, 'mixin')
 mixin_config_dir = File.join(mixin_dir, 'config')
 mixin_action_dir = File.join(mixin_dir, 'action')
