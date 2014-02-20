@@ -1,73 +1,10 @@
 
 module Nucleon
 module Util
-class Interface
+class Console
   
-  #-----------------------------------------------------------------------------
-  # Properties
-  
-  @@log_level = nil
-  @@loggers   = {}
-  
-  def self.log_level
-    @@log_level  
-  end
-  
-  def self.log_level=level
-    @@log_level = set_log_level(level)
-  end
-  
-  #---
-  
-  def self.loggers
-    @@loggers
-  end
-  
-  def self.add_log_levels(*levels)
-    levels = levels.flatten.collect do |level| 
-      level.to_s.upcase
-    end
-    Log4r::Configurator.custom_levels(*levels)
-  end
-  
-  def self.add_logger(name, logger)
-    logger.outputters = Log4r::StdoutOutputter.new('console')
-    
-    level = log_level.nil? ? 'off' : log_level
-    set_log_level(level, logger)  
-        
-    @@loggers[name] = logger
-  end
-  
-  def self.set_log_level(level, logger = nil)
-    level_sym   = level.to_s.downcase.to_sym
-    level_id    = level.to_s.upcase
-    
-    if logger.nil?
-      loggers.each do |name, registered_logger|
-        @@loggers[name].level = Log4r.const_get(level_id)
-      end
-    else
-      if logger.levels.include?(level_id)
-        logger.level = Log4r.const_get(level_id)
-      end
-    end
-    level_sym
-  end
-  
-  #---
-  
-  # Initialize log levels
-  
-  add_log_levels :debug, :info, :warn, :error, :hook
-    
-  if ENV['NUCLEON_LOG']
-    Interface.log_level = ENV['NUCLEON_LOG']
-  end
-    
-  #---
-  
-  @@ui_lock = Mutex.new
+  @@console_lock = Mutex.new
+  @@quiet        = false
   
   #---
 
@@ -89,17 +26,11 @@ class Interface
   
   def initialize(options = {})
     if options.is_a?(String)
-      options = { :resource => options, :logger => options }
+      options = { :resource => options }
     end
     config = Config.ensure(options)
     
     @resource = config.get(:resource, '')
-    
-    if config.get(:logger, false)
-      self.logger = config[:logger]
-    else
-      self.logger = Log4r::Logger.new(@resource)
-    end     
     
     @color   = config.get(:color, true)    
     @printer = config.get(:printer, :puts)
@@ -108,7 +39,7 @@ class Interface
     @output = config.get(:output, $stdout)
     @error  = config.get(:error, $stderr)
     
-    @delegate = config.get(:ui_delegate, nil)
+    @delegate = config.get(:console_delegate, nil)
   end
 
   #---
@@ -120,24 +51,19 @@ class Interface
   #-----------------------------------------------------------------------------
   # Accessors / Modifiers
   
-  attr_reader :logger
   attr_accessor :resource, :color, :input, :output, :error, :delegate
   
   #---
   
-  def logger=logger
-    if logger.is_a?(String)
-      @logger = Log4r::Logger.new(logger)
-    else
-      @logger = logger
-    end
-    self.class.add_logger(@resource, @logger)  
+  def self.quiet=quiet
+    @@quiet = quiet
   end
   
   #-----------------------------------------------------------------------------
   # UI functionality
 
   def say(type, message, options = {})
+    return if @@quiet && ! options[:quiet_override]
     return @delegate.say(type, message, options) if check_delegate('say')
     
     defaults = { :new_line => true, :prefix => true }
@@ -153,7 +79,7 @@ class Interface
     end
     
     if options[:sync]
-      @@ui_lock.synchronize do
+      @@console_lock.synchronize do
         render.call
       end
     else
@@ -175,7 +101,7 @@ class Interface
     user_input = nil
     
     collect = lambda do 
-      say(:info, message, Config.ensure(options).import({ :sync => false }).export)
+      say(:info, message, Config.ensure(options).import({ :sync => false, :quiet_override => true }).export)
       
       if options[:echo]
         user_input = @input.gets.chomp
@@ -188,7 +114,7 @@ class Interface
     end
 
     if options[:sync]
-      @@ui_lock.synchronize do
+      @@console_lock.synchronize do
         return collect.call
       end
     else
@@ -224,7 +150,7 @@ class Interface
     end
     
     if options[:sync]
-      @@ui_lock.synchronize do
+      @@console_lock.synchronize do
         return collect.call
       end
     else
@@ -235,8 +161,6 @@ class Interface
   #-----------------------------------------------------------------------------
   
   def info(message, *args)
-    @logger.info("info: #{message}")
-    
     return @delegate.info(message, *args) if check_delegate('info')
     say(:info, message, *args)
   end
@@ -244,8 +168,6 @@ class Interface
   #---
   
   def warn(message, *args)
-    @logger.info("warn: #{message}")
-    
     return @delegate.warn(message, *args) if check_delegate('warn')
     say(:warn, message, *args)
   end
@@ -253,8 +175,6 @@ class Interface
   #---
   
   def error(message, *args)
-    @logger.info("error: #{message}")
-    
     return @delegate.error(message, *args) if check_delegate('error')
     say(:error, message, *args)
   end
@@ -262,8 +182,6 @@ class Interface
   #---
   
   def success(message, *args)
-    @logger.info("success: #{message}")
-    
     return @delegate.success(message, *args) if check_delegate('success')
     say(:success, message, *args)
   end
