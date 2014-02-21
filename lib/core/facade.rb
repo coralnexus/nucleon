@@ -122,6 +122,18 @@ module Facade
   def remove_plugin(plugin)
     Manager.connection.remove(plugin)
   end
+  
+  #---
+  
+  def plugin_class(type)
+    Manager.connection.plugin_class(type)
+  end
+  
+  #---
+  
+  def provider_class(namespace, type, provider)
+    Manager.connection.provider_class(namespace, type, provider)  
+  end
     
   #-----------------------------------------------------------------------------
   # Core plugin type facade
