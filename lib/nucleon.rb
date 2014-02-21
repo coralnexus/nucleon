@@ -184,4 +184,4 @@ end
 #-------------------------------------------------------------------------------
 # Core initialization
 
-Nucleon.reload
+Nucleon.reload(true)
