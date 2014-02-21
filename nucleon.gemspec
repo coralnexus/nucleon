@@ -79,6 +79,7 @@ Gem::Specification.new do |s|
     "lib/nucleon/translator/json.rb",
     "lib/nucleon/translator/yaml.rb",
     "locales/en.yml",
+    "nucleon.gemspec",
     "spec/coral_mock_input.rb",
     "spec/coral_test_kernel.rb",
     "spec/core/util/console_spec.rb",
