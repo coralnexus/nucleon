@@ -69,12 +69,8 @@ class Base < Core
   
   #---
   
-  def plugin_name
-    return meta.get(:name)
-  end
-  
-  def plugin_name=plugin_name
-    meta.set(:name, string(plugin_name))
+  def plugin_namespace
+    return meta.get(:namespace)
   end
   
   #---
@@ -87,6 +83,16 @@ class Base < Core
   
   def plugin_provider
     return meta.get(:provider)
+  end
+  
+  #---
+  
+  def plugin_name
+    return meta.get(:name)
+  end
+  
+  def plugin_name=plugin_name
+    meta.set(:name, string(plugin_name))
   end
   
   #---
