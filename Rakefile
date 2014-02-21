@@ -33,7 +33,15 @@ Jeweler::Tasks.new do |gem|
   gem.email                 = "adrian.webb@coralnexus.com"
   gem.authors               = ["Adrian Webb"]
   gem.summary               = %Q{Framework that provides a simple foundation for building distributively configured, extremely pluggable and extendable, and easily parallel Ruby applications}
-  gem.description           = %Q{Framework that provides a simple foundation for building distributively configured, extremely pluggable and extendable, and easily parallel Ruby applications}
+  gem.description           = %Q{
+A framework that provides a simple foundation for building Ruby applications that are:
+
+* Highly configurable (with both distributed and persistent configurations)
+* Extremely pluggable and extendable
+* Easily parallel
+
+Note: This framework is still very early in development!
+}
   gem.required_ruby_version = '>= 1.8.1'
   gem.has_rdoc              = true
   gem.rdoc_options << '--title' << 'Nucleon' <<
