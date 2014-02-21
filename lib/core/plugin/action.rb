@@ -3,8 +3,6 @@ module Nucleon
 module Plugin
 class Action < Base
   
-  include Mixin::Action::Node
-  
   #-----------------------------------------------------------------------------
   # Default option interface
   
@@ -25,10 +23,10 @@ class Action < Base
     
     #---
     
-    def validate(value, node, network)
+    def validate(value, *args)
       success = true
       if @validator
-        success = @validator.call(value, node, network)
+        success = @validator.call(value, *args)
       end
       success
     end
@@ -172,11 +170,10 @@ class Action < Base
   
   #---
     
-  def configure
-    node_config
+  def configure(executable_name = 'nucleon')
     yield if block_given?
     
-    usage = "nucleon #{plugin_provider} "    
+    usage = "#{executable_name} #{plugin_provider} "    
     arguments.each do |arg|
       arg_config = config[arg.to_sym]
       
@@ -293,13 +290,13 @@ class Action < Base
   
   #---
   
-  def validate(node, network)
+  def validate
     # TODO: Add extension hooks and logging
     
     # Validate all of the configurations
     success = true
     config.export.each do |name, option|
-      success = false unless option.validate(settings[name], node, network)
+      success = false unless option.validate(settings[name])
     end
     if success
       # Check for missing arguments (in case of internal execution mode)
@@ -309,9 +306,6 @@ class Action < Base
           success = false
         end
       end
-    end
-    if ignore.include?(:nodes)
-      settings[:nodes] = []
     end
     success
   end
@@ -325,15 +319,11 @@ class Action < Base
     myself.result = nil
     
     if processed?      
-      node_exec do |node, network|
-        hook_config = { :node => node, :network => network }
-        
-        begin
-          yield(node, network) if block_given? && extension_check(:exec_init, hook_config)
-          myself.status = extension_set(:exec_exit, status, hook_config)
-        ensure
-          cleanup
-        end
+      begin
+        yield if block_given? && extension_check(:exec_init)
+        myself.status = extension_set(:exec_exit)
+      ensure
+        cleanup
       end
     else
       if @parser.options[:help]
