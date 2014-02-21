@@ -77,8 +77,8 @@ module Nucleon
   
   #---
   
-  def self.register(path)
-    Manager.connection.register(path)
+  def self.register(base_path, &code)
+    Manager.connection.register(base_path, &code)
     Manager.connection.autoload
   end
   
@@ -95,40 +95,13 @@ module Nucleon
   #---
   
   def self.plugin(type, provider, options = {})
-    default_provider = type_default(type)
-    
-    if options.is_a?(Hash) || options.is_a?(Nucleon::Config)
-      config   = Config.ensure(options)
-      provider = config.get(:provider, provider)
-      options  = config.export
-    end
-    provider = default_provider unless provider # Sanity checking (see plugins)
-    
     Manager.connection.load(type, provider, options)
   end
   
   #---
   
   def self.plugins(type, data, build_hash = false, keep_array = false)
-    logger.info("Fetching multiple plugins of #{type} at #{Time.now}")
-    
-    group = ( build_hash ? {} : [] )
-    klass = class_const([ :nucleon, :plugin, type ])    
-    data  = klass.build_info(type, data) if klass.respond_to?(:build_info)
-    
-    logger.debug("Translated plugin data: #{data.inspect}")
-    
-    data.each do |options|
-      if plugin = plugin(type, options[:provider], options)
-        if build_hash
-          group[plugin.plugin_name] = plugin
-        else
-          group << plugin
-        end
-      end
-    end
-    return group.shift if ! build_hash && group.length == 1 && ! keep_array
-    group  
+    Manager.connection.load_multiple(type, data, build_hash, keep_array)
   end
   
   #---
