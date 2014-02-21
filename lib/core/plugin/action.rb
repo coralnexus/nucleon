@@ -170,7 +170,7 @@ class Action < Base
   
   #---
     
-  def configure(executable_name = 'nucleon')
+  def configure(executable_name = :nucleon)
     yield if block_given?
     
     usage = "#{executable_name} #{plugin_provider} "    
@@ -290,13 +290,13 @@ class Action < Base
   
   #---
   
-  def validate
+  def validate(*args)
     # TODO: Add extension hooks and logging
     
     # Validate all of the configurations
     success = true
     config.export.each do |name, option|
-      success = false unless option.validate(settings[name])
+      success = false unless option.validate(settings[name], *args)
     end
     if success
       # Check for missing arguments (in case of internal execution mode)
@@ -312,7 +312,7 @@ class Action < Base
   
   #---
    
-  def execute
+  def execute(skip_validate = false, skip_hooks = false)
     logger.info("Executing action #{plugin_provider}")
     
     myself.status = code.success
@@ -320,8 +320,13 @@ class Action < Base
     
     if processed?      
       begin
-        yield if block_given? && extension_check(:exec_init)
-        myself.status = extension_set(:exec_exit)
+        if skip_validate || validate
+          yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
+          myself.status = extension_set(:exec_exit) unless skip_hooks
+        else
+          puts "\n" + I18n.t('corl.core.exec.help.usage') + ': ' + help + "\n" unless quiet?
+          myself.status = code.validation_failed 
+        end
       ensure
         cleanup
       end
