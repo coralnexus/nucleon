@@ -170,6 +170,13 @@ nucleon_require(plugin_dir, :base)
 nucleon_require(core_dir, :plugin)
 
 #-------------------------------------------------------------------------------
-# Nucleon initialization
+# Core interface
 
-Nucleon.reload
+module Nucleon
+ 
+  VERSION = File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
+  
+  #-----------------------------------------------------------------------------
+  
+  extend Facade
+end
