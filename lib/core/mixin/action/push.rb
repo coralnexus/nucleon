@@ -5,30 +5,20 @@ module Action
 module Push
         
   #-----------------------------------------------------------------------------
-  # Options
+  # Settings
         
-  def push_options(parser, optional = true)
+  def push_config(optional = true)
+    
     if optional
-      parser.option_bool(:push, false, 
-        '--push', 
-        'nucleon.core.mixins.push.options.push'
-      )
+      register :push, :bool, false
     else
-      parser.options[:push] = true
+      settings[:push] = true
     end
-          
-    parser.option_bool(:propogate, false,
-      '--propogate', 
-      'nucleon.core.mixins.push.options.propogate'
-    )          
-    parser.option_str(:remote, :edit,
-      '--remote PROJECT_REMOTE',  
-      'nucleon.core.mixins.push.options.remote'
-    )
-    parser.option_str(:revision, :master,
-      '--revision PROJECT_REVISION',  
-      'nucleon.core.mixins.push.options.revision'
-    )         
+    
+    register :propogate_push, :bool, false
+    
+    register :remote, :str, :edit
+    register :revision, :str, :master
   end
         
   #-----------------------------------------------------------------------------
@@ -40,7 +30,7 @@ module Push
     if project && settings[:push]
       success = project.push(settings[:remote], extended_config(:push, {
         :revision  => settings[:revision],
-        :propogate => settings[:propogate]
+        :propogate => settings[:propogate_push]
       }))
     end
     success

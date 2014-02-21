@@ -1,10 +1,10 @@
 
 module Nucleon
 module Action
-class Extract < Plugin::Action
+class Extract < Nucleon.plugin_class(:action)
  
   #-----------------------------------------------------------------------------
-  # Action settings
+  # Settings
   
   def configure
     super do
@@ -35,7 +35,7 @@ class Extract < Plugin::Action
   end
  
   #-----------------------------------------------------------------------------
-  # Action operations
+  # Operations
   
   def execute
     super do |node, network|

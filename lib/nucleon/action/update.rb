@@ -1,35 +1,30 @@
 
 module Nucleon
 module Action
-class Update < Plugin::Action
+class Update < Nucleon.plugin_class(:action)
   
   include Mixin::Action::Project
  
   #-----------------------------------------------------------------------------
-  # Update action interface
+  # Settings
   
-  def normalize
-    super('nucleon update')    
-    
-    codes :project_failure => 20
+  def configure
+    super do
+      codes :project_failure
+      
+      project_options
+    end
   end
   
   #-----------------------------------------------------------------------------
-  # Action operations
-  
-  def parse(parser)
-    project_options(parser, true, true)
-  end
-  
-  #---
+  # Operations
    
   def execute
-    super do |node, network, status|
-      info('nucleon.core.actions.update.start')
+    super do |node, network|
+      info('nucleon.actions.update.start')
       
-      project = project_load(Dir.pwd, true)
-      status  = code.project_failure unless project
-      status
+      project       = project_load(Dir.pwd, true)
+      myself.status = code.project_failure unless project
     end
   end
 end

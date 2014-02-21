@@ -5,25 +5,37 @@ module Action
 module Project
         
   #-----------------------------------------------------------------------------
-  # Options
+  # Settings
         
-  def project_options(parser, ref_override = false, rev_override = false)
-    parser.option_str(:project_provider, 'git', 
-      '--proj-provider PROVIDER', 
-      'nucleon.core.mixins.project.options.provider'
-    )
-    if ref_override
-      parser.option_str(:reference, nil,
-        '--reference PROJECT_REF', 
-        'nucleon.core.mixins.project.options.reference'
-      )
+  def project_config
+    project_plugins = CORL.loaded_plugins(:project)
+    
+    register :project_provider, :str, :git do |value|
+      value = value.to_sym
+      
+      unless project_plugins.keys.include?(value)
+        warn('corl.core.mixins.action.project.errors.project_provider', { :value => value, :choices => project_plugins.keys.join(", ") })
+        next false
+      end
+      true
     end
-    if rev_override
-      parser.option_str(:revision, nil,
-        '--revision PROJECT_REV',  
-        'nucleon.core.mixins.project.options.revision'
-      )
+    register :project_reference, :str, nil do |value|
+      success = true
+      if info = CORL.plugin_class(:project).translate_reference(value)
+        if ! project_plugins.keys.include?(info[:provider].to_sym)
+          warn('corl.core.mixins.action.project.errors.project_reference', { 
+            :value     => value, 
+            :provider  => info[:provider],  
+            :reference => info[:reference],
+            :url       => info[:url],
+            :revision  => info[:revision] 
+          })
+          success = false
+        end
+      end
+      success
     end
+    register :revision, :str, :master
   end
         
   #-----------------------------------------------------------------------------

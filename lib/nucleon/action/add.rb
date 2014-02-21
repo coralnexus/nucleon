@@ -1,45 +1,41 @@
 
 module Nucleon
 module Action
-class Add < Plugin::Action
+class Add < Nucleon.plugin_class(:action)
   
   include Mixin::Action::Project
   include Mixin::Action::Push
  
   #-----------------------------------------------------------------------------
-  # Add action interface
+  # Settings
   
-  def normalize
-    super('nucleon add <subproject/path> <subproject:::reference>')    
-    
-    codes :project_failure => 20,
-          :add_failure     => 21,
-          :push_failure    => 22
+  def configure
+    super do    
+      codes :project_failure,
+            :add_failure,
+            :push_failure
+            
+      register :sub_path, :str, nil
+      register :sub_reference, :str, nil
+      register :editable, :bool, false
+      
+      project_config
+      push_config
+    end
+  end
+  
+  #---
+  
+  def arguments
+    [ :sub_path, :sub_reference ]
   end
 
   #-----------------------------------------------------------------------------
   # Action operations
    
-  def parse(parser)
-    parser.arg_str(:sub_path, nil, 
-      'nucleon.core.actions.add.options.sub_path'
-    )
-    parser.arg_str(:sub_reference, nil, 
-      'nucleon.core.actions.add.options.sub_reference'
-    )
-    parser.option_bool(:editable, false, 
-      '--editable', 
-      'nucleon.core.actions.add.options.editable'
-    )
-    project_options(parser, true, true)
-    push_options(parser, true)  
-  end
-  
-  #---
-   
   def execute
-    super do |node, network, status|
-      info('nucleon.core.actions.add.start')
+    super do
+      info('nucleon.actions.add.start')
       
       if project = project_load(Dir.pwd, false)
         sub_info = project.translate_reference(settings[:sub_reference], settings[:editable])
@@ -54,14 +50,13 @@ class Add < Plugin::Action
         end
           
         if project.add_subproject(sub_path, sub_url, sub_revision)
-          status = code.push_failure unless push(project)
+          myself.status = code.push_failure unless push(project)
         else
-          status = code.add_failure
+          myself.status = code.add_failure
         end
       else
-        status = code.project_failure               
-      end        
-      status
+        myself.status = code.project_failure               
+      end
     end
   end
 end

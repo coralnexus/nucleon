@@ -5,34 +5,28 @@ module Action
 module Commit
         
   #-----------------------------------------------------------------------------
-  # Options
+  # Settings
         
-  def commit_options(parser, optional = true)
+  def commit_config(optional = true)
+    
     if optional
-      parser.option_bool(:commit, false, 
-        '--commit', 
-        'nucleon.core.mixins.commit.options.commit'
-      )
+      register :commit, :bool, :false
     else
-      parser.options[:commit] = true
+      settings[:commit] = true
     end
-         
-    parser.option_bool(:allow_empty, false,
-      '--empty', 
-      'nucleon.core.mixins.commit.options.empty'
-    )
-    parser.option_bool(:propogate, false,
-      '--propogate', 
-      'nucleon.core.mixins.commit.options.propogate'
-    )          
-    parser.option_str(:message, '',
-      '--message COMMIT_MESSAGE',  
-      'nucleon.core.mixins.commit.options.message'
-    )
-    parser.option_str(:author, nil,
-      '--author COMMIT_AUTHOR',  
-      'nucleon.core.mixins.commit.options.author'
-    )         
+    
+    register :allow_empty, :bool, false
+    register :propogate_commit, :bool, false
+    
+    register :message, :str, ''
+    
+    register :author, :str, nil do |value|
+      if value.nil? || value.strip =~ /^[A-Za-z\s]+<\s*[^@]+@[^>]+\s*>$/
+        next true
+      end
+      warn('corl.core.mixins.action.commit.errors.author', { :value => value })
+      false
+    end
   end
         
   #-----------------------------------------------------------------------------
@@ -46,7 +40,7 @@ module Commit
         :allow_empty => settings[:allow_empty],
         :message     => settings[:message],
         :author      => settings[:author],
-        :propogate   => settings[:propogate]
+        :propogate   => settings[:propogate_commit]
       }))
     end
     success

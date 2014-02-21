@@ -1,51 +1,51 @@
 
 module Nucleon
 module Action
-class Save < Plugin::Action
+class Save < Nucleon.plugin_class(:action)
   
   include Mixin::Action::Project
   include Mixin::Action::Commit
   include Mixin::Action::Push
  
   #-----------------------------------------------------------------------------
-  # Save action interface
+  # Settings
   
-  def normalize
-    super('nucleon save [ <file> ... ]')    
-    
-    codes :project_failure => 20,
-          :commit_failure  => 21,
-          :push_failure    => 22
-  end
-
-  #-----------------------------------------------------------------------------
-  # Action operations
-  
-  def parse(parser)
-    parser.arg_array(:files, '.', 
-      'nucleon.core.actions.save.options.files'
-    )
-    project_options(parser, true, false)
-    commit_options(parser, false)
-    push_options(parser, true)
+  def configure
+    super do 
+      codes :project_failure,
+            :commit_failure,
+            :push_failure
+      
+      register :files, :array, '.'
+      
+      project_config
+      commit_config(false)
+      push_config
+    end
   end
   
   #---
+  
+  def arguments
+    [ :files ]
+  end
+
+  #-----------------------------------------------------------------------------
+  # Operations
    
   def execute          
-    super do |node, network, status|
-      info('nucleon.core.actions.save.start')
+    super do |node, network|
+      info('nucleon.actions.save.start')
           
       if project = project_load(Dir.pwd, false)
         if commit(project, settings[:files])
-          status = code.push_failure unless push(project)
+          myself.status = code.push_failure unless push(project)
         else
-          status = code.commit_failure
+          myself.status = code.commit_failure
         end
       else
-        status = code.project_failure
+        myself.status = code.project_failure
       end
-      status
     end
   end
 end
