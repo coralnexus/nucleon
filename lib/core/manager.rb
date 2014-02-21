@@ -138,6 +138,8 @@ class Manager
                 :event         => :regex,  # Utility
                 :template      => :json,   # Utility
                 :translator    => :json    # Utility
+                
+    yield(myself) if block_given?
                            
     load_plugins(true)                                  
     logger.info("Finished initializing Nucleon plugin system at #{Time.now}")    
