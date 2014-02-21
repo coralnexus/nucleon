@@ -180,3 +180,8 @@ module Nucleon
   
   extend Facade
 end
+
+#-------------------------------------------------------------------------------
+# Core initialization
+
+Nucleon.reload
