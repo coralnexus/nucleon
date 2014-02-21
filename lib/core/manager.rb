@@ -124,10 +124,9 @@ class Manager
   #---
   
   def reload(core = false)
-    logger.info("Loading Nucleon plugins at #{current_time}")
+    logger.info("Loading Nucleon plugins at #{Time.now}")
     
-    if core
-      current_time     = Time.now    
+    if core       
       Celluloid.logger = logger    
     
       define_namespace :nucleon
