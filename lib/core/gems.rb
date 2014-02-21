@@ -52,7 +52,7 @@ module Gems
   #---
   
   def self.register_gem(spec)
-    name      = spec.name
+    name      = spec.name.to_sym
     base_path = File.join(spec.full_gem_path, 'lib')
     
     Manager.connection.register(base_path) do |data|      
@@ -70,7 +70,7 @@ module Gems
       end 
       @@gems[name][:namespaces] << namespace unless @@gems[name][:namespaces].include?(namespace)
       
-      if name == 'nucleon'
+      if name == :nucleon
         logger.debug("Setting Nucleon core gemspec")
         @@core = spec
       end  
