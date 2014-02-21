@@ -63,6 +63,16 @@ module Nucleon
   
   #---
   
+  def namespaces
+    Manager.connection.namespaces
+  end
+  
+  def define_namespace(*namespaces)
+    Manager.connection.namespace(*namespaces) 
+  end
+  
+  #---
+  
   def self.types
     Manager.connection.types
   end
