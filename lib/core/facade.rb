@@ -2,10 +2,6 @@
 module Nucleon
 module Facade
  
-  VERSION = File.read(File.join(File.dirname(__FILE__), '..', '..', 'VERSION'))
-  
-  #-----------------------------------------------------------------------------
-  
   def ui
     Core.ui
   end
@@ -278,16 +274,10 @@ module Facade
   def executable(args, name = 'nucleon') #ARGV
     Signal.trap("INT") { exit 1 }
 
-    #---
-    
     logger.info("`#{name}` invoked: #{args.inspect}")
 
-    #---
-    
     $stdout.sync = true
     $stderr.sync = true
-
-    #---
 
     begin
       logger.debug("Beginning execution run")
