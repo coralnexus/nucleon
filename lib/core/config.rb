@@ -61,6 +61,12 @@ class Config
   #-----------------------------------------------------------------------------
   # Checks
   
+  def empty?
+    @properties.empty?
+  end
+  
+  #---
+  
   def has_key?(keys)
     get(keys) ? true : false
   end
