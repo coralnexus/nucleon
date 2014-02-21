@@ -261,7 +261,7 @@ module Nucleon
           :printer => :puts,
           :color   => false,
         })        
-        Util::Console.new({ :ui_delegate => ui }).success('message')
+        Util::Console.new({ :console_delegate => ui }).success('message')
       end
       
       #-------------------------------------------------------------------------
@@ -301,7 +301,7 @@ module Nucleon
       
       it "can delegate to another class that contains this method" do
         message = Util::Console.new({ 
-          :ui_delegate => Util::Console.new('delegate')
+          :console_delegate => Util::Console.new('delegate')
         }).format_message(:info, 'message', { :prefix => true })
         
         message.should == '[delegate] message'
