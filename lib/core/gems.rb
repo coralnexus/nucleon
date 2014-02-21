@@ -52,21 +52,29 @@ module Gems
   #---
   
   def self.register_gem(spec)
-    plugin_path = File.join(spec.full_gem_path, 'lib', 'nucleon')
-    if File.directory?(plugin_path)
-      logger.info("Registering gem #{spec.name} at #{plugin_path} at #{Time.now}")
+    name      = spec.name
+    base_path = File.join(spec.full_gem_path, 'lib')
+    
+    Manager.connection.register(base_path) do |data|      
+      namespace   = data[:namespace]
+      plugin_path = data[:directory]
       
-      @@gems[spec.name] = {
-        :lib_dir => plugin_path,
-        :spec    => spec
-      }
-      if spec.name == 'nucleon'
+      logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}")
+      
+      unless @@gems.has_key?(name)
+        @@gems[name] = { 
+          :spec       => spec, 
+          :base_path  => base_path, 
+          :namespaces => [] 
+        }
+      end 
+      @@gems[name][:namespaces] << namespace unless @@gems[name][:namespaces].include?(namespace)
+      
+      if name == 'nucleon'
         logger.debug("Setting Nucleon core gemspec")
         @@core = spec
-      else
-        Manager.connection.register(plugin_path) # Autoload plugins and related files  
-      end      
-    end  
+      end  
+    end
   end
 end
 end
