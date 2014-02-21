@@ -38,15 +38,28 @@ class Manager
   def initialize
     @logger = Nucleon.logger
     
-    @types     = {}
-    @load_info = {}    
-    @plugins   = {}
+    @namespaces = {}
+    @types      = {}
+    @load_info  = {}    
+    @plugins    = {}
   end
   
   #-----------------------------------------------------------------------------
   # Property accessor / modifiers
   
   attr_reader :logger
+  
+  #---
+  
+  def namespaces
+    @namespaces.keys
+  end
+  
+  def define_namespace(*namespaces)
+    namespaces.each do |namespace|
+      @namespaces[namespace.to_sym] = true
+    end  
+  end
   
   #---
   
@@ -116,6 +129,8 @@ class Manager
       
     logger.info("Initializing the Nucleon plugin system at #{current_time}")
     
+    define_namespace :nucleon
+    
     define_type :extension     => nil,     # Core
                 :action        => :update, # Core
                 :project       => :git,    # Core
@@ -147,12 +162,9 @@ class Manager
   
   def load_plugins(reset_gems = false)    
     # Register core plugins
-    unless @core_loaded
-      logger.info("Initializing core plugins at #{Time.now}")
-      register(File.join(File.dirname(__FILE__), '..', 'nucleon'))
-      @core_loaded = true
-    end
-      
+    logger.info("Initializing core plugins at #{Time.now}")
+    register(File.join(File.dirname(__FILE__), '..'))
+          
     # Register external Gem defined plugins
     Gems.register(reset_gems)
     
@@ -165,7 +177,19 @@ class Manager
   
   #---
   
-  def register(base_path)
+  def register(base_path, &code)
+    namespaces.each do |namespace|
+      namespace_path = File.join(base_path, namespace.to_s)
+      
+      if File.directory?(namespace_path)
+        register_namespace(namespace, namespace_path, &code)  
+      end
+    end
+  end
+  
+  #---
+  
+  def register_namespace(namespace, base_path, &code)
     if File.directory?(base_path)
       logger.info("Loading files from #{base_path} at #{Time.now}")
       
@@ -177,22 +201,23 @@ class Manager
       logger.info("Loading directories from #{base_path} at #{Time.now}")
       Dir.entries(base_path).each do |path|
         unless path.match(/^\.\.?$/)
-          register_type(base_path, path) if types.include?(path.to_sym)         
+          register_type(namespace, base_path, path, &code) if types.include?(path.to_sym)      
         end
       end
     end  
   end
+  protected :register_namespace
   
   #---
   
-  def register_type(base_path, plugin_type)
+  def register_type(namespace, base_path, plugin_type, &code)
     base_directory = File.join(base_path, plugin_type.to_s)
     
     if File.directory?(base_directory)
       logger.info("Registering #{base_directory} at #{Time.now}")
       
       Dir.glob(File.join(base_directory, '*.rb')).each do |file|
-        add_build_info(plugin_type, file)
+        add_build_info(namespace, plugin_type, file)
       end
     end
   end
@@ -200,7 +225,7 @@ class Manager
   
   #---
  
-  def add_build_info(type, file)
+  def add_build_info(namespace, type, file, &code)
     type = type.to_sym
     
     @load_info[type] = {} unless @load_info.has_key?(type)
@@ -213,11 +238,13 @@ class Manager
         
     unless @load_info[type].has_key?(provider)
       data = {
+        :namespace => namespace,
         :type      => type,
         :provider  => provider,        
         :directory => directory,
         :file      => file
-      }
+      }      
+      code.call(data) if code
       
       logger.debug("Plugin #{type} loaded: #{data.inspect}")
       @load_info[type][provider] = data
@@ -238,23 +265,32 @@ class Manager
         
         nucleon_require(plugin[:directory], provider)
         
-        @load_info[type][provider][:class] = class_const([ :nucleon, type, provider ])
+        @load_info[type][provider][:class] = provider_class(plugin[:namespace], type, provider)
         logger.debug("Updated #{type} #{provider} load info: #{@load_info[type][provider].inspect}")
         
         # Make sure extensions are listening from the time they are loaded
         load(:extension, provider, { :name => provider }) if type == :extension # Create a persistent instance
       end
     end
-  end    
- 
+  end
+  
   #---
   
-  def load(type, provider, options = {})
+  def load(type, provider = nil, options = {})
     config = Config.ensure(options)
     name   = config.get(:name, nil)
     
     logger.info("Fetching plugin #{type} provider #{provider} at #{Time.now}")
     logger.debug("Plugin options: #{config.export.inspect}")
+    
+    default_provider = type_default(type)
+    
+    if options.is_a?(Hash) || options.is_a?(Nucleon::Config)      
+      config   = Config.ensure(translate_type(type, options))           
+      provider = config.get(:provider, provider)
+      options  = config.export
+    end
+    provider = default_provider unless provider
     
     if name
       logger.debug("Looking up existing instance of #{name}")
@@ -269,6 +305,30 @@ class Manager
   
   #---
   
+  def load_multiple(type, data, build_hash = false, keep_array = false)
+    logger.info("Fetching multiple plugins of #{type} at #{Time.now}")
+    
+    group = ( build_hash ? {} : [] )
+    klass = base_plugin_class(type)   
+    data  = klass.build_info(type, data) if klass.respond_to?(:build_info)
+    
+    logger.debug("Translated plugin data: #{data.inspect}")
+    
+    data.each do |options|
+      if plugin = load(type, options[:provider], options)
+        if build_hash
+          group[plugin.plugin_name] = plugin
+        else
+          group << plugin
+        end
+      end
+    end
+    return group.shift if ! build_hash && group.length == 1 && ! keep_array
+    group  
+  end
+  
+  #---
+  
   def create(type, provider, options = {})
     type     = type.to_sym
     provider = provider.to_sym
@@ -278,14 +338,13 @@ class Manager
       return nil
     end
     
-    options = translate_type(type, options)
-    info    = @load_info[type][provider] if Util::Data.exists?(@load_info, [ type, provider ])
+    info = @load_info[type][provider] if Util::Data.exists?(@load_info, [ type, provider ])
         
     if info
       logger.debug("Plugin information for #{provider} #{type} found.  Data: #{info.inspect}")
       
       instance_name = "#{provider}_" + Nucleon.sha1(options)
-      options       = translate(type, provider, options)      
+      options       = translate(info[:namespace], type, provider, options)      
               
       @plugins[type] = {} unless @plugins.has_key?(type)
       
@@ -295,7 +354,7 @@ class Manager
         
         logger.info("Creating new plugin #{provider} #{type} with #{options.inspect}")
        
-        plugin = class_const([ :nucleon, type, provider ]).new(type, provider, options)
+        plugin = info[:class].new(type, provider, options)
         
         @plugins[type][instance_name] = plugin 
       end
@@ -462,22 +521,22 @@ class Manager
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def translate_type(type, info, method = :translate)
-    klass = class_const([ :nucleon, :plugin, type ])
+  def translate_type(type, options)
+    klass = base_plugin_class(type)
     logger.debug("Executing option translation for: #{klass.inspect}")          
     
-    info = klass.send(method, info) if klass.respond_to?(method)
-    info  
+    options = klass.send(:translate, options) if klass.respond_to?(method)
+    options
   end
   
   #---
   
-  def translate(type, provider, info, method = :translate)
-    klass = class_const([ :nucleon, type, provider ])
+  def translate(namespace, type, provider, options)
+    klass = provider_class(namespace, type, provider)
     logger.debug("Executing option translation for: #{klass.inspect}")
               
-    info = klass.send(method, info) if klass.respond_to?(method)
-    info  
+    options = klass.send(:translate, options) if klass.respond_to?(method)
+    options
   end
   
   #---
@@ -493,7 +552,9 @@ class Manager
     end
     
     components.collect! do |value|
-      value.to_s.strip.capitalize  
+      value    = value.to_s.strip      
+      value[0] = value.capitalize[0] if value =~ /^[a-z]/ 
+      value
     end
     
     if want_array
@@ -514,6 +575,20 @@ class Manager
                   constant.const_missing(component)
     end
     constant
-  end  
+  end
+  
+  #---
+  
+  def base_plugin_class(type)
+    class_const([ :nucleon, :plugin, type ]) 
+  end
+  protected :base_plugin_class
+  
+  #---
+  
+  def provider_class(namespace, type, provider)
+    class_const([ namespace, type, provider ])  
+  end
+  protected :provider_class  
 end
 end
