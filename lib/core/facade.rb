@@ -1,35 +1,36 @@
 
 module Nucleon
+module Facade
  
   VERSION = File.read(File.join(File.dirname(__FILE__), '..', '..', 'VERSION'))
   
   #-----------------------------------------------------------------------------
   
-  def self.ui
+  def ui
     Core.ui
   end
   
-  def self.quiet=quiet
+  def quiet=quiet
     Util::Console.quiet = quiet  
   end
   
   #---
   
-  def self.logger
+  def logger
     Core.logger
   end
   
-  def self.log_level
+  def log_level
     Util::Logger.level
   end
   
-  def self.log_level=log_level
+  def log_level=log_level
     Util::Logger.level = log_level
   end
   
   #-----------------------------------------------------------------------------
   
-  def self.admin?
+  def admin?
     is_admin  = ( ENV['USER'] == 'root' )
     ext_admin = exec(:check_admin) do |op, results|
       if op == :reduce
@@ -46,18 +47,18 @@ module Nucleon
   
   @@codes = Codes.new
   
-  def self.code
+  def code
     @@codes
   end
   
-  def self.codes(*codes)
+  def codes(*codes)
     Codes.codes(*codes)
   end
-
+  
   #-----------------------------------------------------------------------------
   # Core plugin interface
   
-  def self.reload
+  def reload
     Manager.connection.reload  
   end
   
@@ -73,174 +74,174 @@ module Nucleon
   
   #---
   
-  def self.types
+  def types
     Manager.connection.types
   end
   
-  def self.define_type(type_info)
+  def define_type(type_info)
     Manager.connection.define_type(type_info)
   end
    
-  def self.type_default(type)
+  def type_default(type)
     Manager.connection.type_default(type)
   end
   
   #---
   
-  def self.register(base_path, &code)
+  def register(base_path, &code)
     Manager.connection.register(base_path, &code)
     Manager.connection.autoload
   end
   
-  def self.loaded_plugins(type = nil, provider = nil)
+  def loaded_plugins(type = nil, provider = nil)
     Manager.connection.loaded_plugins(type, provider)    
   end
   
   #---
   
-  def self.active_plugins(type = nil, provider = nil)
+  def active_plugins(type = nil, provider = nil)
     Manager.connection.plugins(type, provider)    
   end
   
   #---
   
-  def self.plugin(type, provider, options = {})
+  def plugin(type, provider, options = {})
     Manager.connection.load(type, provider, options)
   end
   
   #---
   
-  def self.plugins(type, data, build_hash = false, keep_array = false)
+  def plugins(type, data, build_hash = false, keep_array = false)
     Manager.connection.load_multiple(type, data, build_hash, keep_array)
   end
   
   #---
   
-  def self.get_plugin(type, name)
+  def get_plugin(type, name)
     Manager.connection.get(type, name)
   end
   
   #---
   
-  def self.remove_plugin(plugin)
+  def remove_plugin(plugin)
     Manager.connection.remove(plugin)
   end
     
   #-----------------------------------------------------------------------------
   # Core plugin type facade
   
-  def self.extension(provider)
+  def extension(provider)
     plugin(:extension, provider, {})
   end
   
   #---
   
-  def self.action(provider, options)
+  def action(provider, options)
     plugin(:action, provider, options)
   end
   
-  def self.actions(data, build_hash = false, keep_array = false)
+  def actions(data, build_hash = false, keep_array = false)
     plugins(:action, data, build_hash, keep_array)  
   end
   
-  def self.action_config(provider)
+  def action_config(provider)
     action(provider, { :settings => {}, :quiet => true }).configure
   end
   
-  def self.action_run(provider, options = {}, quiet = true)
+  def action_run(provider, options = {}, quiet = true)
     Plugin::Action.exec(provider, options, quiet)
   end
   
-  def self.action_cli(provider, args = [], quiet = false)
+  def action_cli(provider, args = [], quiet = false)
     Plugin::Action.exec_cli(provider, args, quiet)
   end
   
   #---
   
-  def self.project(options, provider = nil)
+  def project(options, provider = nil)
     plugin(:project, provider, options)
   end
   
-  def self.projects(data, build_hash = false, keep_array = false)
+  def projects(data, build_hash = false, keep_array = false)
     plugins(:project, data, build_hash, keep_array)
   end
    
   #-----------------------------------------------------------------------------
   # Utility plugin type facade
   
-  def self.command(options, provider = nil)
+  def command(options, provider = nil)
     plugin(:command, provider, options)
   end
   
-  def self.commands(data, build_hash = false, keep_array = false)
+  def commands(data, build_hash = false, keep_array = false)
     plugins(:command, data, build_hash, keep_array)
   end
    
   #---
   
-  def self.event(options, provider = nil)
+  def event(options, provider = nil)
     plugin(:event, provider, options)
   end
   
-  def self.events(data, build_hash = false, keep_array = false)
+  def events(data, build_hash = false, keep_array = false)
     plugins(:event, data, build_hash, keep_array)
   end
   
   #---
   
-  def self.template(options, provider = nil)
+  def template(options, provider = nil)
     plugin(:template, provider, options)
   end
   
-  def self.templates(data, build_hash = false, keep_array = false)
+  def templates(data, build_hash = false, keep_array = false)
     plugins(:template, data, build_hash, keep_array)
   end
    
   #---
   
-  def self.translator(options, provider = nil)
+  def translator(options, provider = nil)
     plugin(:translator, provider, options)
   end
   
-  def self.translators(data, build_hash = false, keep_array = false)
+  def translators(data, build_hash = false, keep_array = false)
     plugins(:translator, data, build_hash, keep_array)
   end
   
   #-----------------------------------------------------------------------------
   # Plugin extensions
    
-  def self.exec(method, options = {}, &code)
+  def exec(method, options = {}, &code)
     Manager.connection.exec(method, options, &code)
   end
   
   #---
   
-  def self.config(type, options = {})
+  def config(type, options = {})
     Manager.connection.config(method, options)
   end
   
   #---
   
-  def self.check(method, options = {})
+  def check(method, options = {})
     Manager.connection.check(method, options)
   end
   
   #---
   
-  def self.value(method, value, options = {})
+  def value(method, value, options = {})
     Manager.connection.value(method, value, options)
   end
   
   #---
   
-  def self.collect(method, options = {})
+  def collect(method, options = {})
     Manager.connection.collect(method, options)
   end
         
   #-----------------------------------------------------------------------------
   # External execution
    
-  def self.run
+  def run
     begin
       logger.debug("Running contained process at #{Time.now}")
       yield
@@ -258,7 +259,7 @@ module Nucleon
   
   #---
     
-  def self.cli_run(command, options = {}, &code)
+  def cli_run(command, options = {}, &code)
     command = command.join(' ') if command.is_a?(Array)
     config  = Config.ensure(options)
     
@@ -272,22 +273,78 @@ module Nucleon
     result
   end
   
+  #---
+  
+  def executable(args, name = 'nucleon') #ARGV
+    Signal.trap("INT") { exit 1 }
+
+    #---
+    
+    logger.info("`#{name}` invoked: #{args.inspect}")
+
+    #---
+    
+    $stdout.sync = true
+    $stderr.sync = true
+
+    #---
+
+    begin
+      logger.debug("Beginning execution run")
+  
+      arg_components = Util::CLI::Parser.split(args, "#{name} <action> [ <arg> ... ]")
+      main_command   = arg_components.shift
+      sub_command    = arg_components.shift
+      sub_args       = arg_components
+  
+      if main_command.processed && sub_command
+        exit_status = action_cli(sub_command, sub_args)
+      else
+        puts I18n.t('nucleon.core.exec.help.usage') + ': ' + main_command.help + "\n"
+        puts I18n.t('nucleon.core.exec.help.header') + ":\n\n"
+    
+        loaded_plugins(:action).each do |provider, action|
+          puts sprintf("   %-10s : %s\n", 
+            "<#{provider}>", 
+            action(provider, { :settings => {}, :quiet => true }).help
+          )
+        end
+    
+        puts "\n" + I18n.t('nucleon.core.exec.help.footer') + "\n\n"   
+        exit_status = code.help_wanted  
+      end 
+  
+    rescue Exception => error
+      logger.error("Nucleon executable experienced an error:")
+      logger.error(error.inspect)
+      logger.error(error.message)
+      logger.error(Util::Data.to_yaml(error.backtrace))
+
+      ui.error(error.message, { :prefix => false }) if error.message
+  
+      exit_status = error.status_code if error.respond_to?(:status_code)
+    end
+    exit_status
+  end
+  
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def self.class_name(name, separator = '::', want_array = false)
+  def class_name(name, separator = '::', want_array = false)
     Manager.connection.class_name(name, separator, want_array)
   end
   
   #---
   
-  def self.class_const(name, separator = '::')
+  def class_const(name, separator = '::')
     Manager.connection.class_const(name, separator)
   end
   
   #---
   
-  def self.sha1(data)
+  def sha1(data)
     Digest::SHA1.hexdigest(Util::Data.to_json(data, false))
   end  
 end
+end
+
