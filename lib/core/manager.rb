@@ -123,26 +123,28 @@ class Manager
   
   #---
   
-  def reload
-    current_time     = Time.now    
-    Celluloid.logger = logger
-      
-    logger.info("Initializing the Nucleon plugin system at #{current_time}")
+  def reload(core = false)
+    logger.info("Loading Nucleon plugins at #{current_time}")
     
-    define_namespace :nucleon
+    if core
+      current_time     = Time.now    
+      Celluloid.logger = logger    
     
-    define_type :extension     => nil,     # Core
-                :action        => :update, # Core
-                :project       => :git,    # Core
-                :command       => :bash,   # Core
-                :event         => :regex,  # Utility
-                :template      => :json,   # Utility
-                :translator    => :json    # Utility
+      define_namespace :nucleon
+    
+      define_type :extension     => nil,     # Core
+                  :action        => :update, # Core
+                  :project       => :git,    # Core
+                  :command       => :bash,   # Core
+                  :event         => :regex,  # Utility
+                  :template      => :json,   # Utility
+                  :translator    => :json    # Utility
+    end
                 
     yield(myself) if block_given?
                            
-    load_plugins(true)                                  
-    logger.info("Finished initializing Nucleon plugin system at #{Time.now}")    
+    load_plugins(core)                                  
+    logger.info("Finished loading Nucleon plugins at #{Time.now}")    
   end
   
   #---
@@ -162,13 +164,15 @@ class Manager
   
   #---
   
-  def load_plugins(reset_gems = false)    
-    # Register core plugins
-    logger.info("Initializing core plugins at #{Time.now}")
-    register(File.join(File.dirname(__FILE__), '..'))
-          
-    # Register external Gem defined plugins
-    Gems.register(reset_gems)
+  def load_plugins(core = false)
+    if core    
+      # Register core plugins
+      logger.info("Initializing core plugins at #{Time.now}")
+      register(File.join(File.dirname(__FILE__), '..'))
+        
+      # Register external Gem defined plugins
+      Gems.register(true)
+    end
     
     # Register any other extension plugins
     exec(:register_plugins)
@@ -176,6 +180,7 @@ class Manager
     # Autoload all registered plugins
     autoload
   end
+  protected :load_plugins
   
   #---
   
