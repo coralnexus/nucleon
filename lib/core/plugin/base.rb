@@ -302,7 +302,7 @@ class Base < Core
   
   def admin_exec(return_result = true, &code)
     if Nucleon.admin?
-      safe_exec(return_result, &code) if block_given?
+      safe_exec(return_result, &code)
     else
       ui.warn("The #{plugin_provider} action must be run as a machine administrator")
       myself.status = code.access_denied    
