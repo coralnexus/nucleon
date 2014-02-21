@@ -123,7 +123,7 @@ class Manager
   
   #---
   
-  def reload(core = false)
+  def reload(core = false, &code)
     logger.info("Loading Nucleon plugins at #{Time.now}")
     
     if core       
@@ -139,10 +139,11 @@ class Manager
                   :template      => :json,   # Utility
                   :translator    => :json    # Utility
     end
-                
-    yield(myself) if block_given?
-                           
-    load_plugins(core)                                  
+    
+    # Allow block level namespace and type registration
+    code.call(:define, myself) if code
+                              
+    load_plugins(core, &code)                                  
     logger.info("Finished loading Nucleon plugins at #{Time.now}")    
   end
   
@@ -163,7 +164,7 @@ class Manager
   
   #---
   
-  def load_plugins(core = false)
+  def load_plugins(core = false, &code)
     if core    
       # Register core plugins
       logger.info("Initializing core plugins at #{Time.now}")
@@ -175,6 +176,9 @@ class Manager
     
     # Register any other extension plugins
     exec(:register_plugins)
+    
+    # Catch any block level requests before autoloading
+    code.call(:load, myself) if code
         
     # Autoload all registered plugins
     autoload
@@ -315,7 +319,7 @@ class Manager
     logger.info("Fetching multiple plugins of #{type} at #{Time.now}")
     
     group = ( build_hash ? {} : [] )
-    klass = base_plugin_class(type)   
+    klass = plugin_class(type)   
     data  = klass.build_info(type, data) if klass.respond_to?(:build_info)
     
     logger.debug("Translated plugin data: #{data.inspect}")
@@ -528,7 +532,7 @@ class Manager
   # Utilities
   
   def translate_type(type, options)
-    klass = base_plugin_class(type)
+    klass = plugin_class(type)
     logger.debug("Executing option translation for: #{klass.inspect}")          
     
     options = klass.send(:translate, options) if klass.respond_to?(method)
@@ -585,16 +589,14 @@ class Manager
   
   #---
   
-  def base_plugin_class(type)
+  def plugin_class(type)
     class_const([ :nucleon, :plugin, type ]) 
   end
-  protected :base_plugin_class
   
   #---
   
   def provider_class(namespace, type, provider)
     class_const([ namespace, type, provider ])  
   end
-  protected :provider_class  
 end
 end
