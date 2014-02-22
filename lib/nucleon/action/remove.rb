@@ -24,6 +24,10 @@ class Remove < Nucleon.plugin_class(:action)
   
   #---
   
+  def ignore
+    [ :project_reference ]
+  end
+  
   def arguments
     [ :sub_path ]
   end

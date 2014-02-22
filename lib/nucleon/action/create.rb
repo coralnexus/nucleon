@@ -2,6 +2,8 @@
 module Nucleon
 module Action
 class Create < Nucleon.plugin_class(:action)
+  
+  include Mixin::Action::Project
  
   #-----------------------------------------------------------------------------
   # Settings

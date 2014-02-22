@@ -16,7 +16,6 @@ class Add < Nucleon.plugin_class(:action)
             :push_failure
             
       register :sub_path, :str, nil
-      register :sub_reference, :str, nil
       register :editable, :bool, false
       
       project_config
@@ -27,7 +26,7 @@ class Add < Nucleon.plugin_class(:action)
   #---
   
   def arguments
-    [ :sub_path, :sub_reference ]
+    [ :sub_path, :project_reference ]
   end
 
   #-----------------------------------------------------------------------------
@@ -38,14 +37,14 @@ class Add < Nucleon.plugin_class(:action)
       info('nucleon.actions.add.start')
       
       if project = project_load(Dir.pwd, false)
-        sub_info = project.translate_reference(settings[:sub_reference], settings[:editable])
+        sub_info = project.translate_reference(settings[:project_reference], settings[:editable])
         sub_path = settings[:sub_path]
           
         if sub_info
           sub_url      = sub_info[:url]
           sub_revision = sub_info[:revision]
         else
-          sub_url      = settings[:sub_reference]
+          sub_url      = settings[:project_reference]
           sub_revision = nil
         end
           
