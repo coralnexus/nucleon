@@ -290,6 +290,8 @@ module Facade
 
     $stdout.sync = true
     $stderr.sync = true
+    
+    exit_status = nil
 
     begin
       logger.debug("Beginning execution run")
@@ -340,6 +342,7 @@ module Facade
       ui.error(error.message, { :prefix => false }) if error.message
   
       exit_status = error.status_code if error.respond_to?(:status_code)
+      exit_status = code.unknown_status if exit_status.nil?
     end
     exit_status
   end
