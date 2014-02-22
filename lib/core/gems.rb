@@ -55,25 +55,28 @@ module Gems
     name      = spec.name.to_sym
     base_path = File.join(spec.full_gem_path, 'lib')
     
-    Manager.connection.register(base_path) do |data|      
-      namespace   = data[:namespace]
-      plugin_path = data[:directory]
+    if name == :nucleon
+      logger.debug("Setting Nucleon core gemspec")
+      @@core       = spec      
+      @@gems[name] = { 
+        :spec       => spec, 
+        :base_path  => base_path, 
+        :namespaces => [ :nucleon ] 
+      } 
+    else
+      Manager.connection.register(base_path) do |data|
+        namespace   = data[:namespace]
+        plugin_path = data[:directory]
       
-      logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}")
+        logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}")
       
-      unless @@gems.has_key?(name)
         @@gems[name] = { 
           :spec       => spec, 
           :base_path  => base_path, 
           :namespaces => [] 
         }
-      end 
-      @@gems[name][:namespaces] << namespace unless @@gems[name][:namespaces].include?(namespace)
-      
-      if name == :nucleon
-        logger.debug("Setting Nucleon core gemspec")
-        @@core = spec
-      end  
+        @@gems[name][:namespaces] << namespace unless @@gems[name][:namespaces].include?(namespace)
+      end
     end
   end
 end
