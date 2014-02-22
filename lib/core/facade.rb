@@ -54,8 +54,8 @@ module Facade
   #-----------------------------------------------------------------------------
   # Core plugin interface
   
-  def reload(core = false)
-    Manager.connection.reload(core)  
+  def reload(core = false, &code)
+    Manager.connection.reload(core, &code)  
   end
   
   #---
@@ -293,7 +293,7 @@ module Facade
 
     begin
       logger.debug("Beginning execution run")
-  
+      
       arg_components = Util::CLI::Parser.split(args, "#{name} <action> [ <arg> ... ]")
       main_command   = arg_components.shift
       sub_command    = arg_components.shift
@@ -304,12 +304,27 @@ module Facade
       else
         puts I18n.t('nucleon.core.exec.help.usage') + ': ' + main_command.help + "\n"
         puts I18n.t('nucleon.core.exec.help.header') + ":\n\n"
-    
-        loaded_plugins(:action).each do |provider, action|
-          puts sprintf("   %-10s : %s\n", 
-            "<#{provider}>", 
-            action(provider, { :settings => {}, :quiet => true }).help
-          )
+        
+        help_data     = {}
+        extended_help = main_command.options[:extended_help]
+        
+        loaded_plugins(:action).each do |provider, data|
+          namespace = data[:namespace]
+          
+          help_data[namespace]           = {} unless help_data.has_key?(namespace)
+          help_data[namespace][provider] = data
+        end
+        
+        help_data.each do |namespace, actions|
+          actions.each do |provider, data|
+            if extended_help
+              help_text = action(provider, { :args => [ '-h' ], :quiet => true }).help  
+            else
+              help_text = action(provider, { :settings => {}, :quiet => true }).help   
+            end
+            puts sprintf("   %-15s : %s\n", namespace, help_text)  
+          end
+          puts "\n"
         end
     
         puts "\n" + I18n.t('nucleon.core.exec.help.footer') + "\n\n"   
