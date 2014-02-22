@@ -1,9 +1,17 @@
 en:
   nucleon:
-    errors:
-      batch_error: |-
-        An issue was encountered during batch processing
     core:
+      exec:
+        help:
+          usage: |-
+            Usage
+          header: |-
+            Available actions
+          footer: |-
+            For help on any individual action run `corl <action> -h`
+        errors:
+          missing_argument: |-
+            Argument <%{name}> must be specified          
       util:
         cli:
           options:
@@ -16,42 +24,38 @@ en:
           parse:
             error: |-
               There was a problem with the command arguments given
-        batch:
-          unexpected_error: |
-            There was a problem with batch %{process}: %{message}
-          coral_error: |
-            There was a problem with batch %{process}: %{message}
-      mixins:
-        project:
-          options:
-            provider: |-
-              Nucleon plugin provider to use for this project (default %{default_value})
-            reference: |-
-              Project URL or reference string to set as primary remote (default %{default_value})
-            revision: |-
-              Revision or branch to load (default %{default_value})
-        commit:
-          options:
-            commit: |-
-              Commit any uncommitted changes (default %{default_value})
-            empty: |-
-              Allow commits with no changes (default %{default_value})
-            message: |-
-              Commit message (defaults to auto generated commit information)
-            author: |-
-              Author of the changes being committed if different from the committer
-            propogate: |-
-              Propogate commits throughout the project tree (default %{default_value})
-        push:
-          options:
-            push: |-
-              Push changes to remote server (default %{default_value})
-            propogate: |-
-              Propogate pushes to the remote throughout the project tree (default %{default_value})
-            remote: |-
-              Remote name to push to (default %{default_value})
-            revision: |-
-              Branch to push (default %{default_value})
+      mixin:
+        action:
+          project:
+            options:
+              project_provider: |-
+                Plugin provider to use for this project (default %{default_value})
+              project_reference: |-
+                Project URL or reference string to set as primary remote (default %{default_value})
+              revision: |-
+                Revision or branch to load (default %{default_value})
+          commit:
+            options:
+              commit: |-
+                Commit any uncommitted changes (default %{default_value})
+              allow_empty: |-
+                Allow commits with no changes (default %{default_value})
+              message: |-
+                Commit message (defaults to auto generated commit information)
+              author: |-
+                Author of the changes being committed if different from the committer
+              propogate_commit: |-
+                Propogate commits throughout the project tree (default %{default_value})
+          push:
+            options:
+              push: |-
+                Push changes to remote server (default %{default_value})
+              remote: |-
+                Remote name to push to (default %{default_value})
+              revision: |-
+                Branch to push (default %{default_value})
+              propogate_push: |-
+                Propogate pushes to the remote throughout the project tree (default %{default_value})
     actions:
       extract:
         options:
