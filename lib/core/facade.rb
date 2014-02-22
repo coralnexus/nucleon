@@ -160,8 +160,8 @@ module Facade
     Plugin::Action.exec(provider, options, quiet)
   end
   
-  def action_cli(provider, args = [], quiet = false)
-    Plugin::Action.exec_cli(provider, args, quiet)
+  def action_cli(provider, args = [], quiet = false, name = :nucleon)
+    Plugin::Action.exec_cli(provider, args, quiet, name)
   end
   
   #---
@@ -300,7 +300,7 @@ module Facade
       sub_args       = arg_components
   
       if main_command.processed && sub_command
-        exit_status = action_cli(sub_command, sub_args)
+        exit_status = action_cli(sub_command, sub_args, false, name)
       else
         puts I18n.t('nucleon.core.exec.help.usage') + ': ' + main_command.help + "\n"
         puts I18n.t('nucleon.core.exec.help.header') + ":\n\n"

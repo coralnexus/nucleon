@@ -67,8 +67,8 @@ class Action < Base
     exec_safe(provider, { :settings => Config.ensure(options), :quiet => quiet })
   end
   
-  def self.exec_cli(provider, args, quiet = false)
-    results = exec_safe(provider, { :args => args, :quiet => quiet })
+  def self.exec_cli(provider, args, quiet = false, name = :nucleon)
+    results = exec_safe(provider, { :args => args, :quiet => quiet, :executable => name })
     results[:status]
   end
   
@@ -113,7 +113,7 @@ class Action < Base
   
   #-----------------------------------------------------------------------------
   # Property accessor / modifiers
-  
+   
   def config
     get(:config)
   end
@@ -170,10 +170,10 @@ class Action < Base
   
   #---
     
-  def configure(executable_name = :nucleon)
+  def configure
     yield if block_given?
     
-    usage = "#{executable_name} #{plugin_provider} "    
+    usage = "#{plugin_provider} "    
     arguments.each do |arg|
       arg_config = config[arg.to_sym]
       
@@ -232,7 +232,8 @@ class Action < Base
         logger.debug("Parse successful: #{export.inspect}")
         
       elsif @parser.options[:help] && ! quiet?
-        puts I18n.t('nucleon.core.exec.help.usage') + ': ' + help + "\n"
+        executable = delete(:executable, '')
+        puts I18n.t('nucleon.core.exec.help.usage') + ": #{executable} " + help + "\n"
         
       else
         if @parser.options[:help]
