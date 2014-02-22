@@ -10,20 +10,20 @@ module Project
   def project_config
     project_plugins = CORL.loaded_plugins(:project)
     
-    register :project_provider, :str, :git do |value|
+    register :project_provider, :str, :git, 'nucleon.core.mixin.action.project.options.project_provider' do |value|
       value = value.to_sym
       
       unless project_plugins.keys.include?(value)
-        warn('corl.core.mixins.action.project.errors.project_provider', { :value => value, :choices => project_plugins.keys.join(", ") })
+        warn('nucleon.core.mixin.action.project.errors.project_provider', { :value => value, :choices => project_plugins.keys.join(", ") })
         next false
       end
       true
     end
-    register :project_reference, :str, nil do |value|
+    register :project_reference, :str, nil, 'nucleon.core.mixin.action.project.options.project_reference' do |value|
       success = true
       if info = CORL.plugin_class(:project).translate_reference(value)
         if ! project_plugins.keys.include?(info[:provider].to_sym)
-          warn('corl.core.mixins.action.project.errors.project_reference', { 
+          warn('nucleon.core.mixin.action.project.errors.project_reference', { 
             :value     => value, 
             :provider  => info[:provider],  
             :reference => info[:reference],

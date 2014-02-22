@@ -10,15 +10,15 @@ module Push
   def push_config(optional = true)
     
     if optional
-      register :push, :bool, false
+      register :push, :bool, false, 'nucleon.core.mixin.action.push.options.push'
     else
       settings[:push] = true
     end
     
-    register :propogate_push, :bool, false
+    register :remote, :str, :edit, 'nucleon.core.mixin.action.push.options.remote'
+    register :revision, :str, :master, 'nucleon.core.mixin.action.push.options.revision'
     
-    register :remote, :str, :edit
-    register :revision, :str, :master
+    register :propogate_push, :bool, false, 'nucleon.core.mixin.action.push.options.propogate_push'
   end
         
   #-----------------------------------------------------------------------------

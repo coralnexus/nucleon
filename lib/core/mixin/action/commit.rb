@@ -10,17 +10,17 @@ module Commit
   def commit_config(optional = true)
     
     if optional
-      register :commit, :bool, :false
+      register :commit, :bool, :false, 'nucleon.core.mixin.action.commit.options.commit'
     else
       settings[:commit] = true
     end
     
-    register :allow_empty, :bool, false
-    register :propogate_commit, :bool, false
+    register :allow_empty, :bool, false, 'nucleon.core.mixin.action.commit.options.allow_empty'
+    register :propogate_commit, :bool, false, 'nucleon.core.mixin.action.commit.options.propogate_commit'
     
-    register :message, :str, ''
+    register :message, :str, '', 'nucleon.core.mixin.action.commit.options.message'
     
-    register :author, :str, nil do |value|
+    register :author, :str, nil, 'nucleon.core.mixin.action.commit.options.author' do |value|
       if value.nil? || value.strip =~ /^[A-Za-z\s]+<\s*[^@]+@[^>]+\s*>$/
         next true
       end
