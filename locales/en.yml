@@ -15,8 +15,10 @@ en:
       util:
         cli:
           options:
-            help: |-
-              Display help information for this command
+            short_help: |-
+              Display brief help information for this command
+            extended_help: |-
+              Display a more extended breakdown of available options for this commands available actions
             log_level: |-
               Set the logging level for this execution run
             encoded: |-
