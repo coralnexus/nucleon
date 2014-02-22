@@ -7,12 +7,12 @@ class Action < Base
   # Default option interface
   
   class Option
-    def initialize(provider, name, type, default, locale = nil, &validator)
+    def initialize(namespace, provider, name, type, default, locale = nil, &validator)
       @provider  = provider
       @name      = name
       @type      = type
       @default   = default
-      @locale    = locale.nil? ? "nucleon.actions.#{provider}.options.#{name}" : locale
+      @locale    = locale.nil? ? "#{namespace}.actions.#{provider}.options.#{name}" : locale
       @validator = validator if validator
     end
     
@@ -113,6 +113,12 @@ class Action < Base
   
   #-----------------------------------------------------------------------------
   # Property accessor / modifiers
+  
+  def namespace
+    :nucleon
+  end
+  
+  #---
    
   def config
     get(:config)
@@ -136,11 +142,11 @@ class Action < Base
     name = name.to_sym
         
     if block_given?
-      option = Option.new(plugin_provider, name, type, default, locale) do |value, success|
+      option = Option.new(namespace, plugin_provider, name, type, default, locale) do |value, success|
         yield(value, success)
       end
     else
-      option = Option.new(plugin_provider, name, type, default, locale)
+      option = Option.new(namespace, plugin_provider, name, type, default, locale)
     end
     
     config[name]   = option
