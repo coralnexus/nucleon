@@ -535,7 +535,7 @@ class Manager
     klass = plugin_class(type)
     logger.debug("Executing option translation for: #{klass.inspect}")          
     
-    options = klass.send(:translate, options) if klass.respond_to?(method)
+    options = klass.send(:translate, options) if klass.respond_to?(:translate)
     options
   end
   
@@ -545,7 +545,7 @@ class Manager
     klass = provider_class(namespace, type, provider)
     logger.debug("Executing option translation for: #{klass.inspect}")
               
-    options = klass.send(:translate, options) if klass.respond_to?(method)
+    options = klass.send(:translate, options) if klass.respond_to?(:translate)
     options
   end
   
