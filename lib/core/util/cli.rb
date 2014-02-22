@@ -119,12 +119,14 @@ module CLI
       )
       parser.on_tail('-h', '--help', CLI.message('nucleon.core.util.cli.options.help')) do
         options[:help] = true
-        return
       end
           
       parser.parse!(args)
-                    
+      
+      # Now we can act on options given              
       Nucleon.log_level = options[:log_level] if options[:log_level]
+      return if options[:help]
+      
       parse_encoded
          
       remaining_args = args.dup
