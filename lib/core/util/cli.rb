@@ -35,7 +35,7 @@ module CLI
         
     #---
         
-    def initialize(args, banner = '', help = '')
+    def initialize(args, banner = '', help = '', split_help = false)
           
       @parser = OptionParser.new
           
@@ -50,7 +50,7 @@ module CLI
           
       yield(self) if block_given?
           
-      parse_command(args)
+      parse_command(args, split_help)
     end
         
     #---
@@ -70,7 +70,7 @@ module CLI
       end
 
       main_args = args.dup if main_args.nil?
-      results   = [ Parser.new(main_args, banner, separator) ]
+      results   = [ Parser.new(main_args, banner, separator, true) ]
           
       if sub_command
         results << [ sub_command, sub_args ]
@@ -103,7 +103,7 @@ module CLI
         
     #---
         
-    def parse_command(args)
+    def parse_command(args, split_help = false)
       args  = args.dup
       error = false
           
@@ -117,8 +117,18 @@ module CLI
         '--encoded STR', 
         'nucleon.core.util.cli.options.encoded'
       )
-      parser.on_tail('-h', '--help', CLI.message('nucleon.core.util.cli.options.help')) do
-        options[:help] = true
+      if split_help
+        parser.on_tail('-h', CLI.message('nucleon.core.util.cli.options.short_help')) do
+          options[:help] = true
+        end
+        parser.on_tail('--help', CLI.message('nucleon.core.util.cli.options.extended_help')) do
+          options[:help]          = true
+          options[:extended_help] = true
+        end
+      else
+        parser.on_tail('-h', '--help', CLI.message('nucleon.core.util.cli.options.short_help')) do
+          options[:help] = true
+        end  
       end
           
       parser.parse!(args)
