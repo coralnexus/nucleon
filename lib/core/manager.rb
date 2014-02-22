@@ -51,12 +51,18 @@ class Manager
   
   #---
   
+  def myself
+    Actor.current
+  end
+  
+  #---
+  
   def namespaces
     @namespaces.keys
   end
   
-  def define_namespace(*namespaces)
-    namespaces.each do |namespace|
+  def define_namespace(*names)
+    names.each do |namespace|
       @namespaces[namespace.to_sym] = true
     end  
   end
@@ -169,10 +175,10 @@ class Manager
       # Register core plugins
       logger.info("Initializing core plugins at #{Time.now}")
       register(File.join(File.dirname(__FILE__), '..'))
-        
-      # Register external Gem defined plugins
-      Gems.register(true)
     end
+    
+    # Register external Gem defined plugins
+    Gems.register(true)
     
     # Register any other extension plugins
     exec(:register_plugins)
@@ -190,10 +196,7 @@ class Manager
   def register(base_path, &code)
     namespaces.each do |namespace|
       namespace_path = File.join(base_path, namespace.to_s)
-      
-      if File.directory?(namespace_path)
-        register_namespace(namespace, namespace_path, &code)  
-      end
+      register_namespace(namespace, namespace_path, &code)
     end
   end
   
@@ -227,7 +230,7 @@ class Manager
       logger.info("Registering #{base_directory} at #{Time.now}")
       
       Dir.glob(File.join(base_directory, '*.rb')).each do |file|
-        add_build_info(namespace, plugin_type, file)
+        add_build_info(namespace, plugin_type, file, &code)
       end
     end
   end
@@ -253,7 +256,7 @@ class Manager
         :provider  => provider,        
         :directory => directory,
         :file      => file
-      }      
+      }
       code.call(data) if code
       
       logger.debug("Plugin #{type} loaded: #{data.inspect}")
