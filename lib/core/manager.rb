@@ -289,21 +289,13 @@ class Manager
   
   #---
   
-  def load(type, provider = nil, options = {})
-    config = Config.ensure(options)
-    name   = config.get(:name, nil)
-    
+  def load_base(type, provider, options = {})
     logger.info("Fetching plugin #{type} provider #{provider} at #{Time.now}")
+        
+    config = Config.ensure(translate_type(type, options))
+    name   = config.get(:name, nil)
+       
     logger.debug("Plugin options: #{config.export.inspect}")
-    
-    default_provider = type_default(type)
-    
-    if options.is_a?(Hash) || options.is_a?(Nucleon::Config)      
-      config   = Config.ensure(translate_type(type, options))           
-      provider = config.get(:provider, provider)
-      options  = config.export
-    end
-    provider = default_provider unless provider
     
     if name
       logger.debug("Looking up existing instance of #{name}")
@@ -313,7 +305,20 @@ class Manager
     end
     
     return existing_instance if existing_instance
-    create(type, provider, config.export)  
+    create(type, provider, options)   
+  end
+  
+  #---
+  
+  def load(type, provider = nil, options = {})
+    default_provider = type_default(type)
+    
+    # Allow options to override provider
+    config   = Config.ensure(options)
+    provider = config.get(:provider, provider)
+    provider = default_provider unless provider
+    
+    load_base(type, provider, config)
   end
   
   #---
