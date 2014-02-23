@@ -127,11 +127,11 @@ class Base < Core
   # Status codes
     
   def code
-    Nucleon.code
+    CORL.code
   end
   
   def codes(*codes)
-    Nucleon.codes(*codes)
+    CORL.codes(*codes)
   end
 
   #---
@@ -302,9 +302,9 @@ class Base < Core
   
   #---
   
-  def admin_exec(return_result = true, &code)
+  def admin_exec(return_result = true, &block)
     if Nucleon.admin?
-      safe_exec(return_result, &code)
+      safe_exec(return_result, &block)
     else
       ui.warn("The #{plugin_provider} action must be run as a machine administrator")
       myself.status = code.access_denied    
