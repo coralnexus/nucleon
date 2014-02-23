@@ -16,8 +16,8 @@ class Core < Config
     
     class_label = self.class.to_s.downcase.gsub(/^nucleon::/, '')
     
-    @logger = Util::Logger.new(delete(:logger, class_label))
-    @ui     = Util::Console.new(Config.new(export).defaults({ :resource => class_label }))
+    self.logger = delete(:logger, class_label)
+    self.ui     = Config.new(export).defaults({ :resource => class_label })
     
     logger.debug('Initialized instance logger and interface')
   end
@@ -25,7 +25,7 @@ class Core < Config
   #-----------------------------------------------------------------------------
   # Accessor / Modifiers
   
-  attr_accessor :logger, :ui
+  attr_reader :logger, :ui
   
   #---
   
@@ -33,10 +33,28 @@ class Core < Config
     return @@logger
   end
   
+  def logger=logger
+    Util::Logger.loggers.delete(self.logger.resource) if self.logger
+    
+    if logger.is_a?(Util::Logger)
+      @logger = logger
+    else
+      @logger = Util::Logger.new(logger)
+    end
+  end
+  
   #---
   
   def self.ui
     return @@ui
+  end
+  
+  def ui=ui
+    if ui.is_a?(Util::Console)
+      @ui = ui
+    else
+      @ui = Util::Console.new(ui)
+    end  
   end
   
   #-----------------------------------------------------------------------------
