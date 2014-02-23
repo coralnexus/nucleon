@@ -300,9 +300,6 @@ class Data
         matches = item.match(regexp)
         result  = nil
         
-        #dbg(item, 'item')
-        #dbg(matches, 'matches')
-        
         unless matches.nil?
           replacement = scope.search(matches[group], options)
           result      = item.gsub(matches[0], replacement) unless replacement.nil?
@@ -312,21 +309,16 @@ class Data
       
       case value
       when String
-        #dbg(value, 'interpolate (string) -> init')
         while (temp = replace.call(value))
-          #dbg(temp, 'interpolate (string) -> replacement')
           value = temp
         end
         
       when Hash
-        #dbg(value, 'interpolate (hash) -> init')
         value.each do |key, data|
-          #dbg(data, "interpolate (#{key}) -> data")
           value[key] = interpolate(data, scope, options)
         end
       end
     end
-    #dbg(value, 'interpolate -> result')
     return value  
   end
   
