@@ -46,6 +46,9 @@ class Project < Base
     
     myself.plugin_name = path if myself.plugin_name == plugin_provider
     
+    ui.resource = plugin_name
+    logger      = plugin_name
+    
     if keys = delete(:keys, nil)
       set(:private_key, keys[:private_key])
       set(:public_key, keys[:public_key])
@@ -64,6 +67,7 @@ class Project < Base
     init_parent
     init_remotes    
     load_revision
+    register
   end
    
   #-----------------------------------------------------------------------------
@@ -71,7 +75,12 @@ class Project < Base
   
   def register
     super
-    # TODO: Scan project directory looking for plugins
+    if directory
+      lib_path = File.join(directory, 'lib')
+      if File.directory?(lib_path)
+        CORL.register(lib_path)
+      end
+    end
   end
         
   #-----------------------------------------------------------------------------
@@ -560,7 +569,7 @@ class Project < Base
   
   #---
   
-  def foreach!
+  def each
     if can_persist?
       localize do
         logger.info("Iterating through all sub projects of project #{name}")
