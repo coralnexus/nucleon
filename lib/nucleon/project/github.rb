@@ -12,10 +12,10 @@ class Github < Git
  
   def normalize    
     if reference = delete(:reference, nil)
-      myself.name = reference
+      myself.plugin_name = reference
     else
       if url = get(:url, nil)
-        myself.name = url
+        myself.plugin_name = url
         set(:url, myself.class.expand_url(url, get(:ssh, false)))
       end  
     end    
@@ -49,7 +49,7 @@ class Github < Git
       
       if private_key && ssh_key
         begin
-          deploy_keys = client.deploy_keys(self.name) 
+          deploy_keys = client.deploy_keys(myself.plugin_name)
           github_id   = nil
           keys_match  = true
                    
@@ -63,11 +63,11 @@ class Github < Git
           
           if github_id
             unless keys_match
-              client.edit_deploy_key(self.name, github_id, { :key => ssh_key })
+              client.edit_deploy_key(myself.plugin_name, github_id, { :key => ssh_key })
               verify_key
             end
           else
-            client.add_deploy_key(self.name, key_id, ssh_key)
+            client.add_deploy_key(myself.plugin_name, key_id, ssh_key)
             verify_key
           end
                   
