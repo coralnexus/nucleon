@@ -113,6 +113,12 @@ module Facade
   
   #---
   
+  def create_plugin(type, provider, options = {})
+    Manager.connection.create(type, provider, options)
+  end
+  
+  #---
+  
   def get_plugin(type, name)
     Manager.connection.get(type, name)
   end
@@ -225,7 +231,7 @@ module Facade
   #---
   
   def config(type, options = {})
-    Manager.connection.config(method, options)
+    Manager.connection.config(type, options)
   end
   
   #---
