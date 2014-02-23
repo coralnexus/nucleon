@@ -39,9 +39,9 @@ class Project < Base
   def normalize
     super
     
-    extension(:normalize)
-    
     set_directory(Util::Disk.filename(get(:directory, Dir.pwd)))
+    register
+    
     set_url(get(:url)) if get(:url, false)
     
     myself.plugin_name = path if myself.plugin_name == plugin_provider
@@ -53,6 +53,8 @@ class Project < Base
       set(:private_key, keys[:private_key])
       set(:public_key, keys[:public_key])
     end
+    
+    extension(:normalize)
     
     init_project
     extension(:init)
@@ -66,8 +68,7 @@ class Project < Base
     init_auth
     init_parent
     init_remotes    
-    load_revision
-    register
+    load_revision    
   end
    
   #-----------------------------------------------------------------------------
