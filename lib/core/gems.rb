@@ -68,7 +68,7 @@ module Gems
         namespace   = data[:namespace]
         plugin_path = data[:directory]
       
-        logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}")
+        logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}") unless @@gems.has_key?(name)
       
         @@gems[name] = { 
           :spec       => spec, 
