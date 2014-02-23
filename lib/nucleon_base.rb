@@ -19,7 +19,7 @@ module Kernel
     require 'pp'
     
     puts '>>----------------------'
-    unless label.empty?
+    unless ! label || label.empty?
       puts label
       puts '---'
     end
