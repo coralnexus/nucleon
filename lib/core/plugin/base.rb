@@ -167,7 +167,9 @@ class Base < Core
   #---
   
   def extended_config(type, options = {})
-    Nucleon.config(type, Config.ensure(options).import({ :plugin => myself }))
+    config = Nucleon.config(type, Config.ensure(options).import({ :plugin => myself }))
+    config.delete(:plugin)
+    config
   end
   
   #---
@@ -179,7 +181,7 @@ class Base < Core
   #---
   
   def extension_set(hook, value, options = {})
-    Nucleon.set(hook_method(hook), value, Config.ensure(options).import({ :plugin => myself }))
+    Nucleon.value(hook_method(hook), value, Config.ensure(options).import({ :plugin => myself }))
   end
   
   #---
@@ -266,7 +268,7 @@ class Base < Core
 
   def self.translate(data)
     logger.debug("Translating data to internal plugin structure: #{data.inspect}")
-    return ( data.is_a?(Hash) ? symbol_map(data) : {} )
+    return ( data.is_a?(Hash) ? symbol_map(data) : data )
   end
   
   #---
