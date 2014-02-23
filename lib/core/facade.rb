@@ -41,10 +41,8 @@ module Facade
   #-----------------------------------------------------------------------------
   # Status codes
   
-  @@codes = Codes.new
-  
   def code
-    @@codes
+    Codes.new
   end
   
   def codes(*codes)
