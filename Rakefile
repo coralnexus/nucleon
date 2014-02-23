@@ -66,7 +66,7 @@ task :default => :spec
 #-------------------------------------------------------------------------------
 # Documentation
 
-version   = Nucleon::VERSION
+version   = Nucleon.VERSION
 doc_title = "nucleon #{version}"
 
 Rake::RDocTask.new do |rdoc|
