@@ -399,7 +399,7 @@ class Git < Plugin::Project
           :flags   => flags,
           :args    => [ processed_remote, config.get(:revision, get(:revision, :master)) ]
         }
-      }, config.get(:provider, :shell)).exec(config) do |op, command, data|
+      }, config.get(:provider, :bash)).exec(config) do |op, command, data|
         block_given? ? yield(op, command, data) : true
       end
       
@@ -430,7 +430,7 @@ class Git < Plugin::Project
           :flags => flags,
           :args => [ processed_remote, push_branch ]
         }
-      }, config.get(:provider, :shell)).exec(config) do |op, command, data|
+      }, config.get(:provider, :bash)).exec(config) do |op, command, data|
         block_given? ? yield(op, command, data) : true
       end
       
