@@ -80,19 +80,18 @@ class Config
   
   #---
     
-  def fetch(data, keys, default = nil, format = false)    
+  def fetch(data, keys, default = nil, format = false)
     if keys.is_a?(String) || keys.is_a?(Symbol)
       keys = [ keys ]
     end    
     key = keys.shift.to_sym
-    
     if data.has_key?(key)
       value = data[key]
       
       if keys.empty?
         return filter(value, format)
       else
-        return fetch(data[key], keys, default, format)  
+        return fetch(data[key], keys, default, format) if data[key].is_a?(Hash)   
       end
     end
     return filter(default, format)
@@ -105,7 +104,7 @@ class Config
     if keys.is_a?(String) || keys.is_a?(Symbol)
       keys = [ keys ]
     end
-        
+    
     key      = keys.shift.to_sym
     has_key  = data.has_key?(key)
     existing = { 
@@ -123,7 +122,12 @@ class Config
       end
     else      
       data[key] = {} unless has_key
-      existing  = modify(data[key], keys, value)  
+      
+      if data[key].is_a?(Hash)
+        existing = modify(data[key], keys, value)
+      else
+        existing[:value] = nil 
+      end  
     end
     
     return existing
