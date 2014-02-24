@@ -2,10 +2,8 @@ source "http://rubygems.org"
 
 gem "log4r", "~> 1.1"
 gem "i18n", "~> 0.6"
-gem "rgen", "~> 0.6"
 gem "netrc", "~> 0.7"
 gem "deep_merge", "~> 1.0"
-
 gem "multi_json", "~> 1.7"
 gem "grit", "~> 2.5"
 gem "octokit", "~> 2.7"
