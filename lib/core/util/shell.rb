@@ -104,7 +104,7 @@ class Shell < Core
           system_result.append_errors(data)
           code ? code.call(:error, command, data) : true
         end
-      
+        
         system_success       = system(command)
         system_result.status = $?.exitstatus
         
@@ -131,7 +131,7 @@ class Shell < Core
     
     thread = process_stream(read, original, options, label) do |data|
       check_conditions(data, conditions, match_prefix) do
-        block_given? ? code.call(data) : true
+        code ? code.call(data) : true
       end
     end
     
@@ -170,7 +170,7 @@ class Shell < Core
     end
     
     result = true
-    if block_given?
+    if code
       result = code.call
       
       unless prefix.empty?
@@ -206,7 +206,7 @@ class Shell < Core
               suffix  = default_suffix
               
               unless line.empty?
-                if block_given?
+                if code
                   result = code.call(line)
                                           
                   if result && result.is_a?(Hash)
