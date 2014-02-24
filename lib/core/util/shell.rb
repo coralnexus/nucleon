@@ -94,7 +94,7 @@ class Shell < Core
           :suffix => info_suffix, 
         }, 'output') do |data|
           system_result.append_output(data)
-          block_given? ? code.call(:output, command, data) : true
+          code ? code.call(:output, command, data) : true
         end
         
         t2, error_new, error_orig, error_reader = pipe_exec_stream($stderr, conditions, { 
@@ -102,7 +102,7 @@ class Shell < Core
           :suffix => error_suffix, 
         }, 'error') do |data|
           system_result.append_errors(data)
-          block_given? ? code.call(:error, command, data) : true
+          code ? code.call(:error, command, data) : true
         end
       
         system_success       = system(command)
@@ -217,7 +217,7 @@ class Shell < Core
                   success = result if success
                 end
             
-                prefix = ( prefix && ! prefix.empty? ? "#{prefix}: " : '' )
+                prefix = ( prefix && ! prefix.empty? ? prefix : '' )
                 suffix = ( suffix && ! suffix.empty? ? suffix : '' )            
                 eol    = ( index < lines.length - 1 || newline ? "\n" : ' ' )
             
