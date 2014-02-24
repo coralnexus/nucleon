@@ -275,54 +275,60 @@ module ObjectInterface
     unless respond_to? :search_object
       logger.debug("Defining object utility method: search_object")
         
-      define_method :search_object do |obj_config, keys, default = '', format = false|
+      define_method :search_object do |obj_config, keys, default = nil, format = false|
         obj_config = Marshal.load(Marshal.dump(obj_config))
-        value      = obj_config.get(keys)
-        
+                
         logger.debug("Searching object properties: #{obj_config.inspect}")
         
-        if ! value || value.is_a?(Hash)
-          settings = {}
+        # TODO: Figure out a way to effectively cache this search operation
+        #------------------------------------------------------------------
+        settings = {}
     
-          keys = [ keys ] unless keys.is_a?(Array)
-          temp = keys.dup
+        keys = [ keys ] unless keys.is_a?(Array)
+        temp = keys.dup
+         
+        logger.debug("Searching object keys: #{keys.inspect}")
           
-          logger.debug("Searching object keys: #{keys.inspect}")
-          
-          logger.debug("Searching specialized settings")      
-          until temp.empty? do
-            if obj_settings = obj_config.delete([ temp, :settings ])
-              array(obj_settings).each do |group_name|
-                if group_settings = Marshal.load(Marshal.dump(settings(group_name)))
-                  settings = Util::Data.merge([ group_settings.dup, settings ], true)  
-                end
-              end            
-            end
-            temp.pop
-          end
-    
-          logger.debug("Specialized settings found: #{settings.inspect}") 
-          logger.debug("Searching general settings") 
-      
-          if obj_settings = obj_config.delete(:settings)
+        logger.debug("Searching specialized settings")      
+        until temp.empty? do
+          if obj_settings = obj_config.delete([ temp, :settings ])
             array(obj_settings).each do |group_name|
               if group_settings = Marshal.load(Marshal.dump(settings(group_name)))
-                settings = Util::Data.merge([ group_settings, settings ], true)  
+                settings = Util::Data.merge([ group_settings.dup, settings ], true)  
               end
             end            
-          end 
-          
-          logger.debug("Final settings found: #{settings.inspect}")  
-        
-          unless settings.empty?
-            final_config = Config.new(Util::Data.merge([ settings, obj_config.export ], true))
-            value        = final_config.get(keys)
-            
-            logger.debug("Final configuration: #{final_config.export.inspect}")
           end
-          
-          value = default if Util::Data.undef?(value)
+          temp.pop
         end
+          
+        logger.debug("Specialized settings found: #{settings.inspect}") 
+        logger.debug("Searching general settings") 
+      
+        if obj_settings = obj_config.delete(:settings)
+          array(obj_settings).each do |group_name|
+            if group_settings = Marshal.load(Marshal.dump(settings(group_name)))
+              settings = Util::Data.merge([ group_settings, settings ], true)  
+            end
+          end            
+        end
+        #------------------------------------------------------------------
+        # TODO: Cache the above!!! 
+          
+        logger.debug("Final settings found: #{settings.inspect}")
+        
+        if settings.empty?
+          value = obj_config.get(keys)  
+        else
+          final_config = Config.new(Util::Data.merge([ 
+            Util::Data.clean(settings), 
+            Util::Data.clean(obj_config.export) 
+          ], true))
+          value = final_config.get(keys)
+           
+          logger.debug("Final configuration: #{final_config.export.inspect}")
+        end
+          
+        value = default if Util::Data.undef?(value)
         
         logger.debug("Final value found (format: #{format.inspect}): #{value.inspect}")
         filter(value, format)
