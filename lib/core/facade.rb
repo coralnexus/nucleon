@@ -157,7 +157,11 @@ module Facade
   end
   
   def action_config(provider)
-    action(provider, { :settings => {}, :quiet => true }).configure
+    action = action(provider, { :settings => {}, :quiet => true })
+    return nil unless action
+    
+    action.configure
+    action.config
   end
   
   def action_run(provider, options = {}, quiet = true)
