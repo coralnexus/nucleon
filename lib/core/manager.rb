@@ -25,11 +25,11 @@ class Manager
     
     init_manager(name) unless @@supervisors.has_key?(name)
     
-    begin
+    #begin
       @@supervisors[name].test_connection
-    rescue Celluloid::DeadActorError
-      retry
-    end
+    #rescue Celluloid::DeadActorError
+    #  retry
+    #end
     @@supervisors[name]
   end
   
