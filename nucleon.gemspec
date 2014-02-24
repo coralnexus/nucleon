@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adrian Webb"]
-  s.date = "2014-02-23"
+  s.date = "2014-02-24"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -101,7 +101,6 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<log4r>, ["~> 1.1"])
       s.add_runtime_dependency(%q<i18n>, ["~> 0.6"])
-      s.add_runtime_dependency(%q<rgen>, ["~> 0.6"])
       s.add_runtime_dependency(%q<netrc>, ["~> 0.7"])
       s.add_runtime_dependency(%q<deep_merge>, ["~> 1.0"])
       s.add_runtime_dependency(%q<multi_json>, ["~> 1.7"])
@@ -116,7 +115,6 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<log4r>, ["~> 1.1"])
       s.add_dependency(%q<i18n>, ["~> 0.6"])
-      s.add_dependency(%q<rgen>, ["~> 0.6"])
       s.add_dependency(%q<netrc>, ["~> 0.7"])
       s.add_dependency(%q<deep_merge>, ["~> 1.0"])
       s.add_dependency(%q<multi_json>, ["~> 1.7"])
@@ -132,7 +130,6 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<log4r>, ["~> 1.1"])
     s.add_dependency(%q<i18n>, ["~> 0.6"])
-    s.add_dependency(%q<rgen>, ["~> 0.6"])
     s.add_dependency(%q<netrc>, ["~> 0.7"])
     s.add_dependency(%q<deep_merge>, ["~> 1.0"])
     s.add_dependency(%q<multi_json>, ["~> 1.7"])
