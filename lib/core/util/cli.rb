@@ -16,11 +16,11 @@ module CLI
   #---
       
   def self.encode(data)
-    Base64.encode64(Util::Data.to_json(data, false))
+    Base64.urlsafe_encode64(Util::Data.to_json(data, false))
   end
       
   def self.decode(encoded_string)
-    Util::Data.symbol_map(Util::Data.parse_json(Base64.decode64(encoded_string)))  
+    Util::Data.symbol_map(Util::Data.parse_json(Base64.urlsafe_decode64(encoded_string)))  
   end
         
   #-------------------------------------------------------------------------
@@ -75,7 +75,7 @@ module CLI
       if sub_command
         results << [ sub_command, sub_args ]
       end
-
+      
       return results.flatten
     end
         
@@ -130,7 +130,6 @@ module CLI
           options[:help] = true
         end  
       end
-          
       parser.parse!(args)
       
       # Now we can act on options given              
