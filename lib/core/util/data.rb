@@ -236,7 +236,8 @@ class Data
   
   def self.clean(data)
     data.keys.each do |key|
-      data.delete(key) if data[key].nil?
+      obj = data[key]
+      data.delete(key) if obj.nil? || ( obj.is_a?(Hash) && obj.empty? )
     end
     data
   end
