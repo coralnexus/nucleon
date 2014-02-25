@@ -132,11 +132,12 @@ module CLI
       end
       parser.parse!(args)
       
-      # Now we can act on options given              
-      Nucleon.log_level = options[:log_level] if options[:log_level]
+      # Now we can act on options given
       return if options[:help]
       
       parse_encoded
+      
+      Nucleon.log_level = options[:log_level] if options[:log_level]
          
       remaining_args = args.dup
       arg_messages   = []
