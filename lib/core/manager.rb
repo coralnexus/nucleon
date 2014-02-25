@@ -419,7 +419,7 @@ class Manager
     results = nil
     
     if Nucleon.log_level == :hook # To save processing on rendering
-      logger.hook("Executing extension hook { #{method} } at #{Time.now} with:\n#{PP.pp(options, '')}\n")
+      logger.hook("Executing extension hook { #{method} } at #{Time.now}")
     end
     
     extensions = plugins(:extension)
