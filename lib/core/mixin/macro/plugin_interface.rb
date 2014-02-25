@@ -112,8 +112,7 @@ module PluginInterface
               if name != :settings
                 logger.debug("Initializing plugin #{_plugin_type} #{name}: #{options.inspect}")
                 
-                options[:name] = name
-                plugin         = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself } }))
+                plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself } }))
                 
                 _set([ _plural, provider, name ], plugin)
               end
@@ -146,8 +145,7 @@ module PluginInterface
           instance_settings.each do |name, options|
             logger.debug("Setting #{_plugin_type} #{provider} #{name}: #{options.inspect}")
             
-            options[:name] = name
-            plugin         = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself } }))
+            plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself } }))
             
             _set([ _plural, provider, name ], plugin)  
           end
@@ -300,8 +298,7 @@ module PluginInterface
           options = get([ _plural, provider, name ], nil)
          
           unless options.nil?
-            options[:name] = name
-            plugin         = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself } }))
+            plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself } }))
         
             logger.debug("Initializing plugin #{_plugin_type} #{provider}: #{options.inspect}")
         
@@ -319,9 +316,7 @@ module PluginInterface
         options = Config.ensure(options).export
       
         set([ _plural, provider, name ], options)
-    
-        options[:name] = name
-        plugin         = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself } }))
+        plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself } }))
         
         logger.debug("Setting #{_plugin_type} #{provider} #{name}: #{options.inspect}")
         
