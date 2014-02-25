@@ -217,7 +217,7 @@ module CLI
         end
             
         encoded_properties.each do |name, value|
-          self.options[name] = value unless options.has_key?(name)
+          self.options[name] = value
         end
       end
       options.delete(:encoded_params)
