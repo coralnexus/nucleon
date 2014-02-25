@@ -101,7 +101,7 @@ class Action < Base
       set(:settings, Config.new)
       configure
       parse_base(args)
-    end   
+    end 
   end
   
   #-----------------------------------------------------------------------------
@@ -303,11 +303,13 @@ class Action < Base
     # Validate all of the configurations
     success = true
     config.export.each do |name, option|
-      success = false unless option.validate(settings[name], *args)
+      unless ignore.include?(name)
+        success = false unless option.validate(settings[name], *args)
+      end
     end
     if success
       # Check for missing arguments (in case of internal execution mode)
-      arguments.each do |name|        
+      arguments.each do |name| 
         if settings[name.to_sym].nil?
           warn('nucleon.core.exec.errors.missing_argument', { :name => name })
           success = false
