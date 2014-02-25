@@ -303,7 +303,11 @@ class Manager
       existing_instance = get(type, name)
       
       if existing_instance
-        existing_instance.import(config.export)
+        config.export.each do |property_name, value|
+          unless [ :meta ].include?(property_name)
+            existing_instance[property_name] = value  
+          end
+        end
         existing_instance.normalize(true)
       
         logger.info("Using existing instance of #{type}, #{name}")
