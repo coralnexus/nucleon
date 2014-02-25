@@ -234,10 +234,10 @@ class Data
   #-----------------------------------------------------------------------------
   # Operations
   
-  def self.clean(data)
+  def self.clean(data, remove_empty = true)
     data.keys.each do |key|
       obj = data[key]
-      data.delete(key) if obj.nil? || ( obj.is_a?(Hash) && obj.empty? )
+      data.delete(key) if obj.nil? || ( remove_empty && obj.is_a?(Hash) && obj.empty? )
     end
     data
   end
