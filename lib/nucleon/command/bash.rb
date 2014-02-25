@@ -6,7 +6,7 @@ class Bash < Plugin::Command
   #-----------------------------------------------------------------------------
   # Command plugin interface
   
-  def normalize
+  def normalize(reload)
     super
     myself.command = executable(myself)    
     logger.info("Setting command executable to #{command}")

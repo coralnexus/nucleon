@@ -6,7 +6,7 @@ class Command < Base
   #-----------------------------------------------------------------------------
   # Command plugin interface
   
-  def normalize
+  def normalize(reload)
     super
   end
   

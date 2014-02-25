@@ -10,7 +10,7 @@ class Github < Git
   #-----------------------------------------------------------------------------
   # Project plugin interface
  
-  def normalize    
+  def normalize(reload)    
     if reference = delete(:reference, nil)
       myself.plugin_name = reference
     else

@@ -6,7 +6,7 @@ class Git < Plugin::Project
   #-----------------------------------------------------------------------------
   # Project plugin interface
    
-  def normalize
+  def normalize(reload)
     super   
   end
   

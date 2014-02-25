@@ -301,10 +301,15 @@ class Manager
       logger.debug("Looking up existing instance of #{name}")
       
       existing_instance = get(type, name)
-      logger.info("Using existing instance of #{type}, #{name}") if existing_instance
+      
+      if existing_instance
+        existing_instance.import(config.export)
+        existing_instance.normalize(true)
+      
+        logger.info("Using existing instance of #{type}, #{name}")
+        return existing_instance
+      end
     end
-    
-    return existing_instance if existing_instance
     create(type, provider, options)   
   end
   

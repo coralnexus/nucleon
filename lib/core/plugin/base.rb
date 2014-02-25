@@ -18,7 +18,7 @@ class Base < Core
     myself.plugin_name = name
     
     logger.debug("Normalizing #{plugin_type} plugin #{plugin_name} with meta data: #{meta.inspect}")
-    normalize
+    normalize(false)
   end
   
   #---
@@ -147,7 +147,7 @@ class Base < Core
   #-----------------------------------------------------------------------------
   # Plugin operations
     
-  def normalize
+  def normalize(reload)
     # Implement in sub classes
   end
   

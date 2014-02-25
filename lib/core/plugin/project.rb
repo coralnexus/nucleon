@@ -36,7 +36,7 @@ class Project < Base
   #-----------------------------------------------------------------------------
   # Project plugin interface
    
-  def normalize
+  def normalize(reload)
     super
     
     set_directory(Util::Disk.filename(get(:directory, Dir.pwd)))

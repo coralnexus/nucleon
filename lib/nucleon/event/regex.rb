@@ -6,7 +6,7 @@ class Regex < Plugin::Event
   #-----------------------------------------------------------------------------
   # Regular expression event interface
   
-  def normalize
+  def normalize(reload)
     super
     
     if get(:string)

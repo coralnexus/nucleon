@@ -74,7 +74,7 @@ class Action < Base
   
   #---
   
-  def normalize
+  def normalize(reload)
     args = array(delete(:args, []))
        
     @action_interface = Util::Liquid.new do |method, method_args|
