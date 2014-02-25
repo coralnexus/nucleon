@@ -60,16 +60,11 @@ class Github < Git
               break
             end  
           end
+                     
+          client.remove_deploy_key(myself.plugin_name, github_id) if github_id && ! keys_match
+          client.add_deploy_key(myself.plugin_name, key_id, ssh_key)
+          verify_key
           
-          if github_id
-            unless keys_match
-              client.edit_deploy_key(myself.plugin_name, github_id, { :key => ssh_key })
-              verify_key
-            end
-          else
-            client.add_deploy_key(myself.plugin_name, key_id, ssh_key)
-            verify_key
-          end
                   
         rescue Exception => error
           logger.error(error.inspect)
