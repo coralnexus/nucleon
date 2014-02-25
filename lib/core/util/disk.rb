@@ -71,7 +71,10 @@ class Disk
     if file
       file.pos = 0 if options[:mode] == 'w'
       success  = file.write(data)
-      file.flush
+      begin
+        file.flush
+      rescue # In case the file is already closed
+      end
       return success
     end
     return nil
