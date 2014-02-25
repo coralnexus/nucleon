@@ -6,7 +6,7 @@ class Base < Core
   # All Plugin classes should directly or indirectly extend Base
   
   def initialize(type, provider, options)
-    config = Util::Data.clean(Config.ensure(options))
+    config = Util::Data.clean(Config.ensure(options), false)
     name   = Util::Data.ensure_value(config.delete(:plugin_name), config.delete(:name, provider))
     
     @quiet = config.delete(:quiet, false)
