@@ -624,14 +624,20 @@ class Project < Base
  
   #---
   
-  def set_remote(name, url)
+  def set_remote(name, url, options = {})
+    config = Config.ensure(options)
+    
     if can_persist?
       localize do
-        if ! url.strip.empty? && url = extension_set(:set_remote, url, { :name => name })
-          delete_remote(name)
+        unless url.strip.empty? 
+          if url = extension_set(:set_remote, url, { :name => name })
+            delete_remote(name)
+            
+            url = translate_edit_url(url) if name == :edit && config.get(:translate, true)
     
-          logger.info("Setting project remote #{name} to #{url}")
-          yield(url) if block_given?
+            logger.info("Setting project remote #{name} to #{url}")
+            yield(url) if block_given?
+          end
         end
       end
     else
@@ -647,6 +653,8 @@ class Project < Base
         config = Config.ensure(options)
       
         if url = extension_set(:add_remote_url, url, { :name => name, :config => config })
+          url = translate_edit_url(url) if name == :edit && config.get(:translate, true)
+          
           logger.info("Adding project remote url #{url} to #{name}")    
           yield(config, url) if block_given?
         end
@@ -661,7 +669,7 @@ class Project < Base
   def set_host_remote(name, hosts, path, options = {})
     if can_persist?
       localize do
-        config = Config.ensure(options).import({ :path => path })
+        config = Config.ensure(options).import({ :path => path, :translate => false })
         hosts  = array(hosts)
       
         unless hosts.empty?
@@ -670,7 +678,7 @@ class Project < Base
               path = config.delete(:path)
           
               logger.info("Setting host remote #{name} for #{hosts.inspect} at #{path}") 
-              set_remote(name, translate_url(hosts.shift, path, config.export))
+              set_remote(name, translate_url(hosts.shift, path, config.export), config)
         
               hosts.each do |host|
                 logger.debug("Adding remote url to #{host}")
