@@ -291,9 +291,10 @@ class Manager
   
   def load_base(type, provider, options = {})
     logger.info("Fetching plugin #{type} provider #{provider} at #{Time.now}")
-        
-    config = Config.ensure(translate_type(type, options))
-    name   = config.get(:name, nil)
+    
+    options = translate_type(type, options)    
+    config  = Config.ensure(options)
+    name    = config.delete(:name, nil)
        
     logger.debug("Plugin options: #{config.export.inspect}")
     
@@ -324,7 +325,7 @@ class Manager
     
     # Allow options to override provider
     config   = Config.ensure(options)
-    provider = config.get(:provider, provider)
+    provider = config.delete(:provider, provider)
     provider = default_provider unless provider
     
     load_base(type, provider, config)
