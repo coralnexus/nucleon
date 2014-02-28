@@ -140,6 +140,20 @@ class SSH < Core
   
   #---
   
+  def self.close_session(hostname, user)
+    session_id = session_id(hostname, user)
+    
+    if @@sessions.has_key?(session_id)
+      begin # Don't care about errors here
+        @@sessions[session_id].close
+      rescue
+      end
+      @@sessions.delete(session_id)
+    end
+  end
+  
+  #---
+  
   def self.close(hostname = nil, user = nil)
     if hostname && user.nil? # Assume we entered a session id
       if @@sessions.has_key?(hostname)
