@@ -71,6 +71,7 @@ GEM
     sawyer (0.5.3)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
+    sshkey (1.6.1)
     timers (1.1.0)
     yard (0.8.7.3)
 
@@ -90,4 +91,5 @@ DEPENDENCIES
   octokit (~> 2.7)
   rdoc (~> 3.12)
   rspec (~> 2.10)
+  sshkey (~> 1.6)
   yard (~> 0.8)
