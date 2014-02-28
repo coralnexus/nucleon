@@ -1,7 +1,7 @@
 
-module CORL
+module Nucleon
 module Util
-class SSH < Nucleon::Core
+class SSH < Core
   
   #-----------------------------------------------------------------------------
   # User key home

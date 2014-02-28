@@ -9,6 +9,7 @@ gem "multi_json", "~> 1.7"
 
 gem "sshkey", "~> 1.6"
 
+gem "childprocess", "~> 0.5.0"
 gem "celluloid", "~> 0.15"
 
 gem "grit", "~> 2.5"

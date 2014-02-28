@@ -97,7 +97,9 @@ require 'multi_json'
 require 'tmpdir'
 require 'sshkey'
 
-require 'thread' # Eventually depreciated
+require 'childprocess'
+
+require 'thread' # Eventually depreciated?
 require 'celluloid'
 require 'celluloid/autostart'
 

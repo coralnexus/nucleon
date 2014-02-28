@@ -80,5 +80,11 @@ module Errors
   class BatchError < NucleonError
     error_key(:batch_error)
   end
+  
+  #---
+  
+  class SSHUnavailable < NucleonError
+    error_key(:ssh_unavailable)
+  end 
 end
 end
