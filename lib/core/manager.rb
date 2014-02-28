@@ -305,7 +305,7 @@ class Manager
       
       if existing_instance
         config.export.each do |property_name, value|
-          unless [ :meta ].include?(property_name)
+          unless [ :name, :meta ].include?(property_name)
             existing_instance[property_name] = value  
           end
         end
