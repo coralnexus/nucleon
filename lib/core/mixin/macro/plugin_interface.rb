@@ -239,7 +239,7 @@ module PluginInterface
       
       logger.debug("Defining single instance plugin interface method: delete_#{_type}")
 
-      define_method "delete_#{_type}" do |provider|
+      define_method "delete_#{_type}" do |provider, remove_plugin = true|
         plugin = send(_type, provider)
         
         logger.debug("Deleting single #{_type} #{provider}")
@@ -247,7 +247,7 @@ module PluginInterface
         delete([ _plural, provider ])
         _delete([ _plural, provider ])
     
-        Nucleon.remove_plugin(plugin) unless plugin.nil?
+        Nucleon.remove_plugin(plugin) if remove_plugin && ! plugin.nil?
       end
   
       #---
@@ -337,7 +337,7 @@ module PluginInterface
       
       logger.debug("Defining multi instance plugin interface method: delete_#{_type}")
 
-      define_method "delete_#{_type}" do |provider, name|
+      define_method "delete_#{_type}" do |provider, name, remove_plugin = true|
         plugin = send(_type, provider, name)
         
         logger.debug("Deleting #{_type} #{provider} #{name}")
@@ -345,7 +345,7 @@ module PluginInterface
         delete([ _plural, provider, name ])
         _delete([ _plural, provider, name ])
     
-        Nucleon.remove_plugin(plugin) unless plugin.nil?
+        Nucleon.remove_plugin(plugin) if remove_plugin && ! plugin.nil?
       end
   
       #---
