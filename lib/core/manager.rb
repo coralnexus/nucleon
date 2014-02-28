@@ -294,7 +294,7 @@ class Manager
     
     options = translate_type(type, options)    
     config  = Config.ensure(options)
-    name    = config.delete(:name, nil)
+    name    = config.get(:name, nil)
        
     logger.debug("Plugin options: #{config.export.inspect}")
     
