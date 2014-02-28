@@ -94,6 +94,9 @@ require 'base64'
 require 'yaml'
 require 'multi_json'
 
+require 'tmpdir'
+require 'sshkey'
+
 require 'thread' # Eventually depreciated
 require 'celluloid'
 require 'celluloid/autostart'
@@ -157,7 +160,8 @@ nucleon_require(core_dir, :core)
   :cli, 
   :disk, 
   :package, 
-  :shell
+  :shell,
+  :ssh
 ].each do |name| 
   nucleon_require(util_dir, name)
 end
