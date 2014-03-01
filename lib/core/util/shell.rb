@@ -91,7 +91,8 @@ class Shell < Core
       begin
         t1, output_new, output_orig, output_reader = pipe_exec_stream($stdout, conditions, { 
           :prefix => info_prefix, 
-          :suffix => info_suffix, 
+          :suffix => info_suffix,
+          :quiet  => config.get(:quiet, false) 
         }, 'output') do |data|
           system_result.append_output(data)
           code ? code.call(:output, command, data) : true
@@ -99,7 +100,8 @@ class Shell < Core
         
         t2, error_new, error_orig, error_reader = pipe_exec_stream($stderr, conditions, { 
           :prefix => error_prefix, 
-          :suffix => error_suffix, 
+          :suffix => error_suffix,
+          :quiet  => config.get(:quiet, false)  
         }, 'error') do |data|
           system_result.append_errors(data)
           code ? code.call(:error, command, data) : true
@@ -220,8 +222,10 @@ class Shell < Core
                 prefix = ( prefix && ! prefix.empty? ? prefix : '' )
                 suffix = ( suffix && ! suffix.empty? ? suffix : '' )            
                 eol    = ( index < lines.length - 1 || newline ? "\n" : ' ' )
-            
-                output.write(prefix.lstrip + line + suffix.rstrip + eol)
+                
+                unless options[:quiet]
+                  output.write(prefix.lstrip + line + suffix.rstrip + eol)
+                end
               end
             end
           end
