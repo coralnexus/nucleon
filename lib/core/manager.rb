@@ -298,7 +298,7 @@ class Manager
        
     logger.debug("Plugin options: #{config.export.inspect}")
     
-    if name
+    if name && ! config.delete(:new, false)
       logger.debug("Looking up existing instance of #{name}")
       
       existing_instance = get(type, name)
