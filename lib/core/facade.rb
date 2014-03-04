@@ -41,7 +41,7 @@ module Facade
   #---
   
   def ip_address
-    result = cli_run(value(:ip_address_command, 'curl ifconfig.me'))
+    result = cli_run(value(:ip_address_command, 'curl --silent ifconfig.me'))
     result.output
   end
   
