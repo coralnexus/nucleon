@@ -293,7 +293,7 @@ module PluginInterface
       
       logger.debug("Defining multi instance plugin interface method: #{_type}")
       
-      define_method "#{_type}" do |provider, name|
+      define_method "#{_type}" do |provider, name, reset = false|
         if reset || _get([ _plural, provider, name ], nil).nil?        
           options = get([ _plural, provider, name ], nil)
          
