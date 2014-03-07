@@ -315,7 +315,13 @@ module Facade
       main_command   = arg_components.shift
       sub_command    = arg_components.shift
       sub_args       = arg_components
-  
+      
+      lib_dir = File.join(Dir.pwd, 'lib')
+      if File.directory?(lib_dir)
+        logger.debug("Registering Plugins module at #{lib_dir}")
+        Nucleon.register(lib_dir)
+      end
+            
       if main_command.processed && sub_command
         exit_status = action_cli(sub_command, sub_args, false, name)
       else
