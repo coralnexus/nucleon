@@ -318,7 +318,7 @@ module Facade
       
       lib_dir = File.join(Dir.pwd, 'lib')
       if File.directory?(lib_dir)
-        logger.debug("Registering Plugins module at #{lib_dir}")
+        logger.debug("Registering plugins at #{lib_dir}")
         Nucleon.register(lib_dir)
       end
             
