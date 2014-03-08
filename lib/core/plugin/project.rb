@@ -79,7 +79,7 @@ class Project < Base
     if directory
       lib_path = File.join(directory, 'lib')
       if File.directory?(lib_path)
-        CORL.register(lib_path)
+        Nucleon.register(lib_path)
       end
     end
   end
