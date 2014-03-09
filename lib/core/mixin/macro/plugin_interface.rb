@@ -100,7 +100,7 @@ module PluginInterface
       logger.debug("Providers: #{providers.inspect}")
             
       symbol_map(data).each do |provider, instance_settings|
-        if ! providers || providers.include?(provider)
+        if ! providers || providers.include?(provider.to_s)
           if _single_instance
             logger.debug("Initializing single instance plugin: #{instance_settings.inspect}")
             
