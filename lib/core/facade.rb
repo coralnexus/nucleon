@@ -385,6 +385,30 @@ module Facade
   
   def sha1(data)
     Digest::SHA1.hexdigest(Util::Data.to_json(data, false))
+  end
+  
+  #---
+  
+  def silence
+    result = nil
+    
+    begin
+      orig_stderr = $stderr.clone
+      orig_stdout = $stdout.clone
+      $stderr.reopen File.new('/dev/null', 'w')
+      $stdout.reopen File.new('/dev/null', 'w')
+      
+      result = yield
+    
+    rescue Exception => error
+      $stdout.reopen orig_stdout
+      $stderr.reopen orig_stderr
+      raise error
+    ensure
+      $stdout.reopen orig_stdout
+      $stderr.reopen orig_stderr
+    end
+    result
   end  
 end
 end
