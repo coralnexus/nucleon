@@ -772,7 +772,7 @@ class Project < Base
             if config.get(:propogate, true)
               logger.debug("Pushing sub projects as propogate option was given")
         
-              foreach! do |path, project|
+              each do |path, project|
                 project.push(remote, config)
               end
             end
