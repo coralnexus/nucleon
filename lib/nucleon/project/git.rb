@@ -385,30 +385,65 @@ class Git < Plugin::Project
    
   #-----------------------------------------------------------------------------
   # SSH operations
+  
+  def git_fetch(remote = :edit, options = {})
+    config         = Config.ensure(options)
+    local_revision = config.get(:revision, get(:revision, :master))
+     
+    result = Nucleon.command({
+      :command => :git,
+      :data    => { 'git-dir=' => git.git_dir },
+      :subcommand => {
+        :command => :fetch,
+        :args    => [ remote ]
+      }
+    }, config.get(:provider, Nucleon.type_default(:command))).exec(config.import({ :quiet => true })) do |op, command, data|
+      block_given? ? yield(op, command, data) : true
+    end
+       
+    if result.status == code.success
+      new?(true)
+      checkout(local_revision)
+    else
+      false
+    end 
+  end
+  protected :git_fetch
+  
+  #---
  
-  def pull(remote = :origin, options = {})
+  def pull(remote = :edit, options = {})
     return super do |config, processed_remote|
-      flags = []
-      flags << :tags if config.get(:tags, true)
+      success = false
       
-      result = Nucleon.command({
-        :command => :git,
-        :data    => { 'git-dir=' => git.git_dir },
-        :subcommand => {
-          :command => :pull,
-          :flags   => flags,
-          :args    => [ processed_remote, config.get(:revision, get(:revision, :master)) ]
-        }
-      }, config.get(:provider, :bash)).exec(config.import({ :quiet => true })) do |op, command, data|
-        block_given? ? yield(op, command, data) : true
-      end
-      
-      if result.status == code.success
-        new?(true)
-        true
+      if new? || get(:create, false)
+        success = git_fetch(processed_remote, config)  
       else
-        false
-      end    
+        flags = []
+        flags << :tags if config.get(:tags, true)
+        
+        local_revision = config.get(:revision, get(:revision, :master))
+      
+        if checkout(local_revision)
+          result = Nucleon.command({
+            :command => :git,
+            :data    => { 'git-dir=' => git.git_dir },
+            :subcommand => {
+              :command => :pull,
+              :flags   => flags,
+              :args    => [ processed_remote, local_revision ]
+            }
+          }, config.get(:provider, Nucleon.type_default(:command))).exec(config.import({ :quiet => true })) do |op, command, data|
+            block_given? ? yield(op, command, data) : true
+          end
+      
+          if result.status == code.success
+            new?(true)
+            success = true
+          end
+        end
+      end
+      success  
     end
   end
   

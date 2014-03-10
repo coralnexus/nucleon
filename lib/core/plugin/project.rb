@@ -44,7 +44,7 @@ class Project < Base
     
     set_url(get(:url)) if get(:url, false)
     
-    myself.plugin_name = path if myself.plugin_name == plugin_provider
+    myself.plugin_name = path
     
     ui.resource = plugin_name
     logger      = plugin_name
@@ -67,8 +67,8 @@ class Project < Base
   def init_project
     init_auth
     init_parent
-    init_remotes    
-    load_revision    
+    init_remotes
+    load_revision
   end
    
   #-----------------------------------------------------------------------------
@@ -374,6 +374,8 @@ class Project < Base
   #---
   
   def checkout(revision)
+    success = false
+    
     if can_persist?
       localize do      
         if extension_check(:checkout, { :revision => revision })
@@ -393,6 +395,7 @@ class Project < Base
     else
       logger.warn("Project #{name} does not meet the criteria for persistence and can not checkout a revision")
     end
+    success
   end
   
   #---
@@ -711,7 +714,7 @@ class Project < Base
   #-----------------------------------------------------------------------------
   # Remote operations
  
-  def pull(remote = :origin, options = {})
+  def pull(remote = :edit, options = {})
     success = false
     
     if can_persist?
@@ -728,7 +731,7 @@ class Project < Base
           if success
             load_revision
             update_subprojects
-          
+             
             extension(:pull_success, { :directory => directory, :remote => remote, :config => config })          
              
             if ! parent.nil? && config.get(:propogate, true)
