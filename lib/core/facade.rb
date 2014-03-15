@@ -6,6 +6,10 @@ module Facade
     Core.ui
   end
   
+  def ui_group(resource, &code)
+    Core.ui_group(resource, &code)
+  end
+  
   def quiet=quiet
     Util::Console.quiet = quiet  
   end
@@ -40,9 +44,43 @@ module Facade
   
   #---
   
-  def ip_address
-    result = cli_run(value(:ip_address_command, 'curl --silent ifconfig.me'), { :quiet => true })
-    result.output
+  @@ip_cache = nil
+  
+  def ip_address(reset = false)
+    external_ip    = nil
+    cached_ip_file = File.join(Dir.tmpdir(), 'nucleon_ip.json')
+    
+    unless @@ip_cache      
+      json_text  = Util::Data.ensure_value(Util::Disk.read(cached_ip_file), '')
+      @@ip_cache = Util::Data.parse_json(json_text) unless json_text.empty?
+    end
+        
+    fetch_ip = lambda do
+      result     = cli_run(value(:external_address_command, 'curl --silent ifconfig.me'), { :quiet => true })
+      ip_address = result.output
+      
+      unless ip_address.empty?
+        @@ip_cache = {
+          'ip'      => ip_address,
+          'updated' => Time.new.to_s
+        }
+        Util::Disk.write(cached_ip_file, Util::Data.to_json(@@ip_cache))
+      end
+      ip_address
+    end
+        
+    if reset || (! @@ip_cache || @@ip_cache.empty? || ! @@ip_cache.has_key?('ip'))
+      external_ip = fetch_ip.call
+    else
+      external_ip    = @@ip_cache['ip']
+      updated_time   = Time.parse(@@ip_cache['updated'])
+      cache_duration = (Time.new - updated_time) / 60 # Seconds to minutes
+      
+      if cache_duration >= value(:external_address_lifetime, 60)
+        external_ip = fetch_ip.call
+      end
+    end
+    external_ip
   end
   
   #-----------------------------------------------------------------------------
