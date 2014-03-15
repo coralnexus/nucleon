@@ -5,8 +5,9 @@ class Core < Config
   #-----------------------------------------------------------------------------
   # Properties
   
-  @@logger = Util::Logger.new('core')
-  @@ui     = Util::Console.new('core')
+  @@logger  = Util::Logger.new('core')
+  @@ui      = Util::Console.new('core')
+  @@ui_lock = Mutex.new
   
   #-----------------------------------------------------------------------------
   # Constructor / Destructor
@@ -60,10 +61,25 @@ class Core < Config
   #-----------------------------------------------------------------------------
   # General utilities
   
+  def self.ui_group(resource)
+    @@ui_lock.synchronize do
+      begin
+        ui_resource = ui.resource
+        ui.resource = resource
+        yield(ui)
+    
+      ensure
+        ui.resource = ui_resource
+      end
+    end  
+  end 
+  
+  #---
+  
   def ui_group(resource)
     ui_resource = ui.resource
     ui.resource = resource
-    yield
+    yield(ui)
     
   ensure
     ui.resource = ui_resource  
