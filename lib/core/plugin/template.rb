@@ -53,7 +53,7 @@ class Template < Base
     logger.debug("Rendering data: normalize: #{normalize.inspect}; interpolate: #{interpolate.inspect}: #{data.inspect}")
     
     if normalize
-      data = Config.normalize(data, nil, config)
+      data = Config.normalize(data, nil, export)
       logger.debug("Pre-rendering data normalization: #{data.inspect}")
     end
     
