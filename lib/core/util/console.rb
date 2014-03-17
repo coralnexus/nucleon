@@ -3,6 +3,12 @@ module Nucleon
 module Util
 class Console
   
+  # Flush output immediately.
+  $stderr.sync = true
+  $stdout.sync = true
+  
+  #---
+  
   @@console_lock = Mutex.new
   @@quiet        = false
   
