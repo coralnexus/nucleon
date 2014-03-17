@@ -447,6 +447,13 @@ module Facade
       $stderr.reopen orig_stderr
     end
     result
+  end
+  
+  #---
+  
+  def render_object(data)
+    require 'pp'
+    PP.pp(data, "")
   end  
 end
 end
