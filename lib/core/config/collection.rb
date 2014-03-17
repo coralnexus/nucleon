@@ -40,15 +40,12 @@ class Collection
   
   #---
   
-  def self.save
-    log_options = Options.get(:nucleon_log)
-    
-    unless Util::Data.empty?(log_options[:config_log])
-      config_log = log_options[:config_log]
+  def self.save(options = {})
+    unless Util::Data.empty?(options[:config_log])
+      config_log = options[:config_log]
       
-      if log_options[:config_store]
-        Util::Disk.write(config_log, MultiJson.dump(@@properties, :pretty => true))
-        Util::Disk.close(config_log)
+      if options[:config_store]
+        Util::Disk.write(config_log, Util::Data.to_json(@@properties, true))
       end
     end
   end
