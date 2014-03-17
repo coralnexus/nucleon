@@ -27,6 +27,12 @@ class Options
   
   #---
   
+  def self.all
+    @@options
+  end
+  
+  #---
+  
   def self.get(contexts, force = true)
     options = {}
     
