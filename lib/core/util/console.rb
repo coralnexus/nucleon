@@ -11,6 +11,7 @@ class Console
   
   @@console_lock = Mutex.new
   @@quiet        = false
+  @@use_colors   = true
   
   #---
 
@@ -61,8 +62,22 @@ class Console
   
   #---
   
+  def self.quiet
+    @@quiet
+  end
+  
   def self.quiet=quiet
     @@quiet = quiet
+  end
+  
+  #---
+  
+  def self.use_colors
+    @@use_colors  
+  end
+  
+  def self.use_colors=use_colors
+    @@use_colors = use_colors
   end
   
   #-----------------------------------------------------------------------------
@@ -204,7 +219,7 @@ class Console
     end
     message = "#{prefix} #{message}".lstrip.gsub(/\n+$/, '')
     
-    if @color
+    if @@use_colors && @color
       if options.has_key?(:color)
         color = @@colors[options[:color]]
         message = "#{color}#{message}#{@@colors[:clear]}"
@@ -243,18 +258,21 @@ class Console
   # Color translation
   
   def self.green(string)
+    return string unless @@use_colors
     "#{@@colors[:green]}#{string}#{@@colors[:clear]}"  
   end
   
   #---
     
   def self.yellow(string)
+    return string unless @@use_colors
     "#{@@colors[:yellow]}#{string}#{@@colors[:clear]}"  
   end
   
   #---
   
   def self.red(string)
+    return string unless @@use_colors
     "#{@@colors[:red]}#{string}#{@@colors[:clear]}"  
   end
 end
