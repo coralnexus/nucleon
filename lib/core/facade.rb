@@ -453,7 +453,7 @@ module Facade
   
   def render_object(data)
     require 'pp'
-    PP.pp(data, "")
+    PP.pp(data, "").strip
   end  
 end
 end
