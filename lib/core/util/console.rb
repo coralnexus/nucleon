@@ -14,17 +14,17 @@ class Console
   
   #---
 
-  COLORS = {
+  @@colors = {
     :clear  => "\e[0m",
     :red    => "\e[31m",
     :green  => "\e[32m",
     :yellow => "\e[33m"
   }
 
-  COLOR_MAP = {
-    :warn    => COLORS[:yellow],
-    :error   => COLORS[:red],
-    :success => COLORS[:green]
+  @@color_map = {
+    :warn    => @@colors[:yellow],
+    :error   => @@colors[:red],
+    :success => @@colors[:green]
   }
 
   #-----------------------------------------------------------------------------
@@ -206,10 +206,10 @@ class Console
     
     if @color
       if options.has_key?(:color)
-        color = COLORS[options[:color]]
-        message = "#{color}#{message}#{COLORS[:clear]}"
+        color = @@colors[options[:color]]
+        message = "#{color}#{message}#{@@colors[:clear]}"
       else
-        message = "#{COLOR_MAP[type]}#{message}#{COLORS[:clear]}" if COLOR_MAP[type]
+        message = "#{@@color_map[type]}#{message}#{@@colors[:clear]}" if @@color_map[type]
       end
     end
     return message
@@ -237,6 +237,25 @@ class Console
   
   def check_delegate(method)
     return ( @delegate && @delegate.respond_to?(method.to_s) )
+  end
+  
+  #-----------------------------------------------------------------------------
+  # Color translation
+  
+  def self.green(string)
+    "#{@@colors[:green]}#{string}#{@@colors[:clear]}"  
+  end
+  
+  #---
+    
+  def self.yellow(string)
+    "#{@@colors[:yellow]}#{string}#{@@colors[:clear]}"  
+  end
+  
+  #---
+  
+  def self.red(string)
+    "#{@@colors[:red]}#{string}#{@@colors[:clear]}"  
   end
 end
 end
