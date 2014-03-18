@@ -17,9 +17,14 @@ class Console
 
   @@colors = {
     :clear  => "\e[0m",
+    :black  => "\e[30m",
     :red    => "\e[31m",
     :green  => "\e[32m",
-    :yellow => "\e[33m"
+    :yellow => "\e[33m",
+    :blue   => "\e[34m",
+    :purple => "\e[35m",
+    :cyan   => "\e[36m",
+    :grey   => "\e[37m"
   }
 
   @@color_map = {
@@ -257,6 +262,20 @@ class Console
   #-----------------------------------------------------------------------------
   # Color translation
   
+  def self.black(string)
+    return string unless @@use_colors
+    "#{@@colors[:black]}#{string}#{@@colors[:clear]}"  
+  end
+  
+  #---
+  
+  def self.red(string)
+    return string unless @@use_colors
+    "#{@@colors[:red]}#{string}#{@@colors[:clear]}"  
+  end
+  
+  #---
+  
   def self.green(string)
     return string unless @@use_colors
     "#{@@colors[:green]}#{string}#{@@colors[:clear]}"  
@@ -270,10 +289,31 @@ class Console
   end
   
   #---
-  
-  def self.red(string)
+    
+  def self.blue(string)
     return string unless @@use_colors
-    "#{@@colors[:red]}#{string}#{@@colors[:clear]}"  
+    "#{@@colors[:blue]}#{string}#{@@colors[:clear]}"  
+  end
+  
+  #---
+    
+  def self.purple(string)
+    return string unless @@use_colors
+    "#{@@colors[:purple]}#{string}#{@@colors[:clear]}"  
+  end
+  
+  #---
+    
+  def self.cyan(string)
+    return string unless @@use_colors
+    "#{@@colors[:cyan]}#{string}#{@@colors[:clear]}"  
+  end
+  
+  #---
+    
+  def self.grey(string)
+    return string unless @@use_colors
+    "#{@@colors[:grey]}#{string}#{@@colors[:clear]}"  
   end
 end
 end
