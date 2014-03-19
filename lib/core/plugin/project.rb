@@ -44,7 +44,7 @@ class Project < Base
     
     set_url(get(:url)) if get(:url, false)
     
-    myself.plugin_name = path
+    myself.plugin_name = path if ! plugin_name || plugin_name == plugin_provider
     
     ui.resource = plugin_name
     logger      = plugin_name

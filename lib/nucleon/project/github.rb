@@ -49,7 +49,7 @@ class Github < Git
       
       if private_key && ssh_key
         begin
-          deploy_keys = client.deploy_keys(myself.plugin_name)
+          deploy_keys = client.deploy_keys(plugin_name)
           github_id   = nil
           keys_match  = true
                    
