@@ -126,11 +126,11 @@ class Data
   
   #---
   
-  def self.value(value)
+  def self.value(value, undefined_value = nil)
     case value
     when String
       if undef?(value)
-        value = nil
+        value = undefined_value
       elsif true?(value)
         value = true
       elsif false?(value)
@@ -139,12 +139,12 @@ class Data
     
     when Array
       value.each_with_index do |item, index|
-        value[index] = value(item)
+        value[index] = value(item, undefined_value)
       end
     
     when Hash
       value.each do |key, data|
-        value[key] = value(data)
+        value[key] = value(data, undefined_value)
       end
     end
     return value  
@@ -238,6 +238,22 @@ class Data
     data.keys.each do |key|
       obj = data[key]
       data.delete(key) if obj.nil? || ( remove_empty && obj.is_a?(Hash) && obj.empty? )
+    end
+    data
+  end
+  
+  #---
+  
+  def self.deep_clean(data, remove_empty = true)
+    data.keys.each do |key|
+      obj = data[key]
+        
+      if obj.nil? || ( remove_empty && obj.is_a?(Hash) && obj.empty? )
+        data.delete(key)
+          
+      elsif data[key].is_a?(Hash)
+        deep_clean(data[key], remove_empty)
+      end
     end
     data
   end
