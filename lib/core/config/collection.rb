@@ -41,11 +41,12 @@ class Collection
   #---
   
   def self.save(options = {})
-    unless Util::Data.empty?(options[:config_log])
-      config_log = options[:config_log]
+    unless Util::Data.empty?(options[:log_dir])
+      log_dir = options[:log_dir]
       
       if options[:config_store]
-        Util::Disk.write(config_log, Util::Data.to_json(@@properties, true))
+        Util::Disk.write(File.join(log_dir, "common.json"), Util::Data.to_json(@@properties, true))
+        Util::Disk.write(File.join(log_dir, "common.yaml"), Util::Data.to_yaml(Util::Data.string_map(@@properties)))
       end
     end
   end
