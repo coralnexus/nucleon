@@ -10,8 +10,8 @@ module Facade
     Core.ui
   end
   
-  def ui_group(resource, &code)
-    Core.ui_group(resource, &code)
+  def ui_group(resource, color = :cyan, &code)
+    Core.ui_group(resource, color, &code)
   end
   
   def quiet=quiet
