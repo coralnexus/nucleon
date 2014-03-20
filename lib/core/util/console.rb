@@ -172,7 +172,7 @@ class Console
           try_again = false
         end
       end
-      password
+      password.strip
     end
     
     if options[:sync]
@@ -222,7 +222,7 @@ class Console
     if @resource && ! @resource.empty? && options[:prefix]
       prefix = "[#{@resource}]"
     end
-    message = "#{prefix} #{message}".lstrip.gsub(/\n+$/, '')
+    message = "#{prefix} #{message}".lstrip
     
     if @@use_colors && @color
       if options.has_key?(:color)
