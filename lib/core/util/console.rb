@@ -28,9 +28,9 @@ class Console
   }
 
   @@color_map = {
-    :warn    => @@colors[:yellow],
-    :error   => @@colors[:red],
-    :success => @@colors[:green]
+    :warn    => :yellow,
+    :error   => :red,
+    :success => :green
   }
 
   #-----------------------------------------------------------------------------
@@ -226,10 +226,9 @@ class Console
     
     if @@use_colors && @color
       if options.has_key?(:color)
-        color = @@colors[options[:color]]
-        message = "#{color}#{message}#{@@colors[:clear]}"
+        message = self.class.colorize(message, options[:color]) 
       else
-        message = "#{@@color_map[type]}#{message}#{@@colors[:clear]}" if @@color_map[type]
+        message = self.class.colorize(message, @@color_map[type]) if @@color_map[type]
       end
     end
     return message
@@ -262,58 +261,72 @@ class Console
   #-----------------------------------------------------------------------------
   # Color translation
   
+  def self.colorize(string, color)
+    return '' unless string
+    return string.to_s unless @@use_colors
+    
+    color        = color.to_sym
+    string       = string.to_s
+    color_string = string
+    
+    if @@colors[color]
+      color         = @@colors[color]
+      clear_color   = @@colors[:clear]
+      escaped_clear = Regexp.escape(clear_color)
+            
+      color_string  = "#{color}"
+      color_string << string.gsub(/#{escaped_clear}(?!\e\[)/, "#{clear_color}#{color}")
+      color_string << "#{clear_color}"
+    end
+    color_string
+  end
+  
+  #---
+  
   def self.black(string)
-    return string unless @@use_colors
-    "#{@@colors[:black]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :black) 
   end
   
   #---
   
   def self.red(string)
-    return string unless @@use_colors
-    "#{@@colors[:red]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :red)   
   end
   
   #---
   
   def self.green(string)
-    return string unless @@use_colors
-    "#{@@colors[:green]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :green)  
   end
   
   #---
     
   def self.yellow(string)
-    return string unless @@use_colors
-    "#{@@colors[:yellow]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :yellow)  
   end
   
   #---
     
   def self.blue(string)
-    return string unless @@use_colors
-    "#{@@colors[:blue]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :blue)  
   end
   
   #---
     
   def self.purple(string)
-    return string unless @@use_colors
-    "#{@@colors[:purple]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :purple)  
   end
   
   #---
     
   def self.cyan(string)
-    return string unless @@use_colors
-    "#{@@colors[:cyan]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :cyan)   
   end
   
   #---
     
   def self.grey(string)
-    return string unless @@use_colors
-    "#{@@colors[:grey]}#{string}#{@@colors[:clear]}"  
+    colorize(string, :grey) 
   end
 end
 end
