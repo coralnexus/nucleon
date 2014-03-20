@@ -26,6 +26,10 @@ en:
           parse:
             error: |-
               There was a problem with the command arguments given
+      action:
+        options:
+          color: |-
+            Whether or not to output console messages in color (default %{default_value})
       mixin:
         action:
           project:
