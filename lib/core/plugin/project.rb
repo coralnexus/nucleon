@@ -411,7 +411,7 @@ class Project < Base
           logger.info("Committing changes to project #{name}: #{files.inspect}")
       
           time     = Time.new.strftime("%Y-%m-%d %H:%M:%S")
-          user     = config.delete(:user, ENV['USER'] + '@' + fact(:hostname))
+          user     = config.delete(:user, ENV['USER'] + '@' + fact(:fqdn))
       
           message  = config.get(:message, '')
           message  = 'Saving state: ' + ( files.is_a?(Array) ? "\n\n" + files.join("\n") : files.to_s ) if message.empty?
