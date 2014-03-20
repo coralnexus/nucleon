@@ -177,6 +177,8 @@ class Action < Base
   #---
     
   def configure
+    register :color, :bool, true, 'nucleon.core.action.options.color'
+    
     yield if block_given?
     
     usage = "#{plugin_provider} "    
@@ -327,6 +329,10 @@ class Action < Base
     myself.status = code.success
     myself.result = nil
     
+    # TODO: Figure out how to deal with paralleization of actions with global ui settings
+    use_colors = Util::Console.use_colors
+    Util::Console.use_colors = @parser.options[:color]
+    
     if processed?      
       begin
         if skip_validate || validate
@@ -355,6 +361,9 @@ class Action < Base
     end  
     
     status
+    
+  ensure
+    Util::Console.use_colors = use_colors 
   end
   
   #---
