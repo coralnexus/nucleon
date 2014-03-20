@@ -2,6 +2,8 @@
 module Nucleon
 class Core < Config
   
+  include Mixin::Colors
+  
   #-----------------------------------------------------------------------------
   # Properties
   
@@ -15,10 +17,11 @@ class Core < Config
   def initialize(data = {}, defaults = {}, force = true)
     super(data, defaults, force)   
     
-    class_label = self.class.to_s.downcase.gsub(/^nucleon::/, '')
+    @class_color = Util::Data.ensure_value(delete(:class_color, :cyan), :cyan)
+    @class_label = self.class.to_s.downcase.gsub(/^nucleon::/, '')
     
-    self.logger = delete(:logger, class_label)
-    self.ui     = Config.new(export).defaults({ :resource => class_label })
+    self.logger = delete(:logger, @class_label)
+    self.ui     = Config.new(export).defaults({ :resource => Util::Console.colorize(@class_label, @class_color) })
     
     logger.debug('Initialized instance logger and interface')
   end
@@ -61,11 +64,11 @@ class Core < Config
   #-----------------------------------------------------------------------------
   # General utilities
   
-  def self.ui_group(resource)
+  def self.ui_group(resource, color = :cyan)
     @@ui_lock.synchronize do
       begin
         ui_resource = ui.resource
-        ui.resource = resource
+        ui.resource = Util::Console.colorize(resource, color)
         yield(ui)
     
       ensure
@@ -76,9 +79,9 @@ class Core < Config
   
   #---
   
-  def ui_group(resource)
+  def ui_group(resource, color = :cyan)
     ui_resource = ui.resource
-    ui.resource = resource
+    ui.resource = Util::Console.colorize(resource, color)
     yield(ui)
     
   ensure
