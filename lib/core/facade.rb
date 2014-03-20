@@ -2,6 +2,10 @@
 module Nucleon
 module Facade
  
+  include Mixin::Colors
+  
+  #-----------------------------------------------------------------------------
+ 
   def ui
     Core.ui
   end
