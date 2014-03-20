@@ -429,7 +429,7 @@ class Manager
     results = nil
     
     if Nucleon.log_level == :hook # To save processing on rendering
-      logger.hook("Executing extension hook { #{method} } at #{Time.now}")
+      logger.hook("Executing extension hook #{Nucleon.blue(method)} at #{Nucleon.green(Time.now.to_s)}")
     end
     
     extensions = plugins(:extension)
@@ -541,6 +541,7 @@ class Manager
         values << data unless data.nil?  
       end
     end
+    values = values.flatten
     
     logger.debug("Extension #{method} collected values: #{values.inspect}")  
     values
