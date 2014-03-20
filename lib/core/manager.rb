@@ -3,6 +3,7 @@ module Nucleon
 class Manager
   
   include Celluloid
+  task_class TaskThread
   
   #-----------------------------------------------------------------------------
   
