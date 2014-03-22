@@ -831,7 +831,7 @@ class Project < Base
       
       logger.debug("Translating project reference: #{provider}  #{url}  #{revision}")
       
-      if provider && Manager.connection.loaded_plugins(:project).keys.include?(provider.to_sym)
+      if provider && Nucleon.loaded_plugins(:project).keys.include?(provider.to_sym)
         klass        = Nucleon.class_const([ :nucleon, :project, provider ])          
         expanded_url = klass.send(:expand_url, url, editable) if klass.respond_to?(:expand_url)
       end
