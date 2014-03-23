@@ -45,6 +45,9 @@ class Collection
       log_dir = options[:log_dir]
       
       if options[:config_store]
+        unless File.directory?(log_dir)
+          FileUtils.mkdir_p(log_dir)
+        end
         Util::Disk.write(File.join(log_dir, "common.json"), Util::Data.to_json(@@properties, true))
         Util::Disk.write(File.join(log_dir, "common.yaml"), Util::Data.to_yaml(Util::Data.string_map(@@properties)))
       end
