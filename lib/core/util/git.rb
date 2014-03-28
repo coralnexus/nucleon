@@ -1,42 +1,47 @@
 
 module Nucleon
 module Util
-class Git < ::Grit::Repo
+class Git
 
   #-----------------------------------------------------------------------------
-  # Constructor / Destructor
-
-  def initialize(path, options = {})
+  # Git repo loader
+  
+  def self.load(path, options = {})
     epath   = File.expand_path(path)
     git_dir = File.join(epath, '.git')
+    git     = nil
     
-    @bare = (options[:is_bare] ? true : false)
-    
-    Grit.debug = true if Nucleon.log_level == :debug
-    
-    if File.exist?(git_dir)
-      self.working_dir = epath
-      
-      if File.directory?(git_dir)
-        self.path = git_dir
-      else
-        git_dir = Util::Disk.read(git_dir)
-        unless git_dir.nil?
-          git_dir = git_dir.gsub(/^gitdir\:\s*/, '').strip
-          self.path = git_dir if File.directory?(git_dir)
-        end
+    begin
+      if File.exist?(git_dir)
+        if File.directory?(git_dir)
+          git = Rugged::Repository.new(git_dir)
+        else
+          # TODO: Find out if this is actually necessary with Rugged / LibGit2
+          git_dir = Util::Disk.read(git_dir)
+          unless git_dir.nil?
+            git_dir = git_dir.gsub(/^gitdir\:\s*/, '').strip
+          
+            if File.directory?(git_dir)
+              git         = Rugged::Repository.new(git_dir)
+              git.workdir = epath  
+            end
+          end
+        end      
+      elsif File.directory?(epath) && (options[:bare] || (epath =~ /\.git$/ && File.exist?(File.join(epath, 'HEAD'))))
+        git = Rugged::Repository.bare(epath)
       end
-      
-    elsif File.directory?(epath) && (options[:is_bare] || (epath =~ /\.git$/ && File.exist?(File.join(epath, 'HEAD'))))
-      self.path = epath
-      @bare = true
-      
-    else
-      self.path = git_dir
+    rescue
     end
     
-    self.git = ::Grit::Git.new(self.path)
-    self.git.work_tree = epath
+    if git.nil? && options[:create]
+      FileUtils.mkdir_p(epath) unless File.directory?(epath)
+      if options[:bare]
+        git = Rugged::Repository.init_at(epath, :bare)
+      else
+        git = Rugged::Repository.init_at(epath)
+      end
+    end        
+    git
   end
 end
 end
