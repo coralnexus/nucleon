@@ -12,9 +12,10 @@ class Create < Nucleon.plugin_class(:action)
     super do    
       codes :project_failure
       
-      register :path, :str, Dir.pwd
-      
+      register :path, :str, Dir.pwd      
       project_config
+      
+      config[:project_reference].default = ''
     end
   end
   
@@ -28,17 +29,10 @@ class Create < Nucleon.plugin_class(:action)
   # Operations
    
   def execute
-    super do |node, network|
+    super do
       info('nucleon.actions.create.start')
       
-      project = Nucleon.project(extended_config(:project, {
-        :create    => true,
-        :directory => settings[:path],
-        :url       => settings[:project_reference],
-        :revision  => settings[:revision],
-        :pull      => true
-      }), settings[:project_provider])
-      
+      project       = project_load(settings[:path], true, true)
       myself.status = code.project_failure unless project
     end
   end

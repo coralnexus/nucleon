@@ -14,7 +14,8 @@ class Remove < Nucleon.plugin_class(:action)
       codes :project_failure,
             :delete_failure,
             :push_failure
-            
+      
+      register :path, :str, Dir.pwd       
       register :sub_path, :str, nil
       
       project_config
@@ -36,10 +37,10 @@ class Remove < Nucleon.plugin_class(:action)
   # Operations
   
   def execute
-    super do |node, network|
+    super do
       info('nucleon.actions.remove.start')
       
-      if project = project_load(Dir.pwd, false)
+      if project = project_load(settings[:path], false)
         if project.delete_subproject(settings[:sub_path])
           myself.status = code.push_failure unless push(project)
         else

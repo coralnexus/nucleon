@@ -12,7 +12,8 @@ class Update < Nucleon.plugin_class(:action)
     super do
       codes :project_failure
       
-      project_options
+      register :path, :str, Dir.pwd       
+      project_config
     end
   end
   
@@ -20,10 +21,10 @@ class Update < Nucleon.plugin_class(:action)
   # Operations
    
   def execute
-    super do |node, network|
+    super do
       info('nucleon.actions.update.start')
       
-      project       = project_load(Dir.pwd, true)
+      project       = project_load(settings[:path], false, true)
       myself.status = code.project_failure unless project
     end
   end

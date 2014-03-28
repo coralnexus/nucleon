@@ -16,6 +16,7 @@ class Save < Nucleon.plugin_class(:action)
             :commit_failure,
             :push_failure
       
+      register :path, :str, Dir.pwd
       register :files, :array, '.'
       
       project_config
@@ -34,10 +35,10 @@ class Save < Nucleon.plugin_class(:action)
   # Operations
    
   def execute          
-    super do |node, network|
+    super do
       info('nucleon.actions.save.start')
           
-      if project = project_load(Dir.pwd, false)
+      if project = project_load(settings[:path], false, false)
         if commit(project, settings[:files])
           myself.status = code.push_failure unless push(project)
         else

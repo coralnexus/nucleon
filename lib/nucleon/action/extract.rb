@@ -38,7 +38,7 @@ class Extract < Nucleon.plugin_class(:action)
   # Operations
   
   def execute
-    super do |node, network|
+    super do
       unless @package.extract(settings[:path])
         myself.status = code.extract_failure
       end
