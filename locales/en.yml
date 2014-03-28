@@ -8,7 +8,7 @@ en:
           header: |-
             Available actions
           footer: |-
-            For help on any individual action run `corl <action> -h`
+            For help on any individual action run `nucleon <action> -h`
         errors:
           missing_argument: |-
             Argument <%{name}> must be specified          
@@ -38,7 +38,7 @@ en:
                 Plugin provider to use for this project (default %{default_value})
               project_reference: |-
                 Project URL or reference string to set as primary remote (default %{default_value})
-              revision: |-
+              project_revision: |-
                 Revision or branch to load (default %{default_value})
           commit:
             options:
@@ -76,18 +76,14 @@ en:
             "Data is either not properly encoded or is empty %{value}"
       create:
         options:
-          reference: |-
-            Git repository URL of Coral cloud to start project from (default %{default_value})
-          revision: |-
-            Revision or branch to initialize the project with (default %{default_value})
           path: |-
             Project path (default %{default_value})
-          start: |-
-            Creating a new Coral cloud at %{path} from %{reference}
+        start: |-
+          Creating a new project at %{path} from %{project_reference}
       add:
         options:
-          sub_reference: |-
-            Repository URL of Nucleon component (module or library) to include in the project
+          path: |-
+            Project path (default %{default_value})
           sub_path: |-
             Subproject path
           editable: |-
@@ -96,18 +92,23 @@ en:
           Adding new subproject from %{sub_reference} at %{sub_path}
       remove:
         options:
+          path: |-
+            Project path (default %{default_value})
           sub_path: |-
             Subproject path
         start: |-
           Removing existing subproject at %{sub_path}
       update:
+        options:
+          path: |-
+            Project path (default %{default_value})
         start: |-
-          Starting update run from provider %{project_provider} (ref: %{reference} rev: %{revision})
-        provision: |-
-          Running provisioning updates on %{node_name} from node provider %{node_provider}
+          Starting update run from provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})
       save:
         options:
+          path: |-
+            Project path (default %{default_value})
           files: |-
             Optional space separated list of files to save
         start: |-
-          Saving project changes with provider %{project_provider} (ref: %{reference} rev: %{revision})
+          Saving project changes with provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})
