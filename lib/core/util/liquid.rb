@@ -10,7 +10,7 @@ class Liquid
   #---
   
   def method_missing(method, *args, &block)  
-    @code.call(method, args, block)
+    @code.call(method, args, &block)
   end   
 end
 end
