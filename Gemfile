@@ -12,7 +12,7 @@ gem "sshkey", "~> 1.6"
 gem "childprocess", "~> 0.5.0"
 gem "celluloid", "~> 0.15"
 
-gem "grit", "~> 2.5"
+gem "rugged", "~> 0.19"
 gem "octokit", "~> 2.7"
 
 group :development do

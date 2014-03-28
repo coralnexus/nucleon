@@ -78,6 +78,9 @@ plugin_dir       = File.join(core_dir, 'plugin')
 $:.unshift(lib_dir) unless $:.include?(lib_dir) || $:.include?(File.expand_path(lib_dir))
 
 #---
+
+# TODO: Reduce the number of dependencies loaded in this load script (for performance).
+# Decentralize!
   
 require 'rubygems'
 
@@ -113,7 +116,7 @@ I18n.load_path << File.expand_path(File.join('..', 'locales', 'en.yml'), lib_dir
 #---
 
 if nucleon_locate('git')
-  require 'grit'
+  require 'rugged'
   nucleon_require(util_dir, :git)
 end
 
