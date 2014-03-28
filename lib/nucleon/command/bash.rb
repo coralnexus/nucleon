@@ -129,7 +129,16 @@ class Bash < Plugin::Command
     
   def exec(options = {}, overrides = nil, &code)
     config = Config.ensure(options)
-    Nucleon.cli_run(build(export, overrides), config.import({ :ui => @ui }), &code)
+    result = Nucleon.cli_run(build(export, overrides), config.import({ :ui => @ui }), &code)
+    
+    if result
+      logger.debug("Command status: #{result.status}")
+      logger.debug("Command output:\n#{result.output}")
+      logger.debug("Command errors:\n#{result.errors}")
+    else
+      logger.debug("Command returned no result")
+    end
+    result
   end
   
   #-----------------------------------------------------------------------------
