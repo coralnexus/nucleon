@@ -7,28 +7,28 @@ class Git < Plugin::Project
   # Project plugin interface
    
   def normalize(reload)
-    super   
+    unless reload
+      @cli = Util::Liquid.new do |method, args, &code|
+        options = {}
+        options = args.shift if args.length > 0
+        git_exec(method, options, args, &code)  
+      end
+    end
+    super    
   end
   
   #-----------------------------------------------------------------------------
   # Git interface (local)
    
   def ensure_git(reset = false)
-    if reset || @git_lib.nil?
-      @git_lib = nil
-      
+    if reset || @repo.nil?
       if directory.empty?
         logger.warn("Can not manage Git project at #{directory} as it does not exist")  
       else
         logger.debug("Ensuring Git instance to manage #{directory}")
-        @git_lib = Util::Git.new(directory)
-        
-        if ! @git_lib.nil? && get(:create, false)
-          unless File.directory?(directory) && @git_lib.git.exist?
-            FileUtils.mkdir_p(directory) unless File.directory?(directory)
-            @git_lib.git.init({ :bare => false })
-          end
-        end
+        @repo = Util::Git.load(directory, {
+          :create => get(:create, false)
+        })
       end
     end
     return myself
@@ -40,7 +40,7 @@ class Git < Plugin::Project
    
   def can_persist?
     ensure_git
-    return true unless @git_lib.nil?
+    return true unless @repo.nil?
     return false
   end
  
@@ -98,7 +98,11 @@ class Git < Plugin::Project
   
   def new?(reset = false)
     if get(:new, nil).nil? || reset
-      set(:new, git.native(:rev_parse, { :all => true }).empty?)  
+      result = cli.rev_parse({ :all => true })
+      
+      if result && result.status == code.success
+        set(:new, result.output.empty?)
+      end  
     end
     get(:new, false)
   end
@@ -106,17 +110,17 @@ class Git < Plugin::Project
   #-----------------------------------------------------------------------------
   # Property accessors / modifiers
   
-  def lib
-    return @git_lib
-  end
- 
-  #---
-  
-  def git
-    return lib.git if can_persist?
+  def repo
+    return @repo if can_persist?
     return nil
   end
-  protected :git
+  protected :repo
+  
+  #---
+  
+  def cli
+    @cli
+  end
     
   #---
    
@@ -131,7 +135,9 @@ class Git < Plugin::Project
   
   def config(name, options = {})
     return super do |config|
-      git.config(config.export, name)
+      result = cli.config(config.export, name)
+      next Util::Data.value(result.output) if result.status == code.success
+      nil
     end
   end
   
@@ -139,7 +145,8 @@ class Git < Plugin::Project
   
   def set_config(name, value, options = {})
     return super do |config, processed_value|
-      git.config(config.export, name, processed_value)
+      result = cli.config(config.export, name, processed_value)
+      result.status == code.success
     end
   end
   
@@ -147,7 +154,8 @@ class Git < Plugin::Project
   
   def delete_config(name, options = {})
     return super do |config|
-      git.config(config.import({ :remove_section => true }).export, name)
+      result = cli.config(config.import({ :remove_section => true }).export, name)
+      result.status == code.success
     end
   end
   
@@ -160,26 +168,26 @@ class Git < Plugin::Project
       if new?
         logger.debug("Project has no sub project configuration yet (has not been committed to)")  
       else
-        commit = lib.commit(revision)
-        blob   = commit.tree/'.gitmodules' unless commit.nil?
-          
-        if blob
-          logger.debug("Houston, we have a Git blob!")
+        gitmodules_file = File.join(directory, '.gitmodules')
         
-          lines   = blob.data.gsub(/\r\n?/, "\n" ).split("\n")
+        gitmodules_data = ''
+        gitmodules_data = Util::Disk.read(gitmodules_file) if File.exists?(gitmodules_file)
+          
+        unless gitmodules_data.empty?
+          logger.debug("Houston, we have some gitmodules!")
+        
+          lines   = gitmodules_data.gsub(/\r\n?/, "\n" ).split("\n")
           current = nil
 
           lines.each do |line|
             if line =~ /^\[submodule "(.+)"\]$/
               current         = $1
               result[current] = {}
-              result[current]['id'] = (commit.tree/current).id
             
               logger.debug("Reading: #{current}")
       
-            elsif line =~ /^\t(\w+) = (.+)$/
-              result[current][$1]   = $2
-              result[current]['id'] = (commit.tree/$2).id if $1 == 'path'
+            elsif line =~ /^\s*(\w+)\s*=\s*(.+)\s*$/
+              result[current][$1] = $2
             end
           end
         end
@@ -195,11 +203,14 @@ class Git < Plugin::Project
     return super do
       if new?
         logger.debug("Project has no current revision yet (has not been committed to)")
-        nil
-        
+        nil        
       else
-        current_revision = git.native(:rev_parse, { :abbrev_ref => true }, 'HEAD').strip
-      
+        current_revision = nil
+        result           = cli.rev_parse({ :abbrev_ref => true }, 'HEAD')
+        
+        if result && result.status == code.success
+          current_revision = result.output
+        end
         logger.debug("Current revision: #{current_revision}")
         current_revision
       end
@@ -213,13 +224,11 @@ class Git < Plugin::Project
       if new?
         logger.debug("Project can not be checked out (has not been committed to)")  
       else
-        unless lib.bare
-          success = safe_exec(false) do
-            git.checkout({ :raise => true }, revision)
-          end
+        unless repo.bare?
+          result = cli.checkout({}, revision)
         end
       end
-      success  
+      result && result.status == code.success
     end
   end
   
@@ -227,27 +236,29 @@ class Git < Plugin::Project
   
   def commit(files = '.', options = {})
     return super do |config, time, user, message|
-      safe_exec(false) do
-        git.reset({}, 'HEAD') # Clear the index so we get a clean commit
+      cli.reset({}, 'HEAD') unless new? # Clear the index so we get a clean commit
       
-        files = array(files)
+      files = array(files)
       
-        logger.debug("Adding files to Git index")
+      logger.debug("Adding files to Git index")
+      
+      cli.add({}, *files)                  # Get all added and updated files
+      cli.add({ :update => true }, *files) # Get all deleted files
         
-        git.add({ :raise => true }, files)                  # Get all added and updated files
-        git.add({ :update => true, :raise => true }, files) # Get all deleted files
-        
-        commit_options = {
-          :raise       => true, 
-          :m           => "#{time} by <#{user}> - #{message}",
-          :allow_empty => config.get(:allow_empty, false) 
-        }
-        commit_options[:author] = config[:author] if config.get(:author, false)
+      commit_options = {
+        :m           => "<#{user}> #{message}",
+        :allow_empty => config.get(:allow_empty, false) 
+      }
+      commit_options[:author] = config[:author] if config.get(:author, false)
     
-        logger.debug("Composing commit options: #{commit_options.inspect}")
-        git.commit(commit_options)
+      logger.debug("Composing commit options: #{commit_options.inspect}")
+      result = cli.commit(commit_options)
         
+      if result.status == code.success
         new?(true)
+        true
+      else
+        false
       end
     end   
   end
@@ -265,16 +276,19 @@ class Git < Plugin::Project
   
   def add_subproject(path, url, revision, options = {})
     return super do |config|
-      safe_exec(false) do
-        branch_options = ''
-        branch_options = [ '-b', config[:revision] ] if config.get(:revision, false)
+      branch_options = ''
+      branch_options = [ '-b', config[:revision] ] if config.get(:revision, false)
       
-        path = config[:path]
-        url  = config[:url]
+      path = config[:path]
+      url  = config[:url]
         
-        git.submodule({ :raise => true }, 'add', *branch_options, url, path)
+      result = cli.submodule({}, 'add', *branch_options, url, path)
         
-        config.set(:files, [ '.gitmodules', path ])
+      if result.status == code.success
+        config.set(:files, [ '.gitmodules', path ]) 
+        true
+      else
+        false
       end
     end  
   end
@@ -283,33 +297,30 @@ class Git < Plugin::Project
   
   def delete_subproject(path)
     return super do |config|
-      safe_exec(false) do
-        path          = config[:path]
-        submodule_key = "submodule.#{path}"
+      path          = config[:path]
+      submodule_key = "submodule.#{path}"
       
-        logger.debug("Deleting Git configurations for #{submodule_key}")
-        delete_config(submodule_key)
-        delete_config(submodule_key, { :file => '.gitmodules' })
+      logger.debug("Deleting Git configurations for #{submodule_key}")
+      delete_config(submodule_key)
+      delete_config(submodule_key, { :file => '.gitmodules' })
       
-        logger.debug("Cleaning Git index cache for #{path}")
-        git.rm({ :cached => true }, path)
+      logger.debug("Cleaning Git index cache for #{path}")
+      cli.rm({ :cached => true }, path)
       
-        logger.debug("Removing Git submodule directories")
-        FileUtils.rm_rf(File.join(directory, path))
-        FileUtils.rm_rf(File.join(git.git_dir, 'modules', path))
+      logger.debug("Removing Git submodule directories")
+      FileUtils.rm_rf(File.join(directory, path))
+      FileUtils.rm_rf(File.join(repo.path, 'modules', path))
       
-        config.set(:files, [ '.gitmodules', path ])
-      end
+      config.set(:files, [ '.gitmodules', path ])
     end  
   end
  
   #---
    
-  def update_subprojects
-    return super do
-      safe_exec(false) do
-        git.submodule({ :raise => true, :timeout => false }, 'update', '--init', '--recursive')
-      end
+  def update_subprojects(options = {})
+    return super do |config|
+      result = cli.submodule({}, 'update', '--init', '--recursive')
+      result.status == code.success
     end
   end
          
@@ -318,9 +329,9 @@ class Git < Plugin::Project
   
   def init_remotes
     return super do
-      origin_url = config('remote.origin.url').strip
+      origin_url = config('remote.origin.url')
       
-      logger.debug("Original origin remote url: #{origin_url}")
+      logger.debug("Original origin remote url: #{origin_url}") if origin_url
       origin_url
     end
   end
@@ -329,8 +340,8 @@ class Git < Plugin::Project
   
   def remote(name)
     return super do
-      url = config("remote.#{name}.url").strip
-      url.empty? ? nil : url
+      url = config("remote.#{name}.url")
+      url.nil? || url.empty? ? nil : url
     end
   end
  
@@ -338,9 +349,8 @@ class Git < Plugin::Project
   
   def set_remote(name, url)
     return super do |processed_url|
-      safe_exec(false) do
-        git.remote({ :raise => true }, 'add', name.to_s, processed_url)
-      end
+      result = cli.remote({}, 'add', name, processed_url)
+      result.status == code.success
     end
   end
   
@@ -348,14 +358,12 @@ class Git < Plugin::Project
   
   def add_remote_url(name, url, options = {})
     return super do |config, processed_url|
-      safe_exec(false) do
-        git.remote({
-          :raise  => true,
-          :add    => true,
-          :delete => config.get(:delete, false),
-          :push   => config.get(:push, false)
-        }, 'set-url', name.to_s, processed_url)
-      end
+      result = cli.remote({
+        :add    => true,
+        :delete => config.get(:delete, false),
+        :push   => config.get(:push, false)
+      }, 'set-url', name, processed_url)
+      result.status == code.success
     end
   end
   
@@ -363,13 +371,13 @@ class Git < Plugin::Project
   
   def delete_remote(name)
     return super do
-      if config("remote.#{name}.url").empty?
+      remote = remote(name)
+      if ! remote || remote.empty?
         logger.debug("Project can not delete remote #{name} because it does not exist yet")
         true  
       else
-        safe_exec(false) do
-          git.remote({ :raise => true }, 'rm', name.to_s)
-        end
+        result = cli.remote({}, 'rm', name)
+        result.status == code.success
       end
     end
   end
@@ -386,20 +394,11 @@ class Git < Plugin::Project
   #-----------------------------------------------------------------------------
   # SSH operations
   
-  def git_fetch(remote = :edit, options = {})
+  def git_fetch(remote = :edit, options = {}, &block)
     config         = Config.ensure(options)
     local_revision = config.get(:revision, get(:revision, :master))
      
-    result = Nucleon.command({
-      :command => :git,
-      :data    => { 'git-dir=' => git.git_dir },
-      :subcommand => {
-        :command => :fetch,
-        :args    => [ remote ]
-      }
-    }, config.get(:provider, Nucleon.type_default(:command))).exec(config.import({ :quiet => true })) do |op, command, data|
-      block_given? ? yield(op, command, data) : true
-    end
+    result = cli.fetch({}, remote, &block)
        
     if result.status == code.success
       new?(true)
@@ -412,30 +411,20 @@ class Git < Plugin::Project
   
   #---
  
-  def pull(remote = :edit, options = {})
+  def pull(remote = :edit, options = {}, &block)
     return super do |config, processed_remote|
       success = false
       
       if new? || get(:create, false)
         success = git_fetch(processed_remote, config)  
       else
-        flags = []
-        flags << :tags if config.get(:tags, true)
+        pull_options = {}
+        pull_options[:tags] = true if config.get(:tags, true)
         
         local_revision = config.get(:revision, get(:revision, :master))
       
         if checkout(local_revision)
-          result = Nucleon.command({
-            :command => :git,
-            :data    => { 'git-dir=' => git.git_dir },
-            :subcommand => {
-              :command => :pull,
-              :flags   => flags,
-              :args    => [ processed_remote, local_revision ]
-            }
-          }, config.get(:provider, Nucleon.type_default(:command))).exec(config.import({ :quiet => true })) do |op, command, data|
-            block_given? ? yield(op, command, data) : true
-          end
+          result = cli.pull(pull_options, processed_remote, local_revision, &block)
       
           if result.status == code.success
             new?(true)
@@ -449,26 +438,15 @@ class Git < Plugin::Project
   
   #---
     
-  def push(remote = :edit, options = {})
+  def push(remote = :edit, options = {}, &block)
     return super do |config, processed_remote|
       push_branch = config.get(:revision, '')
       
-      flags = []
-      flags << :all if push_branch.empty?
-      flags << :tags if ! push_branch.empty? && config.get(:tags, true)
+      push_options = {}
+      push_options[:all]  = true if push_branch.empty?
+      push_options[:tags] = true if ! push_branch.empty? && config.get(:tags, true)
       
-      result = Nucleon.command({
-        :command => :git,
-        :data => { 'git-dir=' => git.git_dir },
-        :subcommand => {
-          :command => :push,
-          :flags => flags,
-          :args => [ processed_remote, push_branch ]
-        }
-      }, config.get(:provider, :bash)).exec(config.import({ :quiet => true })) do |op, command, data|
-        block_given? ? yield(op, command, data) : true
-      end
-      
+      result = cli.push(push_options, processed_remote, push_branch, &block)      
       result.status == code.success
     end
   end
@@ -495,6 +473,62 @@ class Git < Plugin::Project
       end
     end
   end
+  
+  #---
+  
+  def git_exec(command, options = {}, args = [])
+    result = nil
+    
+    if can_persist?
+      check_value = lambda do |value|
+        next false if value.nil?
+        next false unless value.is_a?(String) || value.is_a?(Symbol)
+        next false if value.to_s.empty?
+        true 
+      end
+      
+      localize(repo.workdir) do
+        flags          = []
+        data           = {}
+        processed_args = []
+        
+        options.each do |key, value|
+          cli_option = key.to_s.gsub('_', '-')
+          
+          if value.is_a?(TrueClass) || value.is_a?(FalseClass) 
+            flags << cli_option if value == true
+            
+          elsif check_value.call(value)
+            data[cli_option] = value.to_s
+          end
+        end
+        
+        args.each do |value|
+          if check_value.call(value)
+            processed_args << value.to_s
+          end
+        end
+        
+        command_provider = get(:command_provider, Nucleon.type_default(:command))
+        quiet            = get(:quiet, true)        
+        
+        result = Nucleon.command({
+          :command => :git,
+          :data    => { 'git-dir=' => repo.path },
+          :subcommand => {
+            :command => command.to_s.gsub('_', '-'),
+            :flags   => flags,
+            :data    => data,
+            :args    => processed_args
+          }
+        }, command_provider).exec({ :quiet => quiet }) do |op, cli_command, cli_data|
+          block_given? ? yield(op, cli_command, cli_data) : true
+        end
+      end
+    end
+    result
+  end
+  protected :git_exec
 end
 end
 end
