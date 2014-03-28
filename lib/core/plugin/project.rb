@@ -550,14 +550,16 @@ class Project < Base
  
   #---
    
-  def update_subprojects
+  def update_subprojects(options = {})
     if can_persist?
       localize do
+        config = Config.ensure(options)
+        
         if extension_check(:update_projects)
           logger.info("Updating sub projects in project #{name}")
       
           success = false
-          success = yield if block_given?
+          success = yield(config) if block_given?
         
           if success
             extension(:update_projects_success)
@@ -723,11 +725,12 @@ class Project < Base
       
         if extension_check(:pull, { :directory => directory, :config => config })
           remote = config.delete(:remote)
-        
-          logger.info("Pulling from #{remote} into #{directory}") 
-      
-          success = yield(config, remote) if block_given?
-      
+              
+          if remote(remote)
+            logger.info("Pulling from #{remote} into #{directory}") 
+            success = yield(config, remote) if block_given?
+          end
+          
           if success
             load_revision
             update_subprojects
@@ -763,20 +766,40 @@ class Project < Base
         if extension_check(:push, { :directory => directory, :config => config })
           remote = config.delete(:remote)
         
-          logger.info("Pushing to #{remote} from #{directory}") 
-      
-          success = yield(config, remote) if block_given?
-        
+          if remote(remote)
+            logger.info("Pushing to #{remote} from #{directory}") 
+            success = yield(config, remote) if block_given? && pull(remote, options)
+          end
+          
           if success
             config.delete(:revision)
           
             extension(:push_success, { :directory => directory, :remote => remote, :config => config })  
       
             if config.get(:propogate, true)
-              logger.debug("Pushing sub projects as propogate option was given")
+              unless parent.nil?
+                propogate_up = config.get(:propogate_up, nil)
+                
+                if propogate_up.nil? || propogate_up
+                  logger.debug("Commit to parent as parent exists and propogate option was given")
+                  parent.push(remote, Config.new(config.export.dup).import({ 
+                    :propogate_up   => true, 
+                    :propogate_down => false 
+                  }))
+                end
+              end
+              
+              logger.debug("Pushing sub projects")
+              
+              propogate_down = config.get(:propogate_down, nil)
         
-              each do |path, project|
-                project.push(remote, config)
+              if propogate_down.nil? || propogate_down
+                each do |path, project|
+                  project.push(remote, Config.new(config.export.dup).import({ 
+                    :propogate_up   => false, 
+                    :propogate_down => true 
+                  }))
+                end
               end
             end
           end
@@ -883,9 +906,11 @@ class Project < Base
   
   #---
   
-  def localize
+  def localize(path = nil)
     prev_directory = Dir.pwd
-    Dir.chdir(directory)
+    path           = directory if path.nil?
+    
+    Dir.chdir(path)
     
     result = safe_exec(true) do
       yield  
