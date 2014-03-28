@@ -332,7 +332,7 @@ module Facade
         
     result = Util::Shell.connection.exec(command, config, &code)
     
-    unless result.status == Nucleon.code.success
+    unless config.get(:quiet, false) || result.status == Nucleon.code.success
       ui.error("Command #{command} failed to execute")
     end     
     result
