@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adrian Webb"]
-  s.date = "2014-03-23"
+  s.date = "2014-03-28"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -109,7 +109,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<sshkey>, ["~> 1.6"])
       s.add_runtime_dependency(%q<childprocess>, ["~> 0.5.0"])
       s.add_runtime_dependency(%q<celluloid>, ["~> 0.15"])
-      s.add_runtime_dependency(%q<grit>, ["~> 2.5"])
+      s.add_runtime_dependency(%q<rugged>, ["~> 0.19"])
       s.add_runtime_dependency(%q<octokit>, ["~> 2.7"])
       s.add_development_dependency(%q<bundler>, ["~> 1.2"])
       s.add_development_dependency(%q<jeweler>, ["~> 2.0"])
@@ -125,7 +125,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<sshkey>, ["~> 1.6"])
       s.add_dependency(%q<childprocess>, ["~> 0.5.0"])
       s.add_dependency(%q<celluloid>, ["~> 0.15"])
-      s.add_dependency(%q<grit>, ["~> 2.5"])
+      s.add_dependency(%q<rugged>, ["~> 0.19"])
       s.add_dependency(%q<octokit>, ["~> 2.7"])
       s.add_dependency(%q<bundler>, ["~> 1.2"])
       s.add_dependency(%q<jeweler>, ["~> 2.0"])
@@ -142,7 +142,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<sshkey>, ["~> 1.6"])
     s.add_dependency(%q<childprocess>, ["~> 0.5.0"])
     s.add_dependency(%q<celluloid>, ["~> 0.15"])
-    s.add_dependency(%q<grit>, ["~> 2.5"])
+    s.add_dependency(%q<rugged>, ["~> 0.19"])
     s.add_dependency(%q<octokit>, ["~> 2.7"])
     s.add_dependency(%q<bundler>, ["~> 1.2"])
     s.add_dependency(%q<jeweler>, ["~> 2.0"])
