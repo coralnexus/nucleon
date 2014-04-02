@@ -95,12 +95,13 @@ module PluginInterface
       data = get_hash(_plural) unless data
       
       providers = [ providers ] if providers && ! providers.is_a?(Array)
+      providers.collect! { |elem| elem.to_sym }
       
       logger.debug("Initializing #{_plugin_type} plugin data: #{data.inspect}")
       logger.debug("Providers: #{providers.inspect}")
             
       symbol_map(data).each do |provider, instance_settings|
-        if ! providers || providers.include?(provider.to_s)
+        if ! providers || providers.include?(provider)
           if _single_instance
             logger.debug("Initializing single instance plugin: #{instance_settings.inspect}")
             
