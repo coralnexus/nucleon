@@ -11,6 +11,8 @@ class Disk
   @@separator   = false
   @@description = ''
   
+  @@file_lock   = Mutex.new
+  
   #-----------------------------------------------------------------------------
   # Utilities
   
@@ -36,13 +38,15 @@ class Disk
       reset = true if ! mode.empty? && mode != @@files[file_name][:mode]
     end
     
-    if ! @@files.has_key?(file_name) || ! @@files[file_name][:file] || reset
-      @@files[file_name][:file].close if @@files[file_name] && @@files[file_name][:file]
-      unless mode.empty? || ( mode == 'r' && ! ::File.exists?(file_name) )
-        @@files[file_name] = {
-          :file => ::File.open(file_name, mode),
-          :mode => mode,
-        }
+    @@file_lock.synchronize do
+      if ! @@files.has_key?(file_name) || ! @@files[file_name][:file] || reset
+        @@files[file_name][:file].close if @@files[file_name] && @@files[file_name][:file]
+        unless mode.empty? || ( mode == 'r' && ! ::File.exists?(file_name) )
+          @@files[file_name] = {
+            :file => ::File.open(file_name, mode),
+            :mode => mode,
+          }
+        end
       end
     end
     return nil unless @@files[file_name]
@@ -52,14 +56,17 @@ class Disk
   #---
   
   def self.read(file_name, options = {})
+    result = nil
     options[:mode] = ( options[:mode] ? options[:mode] : 'r' )
     file           = open(file_name, options)
     
     if file
-      file.pos = 0 if options[:mode] == 'r'
-      return file.read
+      @@file_lock.synchronize do
+        file.pos = 0 if options[:mode] == 'r'
+        result = file.read
+      end
     end
-    return nil
+    return result
   end
   
   #---
@@ -67,23 +74,29 @@ class Disk
   def self.write(file_name, data, options = {})
     options[:mode] = ( options[:mode] ? options[:mode] : 'w' )
     file           = open(file_name, options)
+    result         = nil
     
     if file
-      file.pos = 0 if options[:mode] == 'w'
-      success  = file.write(data)
-      begin
-        file.flush
-      rescue # In case the file is already closed
+      @@file_lock.synchronize do
+        file.pos = 0 if options[:mode] == 'w'
+        result = file.write(data)
+        begin
+          file.flush
+        rescue # In case the file is already closed
+        end
       end
-      return success
     end
-    return nil
+    return result
   end
   
   #---
   
   def self.delete(file_path)
-    return ::File.delete(file_path)
+    result = nil
+    @@file_lock.synchronize do
+      result = ::File.delete(file_path)
+    end
+    result
   end
   
   #---
@@ -91,10 +104,12 @@ class Disk
   def self.log(data, options = {})
     reset = ( options[:file_name] || options[:mode] )
     file  = open(( options[:file_name] ? options[:file_name] : 'log.txt' ), options, reset)    
-    if file      
-      file.write("--------------------------------------\n") if @@separator
-      file.write("#{@@description}\n") if @@description       
-      file.write("#{data}\n")
+    if file
+      @@file_lock.synchronize do      
+        file.write("--------------------------------------\n") if @@separator
+        file.write("#{@@description}\n") if @@description       
+        file.write("#{data}\n")
+      end
     end
   end
   
@@ -108,8 +123,10 @@ class Disk
     end
     
     file_names.each do |file_name|
-      @@files[file_name][:file].close if @@files[file_name] && @@files[file_name][:file]
-      @@files.delete(file_name)
+      @@file_lock.synchronize do
+        @@files[file_name][:file].close if @@files[file_name] && @@files[file_name][:file]
+        @@files.delete(file_name)
+      end
     end
   end
 end
