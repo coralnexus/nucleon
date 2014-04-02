@@ -14,11 +14,13 @@ class Base < Core
     set_meta(config.delete(:meta, Config.new))
     
     # No logging statements aove this line!!
-    super(config.import({ :logger => "#{plugin_type}->#{plugin_provider}" }))
+    super(config.import({ :logger => "#{plugin_type}->#{plugin_provider}" }), {}, true, false)
     myself.plugin_name = name
     
     logger.debug("Normalizing #{plugin_type} plugin #{plugin_name} with meta data: #{meta.inspect}")
     normalize(false)
+    
+    @initialized = true
   end
   
   #---
@@ -29,12 +31,6 @@ class Base < Core
   
   #-----------------------------------------------------------------------------
   # Checks
-  
-  def initialized?(options = {})
-    return true  
-  end
-  
-  #---
   
   def quiet?
     @quiet

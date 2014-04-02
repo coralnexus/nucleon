@@ -14,7 +14,7 @@ class Core < Config
   #-----------------------------------------------------------------------------
   # Constructor / Destructor
   
-  def initialize(data = {}, defaults = {}, force = true)
+  def initialize(data = {}, defaults = {}, force = true, set_initialized = true)
     super(data, defaults, force)   
     
     @class_color = Util::Data.ensure_value(delete(:class_color, :cyan), :cyan)
@@ -24,6 +24,14 @@ class Core < Config
     self.ui     = Config.new(export).defaults({ :resource => Util::Console.colorize(@class_label, @class_color) })
     
     logger.debug('Initialized instance logger and interface')
+    @initialized = true if set_initialized
+  end
+  
+  #-----------------------------------------------------------------------------
+  # Checks
+  
+  def initialized?
+    @initialized
   end
   
   #-----------------------------------------------------------------------------
