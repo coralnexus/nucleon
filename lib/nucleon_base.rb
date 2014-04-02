@@ -164,7 +164,8 @@ nucleon_require(core_dir, :core)
 [ :liquid, 
   :cli, 
   :disk, 
-  :package, 
+  :package,
+  :cache, 
   :shell,
   :ssh
 ].each do |name| 
