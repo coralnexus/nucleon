@@ -16,11 +16,11 @@ class Shell < Core
     attr_accessor :status
     attr_reader :command
     
-    def initialize(command)
+    def initialize(command, status = nil)
       @command = command
       @output  = ''
       @errors  = ''
-      @status  = Nucleon.code.success
+      @status  = status.nil? ? Nucleon.code.success : status
     end
     
     #---
