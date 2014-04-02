@@ -49,6 +49,11 @@ class Project < Base
     ui.resource = plugin_name
     logger      = plugin_name
     
+    unless reload
+      @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
+      init_cache
+    end
+    
     if keys = delete(:keys, nil)
       set(:private_key, keys[:private_key])
       set(:public_key, keys[:public_key])
@@ -116,6 +121,12 @@ class Project < Base
    
   #-----------------------------------------------------------------------------
   # Property accessor / modifiers
+  
+  def cache
+    @cache
+  end
+  
+  #---
   
   def reference
     get(:reference, nil)
@@ -298,6 +309,13 @@ class Project < Base
   #-----------------------------------------------------------------------------
   # Project operations
   
+  def init_cache
+    # Override in providers if needed
+  end
+  protected :init_cache
+  
+  #---
+  
   def init_auth
     if can_persist?
       localize do
@@ -443,6 +461,15 @@ class Project < Base
     success     
   end
 
+  #---
+
+  def ignore(files)
+    return unless directory
+    files = nil
+    files = yield if block_given?
+    commit(files, { :message => "Adding project ignores." }) if files
+  end
+  
   #-----------------------------------------------------------------------------
   # Subproject operations
  

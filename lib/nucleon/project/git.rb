@@ -195,9 +195,25 @@ class Git < Plugin::Project
       result
     end
   end
- 
+  
+  #-----------------------------------------------------------------------------
+  # Operations
+    
+  def init_cache
+    ignore(cache.directory_name)   
+  end
+  
   #-----------------------------------------------------------------------------
   # Basic Git operations
+  
+  def ignore(files)
+    super do
+      ensure_in_gitignore(files)
+      '.gitignore'
+    end  
+  end
+  
+  #---
   
   def load_revision
     return super do
@@ -529,6 +545,35 @@ class Git < Plugin::Project
     result
   end
   protected :git_exec
+  
+  #---
+  
+  def ensure_in_gitignore(files)
+    files   = [ files ] unless files.is_a?(Array)
+    changes = false
+    
+    gitignore_file = File.join(directory, '.gitignore')
+    ignore_raw     = Util::Disk.read(gitignore_file)
+    ignores        = []
+    ignores        = ignore_raw.split("\n") if ignore_raw && ! ignore_raw.empty?
+    
+    files.each do |file|
+      found = false
+      unless ignores.empty?
+        ignores.each do |ignore|
+          if ignore.strip.match(/^#{file}\/?$/)
+            found = true
+          end  
+        end
+      end
+      unless found
+        ignores << file
+        changes = true
+      end 
+    end
+    Util::Disk.write(gitignore_file, ignores.join("\n")) if changes
+  end
+  protected :ensure_in_gitignore
 end
 end
 end
