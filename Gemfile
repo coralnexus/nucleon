@@ -9,7 +9,7 @@ gem "multi_json", "~> 1.7"
 
 gem "sshkey", "~> 1.6"
 
-gem "childprocess", "~> 0.5.0"
+gem "childprocess", "~> 0.5"
 gem "celluloid", "~> 0.15"
 
 gem "rugged", "~> 0.19"
