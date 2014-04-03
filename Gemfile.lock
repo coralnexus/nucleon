@@ -83,7 +83,7 @@ PLATFORMS
 DEPENDENCIES
   bundler (~> 1.2)
   celluloid (~> 0.15)
-  childprocess (~> 0.5.0)
+  childprocess (~> 0.5)
   deep_merge (~> 1.0)
   i18n (~> 0.6)
   jeweler (~> 2.0)
