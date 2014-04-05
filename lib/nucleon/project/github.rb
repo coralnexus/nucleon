@@ -44,7 +44,16 @@ class Github < Git
   
   def init_auth
     super do
-      key_id  = ENV['USER'] + '@' + Nucleon.ip_address
+      external_ip = Nucleon.ip_address
+      internal_ip = get(:internal_ip, nil)
+      
+      if internal_ip && internal_ip.to_s != external_ip
+        location = "#{external_ip}<#{internal_ip}>"
+      else
+        location = external_ip
+      end
+      
+      key_id  = ENV['USER'] + '@' + location
       ssh_key = public_key_str
       
       if private_key && ssh_key
