@@ -369,12 +369,18 @@ class Project < Base
   def load_revision
     if can_persist?
       localize do
-        logger.info("Loading project #{name} revision")
-      
+        logger.info("Loading project #{plugin_name} revision")
+        
+        specified_revision = get(:revision, nil)
+        
         current_revision = revision.to_s
         current_revision = yield if block_given?
-      
-        if current_revision && extended_revision = extension_set(:load_revision, current_revision).to_s.strip
+        
+        if current_revision && extended_revision = extension_set(:load_revision, specified_revision).to_s.strip
+          if extended_revision.empty?
+            extended_revision = current_revision  
+          end
+          
           set(:revision, extended_revision)
           checkout(extended_revision) if current_revision != extended_revision     
            
