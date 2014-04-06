@@ -48,7 +48,7 @@ class Github < Git
       internal_ip = get(:internal_ip, nil)
       
       if internal_ip && internal_ip.to_s != external_ip
-        location = "#{external_ip}<#{internal_ip}>"
+        location = "#{external_ip}[#{internal_ip}]"
       else
         location = external_ip
       end
