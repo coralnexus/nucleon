@@ -767,12 +767,11 @@ class Project < Base
   # Remote operations
  
   def pull(remote = :edit, options = {})
+    config  = Config.ensure(options).import({ :remote => remote })
     success = false
     
     if can_persist?
-      localize do
-        config = Config.ensure(options).import({ :remote => remote })
-      
+      localize do      
         if extension_check(:pull, { :directory => directory, :config => config })
           remote = config.delete(:remote)
               
@@ -806,18 +805,30 @@ class Project < Base
   #---
     
   def push(remote = :edit, options = {})
+    config  = Config.ensure(options).import({ :remote => remote })
     success = false
     
+    push_project = lambda do |push_remote|
+      logger.info("Pushing to #{push_remote} from #{directory}") 
+      success = yield(config, push_remote) if block_given? && pull(push_remote, config)  
+    end
+    
     if can_persist?
-      localize do
-        config = Config.ensure(options).import({ :remote => remote })
-      
+      localize do     
         if extension_check(:push, { :directory => directory, :config => config })
           remote = config.delete(:remote)
+          tries  = config.delete(:tries, 5)
         
+          # TODO: Figure out a better way through specialized exception handling
           if remote(remote)
-            logger.info("Pushing to #{remote} from #{directory}") 
-            success = yield(config, remote) if block_given? && pull(remote, options)
+            begin
+              success = push_project.call(remote)
+              raise unless success
+              
+            rescue
+              tries -= 1
+              retry if tries > 0
+            end
           end
           
           if success
