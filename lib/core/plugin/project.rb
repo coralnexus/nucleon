@@ -3,6 +3,10 @@ module Nucleon
 module Plugin
 class Project < Base
   
+  @@ignore_lock = Mutex.new
+  
+  #---
+  
   @@projects = {}
   
   #---
@@ -49,11 +53,6 @@ class Project < Base
     ui.resource = plugin_name
     logger      = plugin_name
     
-    unless reload
-      @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
-      init_cache
-    end
-    
     if keys = delete(:keys, nil)
       set(:private_key, keys[:private_key])
       set(:public_key, keys[:public_key])
@@ -65,6 +64,11 @@ class Project < Base
     extension(:init)
     
     pull if get(:pull, false)
+    
+    unless reload
+      @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
+      init_cache
+    end
   end
   
   #---
@@ -91,7 +95,7 @@ class Project < Base
         
   #-----------------------------------------------------------------------------
   # Checks
-   
+  
   def can_persist?
     return top?(directory) if directory
     false
@@ -118,6 +122,16 @@ class Project < Base
     false
   end
   protected :project_directory?
+  
+  #---
+  
+  def manage_ignore=ignore
+    set(:manage_ignore, ignore)
+  end
+  
+  def manage_ignore?
+    get(:manage_ignore, false)
+  end
    
   #-----------------------------------------------------------------------------
   # Property accessor / modifiers
@@ -451,7 +465,7 @@ class Project < Base
             extension(:commit_success, { :files => files })
       
             if ! parent.nil? && config.get(:propogate, true)
-              logger.debug("Commit to parent as parent exists and propogate option given")
+              logger.info("Commit to parent as parent exists and propogate option given")
         
               parent.load_revision
               parent.commit(directory, config.import({
@@ -470,10 +484,13 @@ class Project < Base
   #---
 
   def ignore(files)
-    return unless directory
-    files = nil
-    files = yield if block_given?
-    commit(files, { :message => "Adding project ignores." }) if files
+    return unless directory && manage_ignore?
+    
+    @@ignore_lock.synchronize do
+      files = nil
+      files = yield if block_given?
+      commit(files, { :message => "Adding project ignores." }) if files
+    end
   end
   
   #-----------------------------------------------------------------------------
@@ -765,7 +782,6 @@ class Project < Base
           end
           
           if success
-            load_revision
             update_subprojects
              
             extension(:pull_success, { :directory => directory, :remote => remote, :config => config })          

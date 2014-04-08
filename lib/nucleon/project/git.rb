@@ -2,7 +2,7 @@
 module Nucleon
 module Project
 class Git < Plugin::Project
- 
+  
   #-----------------------------------------------------------------------------
   # Project plugin interface
    
@@ -209,7 +209,6 @@ class Git < Plugin::Project
   def ignore(files)
     super do
       ensure_in_gitignore(files)
-      '.gitignore'
     end  
   end
   
@@ -433,19 +432,19 @@ class Git < Plugin::Project
       
       if new? || get(:create, false)
         success = git_fetch(processed_remote, config)  
-      else
-        pull_options = {}
-        pull_options[:tags] = true if config.get(:tags, true)
+      end
+      
+      pull_options = {}
+      pull_options[:tags] = true if config.get(:tags, true)
         
-        local_revision = config.get(:revision, get(:revision, :master))
+      local_revision = config.get(:revision, get(:revision, :master))
       
-        if checkout(local_revision)
-          result = cli.pull(pull_options, processed_remote, local_revision, &block)
+      if checkout(local_revision)
+        result = cli.pull(pull_options, processed_remote, local_revision, &block)
       
-          if result.status == code.success
-            new?(true)
-            success = true
-          end
+        if result.status == code.success
+          new?(true)
+          success = true
         end
       end
       success  
@@ -549,8 +548,9 @@ class Git < Plugin::Project
   #---
   
   def ensure_in_gitignore(files)
-    files   = [ files ] unless files.is_a?(Array)
-    changes = false
+    files        = [ files ] unless files.is_a?(Array)
+    commit_files = nil
+    changes      = false
     
     gitignore_file = File.join(directory, '.gitignore')
     ignore_raw     = Util::Disk.read(gitignore_file)
@@ -571,7 +571,11 @@ class Git < Plugin::Project
         changes = true
       end 
     end
-    Util::Disk.write(gitignore_file, ignores.join("\n")) if changes
+    if changes
+      Util::Disk.write(gitignore_file, ignores.join("\n"))
+      commit_files = '.gitignore'
+    end
+    commit_files
   end
   protected :ensure_in_gitignore
 end
