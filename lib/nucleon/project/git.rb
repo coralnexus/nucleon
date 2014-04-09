@@ -527,7 +527,7 @@ class Git < Plugin::Project
         command_provider = get(:command_provider, Nucleon.type_default(:command))
         quiet            = get(:quiet, true)        
         
-        result = Nucleon.command({
+        command = Nucleon.command({
           :command => :git,
           :data    => { 'git-dir=' => repo.path },
           :subcommand => {
@@ -536,9 +536,12 @@ class Git < Plugin::Project
             :data    => data,
             :args    => processed_args
           }
-        }, command_provider).exec({ :quiet => quiet }) do |op, cli_command, cli_data|
+        }, command_provider)
+        
+        result = command.exec({ :quiet => quiet }) do |op, cli_command, cli_data|
           block_given? ? yield(op, cli_command, cli_data) : true
         end
+        Nucleon.remove_plugin(command)
       end
     end
     result
