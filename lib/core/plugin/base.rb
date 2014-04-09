@@ -29,6 +29,12 @@ class Base < Core
     return nil  
   end
   
+  #---
+  
+  def remove_plugin
+    # Implement in sub classes if needed for cleanup
+  end
+  
   #-----------------------------------------------------------------------------
   # Checks
   

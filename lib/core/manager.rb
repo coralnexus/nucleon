@@ -416,7 +416,8 @@ class Manager
     if plugin && plugin.respond_to?(:plugin_type) && @plugins.has_key?(plugin.plugin_type)
       logger.debug("Removing #{plugin.plugin_type} #{plugin.plugin_name}")
       @plugins[plugin.plugin_type].delete(plugin.plugin_instance_name)
-      plugin.terminate if plugin.respond_to?(:terminate)
+      plugin.remove_plugin
+      plugin.terminate if plugin.respond_to?(:terminate) # For Celluloid plugins
     else
       logger.warn("Cannot remove plugin: #{plugin.inspect}")    
     end
