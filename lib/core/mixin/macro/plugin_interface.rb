@@ -57,8 +57,8 @@ module PluginInterface
                   code.call(type, provider, name, plugin)  
                 end
               else
-                logger.debug("Processing plugin: #{plugin.name}")
-                code.call(type, provider, plugin.name, plugin)
+                logger.debug("Processing plugin: #{plugin.plugin_name}")
+                code.call(type, provider, plugin.plugin_name, plugin)
               end
             end
           end 
