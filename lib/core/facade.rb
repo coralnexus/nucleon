@@ -40,9 +40,9 @@ module Facade
   
   #---
   
-  def parallelize
+  def parallelize(klass)
     if parallel?
-      include Celluloid
+      klass.include Celluloid
     end
   end
   

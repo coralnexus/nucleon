@@ -3,7 +3,7 @@ module Nucleon
 module Util
 class Shell < Core
   
-  Nucleon.parallelize
+  Nucleon.parallelize(self)
   
   #-----------------------------------------------------------------------------
   
