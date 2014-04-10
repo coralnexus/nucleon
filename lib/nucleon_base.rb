@@ -96,8 +96,6 @@ if ENV["NUCLEON_PRY_DEBUG"]
 end
 
 #---
-  
-#require 'rubygems'
 
 require 'optparse'
 require 'pp'
