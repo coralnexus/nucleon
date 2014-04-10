@@ -299,12 +299,10 @@ class Manager
     logger.debug("Plugin options: #{config.export.inspect}")
     
     if name
-      logger.test("Looking up existing instance of #{name}")
+      logger.debug("Looking up existing instance of #{name}")
       
       if existing_instance = get(type, name)
-        if config.delete(:new, false)
-          remove(existing_instance)  
-        else          
+        unless config.delete(:new, false)
           config.export.each do |property_name, value|
             unless [ :name, :meta ].include?(property_name)
               existing_instance[property_name] = value  
@@ -312,7 +310,7 @@ class Manager
           end
           existing_instance.normalize(true)
       
-          logger.test("Using existing instance of #{type}, #{name}")
+          logger.debug("Using existing instance of #{type}, #{name}")
           return existing_instance
         end
       end
