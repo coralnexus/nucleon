@@ -292,9 +292,10 @@ class Manager
   def load_base(type, provider, options = {})
     logger.info("Fetching plugin #{type} provider #{provider} at #{Time.now}")
     
-    options = translate_type(type, options)    
-    config  = Config.ensure(options)
-    name    = config.get(:name, nil)
+    options    = translate_type(type, options)    
+    config     = Config.ensure(options)
+    name       = config.get(:name, nil)
+    ensure_new = config.delete(:new, false)
        
     logger.debug("Plugin options: #{config.export.inspect}")
     
@@ -302,7 +303,7 @@ class Manager
       logger.debug("Looking up existing instance of #{name}")
       
       if existing_instance = get(type, name)
-        unless config.delete(:new, false)
+        unless ensure_new
           config.export.each do |property_name, value|
             unless [ :name, :meta ].include?(property_name)
               existing_instance[property_name] = value  
