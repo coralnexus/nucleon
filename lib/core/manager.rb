@@ -298,21 +298,23 @@ class Manager
        
     logger.debug("Plugin options: #{config.export.inspect}")
     
-    if name && ! config.delete(:new, false)
-      logger.debug("Looking up existing instance of #{name}")
+    if name
+      logger.test("Looking up existing instance of #{name}")
       
-      existing_instance = get(type, name)
-      
-      if existing_instance
-        config.export.each do |property_name, value|
-          unless [ :name, :meta ].include?(property_name)
-            existing_instance[property_name] = value  
+      if existing_instance = get(type, name)
+        if config.delete(:new, false)
+          remove(existing_instance)  
+        else          
+          config.export.each do |property_name, value|
+            unless [ :name, :meta ].include?(property_name)
+              existing_instance[property_name] = value  
+            end
           end
-        end
-        existing_instance.normalize(true)
+          existing_instance.normalize(true)
       
-        logger.info("Using existing instance of #{type}, #{name}")
-        return existing_instance
+          logger.test("Using existing instance of #{type}, #{name}")
+          return existing_instance
+        end
       end
     end
     create(type, provider, options)   
