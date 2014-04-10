@@ -81,8 +81,23 @@ $:.unshift(lib_dir) unless $:.include?(lib_dir) || $:.include?(File.expand_path(
 
 # TODO: Reduce the number of dependencies loaded in this load script (for performance).
 # Decentralize!
+
+if ENV["NUCLEON_PRY_DEBUG"]
+  require 'pry'
+  require 'pry-stack_explorer'
+  require 'pry-debugger'
+
+  if defined?(PryDebugger)
+    Pry.commands.alias_command 'c', 'continue'
+    Pry.commands.alias_command 's', 'step'
+    Pry.commands.alias_command 'n', 'next'
+    Pry.commands.alias_command 'f', 'finish'
+  end 
+end
+
+#---
   
-require 'rubygems'
+#require 'rubygems'
 
 require 'optparse'
 require 'pp'
