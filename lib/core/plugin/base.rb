@@ -278,7 +278,8 @@ class Base < Core
   def self.init_plugin_collection
     logger.debug("Initializing plugin collection interface at #{Time.now}")
     
-    include Celluloid
+    Nucleon.parallelize
+    
     include Mixin::Settings
     include Mixin::SubConfig
     

@@ -2,8 +2,8 @@
 module Nucleon
 class Manager
   
-  include Celluloid
-  
+  Nucleon.parallelize
+    
   #-----------------------------------------------------------------------------
   
   @@supervisors = {}
@@ -11,26 +11,18 @@ class Manager
   #-----------------------------------------------------------------------------
   # Plugin manager interface
   
-  def self.init_manager(name)
-    name = name.to_sym
-    
-    Manager.supervise_as name
-    @@supervisors[name] = Celluloid::Actor[name]  
-  end
-  
-  #---
-  
   def self.connection(name = :core)
     name = name.to_sym
     
     init_manager(name) unless @@supervisors.has_key?(name)
-    
-    #begin
-      @@supervisors[name].test_connection
-    #rescue Celluloid::DeadActorError
-    #  retry
-    #end
     @@supervisors[name]
+  end
+  
+  #---
+  
+  def self.init_manager(name)
+    name = name.to_sym
+    @@supervisors[name] = Nucleon.init_manager(name, Nucleon::Manager) 
   end
   
   #---
@@ -52,7 +44,7 @@ class Manager
   #---
   
   def myself
-    Actor.current
+    Nucleon.parallel? ? Actor.current : self
   end
   
   #---
@@ -132,8 +124,8 @@ class Manager
   def reload(core = false, &code)
     logger.info("Loading Nucleon plugins at #{Time.now}")
     
-    if core       
-      Celluloid.logger = logger    
+    if core
+      Celluloid.logger = logger if Nucleon.parallel?   
     
       define_namespace :nucleon
     

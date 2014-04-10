@@ -34,6 +34,44 @@ module Facade
   
   #-----------------------------------------------------------------------------
   
+  def parallel?
+    ENV['NUCLEON_NO_PARALLEL'] || ENV["NUCLEON_PRY_DEBUG"] ? false : true
+  end
+  
+  #---
+  
+  def parallelize
+    if parallel?
+      include Celluloid
+    end
+  end
+  
+  #---
+  
+  def init_manager(name, klass)
+    if parallel?
+      klass.supervise_as name
+      manager = Celluloid::Actor[name]
+    else
+      manager = klass.new
+    end
+    test_connection(manager)
+    manager
+  end
+  
+  def test_connection(manager)
+    if parallel?
+      begin
+        # Raise error if no method found but not for dead actor error
+        manager.test_connection
+      rescue Celluloid::DeadActorError
+        retry
+      end
+    end
+  end
+  
+  #-----------------------------------------------------------------------------
+  
   def admin?
     is_admin  = ( ENV['USER'] == 'root' )
     ext_admin = exec(:check_admin) do |op, results|

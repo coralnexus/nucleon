@@ -3,7 +3,7 @@ module Nucleon
 module Util
 class Shell < Core
   
-  include Celluloid
+  Nucleon.parallelize
   
   #-----------------------------------------------------------------------------
   
@@ -49,20 +49,25 @@ class Shell < Core
   
   def self.connection(name = :core)
     name = name.to_sym
+    
     init_shell(name) unless @@supervisors.has_key?(name)
     @@supervisors[name]
   end  
   
   def self.init_shell(name)
     name = name.to_sym
-    
-    Shell.supervise_as name
-    @@supervisors[name] = Celluloid::Actor[name]  
+    @@supervisors[name] = Nucleon.init_manager(name, Nucleon::Util::Shell)
   end
   
   #---
   
-  execute_block_on_receiver :exec
+  def test_connection
+    true
+  end
+  
+  #---
+  
+  execute_block_on_receiver :exec if Nucleon.parallel?
     
   def exec(command, options = {}, &code)
     config = Config.ensure(options)

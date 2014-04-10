@@ -114,10 +114,12 @@ require 'tmpdir'
 require 'sshkey'
 
 require 'childprocess'
+require 'thread'
 
-require 'thread' # Eventually depreciated?
-require 'celluloid'
-require 'celluloid/autostart'
+unless ENV['NUCLEON_NO_PARALLEL'] || ENV["NUCLEON_PRY_DEBUG"]
+  require 'celluloid'
+  require 'celluloid/autostart'  
+end
 
 #---
 
