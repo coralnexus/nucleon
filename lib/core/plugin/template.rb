@@ -75,6 +75,13 @@ class Template < Base
     logger.debug("Completed rendering of #{plugin_provider} data: #{output}")
     return output
   end
+  
+  #-----------------------------------------------------------------------------
+  # Utilities
+  
+  def self.translate(data)
+    return data
+  end
 end
 end
 end
