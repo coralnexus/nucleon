@@ -73,17 +73,23 @@ mod_dir          = File.join(core_dir, 'mod')
 plugin_dir       = File.join(core_dir, 'plugin')
 
 #-------------------------------------------------------------------------------
-# Environment checks
+# Environment checks and debugging
 
 module Nucleon
   
-  def debugging?
+  def self.VERSION
+    File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))  
+  end
+ 
+  #-----------------------------------------------------------------------------
+  
+  def self.debugging?
     ENV["NUCLEON_DEBUG"] ? true : false  
   end
   
   #---
   
-  def debug_break(condition = true)
+  def self.debug_break(condition = true)
     if debugging?
       # Pry debug handler
       binding.pry if condition
@@ -92,7 +98,7 @@ module Nucleon
   
   #-----------------------------------------------------------------------------
   
-  def parallel?
+  def self.parallel?
     debugging? || ENV['NUCLEON_NO_PARALLEL'] ? false : true
   end  
 end
@@ -154,13 +160,6 @@ I18n.load_path << File.expand_path(File.join('..', 'locales', 'en.yml'), lib_dir
 
 #---
 
-if nucleon_locate('git')
-  require 'rugged'
-  nucleon_require(util_dir, :git)
-end
-
-#---
-
 # Make sure logger is at the top of our load order priorities
 nucleon_require(util_dir, :logger)
 
@@ -189,6 +188,14 @@ end
 
 #---
 
+nucleon_require(core_dir, :facade)
+
+module Nucleon
+  extend Facade
+end
+
+#---
+
 # Include bootstrap classes
 nucleon_require(core_dir, :errors)
 nucleon_require(core_dir, :codes)
@@ -211,23 +218,18 @@ nucleon_require(core_dir, :core)
   nucleon_require(util_dir, name)
 end
 
+#---
+
+if nucleon_locate('git')
+  require 'rugged'
+  nucleon_require(util_dir, :git)
+end
+
+#---
+
 # Include plugin system
-nucleon_require(core_dir, :facade)
+#nucleon_require(core_dir, :facade)
 nucleon_require(core_dir, :gems)
 nucleon_require(core_dir, :manager)
 nucleon_require(plugin_dir, :base)
 nucleon_require(core_dir, :plugin)
-
-#-------------------------------------------------------------------------------
-# Core interface
-
-module Nucleon
- 
-  def self.VERSION
-    File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))  
-  end
-  
-  #-----------------------------------------------------------------------------
-  
-  extend Facade
-end

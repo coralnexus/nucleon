@@ -60,7 +60,9 @@ module Facade
   def manager(collection, name, klass)
     name = name.to_sym
     
-    unless collection.has_key?(name)
+    if collection.has_key?(name)
+      manager = collection[name]
+    else
       if parallel?
         klass.supervise_as name
         manager = Celluloid::Actor[name]
@@ -70,7 +72,6 @@ module Facade
       collection[name] = manager
     end
     test_connection(manager)
-    
     manager
   end
   
