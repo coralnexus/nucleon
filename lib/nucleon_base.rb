@@ -91,7 +91,79 @@ module Nucleon
   
   def self.debug_break(condition = true)
     if debugging?
-      # Pry debug handler
+#-------------------------------------------------------------------------------
+# Welcome to the Nucleon Pry powered development console
+#
+# Usage:
+#
+# * Execute nucleon (or derivative executable, ex; corl) with the 
+#   NUCLEON_DEBUG environment variable set
+#
+#   :> [ sudo ] NUCLEON_DEBUG=1 nucleon <args>...
+#
+# * Call the debug_break method anywhere in the code to start a debugging 
+#   session.
+#
+#   :> Nucleon.debug_break   or    :> Nucleon.debug_break <test?>
+#
+# * Since the debugging tools don't work in parallel, parallel
+#   operations are disabled when NUCLEON_DEBUG environment variable is 
+#   found.
+#
+#-------------------------------------------------------------------------------
+# General information
+#
+# For more information on Pry: http://pryrepl.org
+#                              ( https://github.com/pry/pry )
+#
+# Loaded plugins: stack explorer ( https://github.com/pry/pry-stack_explorer )
+#                 debugger       ( https://github.com/nixme/pry-debugger )
+#
+# For available commands and help information: [ help ]
+# For command specific help:                   [ <command> --help ]
+#
+#-------------------------------------------------------------------------------
+# General commands:
+#
+# :> cd <Class>                Change to inspect class (class constant)
+# :> show-method <method>      Show source for class method
+# :> .<CLI command> <args>...  Execute a CLI command (always starts with dot)
+#
+#-------------------------------------------------------------------------------
+# Breakpoints
+#
+# :> breakpoints                             List all defined breakpoints
+# :> break                                   Same as breakpoints command
+#
+# :> break <Class>#<method>                  Break at start of `Class#method`.
+# :> break <Class>#<method> if <test?>       Break at `Class#method` if `test?`.
+# :> break <path>/<ruby file>:<line>         Break at line in ruby file.
+# :> break <line>                            Break at line in current file.
+#
+# :> break --condition <breakpoint> <test?>  Change condition on breakpoint.
+# :> break --condition <breakpoint>          Remove condition on breakpoint.
+#
+# :> break --delete <breakpoint>             Delete breakpoint.
+# :> break --disable-all                     Disable all breakpoints.
+#
+# :> break --show <breakpoint>               Show details about breakpoint.
+#
+#-------------------------------------------------------------------------------
+# Stack inspection / traversal
+#
+# :> show-stack      Show all accessible frames in the call stack.
+# :> frame <number>  Move to a specific frame.
+# :> up              Move up one frame in the call stack.
+# :> down            Move down one frame in the call stack.
+#
+#-------------------------------------------------------------------------------
+# Debugging execution flow:
+#
+# :> s = [ step | step <times> ]  Step execution into the next line or method.
+# :> n = [ next | next <times> ]  Step over to the next line within same frame.
+# :> f = [ finish ]               Execute until current stack frame returns.
+# :> c = [ continue ]             Continue program execution (end Pry session).
+#
       binding.pry if condition
     end  
   end
@@ -228,7 +300,6 @@ end
 #---
 
 # Include plugin system
-#nucleon_require(core_dir, :facade)
 nucleon_require(core_dir, :gems)
 nucleon_require(core_dir, :manager)
 nucleon_require(plugin_dir, :base)
