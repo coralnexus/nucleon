@@ -278,8 +278,6 @@ class Manager
     config     = Config.ensure(options)
     name       = config.get(:name, nil)
     ensure_new = config.delete(:new, false)
-       
-    logger.debug("Plugin options: #{config.export.inspect}")
     
     if name
       logger.debug("Looking up existing instance of #{name}")
@@ -323,8 +321,6 @@ class Manager
     klass = plugin_class(type)   
     data  = klass.build_info(type, data) if klass.respond_to?(:build_info)
     
-    logger.debug("Translated plugin data: #{data.inspect}")
-    
     data.each do |options|
       if plugin = load(type, options[:provider], options)
         if build_hash
@@ -352,7 +348,7 @@ class Manager
     info = @load_info[type][provider] if Util::Data.exists?(@load_info, [ type, provider ])
         
     if info
-      logger.debug("Plugin information for #{provider} #{type} found.  Data: #{info.inspect}")
+      logger.debug("Plugin information for #{provider} #{type} found.")
       
       instance_name = "#{provider}_" + Nucleon.sha1(options)
       options       = translate(info[:namespace], type, provider, options)      
@@ -363,7 +359,7 @@ class Manager
         info[:instance_name] = instance_name
         options[:meta]       = Config.new(info).import(Util::Data.hash(options[:meta]))
         
-        logger.info("Creating new plugin #{provider} #{type} with #{options.inspect}")
+        logger.info("Creating new plugin #{provider} #{type}")
        
         plugin = info[:class].new(type, provider, options)
         
