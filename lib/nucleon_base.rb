@@ -71,6 +71,31 @@ macro_dir        = File.join(mixin_dir, 'macro')
 util_dir         = File.join(core_dir, 'util')
 mod_dir          = File.join(core_dir, 'mod')
 plugin_dir       = File.join(core_dir, 'plugin')
+
+#-------------------------------------------------------------------------------
+# Environment checks
+
+module Nucleon
+  
+  def debugging?
+    ENV["NUCLEON_DEBUG"] ? true : false  
+  end
+  
+  #---
+  
+  def debug_break(condition = true)
+    if debugging?
+      # Pry debug handler
+      binding.pry if condition
+    end  
+  end
+  
+  #-----------------------------------------------------------------------------
+  
+  def parallel?
+    debugging? || ENV['NUCLEON_NO_PARALLEL'] ? false : true
+  end  
+end
   
 #-------------------------------------------------------------------------------
 # Coral requirements
@@ -79,10 +104,7 @@ $:.unshift(lib_dir) unless $:.include?(lib_dir) || $:.include?(File.expand_path(
 
 #---
 
-# TODO: Reduce the number of dependencies loaded in this load script (for performance).
-# Decentralize!
-
-if ENV["NUCLEON_PRY_DEBUG"]
+if Nucleon.debugging?
   require 'pry'
   require 'pry-stack_explorer'
   require 'pry-debugger'
@@ -97,8 +119,10 @@ end
 
 #---
 
+# TODO: Reduce the number of dependencies loaded in this load script (for performance).
+# Decentralize!
+
 require 'optparse'
-require 'pp'
 require 'i18n'
 require 'log4r'
 require 'log4r/configurator'
@@ -116,7 +140,7 @@ require 'sshkey'
 require 'childprocess'
 require 'thread'
 
-unless ENV['NUCLEON_NO_PARALLEL'] || ENV["NUCLEON_PRY_DEBUG"]
+if Nucleon.parallel?
   require 'celluloid'
   require 'celluloid/autostart'  
 end

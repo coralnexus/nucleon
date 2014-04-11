@@ -34,12 +34,6 @@ module Facade
   
   #-----------------------------------------------------------------------------
   
-  def parallel?
-    ENV['NUCLEON_NO_PARALLEL'] || ENV["NUCLEON_PRY_DEBUG"] ? false : true
-  end
-  
-  #---
-  
   def parallelize(klass)
     if parallel?
       klass.include Celluloid
@@ -53,16 +47,15 @@ module Facade
       klass.supervise_as name
       manager = Celluloid::Actor[name]
     else
-      manager = klass.new
+      manager = klass.new # Managers should not have initialization parameters
     end
-    test_connection(manager)
     manager
   end
   
   def test_connection(manager)
     if parallel?
       begin
-        # Raise error if no method found but not for dead actor error
+        # Raise error if no test method found but retry for dead actor error
         manager.test_connection
       rescue Celluloid::DeadActorError
         retry

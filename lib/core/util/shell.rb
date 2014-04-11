@@ -51,6 +51,7 @@ class Shell < Core
     name = name.to_sym
     
     init_shell(name) unless @@supervisors.has_key?(name)
+    Nucleon.test_connection(@@supervisors[name])
     @@supervisors[name]
   end  
   
