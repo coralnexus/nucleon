@@ -3,7 +3,8 @@ module Nucleon
 module Util
 class Shell < Core
   
-  Nucleon.parallelize(self, :exec)
+  include Parallel
+  external_block_exec :exec
   
   #-----------------------------------------------------------------------------
   

@@ -1,5 +1,35 @@
 
 module Nucleon
+#-------------------------------------------------------------------------------
+# Parallel interface (include Parallel)
+
+module Parallel
+  
+  def self.included(klass)
+    #Nucleon.debug_break
+    if Nucleon.parallel?
+      klass.send :include, Celluloid
+    end
+    klass.extend ClassMethods
+  end
+  
+  #---
+
+  module ClassMethods
+    def external_block_exec(*methods)
+      #Nucleon.debug_break
+      if Nucleon.parallel?
+        methods.each do |method|
+          execute_block_on_receiver method.to_sym
+        end
+      end
+    end
+  end
+end
+
+#-------------------------------------------------------------------------------
+# Core Nucleon facade (extend Facade)
+  
 module Facade
  
   include Mixin::Colors
@@ -33,18 +63,6 @@ module Facade
   end
   
   #-----------------------------------------------------------------------------
-  
-  def parallelize(klass, *external_block_methods)
-    if parallel?
-      klass.include Celluloid
-      
-      external_block_methods.each do |method|
-        klass.execute_block_on_receiver method.to_sym
-      end
-    end
-  end
-  
-  #---
   
   def handle(klass)
     if parallel? && klass.respond_to?(:current_actor)

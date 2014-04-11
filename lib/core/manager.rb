@@ -2,7 +2,7 @@
 module Nucleon
 class Manager
   
-  Nucleon.parallelize(self)
+  include Parallel
     
   #-----------------------------------------------------------------------------
   
