@@ -46,8 +46,7 @@ class Base < Core
   # Property accessor / modifiers
   
   def myself
-    return current_actor if respond_to?(:current_actor) # Celluloid enhanced plugin
-    self
+    Nucleon.handle(self)
   end
   alias_method :me, :myself
   

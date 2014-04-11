@@ -42,6 +42,17 @@ module Facade
   
   #---
   
+  def handle(klass)
+    if parallel? && klass.respond_to?(:current_actor)
+      myself = klass.current_actor
+    else
+      myself = klass
+    end
+    myself
+  end
+  
+  #---
+  
   def manager(collection, name, klass)
     name = name.to_sym
     

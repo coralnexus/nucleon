@@ -34,7 +34,7 @@ class Manager
   #---
   
   def myself
-    Nucleon.parallel? ? Actor.current : self
+    Nucleon.handle(self)
   end
   
   #---
