@@ -6,7 +6,6 @@ module Nucleon
 module Parallel
   
   def self.included(klass)
-    #Nucleon.debug_break
     if Nucleon.parallel?
       klass.send :include, Celluloid
     end
@@ -17,7 +16,6 @@ module Parallel
 
   module ClassMethods
     def external_block_exec(*methods)
-      #Nucleon.debug_break
       if Nucleon.parallel?
         methods.each do |method|
           execute_block_on_receiver method.to_sym
