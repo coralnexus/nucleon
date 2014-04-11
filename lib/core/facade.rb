@@ -42,20 +42,27 @@ module Facade
   
   #---
   
-  def init_manager(name, klass)
-    if parallel?
-      klass.supervise_as name
-      manager = Celluloid::Actor[name]
-    else
-      manager = klass.new # Managers should not have initialization parameters
+  def manager(collection, name, klass)
+    name = name.to_sym
+    
+    unless collection.has_key?(name)
+      if parallel?
+        klass.supervise_as name
+        manager = Celluloid::Actor[name]
+      else
+        manager = klass.new # Managers should not have initialization parameters
+      end
+      collection[name] = manager
     end
+    test_connection(manager)
+    
     manager
   end
   
   def test_connection(manager)
     if parallel?
       begin
-        # Raise error if no test method found but retry for dead actor error
+        # Raise error if no test method found but retry for dead actors
         manager.test_connection
       rescue Celluloid::DeadActorError
         retry

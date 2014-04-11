@@ -48,17 +48,8 @@ class Shell < Core
   # Shell interface
   
   def self.connection(name = :core)
-    name = name.to_sym
-    
-    init_shell(name) unless @@supervisors.has_key?(name)
-    Nucleon.test_connection(@@supervisors[name])
-    @@supervisors[name]
+    Nucleon.manager(@@supervisors, name, self)
   end  
-  
-  def self.init_shell(name)
-    name = name.to_sym
-    @@supervisors[name] = Nucleon.init_manager(name, Nucleon::Util::Shell)
-  end
   
   #---
   

@@ -12,17 +12,7 @@ class Manager
   # Plugin manager interface
   
   def self.connection(name = :core)
-    name = name.to_sym
-    
-    init_manager(name) unless @@supervisors.has_key?(name)
-    @@supervisors[name]
-  end
-  
-  #---
-  
-  def self.init_manager(name)
-    name = name.to_sym
-    @@supervisors[name] = Nucleon.init_manager(name, Nucleon::Manager) 
+    Nucleon.manager(@@supervisors, name, self)
   end
   
   #---
