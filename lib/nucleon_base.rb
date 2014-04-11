@@ -1,4 +1,3 @@
-
 #*******************************************************************************
 # Nucleon
 #
@@ -96,8 +95,8 @@ module Nucleon
 #
 # Usage:
 #
-# * Execute nucleon (or derivative executable, ex; corl) with the 
-#   NUCLEON_DEBUG environment variable set
+# * Execute nucleon (or derivative executable, ex; corl) with the NUCLEON_DEBUG
+#   environment variable set
 #
 #   :> [ sudo ] NUCLEON_DEBUG=1 nucleon <args>...
 #
@@ -106,9 +105,8 @@ module Nucleon
 #
 #   :> Nucleon.debug_break   or    :> Nucleon.debug_break <test?>
 #
-# * Since the debugging tools don't work in parallel, parallel
-#   operations are disabled when NUCLEON_DEBUG environment variable is 
-#   found.
+# * Since the debugging tools don't work in parallel, parallel operations are 
+#   serialized when NUCLEON_DEBUG environment variable is found.
 #
 #-------------------------------------------------------------------------------
 # General information
