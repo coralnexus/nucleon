@@ -92,7 +92,7 @@ module Nucleon
   def self.debug_break(condition = true)
     if debugging?
 #-------------------------------------------------------------------------------
-# Welcome to the Nucleon Pry powered development console
+# Nucleon Pry powered development console
 #
 # Usage:
 #
