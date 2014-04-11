@@ -3,7 +3,7 @@ module Nucleon
 module Util
 class Shell < Core
   
-  Nucleon.parallelize(self)
+  Nucleon.parallelize(self, :exec)
   
   #-----------------------------------------------------------------------------
   
@@ -58,8 +58,6 @@ class Shell < Core
   end
   
   #---
-  
-  execute_block_on_receiver :exec if Nucleon.parallel?
     
   def exec(command, options = {}, &code)
     config = Config.ensure(options)

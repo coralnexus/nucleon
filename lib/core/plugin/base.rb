@@ -274,10 +274,10 @@ class Base < Core
   
   #---
   
-  def self.init_plugin_collection
+  def self.init_plugin_collection(*external_block_methods)
     logger.debug("Initializing plugin collection interface at #{Time.now}")
     
-    Nucleon.parallelize(self)
+    Nucleon.parallelize(self, *external_block_methods)
     
     include Mixin::Settings
     include Mixin::SubConfig

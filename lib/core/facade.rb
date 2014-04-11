@@ -34,9 +34,13 @@ module Facade
   
   #-----------------------------------------------------------------------------
   
-  def parallelize(klass)
+  def parallelize(klass, *external_block_methods)
     if parallel?
       klass.include Celluloid
+      
+      external_block_methods.each do |method|
+        klass.execute_block_on_receiver method.to_sym
+      end
     end
   end
   
