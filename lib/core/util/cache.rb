@@ -60,12 +60,13 @@ class Cache < Core
   #---
   
   def get(keys, default = nil, format = false)
-    result = super
+    result = super(keys, nil)
     
     if result.nil?
       load
-      result = super
+      result = super(keys, nil)
     end
+    result = filter(default, format) if result.nil?
     result
   end
 
@@ -119,6 +120,8 @@ class Cache < Core
         logger.debug("Cache file contents: #{raw}")            
         parse_properties = Data.hash(parser.parse(raw))
         
+        Nucleon.remove_plugin(parser)
+        
         import(parse_properties, { :no_save => true }) unless parse_properties.empty?
         success = true
       end
@@ -135,6 +138,8 @@ class Cache < Core
     @@cache_lock.synchronize do
       if renderer = CORL.translator({}, translator)
         rendering = renderer.generate(export)
+        
+        Nucleon.remove_plugin(renderer)
           
         if Disk.write(file, rendering)
           success = true
