@@ -181,7 +181,7 @@ class Config
   
   def delete(keys, default = nil)
     existing = modify(@properties, array(keys).flatten, nil)
-    return existing[:value] if existing[:value]
+    return existing[:value] unless existing[:value].nil?
     return default
   end
   
