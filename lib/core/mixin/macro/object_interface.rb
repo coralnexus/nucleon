@@ -282,6 +282,24 @@ module ObjectInterface
         
         # TODO: Figure out a way to effectively cache this search operation
         #------------------------------------------------------------------
+        
+        add_settings = lambda do |final_options, obj_settings|
+          if obj_settings
+            local_options = {}
+            array(obj_settings).each do |group_name|
+              if group_options = Marshal.load(Marshal.dump(settings(group_name)))
+                add_settings.call(group_options, group_options[:settings]) if group_options.has_key?(:settings)
+                local_options = Util::Data.merge([ local_options, group_options ], true)  
+              end
+            end
+            unless local_options.empty?
+              final_options = Util::Data.merge([ local_options, final_options ], true)   
+            end
+          end
+        end
+        
+        #---
+        
         settings = {}
     
         keys = [ keys ] unless keys.is_a?(Array)
@@ -291,30 +309,15 @@ module ObjectInterface
           
         logger.debug("Searching specialized settings")      
         until temp.empty? do
-          if obj_settings = obj_config.get([ temp, :settings ])
-            local_settings = {}
-            array(obj_settings).each do |group_name|
-              if group_settings = Marshal.load(Marshal.dump(settings(group_name)))
-                local_settings = Util::Data.merge([ local_settings, group_settings.dup ], true)  
-              end
-            end
-            unless local_settings.empty?
-              settings = Util::Data.merge([ local_settings, settings ], true)   
-            end
-          end
+          add_settings.call(settings, obj_config.get([ temp, :settings ]))
           temp.pop
         end
           
         logger.debug("Specialized settings found: #{settings.inspect}") 
         logger.debug("Searching general settings") 
-      
-        if obj_settings = obj_config.get(:settings)
-          array(obj_settings).each do |group_name|
-            if group_settings = Marshal.load(Marshal.dump(settings(group_name)))
-              settings = Util::Data.merge([ group_settings, settings ], true)  
-            end
-          end            
-        end
+        
+        add_settings.call(settings, obj_config.get(:settings))
+        
         #------------------------------------------------------------------
         # TODO: Cache the above!!! 
           
