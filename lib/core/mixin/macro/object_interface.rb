@@ -292,11 +292,15 @@ module ObjectInterface
         logger.debug("Searching specialized settings")      
         until temp.empty? do
           if obj_settings = obj_config.get([ temp, :settings ])
+            local_settings = {}
             array(obj_settings).each do |group_name|
               if group_settings = Marshal.load(Marshal.dump(settings(group_name)))
-                settings = Util::Data.merge([ group_settings.dup, settings ], true)  
+                local_settings = Util::Data.merge([ local_settings, group_settings.dup ], true)  
               end
-            end            
+            end
+            unless local_settings.empty?
+              settings = Util::Data.merge([ local_settings, settings ], true)   
+            end
           end
           temp.pop
         end
