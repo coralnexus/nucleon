@@ -288,7 +288,9 @@ module ObjectInterface
             local_options = {}
             array(obj_settings).each do |group_name|
               if group_options = Marshal.load(Marshal.dump(settings(group_name)))
-                add_settings.call(group_options, group_options[:settings]) if group_options.has_key?(:settings)
+                if group_options.has_key?(:settings)
+                  group_options = add_settings.call(group_options, group_options[:settings])
+                end
                 local_options = Util::Data.merge([ local_options, group_options ], true)  
               end
             end
@@ -296,6 +298,7 @@ module ObjectInterface
               final_options = Util::Data.merge([ local_options, final_options ], true)   
             end
           end
+          final_options
         end
         
         #---
@@ -309,14 +312,14 @@ module ObjectInterface
           
         logger.debug("Searching specialized settings")      
         until temp.empty? do
-          add_settings.call(settings, obj_config.get([ temp, :settings ]))
+          settings = add_settings.call(settings, obj_config.get([ temp, :settings ]))
           temp.pop
         end
           
         logger.debug("Specialized settings found: #{settings.inspect}") 
         logger.debug("Searching general settings") 
         
-        add_settings.call(settings, obj_config.get(:settings))
+        settings = add_settings.call(settings, obj_config.get(:settings))
         
         #------------------------------------------------------------------
         # TODO: Cache the above!!! 
