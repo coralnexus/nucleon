@@ -7,9 +7,31 @@ module Parallel
   
   def self.included(klass)
     if Nucleon.parallel?
-      klass.send :include, Celluloid
+      klass.send :include, Celluloid      
     end
+    klass.send :include, InstanceMethods
     klass.extend ClassMethods
+  end
+  
+  #---
+  
+  module InstanceMethods
+    def parallel(method, split_args, *shared_args)
+      results    = []
+      split_args = [ split_args ] unless split_args.is_a?(Array)
+  
+      if Nucleon.parallel?
+        split_args.each do |arg|
+          results << future.send(method, arg, *shared_args)
+        end
+        results.map { |future| future.value } # Wait for all to finish.
+      else
+        split_args.each do |arg|
+          results << send(method, arg, *shared_args)
+        end  
+      end
+      results
+    end
   end
   
   #---
