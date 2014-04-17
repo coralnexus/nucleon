@@ -12,3 +12,4 @@
 * UI console color profiles
 * Localization improvements
 * Logging consolidation (eliminate redundant log entries)
+* Fix bugs :-(
