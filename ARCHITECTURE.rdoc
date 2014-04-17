@@ -323,4 +323,61 @@ concurrency model used by Go.
 
 === Automatable project workflows
 
+Configurations are great, but if they can't persist and be recalled later by
+the application or framework they have limited effectiveness.  Since we want
+projects that are distributed in nature the configurations need to be, not just
+persistent, but remotely available.  With this in mind the Project plugin was
+born.
+
+The project is a revisionable data store with a local directory.  It could be 
+a file repository or an active database some where (or even a service like 
+Dropbox).  The idea is we provide a basic implementation of the project in 
+abstract operations and specialized providers fill in the details.  
+
+So far we have implemented Git, and an extension to Git, GitHub.  We use a lot 
+of text based files in our projects and Git is great for compressing and storing
+versions of them, so Git was the first project integration.  Git is also a 
+highly popular distributed mission critical capable version control system, 
+which is also a contributing factor in its prioritization.
+
+In the future we plan on integrating more project providers and reworking the
+Git provider to utilize more of the performance oriented Rugged (LibGit2)
+libraries.
+
+What a project looks like as a programming construct:
+
+  project = Nucleon.project({ 
+    :provider  => :github, # Project resides at Github (use special API sauce)
+    :reference => 'coralnexus/nucleon', # GitHub identifier
+    :revision  => '0.1', # Revision to ensure checked out for project
+    :directory => '/tmp/nucleon', # Directory to setup project
+    :create    => true, # Create project if does not exist yet
+    :pull      => true # Go ahead and pull updates
+  })
+  
+  # If you have a .netrc file with auth credentials in your home directory
+  # the plugin will manage deploy keys for private projects.
+  
+  origin = project.remote(:origin)
+  # http://github.com/coralnexus/nucleon.git
+  
+  edit = project.remote(:edit)
+  # git@github.com:coralnexus/nucleon.git
+  
+  project.checkout('0.1')
+  project.pull(:edit)
+  
+  project.ignore('my-tmp-file.txt')
+  
+  project.commit('some-file.txt, { :message => 'Changing some file text.' })
+
+  project.add_subproject('other/nucleon', 'http://github.com/coralnexus/nucleon.git, '0.1')
+  project.delete_subproject('other/nucleon')
+  
+There are more methods and options for the above methods, but the above should
+give you an idea of what you can expect.  The interface API is definitely skewed
+towards the Git idioms, such as remotes, checkout, commit, but the 
+implementation can vary so if the data store can map to most of the typical
+distributed version control ablities then it should be fairly easily 
+integratable.
 
