@@ -378,6 +378,5 @@ There are more methods and options for the above methods, but the above should
 give you an idea of what you can expect.  The interface API is definitely skewed
 towards the Git idioms, such as remotes, checkout, commit, but the 
 implementation can vary so if the data store can map to most of the typical
-distributed version control ablities then it should be fairly easily 
-integratable.
+distributed version control ablities then it should be fairly easy to integrate.
 
