@@ -1,0 +1,14 @@
+== Nucleon tasks to complete before 1.0 release
+
+* Namespace implementation
+* Meta (composite) actions
+* Execution plans
+* Error handling improvements
+* Full code documentation
+* Full coverage unit tests (starting with core Nucleon unit testing library)
+* Performance improvements
+* Ensure fault tolerance for Actor managers
+* Deeper GitHub API integration in project provider
+* UI console color profiles
+* Localization improvements
+* Logging consolidation (eliminate redundant log entries)

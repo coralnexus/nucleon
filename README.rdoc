@@ -11,7 +11,9 @@ See: ARCHITECTURE.rdoc
 
 See the Gemfile for all Nucleon gem dependencies.
 
-If the project plugin is used, you will probably need Git installed on the system.  If you do not and you use the project plugin Git providers, Git projects will not do anything and will give you persistence warnings.
+If the project plugin is used, you will probably need Git installed on the 
+system.  If you do not and you use the project plugin Git providers, Git 
+projects will not do anything and will give you persistence warnings.
 
 To install:
 
@@ -23,9 +25,13 @@ or put something like this in your Gemfile (for Bundler)
 
 Then you can require as needed and use what you need.
 
-This library has so far been developed and tested on an Ubuntu environment but the groundwork has been laid for development and testing on other platforms.  The library also currently lacks unit tests, which will be coming before the 1.0 (first production) release.
+This library has so far been developed and tested on an Ubuntu environment but 
+the groundwork has been laid for development and testing on other platforms.  
+The library also currently lacks unit tests, which will be coming before the 
+1.0 (first production) release.
 
-Consider this library experimental, but you are welcome to play around with it and tell us what you think or how we could improve it.
+Consider this library experimental, but you are welcome to play around with it 
+and tell us what you think or how we could improve it.
 
 
 === Usage
