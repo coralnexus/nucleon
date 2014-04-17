@@ -1,0 +1,326 @@
+== Nucleon architecture guide
+
+Nucleon is built to provide an easy and minimal, yet extremely powerful, 
+framework for building applications that are highly distributable in nature.
+
+This project should be applicable to any Ruby application that needs to be 
+built in a pluggable, concurrent, and configurable fashion.  It is capable of 
+being used as pieces in existing programming models and it provides an 
+extremely simple core programming model that you can build on.
+
+There are only four major architectural goals of the project:
+
+=== Persistent and mergeable objects
+
+==== Important concept:  Objects == Property trees
+
+At the core of the Nucleon framework is the configuration.  The configuration 
+is used for allowing us to store, lookup, and perform other operations (such 
+as merge) on our class data by treating a subset of class properties as a tree 
+based data structure.
+
+Examples of Nucleon configurations:
+
+  first_config = Nucleon::Config.new
+  first_config.set([ :my :nested, :property ], 'hello')
+  first_config.set([ :my, :other ], { :ok => true })
+  
+  tree_data = first_config.export
+  # tree_data = { 
+  #   :my => {
+  #     :nested => { :property => 'hello' },
+  #     :other  => { :ok => true }
+  #   }
+  # }
+
+  second_config = Nucleon::Config.new
+  second_config.set([ :my, :other, :ok ], false)
+  second_config.set(:property, true)
+  second_config.set([ :something, :else ], true)
+  
+  third_config = Nucleon::Config.new({ :property => false })
+  third_config.import(first_config)
+  third_config.defaults(second_config)
+  
+  tree_data = third_config.export
+  # tree_data = { 
+  #   :my => {
+  #     :nested => { :property => 'hello' },
+  #     :other  => { :ok => true }
+  #   },
+  #   :property => false,
+  #   :something => { :else => true }
+  # }
+  
+As you can see the concept is pretty simple.  In Nucleon most classes extend the
+configuration so they have the above elastic and persistable qualities.  Upon
+the configuration primitives are built specialized accessors / modifiers in sub
+classes.  This creates a very dynamic and flexible object model upon which we 
+can build effective distributed systems.  
+  
+
+=== Extremely pluggable and extensible
+
+In the future application programming will focus much more on plugins and
+extensions to existing systems than crafting a bunch of standalone systems.
+This trend has already begun.  But it can be harder to start an application
+with a capable plugin and extensibility model unless already building on an
+extensible framework (at which point you are most likely creating plugins).
+
+One of the driving goals behind the Nucleon project is to deliver a cutting 
+edge plugin and extensibility model that other applications or frameworks can 
+build on to provide their parallel capable pluggable architecture.  In order 
+to do this effectively we need to bridge different extensible systems to create
+an integrated hybrid.
+
+Nucleon provides (and will provide) quite a few means of extension:
+
+
+==== Plugin / providers architecture
+
+Nucleon implements a model where we define a base API interface/implementation
+as a base plugin, which can be extended by specialized providers loaded from
+a myriad of locations (that you can define).  This allows us to utilize base 
+capabilities that can be easily extended by developers with a single Ruby file
+provider implementation.  These plugin instances are usually created via a
+facade that makes referencing them very easy.  The facade is layered like an
+onion so it is very easy to extend as needed.
+
+For example:
+
+  translator = Nucleon.translator({ :provider => :json })
+  obj_string = translator.generate(properties)
+  properties = translator.parse(obj_string)
+  
+It should be noted that ALL Nucleon plugins are at their core, configurations.
+
+  
+==== Method block extension
+
+Sometimes it is nice to have a base implementation handle mundane details of a
+task and leave the juicy bits to the child implementation.  Normally, in most
+OOP languages, we do this by simply extending parent methods through 
+inheritance.  This leaves us with a problem though.  How can we get the parent
+to process before, after, or even in between the execution of the child 
+implementation?
+
+Ruby to the rescue!
+
+The biggest reason this project is in Ruby is that Ruby provides some super cool
+features not available in many other languages.  In this case we often use 
+code blocks passed to the parent that the parent then executes on behalf of 
+the child.
+
+For example:
+
+  class ParentClass
+    def initialize
+      @logger = Log4r::Logger.new('over-engineered greeting class')
+    end
+    
+    #---
+    
+    def say_hello(to, &code)
+      result = false
+      @logger.debug("Invoking say_hello with #{to}")
+      
+      if code.call(:validate)
+        @logger.debug("We're all good")
+        result = code.call(:run)
+      end
+      
+      @logger.debug("Finishing say_hello with #{to}")
+      result
+    end
+  end
+  
+  #---
+  
+  class ChildClass < ParentClass
+    def say_hello(to)
+      super do |op|
+        if op == :validate
+          !to.nil?
+        else
+          # This code only gets executed if <to> is not nil
+          # And we don't have to worry about logging
+          puts "hello #{to}!"
+          true
+        end
+      end
+    end
+  end
+  
+  #---
+  
+  obj = ChildClass.new
+  obj.say_hello('world')
+  # hello world!
+  
+As you can see we executed the child method statements multiple times from the
+parent method so that we could abstract out some of the operations in the sub
+class, thus making the provider easier to develop and the parent abstract
+enough to support various providers.
+
+Also notice that we did not expose the external block execution to the users
+of the class or to child classes of ChildClass.  In this case we chose to stop
+the block execution propogation because the implementation was very simple; say
+hello.  If it had been more complex we could propogate the block execution on
+down the line.
+
+==== Event based plugin extensions
+
+It is extremely useful to be able to tap into the execution flow of existing 
+objects and methods.  This allows the flow to change based on actions that are 
+defined by plugins that hook into other plugins operations.
+
+Nucleon implements a plugin type called the Extension.  It's sole purpose is to
+extend other plugins (including Extensions).  The base extension plugin has no 
+special methods, leaving the method interface pretty clean.  These extensions
+are instantiated (only one per defined extension) and they act on events as the
+application execution flows.  The are true class instances so they can manage
+state between registered events.
+
+Events are triggered by named method calls run by a central plugin manager.
+They look just like regular methods but call out to other extensions to help
+configure, get/set values, or otherwise act on the state of the application at
+the time triggered.  Extensions register for events by defining an instance 
+method that matches the name of the event.  Every event method (hook) takes one
+parameter (you guessed it); a configuration.  This makes the process quick and
+painless and code for events remains easily localized and separated.
+
+For example:
+
+  #
+  # This would be defined within a namespaced load path.
+  # More on that in the usage section.
+  # 
+  class MyExtension < Nucleon.plugin_class(:extension)
+  
+    @objs = []
+    
+    #---
+    
+    def myobj_config(config)
+      if Nucleon.check(:is_nucleon_awesome, config)
+        # I'm going to be nice and let other extensions help me decide.
+        config[:awesome] = true
+      end
+    end
+    
+    def is_nucleon_awesome(config)
+      true # Of course I'm a little biased
+    end
+    
+    def record_object(config)
+      @objs.push(config)
+    end
+  end
+  
+  #---
+  
+  # Extension would normally be loaded via Nucleon.register(load_path)
+  # No one overruled me, Whew!
+  
+  myobj = Nucleon.config(:myobj, { :nucleon => :is })
+  # myobj = {
+  #   :nucleon => :is,
+  #   :awesome => true
+  # }
+  
+  Nucleon.exec(:record_object, myobj)
+  
+
+==== Middleware sequences (NOT YET IMPLEMENTED)
+
+We are evaluating the implementation of stacked actions or some form of 
+composite plugin execution model.  Mitchell Hashimoto has created an extremely
+useful solution for Vagrant and a separate middleware gem that provides 
+standalone middleware sequencing capabilities.
+
+In the future we might integrate this system to stack our action plugins so
+we can derive action lists.  This would most likely be a framework that was
+primarily used by the action plugin system and derivative projects.
+
+Your thoughts are welcome?  Contact the maintainers or file an issue.
+
+
+==== Execution plans (NOT YET MIGRATED)
+
+In the early days of this project (or it's predecessor), I created and utilized 
+a system of executing JSON based CLI execution plans that could respond to and 
+trigger events, resulting in a responsive CLI sequence that was programmed
+entirely in JSON as configurations.  This fits our "make everything a 
+configuration" philosophy.
+
+This system will be brought up to the current architecture before version 1.0
+(first production release).  It will be very powerful, allowing for the creation
+of new CLI commands and event driven programmatic actions purely by working
+with JSON, YAML, or any other defined translator in the application.
+
+The goal is to allow for the ultimate in high level scriptable programming; 
+configuring data objects that execute programs.
+
+This might eventually be integrated with the middleware sequences discussed
+above.
+
+
+=== Easily parallel
+
+Concurrency is the backbone of scalability and fault tolerance.  With Nucleon
+we seek to create a system that can utilize the whole of the resources available
+to us in the most flexible way possible.  We should be able to write parallel
+capable objects without even thinking about it (ok, maybe a litle).  It should
+also be capable of completely disabling the parallel execution and library
+inclusion to make it easier to troubleshoot and debug.
+
+There are two main popular concurrency methodologies currently being promoted
+today.  Erlang has popularized the actor based concurrency model which has been 
+widely discussed and adopted across the enterprise.  Another popular model is 
+channel based communication between workers popularized by the Go programming 
+language.  We would eventually like to support both.
+
+Currently we utilize and build on a super awesome Actor based parallel framework
+for Ruby called Celluloid (http://celluloid.io).  This library is designed 
+around principles gleaned from Erlang's concurrency mechanism and is built 
+around an object oriented message passing architecture.  It is very well 
+written.
+
+Nucleon provides an interface to wrap and load Celluloid actor proxies into your
+object's but allows for the parallel abilities to be completely disabled, 
+reducing the complexity of the code (good for stack traces) and allowing for 
+sequentially based debugging tools (trapping through the code) to function 
+correctly.
+
+How easy is it to create a parallel object?
+
+  class MyClass
+    include Nucleon::Parallel # Uses Celluloid under the hood!
+    
+    @order = []
+    
+    attr_reader :order
+    
+    def print_number(num)
+      sleep(Random.rand(1..5))
+      puts "Printing: #{num}"
+      @order << num
+    end
+  end
+  
+  #---
+  
+  printer = MyClass.new
+  printer.parallel(:print_number, Array(0..100))
+  # prints sequence out of sequence
+  # unless (ENV['NUCLEON_DEBUG'] or ENV['NUCLEON_NO_PARALLEL'] defined)
+  
+  printer.order # Whatever order they were executed in
+
+In the future we will put research into the channel based communication 
+concurrency model used by Go.
+
+
+=== Automatable project workflows
+
+
