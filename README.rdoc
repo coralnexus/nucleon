@@ -58,7 +58,7 @@ Note: This library is still very early in development!
 
 === Copyright
 
-Licensed under GPLv3.  See LICENSE.txt for further details.
+Licensed under the Apache License 2.0.  See LICENSE.txt for further details.
 
-Copyright (c) 2014  Adrian Webb <adrian.webb@coralnexus.com>
+Copyright (c) 2013-2014  Adrian Webb <adrian.webb@coralnexus.com>
 Coral Technology Group LLC
