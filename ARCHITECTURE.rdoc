@@ -8,7 +8,7 @@ built in a pluggable, concurrent, and configurable fashion.  It is capable of
 being used as pieces in existing programming models and it provides an 
 extremely simple core programming model that you can build on.
 
-There are only four major architectural goals of the project:
+There are five major architectural goals of the project:
 
 === Persistent and mergeable objects
 
@@ -104,12 +104,8 @@ inheritance.  This leaves us with a problem though.  How can we get the parent
 to process before, after, or even in between the execution of the child 
 implementation?
 
-Ruby to the rescue!
-
-The biggest reason this project is in Ruby is that Ruby provides some super cool
-features not available in many other languages.  In this case we often use 
-code blocks passed to the parent that the parent then executes on behalf of 
-the child.
+Ruby makes thie very easy!  To fulfill this goal we often use code blocks 
+passed to the parent that the parent then executes on behalf of the child.
 
 For example:
 
@@ -380,3 +376,9 @@ towards the Git idioms, such as remotes, checkout, commit, but the
 implementation can vary so if the data store can map to most of the typical
 distributed version control ablities then it should be fairly easy to integrate.
 
+
+=== Flexible action execution model
+
+One of the goals of the project is to create a very flexible action execution
+system that can be used from the CLI, internally as method calls, and 
+eventually as service API endpoints.
