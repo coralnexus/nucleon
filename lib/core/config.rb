@@ -68,7 +68,7 @@ class Config
   #---
   
   def has_key?(keys)
-    get(keys) ? true : false
+    get(keys).nil? ? false : true
   end
       
   #-----------------------------------------------------------------------------
