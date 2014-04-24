@@ -38,7 +38,7 @@ class Disk
       reset = true if ! mode.empty? && mode != @@files[file_name][:mode]
     end
     
-    if ! @@files.has_key?(file_name) || ! @@files[file_name][:file] || reset
+    if reset || ! @@files.has_key?(file_name) || ! @@files[file_name][:file] || @@files[file_name][:file].closed?
       @@files[file_name][:file].close if @@files[file_name] && @@files[file_name][:file]
       unless mode.empty? || ( mode == 'r' && ! ::File.exists?(file_name) )
         @@files[file_name] = {
@@ -101,7 +101,7 @@ class Disk
     reset = ( options[:file_name] || options[:mode] )
       
     @@file_lock.synchronize do      
-      if file = open(( options[:file_name] ? options[:file_name] : 'log.txt' ), options, reset)   
+      if file = open(( options[:file_name] ? options[:file_name] : 'log.txt' ), options, reset) 
         file.write("--------------------------------------\n") if @@separator
         file.write("#{@@description}\n") if @@description       
         file.write("#{data}\n")
