@@ -38,15 +38,13 @@ class Disk
       reset = true if ! mode.empty? && mode != @@files[file_name][:mode]
     end
     
-    @@file_lock.synchronize do
-      if ! @@files.has_key?(file_name) || ! @@files[file_name][:file] || reset
-        @@files[file_name][:file].close if @@files[file_name] && @@files[file_name][:file]
-        unless mode.empty? || ( mode == 'r' && ! ::File.exists?(file_name) )
-          @@files[file_name] = {
-            :file => ::File.open(file_name, mode),
-            :mode => mode,
-          }
-        end
+    if ! @@files.has_key?(file_name) || ! @@files[file_name][:file] || reset
+      @@files[file_name][:file].close if @@files[file_name] && @@files[file_name][:file]
+      unless mode.empty? || ( mode == 'r' && ! ::File.exists?(file_name) )
+        @@files[file_name] = {
+          :file => ::File.open(file_name, mode),
+          :mode => mode,
+        }
       end
     end
     return nil unless @@files[file_name]
@@ -58,10 +56,9 @@ class Disk
   def self.read(file_name, options = {})
     result = nil
     options[:mode] = ( options[:mode] ? options[:mode] : 'r' )
-    file           = open(file_name, options)
     
-    if file
-      @@file_lock.synchronize do
+    @@file_lock.synchronize do
+      if file = open(file_name, options)
         file.pos = 0 if options[:mode] == 'r'
         result = file.read
       end
@@ -73,11 +70,10 @@ class Disk
   
   def self.write(file_name, data, options = {})
     options[:mode] = ( options[:mode] ? options[:mode] : 'w' )
-    file           = open(file_name, options)
     result         = nil
     
-    if file
-      @@file_lock.synchronize do
+    @@file_lock.synchronize do
+      if file = open(file_name, options)
         file.pos = 0 if options[:mode] == 'w'
         result = file.write(data)
         begin
@@ -103,9 +99,9 @@ class Disk
   
   def self.log(data, options = {})
     reset = ( options[:file_name] || options[:mode] )
-    file  = open(( options[:file_name] ? options[:file_name] : 'log.txt' ), options, reset)    
-    if file
-      @@file_lock.synchronize do      
+      
+    @@file_lock.synchronize do      
+      if file = open(( options[:file_name] ? options[:file_name] : 'log.txt' ), options, reset)   
         file.write("--------------------------------------\n") if @@separator
         file.write("#{@@description}\n") if @@description       
         file.write("#{data}\n")
