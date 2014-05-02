@@ -484,7 +484,7 @@ module Facade
           puts "\n"
         end
     
-        puts "\n" + I18n.t('nucleon.core.exec.help.footer') + "\n\n"   
+        puts "\n" + I18n.t('nucleon.core.exec.help.footer', { :name => name }) + "\n\n"   
         exit_status = code.help_wanted  
       end 
   

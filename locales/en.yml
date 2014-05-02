@@ -8,7 +8,7 @@ en:
           header: |-
             Available actions
           footer: |-
-            For help on any individual action run `nucleon <action> -h`
+            For help on any individual action run `%{name} <action> -h`
         errors:
           missing_argument: |-
             Argument <%{name}> must be specified          
