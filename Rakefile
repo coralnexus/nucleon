@@ -29,7 +29,7 @@ Jeweler::Tasks.new do |gem|
   gem.name                  = "nucleon"
   gem.homepage              = "http://github.com/coralnexus/nucleon"
   gem.rubyforge_project     = 'nucleon'
-  gem.license               = "GPLv3"
+  gem.license               = "Apache License, Version 2.0"
   gem.email                 = "adrian.webb@coralnexus.com"
   gem.authors               = ["Adrian Webb"]
   gem.summary               = %Q{Framework that provides a simple foundation for building distributively configured, extremely pluggable and extendable, and easily parallel Ruby applications}
