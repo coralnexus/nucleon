@@ -409,7 +409,7 @@ class Git < Plugin::Project
   #-----------------------------------------------------------------------------
   # SSH operations
   
-  def git_fetch(remote = :edit, options = {}, &block)
+  def git_fetch(remote = :origin, options = {}, &block)
     config         = Config.ensure(options)
     local_revision = config.get(:revision, get(:revision, :master))
      
@@ -426,7 +426,7 @@ class Git < Plugin::Project
   
   #---
  
-  def pull(remote = :edit, options = {}, &block)
+  def pull(remote = :origin, options = {}, &block)
     return super do |config, processed_remote|
       success = false
       
