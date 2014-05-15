@@ -194,9 +194,9 @@ module ObjectInterface
     
     logger.debug("Defining object interface method: search_#{_type}")
   
-    define_method "search_#{_type}" do |name, keys, default = '', format = false|
+    define_method "search_#{_type}" do |name, keys, default = '', format = false, extra_groups = []|
       obj_config = send("#{_type}_config", name)
-      search_object(obj_config, keys, default, format)
+      search_object(obj_config, keys, default, format, extra_groups)
     end
   end
 
@@ -275,7 +275,7 @@ module ObjectInterface
     unless respond_to? :search_object
       logger.debug("Defining object utility method: search_object")
         
-      define_method :search_object do |obj_config, keys, default = nil, format = false|
+      define_method :search_object do |obj_config, keys, default = nil, format = false, extra_groups = []|
         obj_config = Marshal.load(Marshal.dump(obj_config))
                 
         logger.debug("Searching object properties: #{obj_config.inspect}")
@@ -283,11 +283,11 @@ module ObjectInterface
         # TODO: Figure out a way to effectively cache this search operation
         #------------------------------------------------------------------
         
-        add_settings = lambda do |final_options, obj_settings|
-          if obj_settings
+        add_settings = lambda do |final_options, groups|
+          if groups
             local_options = {}
-            array(obj_settings).each do |group_name|
-              if group_options = Marshal.load(Marshal.dump(settings(group_name)))
+            array(groups).each do |group_name|
+              if group_options = Marshal.load(Marshal.dump(settings(group_name.to_sym)))
                 if group_options.has_key?(:settings)
                   group_options = add_settings.call(group_options, group_options[:settings])
                 end
@@ -319,7 +319,7 @@ module ObjectInterface
         logger.debug("Specialized settings found: #{settings.inspect}") 
         logger.debug("Searching general settings") 
         
-        settings = add_settings.call(settings, obj_config.get(:settings))
+        settings = add_settings.call(settings, [ obj_config.get_array(:settings), extra_groups ].flatten)
         
         #------------------------------------------------------------------
         # TODO: Cache the above!!! 

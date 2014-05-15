@@ -264,11 +264,11 @@ module PluginInterface
       
       logger.debug("Defining single instance plugin interface method: search_#{_type}")
       
-      define_method "search_#{_type}" do |provider, keys, default = '', format = false|
+      define_method "search_#{_type}" do |provider, keys, default = '', format = false, extra_groups = []|
         plugin_config = send("#{_type}_config", provider)
         logger.debug("Searching single #{_type} #{provider}: #{plugin_config.inspect}")
         
-        search_object(plugin_config, keys, default, format)      
+        search_object(plugin_config, keys, default, format, extra_groups)      
       end
       
     #---------------------------------------------------------------------------
@@ -362,11 +362,11 @@ module PluginInterface
       
       logger.debug("Defining multi instance plugin interface method: search_#{_type}")
       
-      define_method "search_#{_type}" do |provider, name, keys, default = '', format = false|
+      define_method "search_#{_type}" do |provider, name, keys, default = '', format = false, extra_groups = []|
         plugin_config = send("#{_type}_config", provider, name)
         logger.debug("Searching #{_type} #{provider} #{name}: #{plugin_config.inspect}")
         
-        search_object(plugin_config, keys, default, format)      
+        search_object(plugin_config, keys, default, format, extra_groups)      
       end
     end  
   end
