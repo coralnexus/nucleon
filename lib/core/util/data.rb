@@ -363,7 +363,7 @@ class Data
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def self.prefix(prefix, data)
+  def self.prefix(prefix, data, pad = '_')
     result = nil
     
     unless prefix.is_a?(String) && ! empty?(prefix)
@@ -372,18 +372,18 @@ class Data
     
     case data
     when String, Symbol
-      result = ( prefix.empty? ? data.to_s : prefix + '_' + data.to_s )
+      result = ( prefix.empty? ? data.to_s : prefix + pad + data.to_s )
       
     when Array
       result = []
       data.each do |value|
-        result << prefix(prefix, value)
+        result << prefix(prefix, value, pad)
       end
       
     when Hash
       result = {}
       data.each do |key, value|
-        result[prefix(prefix, key)] = value  
+        result[prefix(prefix, key, pad)] = value  
       end      
     end
     return result
