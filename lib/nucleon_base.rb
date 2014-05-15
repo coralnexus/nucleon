@@ -198,6 +198,8 @@ end
 # TODO: Reduce the number of dependencies loaded in this load script (for performance).
 # Decentralize!
 
+require 'rubygems'
+
 require 'optparse'
 require 'i18n'
 require 'log4r'
