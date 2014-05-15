@@ -422,7 +422,7 @@ class Manager
       
       if plugin.respond_to?(method)
         results = {} if results.nil?       
-                
+        
         result = plugin.send(method, options)
         logger.info("Completed hook #{method} at #{Time.now} with: #{result.inspect}")
                     
@@ -457,16 +457,16 @@ class Manager
     exec("#{type}_config", Config.new(config.export)) do |op, data|
       if op == :reduce
         data.each do |provider, result|
-          config.defaults(result)
+          config.import(result)
         end
         nil
       else
-        hash(data)
+        data
       end
     end    
     config.delete(:extension_type)
      
-    logger.debug("Final extended configuration: #{config.export.inspect}")   
+    logger.debug("Final extended configuration: #{config.export.inspect}")
     config 
   end
   
