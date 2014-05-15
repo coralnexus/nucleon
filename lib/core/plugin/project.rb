@@ -766,7 +766,7 @@ class Project < Base
   #-----------------------------------------------------------------------------
   # Remote operations
  
-  def pull(remote = :edit, options = {})
+  def pull(remote = :origin, options = {})
     config  = Config.ensure(options).import({ :remote => remote })
     success = false
     
