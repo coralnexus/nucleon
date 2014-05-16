@@ -49,6 +49,7 @@ class Disk
     options[:mode] = ( options[:mode] ? options[:mode] : 'w' )
         
     @@file_lock.synchronize do
+      FileUtils.mkdir_p(::File.dirname(file_name))
       if file = ::File.open(file_name, options[:mode])
         result = file.write(data)
         file.close
