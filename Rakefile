@@ -69,16 +69,29 @@ task :default => :spec
 version   = Nucleon.VERSION
 doc_title = "nucleon #{version}"
 
+class RDoc::Options
+  def template_dir_for(template)
+    File.join(File.dirname(__FILE__), 'rdoc', 'template')
+  end
+end
+
 Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
+  rdoc.rdoc_dir = 'rdoc/site'
+  
   rdoc.title    = doc_title
-  rdoc.rdoc_files.include('README*')
+  rdoc.main     = 'README.rdoc' 
+  
+  rdoc.options << '--line-numbers'
+  rdoc.options << '--all'
+  rdoc.options << '-w' << '2'
+  
+  rdoc.rdoc_files.include('*.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
 #---
 
 YARD::Rake::YardocTask.new do |ydoc|
-  ydoc.files   = [ 'README*', 'lib/**/*.rb' ]
+  ydoc.files   = [ '*.rdoc', 'lib/**/*.rb' ]
   ydoc.options = [ "--output-dir yardoc", "--title '#{doc_title}'" ]
 end

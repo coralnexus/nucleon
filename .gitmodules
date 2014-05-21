@@ -1,0 +1,3 @@
+[submodule "rdoc/template"]
+	path = rdoc/template
+	url = https://github.com/coralnexus/rdoc-darkfish-template.git

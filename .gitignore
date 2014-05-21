@@ -3,7 +3,7 @@ coverage
 coverage.data
 
 # rdoc generated
-rdoc
+rdoc/site
 
 # yard generated
 doc
