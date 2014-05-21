@@ -2,13 +2,6 @@
 coverage
 coverage.data
 
-# rdoc generated
-rdoc/site
-
-# yard generated
-doc
-.yardoc
-
 # bundler
 .bundle
 
