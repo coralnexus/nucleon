@@ -575,7 +575,10 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     
     action_index.each do |action_id, info|
       if ! multiple_found || provider_index.has_key?(info[:provider])
-        command_text  = Nucleon.action(info[:provider], { :settings => {}, :quiet => true }).help
+        action        = Nucleon.action(info[:provider], { :settings => {}, :quiet => true })
+        command_text  = action.help
+        
+        Nucleon.remove_plugin(action)
         
         command_size  = command_text.gsub(/\e\[(\d+)m/, '').size
         command_width = [ command_width, command_size + 2 ].max
