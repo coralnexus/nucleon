@@ -18,7 +18,7 @@ module PluginInterface
   #-----------------------------------------------------------------------------
   # Plugin collections
   
-  def plugin_collection(_type, _method_options = {})
+  def plugin_collection(_namespace, _type, _method_options = {})
     _method_config = Config.ensure(_method_options)
     _method_config.set(:plugin, true)
     
@@ -29,7 +29,7 @@ module PluginInterface
     
     @@object_types[_type] = _method_config
     
-    logger.debug("Creating new plugin collection #{_type} with: #{_method_config.inspect}")
+    logger.debug("Creating new plugin collection #{_namespace} #{_type}")
     
     #---------------------------------------------------------------------------
     
@@ -105,7 +105,7 @@ module PluginInterface
           if _single_instance
             logger.debug("Initializing single instance plugin: #{instance_settings.inspect}")
             
-            plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(instance_settings).import({ :meta => { :parent => myself }, :new => true }))
+            plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(instance_settings).import({ :meta => { :parent => myself }, :new => true }))
           
             _set([ _plural, provider ], plugin)
           else
@@ -113,7 +113,7 @@ module PluginInterface
               if name != :settings
                 logger.debug("Initializing plugin #{_plugin_type} #{name}: #{options.inspect}")
                 
-                plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
+                plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
                 
                 _set([ _plural, provider, name ], plugin)
               end
@@ -139,14 +139,14 @@ module PluginInterface
         if _single_instance
           logger.debug("Setting single #{_plugin_type} #{provider}: #{instance_settings.inspect}")
           
-          plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(instance_settings).import({ :meta => { :parent => myself }, :new => true }))              
+          plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(instance_settings).import({ :meta => { :parent => myself }, :new => true }))              
           
           _set([ _plural, provider ], plugin)  
         else
           instance_settings.each do |name, options|
             logger.debug("Setting #{_plugin_type} #{provider} #{name}: #{options.inspect}")
             
-            plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
+            plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
             
             _set([ _plural, provider, name ], plugin)  
           end
@@ -200,7 +200,7 @@ module PluginInterface
           options = get([ _plural, provider ], nil)
          
           unless options.nil?
-            plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself }, :new => true }))
+            plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself }, :new => true }))
         
             logger.debug("Initializing plugin #{_plugin_type} #{provider}: #{options.inspect}")
         
@@ -219,7 +219,7 @@ module PluginInterface
       
         set([ _plural, provider ], options)
     
-        plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself }, :new => true }))
+        plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(options).import({ :meta => { :parent => myself }, :new => true }))
         
         logger.debug("Setting single #{_plugin_type} #{provider}: #{options.inspect}")
         
@@ -299,7 +299,7 @@ module PluginInterface
           options = get([ _plural, provider, name ], nil)
          
           unless options.nil?
-            plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
+            plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
         
             logger.debug("Initializing plugin #{_plugin_type} #{provider}: #{options.inspect}")
         
@@ -317,7 +317,7 @@ module PluginInterface
         options = Config.ensure(options).export
       
         set([ _plural, provider, name ], options)
-        plugin = Nucleon.plugin(_plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
+        plugin = Nucleon.plugin(_namespace, _plugin_type, provider, Config.ensure(options).import({ :name => name, :meta => { :parent => myself }, :new => true }))
         
         logger.debug("Setting #{_plugin_type} #{provider} #{name}: #{options.inspect}")
         

@@ -21,7 +21,7 @@ class Cache < Core
     FileUtils.mkdir_p(base_path) unless File.directory?(base_path)
     
     @cache_id         = id.to_sym
-    @cache_translator = Nucleon.type_default(:translator)
+    @cache_translator = Nucleon.type_default(:nucleon, :translator)
     @cache_filename   = "#{id}.#{translator}"
     @cache_path       = File.join(@cache_root, @cache_filename)
   end

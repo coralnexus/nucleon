@@ -8,7 +8,7 @@ module Project
   # Settings
         
   def project_config
-    project_plugins = Nucleon.loaded_plugins(:project)
+    project_plugins = Nucleon.loaded_plugins(:nucleon, :project)
     
     register :project_provider, :str, :git, 'nucleon.core.mixin.action.project.options.project_provider' do |value|
       value = value.to_sym
@@ -21,7 +21,7 @@ module Project
     end
     register :project_reference, :str, nil, 'nucleon.core.mixin.action.project.options.project_reference' do |value|
       success = true
-      if info = Nucleon.plugin_class(:project).translate_reference(value)
+      if info = Nucleon.plugin_class(:nucleon, :project).translate_reference(value)
         if ! project_plugins.keys.include?(info[:provider].to_sym)
           warn('nucleon.core.mixin.action.project.errors.project_reference', { 
             :value     => value, 

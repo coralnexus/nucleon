@@ -95,33 +95,38 @@ module Facade
   
   #---
   
-  def manager(collection, name, klass)
-    name = name.to_sym
-    
-    if collection.has_key?(name)
-      manager = collection[name]
+  def manager(collection, name, klass, reset = false)
+    name     = name.to_sym
+    actor_id = "#{klass}::#{name}"
+        
+    if collection.has_key?(actor_id)
+      manager = parallel? ? Celluloid::Actor[actor_id] : collection[actor_id]
     else
       if parallel?
-        klass.supervise_as name
-        manager = Celluloid::Actor[name]
+        klass.supervise_as(actor_id, actor_id, reset)
+        manager = Celluloid::Actor[actor_id]
       else
-        manager = klass.new # Managers should not have initialization parameters
+        manager = klass.new(actor_id, reset) # Managers should not have initialization parameters
       end
-      collection[name] = manager
+      collection[actor_id] = manager
     end
-    test_connection(manager)
-    manager
+    test_connection(actor_id, manager)
   end
   
-  def test_connection(manager)
+  def test_connection(actor_id, manager)
     if parallel?
       begin
         # Raise error if no test method found but retry for dead actors
+        while manager.nil?
+          manager = Celluloid::Actor[actor_id]
+        end
         manager.test_connection
+        
       rescue Celluloid::DeadActorError
         retry
       end
     end
+    manager
   end
   
   #-----------------------------------------------------------------------------
@@ -203,63 +208,77 @@ module Facade
     Manager.connection.namespaces
   end
   
-  def define_namespace(*namespaces)
-    Manager.connection.namespace(*namespaces) 
-  end
-  
   #---
   
-  def types
-    Manager.connection.types
+  def types(namespace)
+    Manager.connection.types(namespace)
   end
   
-  def define_type(type_info)
-    Manager.connection.define_type(type_info)
+  def define_types(namespace, type_info)
+    Manager.connection.define_types(namespace, type_info)
   end
    
-  def type_default(type)
-    Manager.connection.type_default(type)
+  def type_default(namespace, plugin_type)
+    Manager.connection.type_default(namespace, plugin_type)
   end
   
   #---
+  
+  def load_plugins(base_dir = nil)
+    base_dir = base_dir.nil? ? Dir.pwd : base_dir
+    
+    search_plugins = lambda do |search_dir|
+      lib_dir = File.join(search_dir, 'lib')
+      
+      if File.directory?(lib_dir)
+        logger.debug("Registering plugins at #{lib_dir}")
+        register(lib_dir)
+      end
+      
+      parent_search_dir = search_dir.sub(/#{File::SEPARATOR}[^#{File::SEPARATOR}]+$/, '')
+      search_plugins.call(parent_search_dir) unless parent_search_dir.split(File::SEPARATOR).empty?
+    end
+    
+    search_plugins.call(base_dir)
+  end
   
   def register(base_path, &code)
     Manager.connection.register(base_path, &code)
     Manager.connection.autoload
   end
   
-  def loaded_plugins(type = nil, provider = nil)
-    Manager.connection.loaded_plugins(type, provider)    
+  def loaded_plugins(namespace = nil, plugin_type = nil, provider = nil)
+    Manager.connection.loaded_plugins(namespace, plugin_type, provider)    
   end
   
   #---
   
-  def active_plugins(type = nil, provider = nil)
-    Manager.connection.plugins(type, provider)    
+  def active_plugins(namespace = nil, plugin_type = nil, provider = nil)
+    Manager.connection.active_plugins(namespace, plugin_type, provider)    
   end
   
   #---
   
-  def plugin(type, provider, options = {})
-    Manager.connection.load(type, provider, options)
+  def plugin(namespace, plugin_type, provider, options = {})
+    Manager.connection.load(namespace, plugin_type, provider, options)
   end
   
   #---
   
-  def plugins(type, data, build_hash = false, keep_array = false)
-    Manager.connection.load_multiple(type, data, build_hash, keep_array)
+  def plugins(namespace, plugin_type, data, build_hash = false, keep_array = false)
+    Manager.connection.load_multiple(namespace, plugin_type, data, build_hash, keep_array)
   end
   
   #---
   
-  def create_plugin(type, provider, options = {})
-    Manager.connection.create(type, provider, options)
+  def create_plugin(namespace, plugin_type, provider, options = {})
+    Manager.connection.create(namespace, plugin_type, provider, options)
   end
   
   #---
   
-  def get_plugin(type, name)
-    Manager.connection.get(type, name)
+  def get_plugin(namespace, plugin_type, plugin_name)
+    Manager.connection.get(namespace, plugin_type, plugin_name)
   end
   
   #---
@@ -270,31 +289,25 @@ module Facade
   
   #---
   
-  def plugin_class(type)
-    Manager.connection.plugin_class(type)
-  end
-  
-  #---
-  
-  def provider_class(namespace, type, provider)
-    Manager.connection.provider_class(namespace, type, provider)  
+  def plugin_class(namespace, plugin_type)
+    Manager.connection.plugin_class(namespace, plugin_type)
   end
     
   #-----------------------------------------------------------------------------
   # Core plugin type facade
   
   def extension(provider)
-    plugin(:extension, provider, {})
+    plugin(:nucleon, :extension, provider, {})
   end
   
   #---
   
   def action(provider, options)
-    plugin(:action, provider, options)
+    plugin(:nucleon, :action, provider, options)
   end
   
   def actions(data, build_hash = false, keep_array = false)
-    plugins(:action, data, build_hash, keep_array)  
+    plugins(:nucleon, :action, data, build_hash, keep_array)  
   end
   
   def action_config(provider)
@@ -313,55 +326,72 @@ module Facade
     Plugin::Action.exec_cli(provider, args, quiet, name)
   end
   
+  def search_actions(args)
+    action_info = Plugin::Action.search_actions(args)
+    
+    action_components = action_info[:components]
+    action            = action_info[:actions]
+      
+    action_components.each do |component|
+      args.shift
+    end
+    
+    [ action, action_components, args ]
+  end
+  
+  def action_help(action = nil, extended_help = false)
+    Plugin::Action.action_help(action, extended_help)
+  end
+  
   #---
   
   def project(options, provider = nil)
-    plugin(:project, provider, options)
+    plugin(:nucleon, :project, provider, options)
   end
   
   def projects(data, build_hash = false, keep_array = false)
-    plugins(:project, data, build_hash, keep_array)
+    plugins(:nucleon, :project, data, build_hash, keep_array)
   end
    
   #-----------------------------------------------------------------------------
   # Utility plugin type facade
   
   def command(options, provider = nil)
-    plugin(:command, provider, options)
+    plugin(:nucleon, :command, provider, options)
   end
   
   def commands(data, build_hash = false, keep_array = false)
-    plugins(:command, data, build_hash, keep_array)
+    plugins(:nucleon, :command, data, build_hash, keep_array)
   end
    
   #---
   
   def event(options, provider = nil)
-    plugin(:event, provider, options)
+    plugin(:nucleon, :event, provider, options)
   end
   
   def events(data, build_hash = false, keep_array = false)
-    plugins(:event, data, build_hash, keep_array)
+    plugins(:nucleon, :event, data, build_hash, keep_array)
   end
   
   #---
   
   def template(options, provider = nil)
-    plugin(:template, provider, options)
+    plugin(:nucleon, :template, provider, options)
   end
   
   def templates(data, build_hash = false, keep_array = false)
-    plugins(:template, data, build_hash, keep_array)
+    plugins(:nucleon, :template, data, build_hash, keep_array)
   end
    
   #---
   
   def translator(options, provider = nil)
-    plugin(:translator, provider, options)
+    plugin(:nucleon, :translator, provider, options)
   end
   
   def translators(data, build_hash = false, keep_array = false)
-    plugins(:translator, data, build_hash, keep_array)
+    plugins(:nucleon, :translator, data, build_hash, keep_array)
   end
   
   #-----------------------------------------------------------------------------
@@ -433,62 +463,41 @@ module Facade
   #---
   
   def executable(args, name = 'nucleon') #ARGV
-    Signal.trap("INT") { exit 1 }
-
     logger.info("`#{name}` invoked: #{args.inspect}")
 
     $stdout.sync = true
     $stderr.sync = true
     
     exit_status = nil
+    
+    # We need to catch this early.
+    Util::Console.use_colors = ! args.include?("--no-color")
+    args = args - [ "--no-color", "--color" ]
 
     begin
       logger.debug("Beginning execution run")
       
-      arg_components = Util::CLI::Parser.split(args, "#{name} <action> [ <arg> ... ]")
-      main_command   = arg_components.shift
-      sub_command    = arg_components.shift
-      sub_args       = arg_components
+      load_plugins
       
-      lib_dir = File.join(Dir.pwd, 'lib')
-      if File.directory?(lib_dir)
-        logger.debug("Registering plugins at #{lib_dir}")
-        Nucleon.register(lib_dir)
-      end
-            
-      if main_command.processed && sub_command
-        exit_status = action_cli(sub_command, sub_args, false, name)
+      arg_components = Util::CLI::Parser.split(args, cyan(name) + yellow(" <action components> [ <arg> ... ]"))
+      main_command   = arg_components.shift
+      
+      action, action_components, args = search_actions(args)
+      
+      if main_command.processed && action.is_a?(Hash)
+        exit_status = action_cli(action[:provider], args, false, name)
       else
         puts I18n.t('nucleon.core.exec.help.usage') + ': ' + main_command.help + "\n"
-        puts I18n.t('nucleon.core.exec.help.header') + ":\n\n"
+        puts I18n.t('nucleon.core.exec.help.header') + ":\n"
         
-        help_data     = {}
-        extended_help = main_command.options[:extended_help]
+        action = main_command.processed ? action : nil
+        puts action_help(action, args.include?("--help"))
         
-        loaded_plugins(:action).each do |provider, data|
-          namespace = data[:namespace]
-          
-          help_data[namespace]           = {} unless help_data.has_key?(namespace)
-          help_data[namespace][provider] = data
-        end
-        
-        help_data.each do |namespace, actions|
-          actions.each do |provider, data|
-            if extended_help
-              help_text = action(provider, { :args => [ '-h' ], :quiet => true }).help  
-            else
-              help_text = action(provider, { :settings => {}, :quiet => true }).help   
-            end
-            puts sprintf("   %-15s : %s\n", namespace, help_text)  
-          end
-          puts "\n"
-        end
-    
-        puts "\n" + I18n.t('nucleon.core.exec.help.footer', { :name => name }) + "\n\n"   
+        puts "\n" + I18n.t('nucleon.core.exec.help.footer', { :command => cyan(name) + yellow(" <action> -h") }) + "\n\n"   
         exit_status = code.help_wanted  
       end 
   
-    rescue Exception => error
+    rescue => error
       logger.error("Nucleon executable experienced an error:")
       logger.error(error.inspect)
       logger.error(error.message)
