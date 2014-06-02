@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "nucleon"
-  s.version = "0.1.20"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adrian Webb"]
-  s.date = "2014-05-21"
+  s.date = "2014-06-02"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -34,6 +34,7 @@ Gem::Specification.new do |s|
     "lib/core/config/collection.rb",
     "lib/core/config/options.rb",
     "lib/core/core.rb",
+    "lib/core/environment.rb",
     "lib/core/errors.rb",
     "lib/core/facade.rb",
     "lib/core/gems.rb",
@@ -69,21 +70,21 @@ Gem::Specification.new do |s|
     "lib/core/util/shell.rb",
     "lib/core/util/ssh.rb",
     "lib/nucleon.rb",
-    "lib/nucleon/action/add.rb",
-    "lib/nucleon/action/create.rb",
     "lib/nucleon/action/extract.rb",
-    "lib/nucleon/action/remove.rb",
-    "lib/nucleon/action/save.rb",
-    "lib/nucleon/action/update.rb",
+    "lib/nucleon/action/project/add.rb",
+    "lib/nucleon/action/project/create.rb",
+    "lib/nucleon/action/project/remove.rb",
+    "lib/nucleon/action/project/save.rb",
+    "lib/nucleon/action/project/update.rb",
     "lib/nucleon/command/bash.rb",
     "lib/nucleon/event/regex.rb",
     "lib/nucleon/project/git.rb",
     "lib/nucleon/project/github.rb",
-    "lib/nucleon/template/json.rb",
+    "lib/nucleon/template/JSON.rb",
+    "lib/nucleon/template/YAML.rb",
     "lib/nucleon/template/wrapper.rb",
-    "lib/nucleon/template/yaml.rb",
-    "lib/nucleon/translator/json.rb",
-    "lib/nucleon/translator/yaml.rb",
+    "lib/nucleon/translator/JSON.rb",
+    "lib/nucleon/translator/YAML.rb",
     "lib/nucleon_base.rb",
     "locales/en.yml",
     "nucleon.gemspec",
