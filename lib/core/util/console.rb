@@ -78,7 +78,7 @@ class Console
   #---
   
   def self.use_colors
-    @@use_colors  
+    @@use_colors && ! ENV['NUCLEON_NO_COLOR'] 
   end
   
   def self.use_colors=use_colors
@@ -263,7 +263,7 @@ class Console
   
   def self.colorize(string, color)
     return '' unless string
-    return string.to_s unless @@use_colors
+    return string.to_s unless use_colors
     
     color        = color.to_sym
     string       = string.to_s
