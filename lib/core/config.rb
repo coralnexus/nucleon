@@ -83,8 +83,11 @@ class Config
   def fetch(data, keys, default = nil, format = false)
     if keys.is_a?(String) || keys.is_a?(Symbol)
       keys = [ keys ]
-    end    
-    key = keys.shift.to_sym
+    end
+    
+    keys = keys.flatten.compact    
+    key  = keys.shift.to_sym
+    
     if data.has_key?(key)
       value = data[key]
       
@@ -105,6 +108,7 @@ class Config
       keys = [ keys ]
     end
     
+    keys     = keys.flatten.compact
     key      = keys.shift.to_sym
     has_key  = data.has_key?(key)
     existing = { 
