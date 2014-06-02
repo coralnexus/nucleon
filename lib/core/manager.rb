@@ -6,28 +6,28 @@ class Manager
     
   #-----------------------------------------------------------------------------
   
-  @@supervisors = {}
+  @@supervisors  = {}
+  @@environments = {}
   
   #-----------------------------------------------------------------------------
   # Plugin manager interface
   
-  def self.connection(name = :core)
-    Nucleon.manager(@@supervisors, name, self)
+  def self.connection(name = :core, reset = false)
+    Nucleon.manager(@@supervisors, name, self, reset)
   end
   
   #---
   
-  def initialize
-    @logger = Nucleon.logger
+  def initialize(actor_id, reset)
+    @logger   = Nucleon.logger
+    @actor_id = actor_id
     
-    @namespaces = {}
-    @types      = {}
-    @load_info  = {}    
-    @plugins    = {}
+    if reset || ! @@environments[@actor_id]
+      @@environments[@actor_id] = Environment.new  
+    end
   end
   
-  #-----------------------------------------------------------------------------
-  # Property accessor / modifiers
+  #---
   
   attr_reader :logger
   
@@ -39,77 +39,65 @@ class Manager
   
   #---
   
-  def namespaces
-    @namespaces.keys
-  end
-  
-  def define_namespace(*names)
-    names.each do |namespace|
-      @namespaces[namespace.to_sym] = true
-    end  
-  end
-  
-  #---
-  
-  def types
-    @types.keys
-  end
-  
-  #---
-  
-  def type_default(type)
-    @types[type.to_sym]
-  end
-  
-  #---
-  
-  def loaded_plugins(type = nil, provider = nil)
-    results  = {}
-    type     = type.to_sym if type
-    provider = provider.to_sym if provider
-    
-    if type && @load_info.has_key?(type)
-      if provider && @load_info.has_key?(provider)
-        results = @load_info[type][provider]  
-      else
-        results = @load_info[type]
-      end
-    elsif ! type
-      results = @load_info      
-    end
-    results
-  end
- 
-  #---
-  
-  def plugins(type = nil, provider = nil)
-    results  = {}
-    type     = type.to_sym if type
-    provider = provider.to_sym if provider
-    
-    if type && @plugins.has_key?(type)
-      if provider && ! @plugins[type].keys.empty?
-        @plugins[type].each do |instance_name, plugin|
-          plugin                 = @plugins[type][instance_name]
-          results[instance_name] = plugin if plugin.plugin_provider == provider
-        end
-      else
-        results = @plugins[type]
-      end
-    elsif ! type
-      results = @plugins
-    end    
-    results
-  end 
-  
-  #-----------------------------------------------------------------------------
-  # Operations
-  
   def test_connection
     true
   end
   
+  #-----------------------------------------------------------------------------
+  # Plugin model accessors / modifiers
+  
+  def namespaces
+    @@environments[@actor_id].namespaces
+  end
+  
   #---
+  
+  def types(namespace)
+    @@environments[@actor_id].plugin_types(namespace)
+  end
+  
+  def define_type(namespace, plugin_type, default_provider)
+    @@environments[@actor_id].define_plugin_type(namespace, plugin_type, default_provider)  
+  end
+  
+  def define_types(namespace, type_info)
+    @@environments[@actor_id].define_plugin_types(namespace, type_info) 
+  end
+  
+  def type_defined?(namespace, plugin_type)
+    @@environments[@actor_id].plugin_type_defined?(namespace, plugin_type)  
+  end
+  
+  def type_default(namespace, plugin_type)
+    @@environments[@actor_id].plugin_type_default(namespace, plugin_type)
+  end
+  
+  #---
+  
+  def loaded_plugin(namespace, plugin_type, provider)
+    @@environments[@actor_id].loaded_plugin(namespace, plugin_type, provider)  
+  end
+  
+  def loaded_plugins(namespace = nil, plugin_type = nil, provider = nil)
+    @@environments[@actor_id].loaded_plugins(namespace, plugin_type, provider)
+  end
+  
+  def define_plugin(namespace, plugin_type, base_path, file, &code)
+    @@environments[@actor_id].define_plugin(namespace, plugin_type, base_path, file, &code)  
+  end
+  
+  def plugin_has_provider?(namespace, plugin_type, provider)
+    @@environments[@actor_id].plugin_has_provider?(namespace, plugin_type, provider)  
+  end
+  
+  #---
+  
+  def active_plugins(namespace = nil, plugin_type = nil, provider = nil)
+    @@environments[@actor_id].active_plugins(namespace, plugin_type, provider)
+  end 
+  
+  #-----------------------------------------------------------------------------
+  # Plugin registration / initialization
   
   def reload(core = false, &code)
     logger.info("Loading Nucleon plugins at #{Time.now}")
@@ -117,15 +105,15 @@ class Manager
     if core
       Celluloid.logger = logger if Nucleon.parallel?   
     
-      define_namespace :nucleon
-    
-      define_type :extension     => nil,     # Core
-                  :action        => :update, # Core
-                  :project       => :git,    # Core
-                  :command       => :bash,   # Core
-                  :event         => :regex,  # Utility
-                  :template      => :json,   # Utility
-                  :translator    => :json    # Utility
+      define_types :nucleon, {
+        :extension  => nil,     # Core
+        :action     => :update, # Core
+        :project    => :git,    # Core
+        :command    => :bash,   # Core
+        :event      => :regex,  # Utility
+        :template   => :json,   # Utility
+        :translator => :json    # Utility
+      }
     end
     
     # Allow block level namespace and type registration
@@ -133,21 +121,6 @@ class Manager
                               
     load_plugins(core, &code)                                  
     logger.info("Finished loading Nucleon plugins at #{Time.now}")    
-  end
-  
-  #---
-  
-  def define_type(type_info)
-    if type_info.is_a?(Hash)
-      logger.info("Defining plugin types at #{Time.now}")
-      
-      type_info.each do |type, default_provider|
-        logger.debug("Mapping plugin type #{type} to default provider #{default_provider}")
-        @types[type.to_sym] = default_provider
-      end
-    else
-      logger.warn("Defined types must be specified as a hash to be registered properly")      
-    end
   end
   
   #---
@@ -196,7 +169,7 @@ class Manager
       logger.info("Loading directories from #{base_path} at #{Time.now}")
       Dir.entries(base_path).each do |path|
         unless path.match(/^\.\.?$/)
-          register_type(namespace, base_path, path, &code) if types.include?(path.to_sym)      
+          register_type(namespace, base_path, path, &code) if type_defined?(namespace, path)      
         end
       end
     end  
@@ -211,70 +184,50 @@ class Manager
     if File.directory?(base_directory)
       logger.info("Registering #{base_directory} at #{Time.now}")
       
-      Dir.glob(File.join(base_directory, '*.rb')).each do |file|
-        add_build_info(namespace, plugin_type, file, &code)
+      Dir.glob(File.join(base_directory, '**', '*.rb')).each do |file|
+        define_plugin(namespace, plugin_type, base_directory, file, &code)
       end
     end
   end
   protected :register_type
   
   #---
- 
-  def add_build_info(namespace, type, file, &code)
-    type = type.to_sym
-    
-    @load_info[type] = {} unless @load_info.has_key?(type)
-    
-    components = file.split(File::SEPARATOR)
-    provider   = components.pop.sub(/\.rb/, '').to_sym
-    directory  = components.join(File::SEPARATOR) 
-    
-    logger.info("Loading nucleon #{type} plugin #{provider} at #{Time.now}")
-        
-    unless @load_info[type].has_key?(provider)
-      data = {
-        :namespace => namespace,
-        :type      => type,
-        :provider  => provider,        
-        :directory => directory,
-        :file      => file
-      }
-      code.call(data) if code
-      
-      logger.debug("Plugin #{type} loaded: #{data.inspect}")
-      @load_info[type][provider] = data
-    end
-  end
-  protected :add_build_info
-  
-  #---
   
   def autoload
     logger.info("Autoloading registered plugins at #{Time.now}")
     
-    @load_info.keys.each do |type|
-      logger.debug("Autoloading type: #{type}")
+    load_info = loaded_plugins
+    
+    load_info.keys.each do |namespace|
+      load_info[namespace].keys.each do |plugin_type|
+        logger.debug("Autoloading type: #{plugin_type}")
       
-      @load_info[type].each do |provider, plugin|
-        logger.debug("Autoloading provider #{provider} at #{plugin[:directory]}")
+        load_info[namespace][plugin_type].each do |provider, plugin|
+          logger.debug("Autoloading provider #{provider} at #{plugin[:directory]}")
         
-        nucleon_require(plugin[:directory], provider)
+          require plugin[:file]
         
-        @load_info[type][provider][:class] = provider_class(plugin[:namespace], type, provider)
-        logger.debug("Updated #{type} #{provider} load info: #{@load_info[type][provider].inspect}")
+          load_info[namespace][plugin_type][provider][:class] = class_const(plugin[:class_components])
+          logger.debug("Updated #{plugin_type} #{provider} load info")
         
-        # Make sure extensions are listening from the time they are loaded
-        load(:extension, provider, { :name => provider }) if type == :extension # Create a persistent instance
+          # Make sure extensions are listening from the time they are loaded
+          if plugin[:namespace] == :nucleon && plugin_type == :extension 
+            # Create a persistent instance
+            load(plugin[:namespace], :extension, provider, { :name => provider })
+          end 
+        end
       end
     end
   end
   
-  #---
+  #-----------------------------------------------------------------------------
+  # Plugin workflow
   
-  def load_base(type, provider, options = {})
-    logger.info("Fetching plugin #{type} provider #{provider} at #{Time.now}")
+  def load_base(namespace, plugin_type, provider, options = {})
+    logger.info("Fetching plugin #{namespace} #{plugin_type} provider #{provider} at #{Time.now}")
     
-    options    = translate_type(type, options)    
+    type_info  = loaded_plugin(namespace, plugin_type, provider)
+    options    = translate_type(type_info, options)    
     config     = Config.ensure(options)
     name       = config.get(:name, nil)
     ensure_new = config.delete(:new, false)
@@ -282,7 +235,7 @@ class Manager
     if name
       logger.debug("Looking up existing instance of #{name}")
       
-      if existing_instance = get(type, name)
+      if existing_instance = get(namespace, plugin_type, name)
         unless ensure_new
           config.export.each do |property_name, value|
             unless [ :name, :meta ].include?(property_name)
@@ -291,38 +244,38 @@ class Manager
           end
           existing_instance.normalize(true)
       
-          logger.debug("Using existing instance of #{type}, #{name}")
+          logger.debug("Using existing instance of #{plugin_type}, #{name}")
           return existing_instance
         end
       end
     end
-    create(type, provider, options)   
+    create(namespace, plugin_type, provider, options)   
   end
   
   #---
   
-  def load(type, provider = nil, options = {})
-    default_provider = type_default(type)
+  def load(namespace, plugin_type, provider = nil, options = {})
+    default_provider = type_default(namespace, plugin_type)
     
     # Allow options to override provider
     config   = Config.ensure(options)
     provider = config.delete(:provider, provider)
     provider = default_provider unless provider
     
-    load_base(type, provider, config)
+    load_base(namespace, plugin_type, provider, config)
   end
   
   #---
   
-  def load_multiple(type, data, build_hash = false, keep_array = false)
-    logger.info("Fetching multiple plugins of #{type} at #{Time.now}")
+  def load_multiple(namespace, plugin_type, data, build_hash = false, keep_array = false)
+    logger.info("Fetching multiple plugins of #{plugin_type} at #{Time.now}")
     
     group = ( build_hash ? {} : [] )
-    klass = plugin_class(type)   
-    data  = klass.build_info(type, data) if klass.respond_to?(:build_info)
+    klass = plugin_class(namespace, plugin_type)   
+    data  = klass.build_info(namespace, plugin_type, data) if klass.respond_to?(:build_info)
     
     data.each do |options|
-      if plugin = load(type, options[:provider], options)
+      if plugin = load(namespace, plugin_type, options[:provider], options)
         if build_hash
           group[plugin.plugin_name] = plugin
         else
@@ -336,69 +289,32 @@ class Manager
   
   #---
   
-  def create(type, provider, options = {})
-    type     = type.to_sym
-    provider = provider.to_sym
-       
-    unless @types.has_key?(type)
-      logger.warn("Plugin type #{type} creation requested but it has not been registered yet")
-      return nil
-    end
-    
-    info = @load_info[type][provider] if Util::Data.exists?(@load_info, [ type, provider ])
-        
-    if info
-      logger.debug("Plugin information for #{provider} #{type} found.")
+  def create(namespace, plugin_type, provider, options = {})
+    @@environments[@actor_id].create_plugin(namespace, plugin_type, provider, options) do |type_info, plugin_options|
+      logger.info("Creating new plugin #{provider} #{plugin_type}")
       
-      instance_name = "#{provider}_" + Nucleon.sha1(options)
-      options       = translate(info[:namespace], type, provider, options)      
-              
-      @plugins[type] = {} unless @plugins.has_key?(type)
-      
-      unless instance_name && @plugins[type].has_key?(instance_name)
-        info[:instance_name] = instance_name
-        options[:meta]       = Config.new(info).import(Util::Data.hash(options[:meta]))
-        
-        logger.info("Creating new plugin #{provider} #{type}")
-       
-        plugin = info[:class].new(type, provider, options)
-        
-        @plugins[type][instance_name] = plugin 
-      end
-      return @plugins[type][instance_name]
+      plugin_options        = translate(type_info, plugin_options)
+      plugin_options[:meta] = Config.new(type_info).import(Util::Data.hash(plugin_options[:meta]))
+      plugin_options  
     end
-    
-    logger.warn("Plugin information cannot be found for plugin #{type} #{provider}")      
-    nil  
   end
   
   #---
   
-  def get(type, name)
-    logger.info("Fetching plugin #{type} #{name}")
-    
-    if @plugins.has_key?(type)
-      @plugins[type].each do |instance_name, plugin|
-        if plugin.plugin_name.to_s == name.to_s
-          logger.debug("Plugin #{type} #{name} found")
-          return plugin
-        end
-      end
-    end
-    logger.debug("Plugin #{type} #{name} not found")
-    nil  
+  def get(namespace, plugin_type, plugin_name)
+    @@environments[@actor_id].get_plugin(namespace, plugin_type, plugin_name)
   end
   
   #---
   
   def remove(plugin)
-    if plugin && plugin.respond_to?(:plugin_type) && @plugins.has_key?(plugin.plugin_type)
-      logger.debug("Removing #{plugin.plugin_type} #{plugin.plugin_name}")
-      @plugins[plugin.plugin_type].delete(plugin.plugin_instance_name)
-      plugin.remove_plugin
-      plugin.terminate if plugin.respond_to?(:terminate) # For Celluloid plugins
-    else
-      logger.warn("Cannot remove plugin: #{plugin.inspect}")    
+    if plugin && plugin.respond_to?(:plugin_type)
+      @@environments[@actor_id].remove_plugin(plugin.plugin_namespace, plugin.plugin_type, plugin.plugin_instance_name) do
+        logger.debug("Removing #{plugin.plugin_type} #{plugin.plugin_name}")
+      
+        plugin.remove_plugin
+        plugin.terminate if plugin.respond_to?(:terminate) # For Celluloid plugins  
+      end
     end
   end
   
@@ -412,7 +328,7 @@ class Manager
       logger.hook("Executing extension hook #{Nucleon.blue(method)} at #{Nucleon.green(Time.now.to_s)}")
     end
     
-    extensions = plugins(:extension)
+    extensions = active_plugins(:nucleon, :extension)
     
     extensions.each do |name, plugin|
       provider = plugin.plugin_provider
@@ -530,72 +446,45 @@ class Manager
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def translate_type(type, options)
-    klass = plugin_class(type)
-    logger.debug("Executing option translation for: #{klass.inspect}")          
+  def translate_type(type_info, options)
+    if type_info
+      klass = plugin_class(type_info[:namespace], type_info[:type])
+      logger.debug("Executing option translation for: #{klass.inspect}")          
     
-    options = klass.send(:translate, options) if klass.respond_to?(:translate)
+      options = klass.send(:translate, options) if klass.respond_to?(:translate)
+    end
     options
   end
   
   #---
   
-  def translate(namespace, type, provider, options)
-    klass = provider_class(namespace, type, provider)
-    logger.debug("Executing option translation for: #{klass.inspect}")
+  def translate(type_info, options)
+    if type_info
+      klass = type_info[:class]
+    
+      logger.debug("Executing option translation for: #{klass.inspect}")
               
-    options = klass.send(:translate, options) if klass.respond_to?(:translate)
+      options = klass.send(:translate, options) if klass.respond_to?(:translate)
+    end
     options
   end
   
   #---
   
   def class_name(name, separator = '::', want_array = FALSE)
-    components = []
-    
-    case name
-    when String, Symbol
-      components = name.to_s.split(separator)
-    when Array
-      components = name 
-    end
-    
-    components.collect! do |value|
-      value    = value.to_s.strip      
-      value[0] = value.capitalize[0] if value =~ /^[a-z]/ 
-      value
-    end
-    
-    if want_array
-      return components
-    end    
-    components.join(separator)
+    @@environments[@actor_id].class_name(name, separator, want_array)
   end
   
   #---
   
   def class_const(name, separator = '::')
-    components = class_name(name, separator, TRUE)
-    constant   = Object
-    
-    components.each do |component|
-      constant = constant.const_defined?(component) ? 
-                  constant.const_get(component) : 
-                  constant.const_missing(component)
-    end
-    constant
+    @@environments[@actor_id].class_const(name, separator)
   end
   
   #---
   
-  def plugin_class(type)
-    class_const([ :nucleon, :plugin, type ]) 
-  end
-  
-  #---
-  
-  def provider_class(namespace, type, provider)
-    class_const([ namespace, type, provider ])  
+  def plugin_class(namespace, plugin_type)
+    @@environments[@actor_id].plugin_class(namespace, plugin_type)
   end
 end
 end
