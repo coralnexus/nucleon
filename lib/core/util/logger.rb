@@ -109,7 +109,7 @@ class Logger
     else
       @logger = logger
     end
-    self.class.add_logger(@resource, @logger)  
+    self.class.add_logger(@resource, @logger) unless self.class.loggers.has_key?(@resource)  
   end
   
   #-----------------------------------------------------------------------------
