@@ -1,10 +1,18 @@
 
 module Nucleon
 module Action
-class Add < Nucleon.plugin_class(:action)
+module Project
+class Add < Nucleon.plugin_class(:nucleon, :action)
   
   include Mixin::Action::Project
   include Mixin::Action::Push
+  
+  #-----------------------------------------------------------------------------
+  # Info
+  
+  def self.describe
+    super(:project, :add, 700)
+  end
  
   #-----------------------------------------------------------------------------
   # Settings
@@ -20,8 +28,8 @@ class Add < Nucleon.plugin_class(:action)
       register :sub_path, :str, nil
       register :sub_reference, :str, nil do |value|
         success = true
-        if info = Nucleon.plugin_class(:project).translate_reference(value)
-          if ! Nucleon.loaded_plugins(:project).keys.include?(info[:provider].to_sym)
+        if info = Nucleon.plugin_class(:nucleon, :project).translate_reference(value)
+          if ! Nucleon.loaded_plugins(:nucleon, :project).keys.include?(info[:provider].to_sym)
             warn('nucleon.core.mixin.action.project.errors.project_reference', { 
               :value     => value, 
               :provider  => info[:provider],  
@@ -52,7 +60,7 @@ class Add < Nucleon.plugin_class(:action)
    
   def execute
     super do
-      info('nucleon.actions.add.start')
+      info('nucleon.action.project.add.start')
       
       if project = project_load(settings[:path], false)
         sub_info = project.translate_reference(settings[:sub_reference], settings[:editable])
@@ -76,6 +84,7 @@ class Add < Nucleon.plugin_class(:action)
       end
     end
   end
+end
 end
 end
 end

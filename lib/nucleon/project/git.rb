@@ -1,7 +1,7 @@
 
 module Nucleon
 module Project
-class Git < Plugin::Project
+class Git < Nucleon.plugin_class(:nucleon, :project)
   
   #-----------------------------------------------------------------------------
   # Project plugin interface
@@ -524,7 +524,7 @@ class Git < Plugin::Project
           end
         end
         
-        command_provider = get(:command_provider, Nucleon.type_default(:command))
+        command_provider = get(:command_provider, Nucleon.type_default(:nucleon, :command))
         quiet            = get(:quiet, true)        
         
         command = Nucleon.command({

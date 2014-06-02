@@ -1,11 +1,19 @@
 
 module Nucleon
 module Action
-class Save < Nucleon.plugin_class(:action)
+module Project
+class Save < Nucleon.plugin_class(:nucleon, :action)
   
   include Mixin::Action::Project
   include Mixin::Action::Commit
   include Mixin::Action::Push
+  
+  #-----------------------------------------------------------------------------
+  # Info
+  
+  def self.describe
+    super(:project, :save, 800)
+  end
  
   #-----------------------------------------------------------------------------
   # Settings
@@ -36,7 +44,7 @@ class Save < Nucleon.plugin_class(:action)
    
   def execute          
     super do
-      info('nucleon.actions.save.start')
+      info('nucleon.action.project.save.start')
           
       if project = project_load(settings[:path], false, false)
         if commit(project, settings[:files])
@@ -49,6 +57,7 @@ class Save < Nucleon.plugin_class(:action)
       end
     end
   end
+end
 end
 end
 end

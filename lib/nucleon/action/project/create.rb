@@ -1,10 +1,18 @@
 
 module Nucleon
 module Action
-class Create < Nucleon.plugin_class(:action)
+module Project
+class Create < Nucleon.plugin_class(:nucleon, :action)
   
   include Mixin::Action::Project
- 
+  
+  #-----------------------------------------------------------------------------
+  # Info
+  
+  def self.describe
+    super(:project, :create, 1000)
+  end
+  
   #-----------------------------------------------------------------------------
   # Settings
   
@@ -30,12 +38,13 @@ class Create < Nucleon.plugin_class(:action)
    
   def execute
     super do
-      info('nucleon.actions.create.start')
+      info('nucleon.action.project.create.start')
       
       project       = project_load(settings[:path], true, true)
       myself.status = code.project_failure unless project
     end
   end
+end
 end
 end
 end

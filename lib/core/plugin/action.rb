@@ -1,7 +1,38 @@
 
 module Nucleon
 module Plugin
-class Action < Base
+class Action < Nucleon.plugin_class(:nucleon, :base)
+  
+  extend Mixin::Colors
+  
+  #-----------------------------------------------------------------------------
+  # Info
+  
+  def self.describe(group = nil, action = 'unknown', weight = -1000, description = nil, help = nil)
+    if group
+      group_name  = Util::Data.array(group).join('.')
+      description_id = "#{namespace}.action.#{group_name}.#{action}.description"
+      help_id        = "#{namespace}.action.#{group_name}.#{action}.help"
+    else
+      description_id = "#{namespace}.action.#{action}.description"
+      help_id        = "#{namespace}.action.#{action}.help"
+    end
+    
+    {
+      :namespace   => namespace,
+      :weight      => weight,
+      :group       => group,
+      :action      => action,
+      :description => description ? description : I18n.t(description_id),
+      :help        => help ? help : I18n.t(help_id)
+    }
+  end
+  
+  #---
+  
+  def self.namespace
+    :nucleon
+  end
   
   #-----------------------------------------------------------------------------
   # Default option interface
@@ -46,7 +77,7 @@ class Action < Base
       exit_status   = action.execute
       action_result = action.result
       
-    rescue Exception => error
+    rescue => error
       logger.error("Nucleon action #{provider} experienced an error:")
       logger.error(error.inspect)
       logger.error(error.message)
@@ -114,8 +145,21 @@ class Action < Base
   #-----------------------------------------------------------------------------
   # Property accessor / modifiers
   
+  def index_config
+    action_info = nil
+    self.class.action_index(false).export.each do |action_id, info|
+      if info[:provider] == plugin_provider
+        action_info = info
+        break
+      end
+    end
+    Config.ensure(action_info)    
+  end
+  
+  #---
+  
   def namespace
-    :nucleon
+    self.class.namespace
   end
   
   #---
@@ -177,11 +221,20 @@ class Action < Base
   #---
     
   def configure
-    register :color, :bool, true, 'nucleon.core.action.options.color'
+    action_info = index_config
     
-    yield if block_given?
+    yield(action_info) if block_given?
     
-    usage = "#{plugin_provider} "    
+    group  = array(action_info[:description][:group])    
+    action = cyan(action_info[:description][:action])
+    
+    if ! group.empty?
+      group = green(group.join(' ').strip)
+      usage = "#{group} #{action} "
+    else
+      usage = "#{action} "
+    end
+    
     arguments.each do |arg|
       arg_config = config[arg.to_sym]
       
@@ -191,7 +244,7 @@ class Action < Base
         usage << "<#{arg}> "  
       end      
     end
-    myself.usage = usage
+    myself.usage = yellow(usage)
     myself
   end
   
@@ -228,7 +281,14 @@ class Action < Base
   def parse_base(args)    
     logger.info("Parsing action #{plugin_provider} with: #{args.inspect}")
     
-    @parser = Util::CLI::Parser.new(args, usage) do |parser|
+    action_info = index_config
+    
+    help_text = ''
+    action_info[:description][:help].split("\n").each do |line|
+      help_text << '     ' + line + "\n"
+    end
+    
+    @parser = Util::CLI::Parser.new(args, usage, "\n#{help_text}\n") do |parser|
       parse(parser)      
       extension(:parse, { :parser => parser, :config => config })
     end
@@ -241,7 +301,7 @@ class Action < Base
         
       elsif @parser.options[:help] && ! quiet?
         executable = delete(:executable, '')
-        puts I18n.t('nucleon.core.exec.help.usage') + ": #{executable} " + help + "\n"
+        puts I18n.t('nucleon.core.exec.help.usage') + ": " + executable.to_s + ' ' + help + "\n"
         
       else
         if @parser.options[:help]
@@ -256,7 +316,7 @@ class Action < Base
   #---
   
   def parse(parser)
-        
+         
     generate = lambda do |format, name|
       formats = [ :option, :arg ]
       types   = [ :bool, :int, :float, :str, :array ]
@@ -329,17 +389,13 @@ class Action < Base
     myself.status = code.success
     myself.result = nil
     
-    # TODO: Figure out how to deal with paralleization of actions with global ui settings
-    use_colors = Util::Console.use_colors
-    Util::Console.use_colors = @parser.options[:color]
-    
     if processed?      
       begin
         if skip_validate || validate
           yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
           myself.status = extension_set(:exec_exit, myself.status) unless skip_hooks
         else
-          puts "\n" + I18n.t('corl.core.exec.help.usage') + ': ' + help + "\n" unless quiet?
+          puts "\n" + I18n.t('nucleon.core.exec.help.usage') + ': ' + help + "\n" unless quiet?
           myself.status = code.validation_failed 
         end
       ensure
@@ -361,9 +417,6 @@ class Action < Base
     end  
     
     status
-    
-  ensure
-    Util::Console.use_colors = use_colors 
   end
   
   #---
@@ -389,6 +442,204 @@ class Action < Base
   def render_options
     settings
   end
+  
+  #-----------------------------------------------------------------------------
+  # Utilities
+  
+  def self.components(search)
+    components = []
+      
+    array(search).each do |element|
+      break if element.match(/^\-+/)
+      components << element
+    end
+    components  
+  end
+  
+  #---
+  
+  def self.action_index(tree = true)
+    action_config = Config.new
+    action_index  = Config.new
+    
+    generate_index = lambda do |info, parents = nil|
+      groups = info.keys - [ :_weight, :_weights ]
+      groups = groups.sort do |a, b| 
+        info[b][:_weight] <=> info[a][:_weight]
+      end
+      
+      groups.each do |group|
+        data = info[group]
+        
+        if data.is_a?(Hash) && data.has_key?(:_weights)
+          sub_parents = parents.nil? ? [ group ] : [ parents, group ].flatten          
+          generate_index.call(data, sub_parents)
+        else
+          keys = tree ? [ parents, group ] : [ parents, group ].flatten.join('::')
+          action_index.set(keys, data)
+        end
+      end
+    end
+    
+    Nucleon.loaded_plugins(:nucleon, :action).each do |provider, data|
+      description        = data[:class].describe
+      data[:description] = description
+      data[:_weight]     = description[:weight]
+      
+      keys = [ description[:namespace], description[:group], description[:action] ].flatten.compact
+      action_config.set(keys, data)
+      
+      keys.pop
+      
+      while ! keys.empty?
+        group_config = action_config.get(keys)
+        
+        if group_config.has_key?(:_weights)
+          group_config[:_weights].push(description[:weight])  
+        else
+          action_config.set([ keys, :_weights ], [ description[:weight] ])
+        end        
+        action_config.set([ keys, :_weight ], group_config[:_weights].inject(0.0) { |sum, el| sum + el } / group_config[:_weights].size)
+        keys.pop
+      end
+    end
+    
+    generate_index.call(action_config.export)
+    action_index
+  end
+  
+  #---
+  
+  def self.search_actions(search_components)
+    action_components = components(search_components)
+    action_index      = action_index(false).export
+    actions_found     = []
+    final_components  = []
+    
+    search_action = lambda do |components|
+      unless components.empty?
+        action_id         = components.is_a?(Array) ? components.flatten.join('::') : components
+        action_id_pattern = action_id.gsub('::', ':.*:')
+        
+        action_index.each do |loaded_action_id, loaded_action_info|
+          if loaded_action_id.match(/#{action_id_pattern}/)
+            loaded_action_info[:action_id] = loaded_action_id
+            actions_found << loaded_action_info
+          end
+        end
+      end
+      if components.is_a?(Array) && ! components.empty? && actions_found.empty?
+        components.pop
+        final_components = components
+        search_action.call(components)
+      else
+        final_components = components
+      end  
+    end
+    
+    search_action.call(action_components) unless action_components.empty?
+    
+    { :actions    => actions_found.size == 1 ? actions_found[0] : actions_found, 
+      :components => final_components 
+    }
+  end
+  
+  #---
+  
+  def self.action_help(action = nil, extended_help = false)
+    action_index      = action_index(false).export
+    provider_index    = {}
+    processed_actions = {}
+    
+    last_namespace    = nil
+    last_group        = nil        
+    multiple_found    = false
+    
+    command_width           = 0
+    namespace_command_width = {}
+    
+    output            = ''
+    
+    if action
+      if action.empty?
+        output << cyan(sprintf("\n%s\n", I18n.t('nucleon.core.exec.help.no_actions_found')))
+      else
+        multiple_found = true
+        output << cyan(sprintf("\n%s\n", I18n.t('nucleon.core.exec.help.multiple_actions_found')))
+            
+        action.each do |info|
+          provider_index[info[:provider]] = true
+        end
+      end
+    end
+    
+    action_index.each do |action_id, info|
+      if ! multiple_found || provider_index.has_key?(info[:provider])
+        command_text  = Nucleon.action(info[:provider], { :settings => {}, :quiet => true }).help
+        
+        command_size  = command_text.gsub(/\e\[(\d+)m/, '').size
+        command_width = [ command_width, command_size + 2 ].max
+        
+        namespace = info[:description][:namespace]
+              
+        namespace_command_width[namespace] = 0 unless namespace_command_width.has_key?(namespace)
+        namespace_command_width[namespace] = [ namespace_command_width[namespace], command_size + 2 ].max
+          
+        if extended_help
+          help_text = ''
+          info[:description][:help].split("\n").each do |line|
+            break if ! help_text.empty? && line.empty?
+            help_text << '           ' + line + "\n"
+          end  
+        else
+          help_text = nil
+        end
+        
+        processed_actions[action_id] = {
+          :info    => info,
+          :command => command_text,
+          :help    => help_text          
+        }        
+      end  
+    end
+               
+    processed_actions.each do |action_id, info|
+      command_text = info[:command]
+      help_text    = info[:help]
+      info         = info[:info]
+      namespace    = info[:description][:namespace]
+      group        = info[:description][:group]
+      
+      group_id = group.is_a?(Array) ? group.flatten.join('::') : group
+      group_id = '' unless group_id
+      
+      output << "\n" if group_id != last_group
+          
+      if namespace != last_namespace
+        output << "\n----------------------------------------------------\n" if help_text
+        output << sprintf("\n   %s:\n\n", I18n.t('nucleon.core.exec.help.action_group', { :namespace => purple(namespace) }))
+      end
+          
+      if help_text
+        output << "       " + render_colorized(command_text, namespace_command_width[namespace]) + "  --  " + blue(info[:description][:description]) + "\n"
+        output << "\n#{help_text}\n"
+      else
+        output << "       " + render_colorized(command_text, command_width) + "  --  " + blue(info[:description][:description]) + "\n"
+      end         
+          
+      last_namespace = namespace
+      last_group     = group_id
+    end
+    output 
+  end
+  
+  #---
+
+  def self.render_colorized(text, length = 0)
+    command_size  = text.gsub(/\e\[(\d+)m/, '').size
+    remaining     = [ length - command_size, 0 ].max
+    text + sprintf("%#{remaining}s", ' ')  
+  end        
 end
 end
 end

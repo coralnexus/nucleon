@@ -1,8 +1,15 @@
 
 module Nucleon
 module Action
-class Extract < Nucleon.plugin_class(:action)
- 
+class Extract < Nucleon.plugin_class(:nucleon, :action)
+  
+  #-----------------------------------------------------------------------------
+  # Info
+  
+  def self.describe
+    super(nil, :extract, -50)
+  end
+  
   #-----------------------------------------------------------------------------
   # Settings
   
@@ -12,7 +19,7 @@ class Extract < Nucleon.plugin_class(:action)
          
       register :path, :str, nil do |value|
         unless File.directory?(value)
-          warn('nucleon.actions.extract.errors.path', { :value => value })
+          warn('nucleon.action.extract.errors.path', { :value => value })
           next false
         end
         true
@@ -20,7 +27,7 @@ class Extract < Nucleon.plugin_class(:action)
       register :encoded, :str, nil do |value|
         @package = Util::Package.new(value)
         if @package.data.export.empty?
-          warn('nucleon.actions.extract.errors.encoded', { :value => value })
+          warn('nucleon.action.extract.errors.encoded', { :value => value })
           next false  
         end
         true

@@ -1,10 +1,18 @@
 
 module Nucleon
 module Action
-class Remove < Nucleon.plugin_class(:action)
+module Project
+class Remove < Nucleon.plugin_class(:nucleon, :action)
   
   include Mixin::Action::Project
   include Mixin::Action::Push
+  
+  #-----------------------------------------------------------------------------
+  # Info
+  
+  def self.describe
+    super(:project, :remove, 600)
+  end
  
   #-----------------------------------------------------------------------------
   # Settings
@@ -38,7 +46,7 @@ class Remove < Nucleon.plugin_class(:action)
   
   def execute
     super do
-      info('nucleon.actions.remove.start')
+      info('nucleon.action.project.remove.start')
       
       if project = project_load(settings[:path], false)
         if project.delete_subproject(settings[:sub_path])
@@ -51,6 +59,7 @@ class Remove < Nucleon.plugin_class(:action)
       end
     end
   end
+end
 end
 end
 end

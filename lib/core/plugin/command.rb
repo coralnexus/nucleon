@@ -1,7 +1,7 @@
 
 module Nucleon
 module Plugin
-class Command < Base
+class Command < Nucleon.plugin_class(:nucleon, :base)
 
   #-----------------------------------------------------------------------------
   # Command plugin interface

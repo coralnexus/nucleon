@@ -1,7 +1,7 @@
 
 module Nucleon
 module Plugin
-class Project < Base
+class Project < Nucleon.plugin_class(:nucleon, :base)
   
   @@ignore_lock = Mutex.new
   
@@ -874,9 +874,9 @@ class Project < Base
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def self.build_info(type, data)  
+  def self.build_info(namespace, plugin_type, data)  
     data = data.split(/\s*,\s*/) if data.is_a?(String)
-    super(type, data)
+    super(namespace, plugin_type, data)
   end
   
   #---
@@ -914,7 +914,7 @@ class Project < Base
       
       logger.debug("Translating project reference: #{provider}  #{url}  #{revision}")
       
-      if provider && Nucleon.loaded_plugins(:project).keys.include?(provider.to_sym)
+      if provider && Nucleon.loaded_plugins(:nucleon, :project).keys.include?(provider.to_sym)
         klass        = Nucleon.class_const([ :nucleon, :project, provider ])          
         expanded_url = klass.send(:expand_url, url, editable) if klass.respond_to?(:expand_url)
       end

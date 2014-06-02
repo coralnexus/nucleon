@@ -1,7 +1,7 @@
 
 module Nucleon
 module Event
-class Regex < Plugin::Event
+class Regex < Nucleon.plugin_class(:nucleon, :event)
  
   #-----------------------------------------------------------------------------
   # Regular expression event interface

@@ -1,7 +1,7 @@
 
 module Nucleon
 module Translator
-class Json < Plugin::Translator
+class JSON < Nucleon.plugin_class(:nucleon, :translator)
    
   #-----------------------------------------------------------------------------
   # Translator operations

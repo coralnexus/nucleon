@@ -1,7 +1,7 @@
 
 module Nucleon
 module Template
-class Json < Plugin::Template
+class JSON < Nucleon.plugin_class(:nucleon, :template)
   
   #-----------------------------------------------------------------------------
   # Renderers  

@@ -1,9 +1,17 @@
 
 module Nucleon
 module Action
-class Update < Nucleon.plugin_class(:action)
+module Project
+class Update < Nucleon.plugin_class(:nucleon, :action)
   
   include Mixin::Action::Project
+  
+  #-----------------------------------------------------------------------------
+  # Info
+  
+  def self.describe
+    super(:project, :update, 900)
+  end
  
   #-----------------------------------------------------------------------------
   # Settings
@@ -22,12 +30,13 @@ class Update < Nucleon.plugin_class(:action)
    
   def execute
     super do
-      info('nucleon.actions.update.start')
+      info('nucleon.action.project.update.start')
       
       project       = project_load(settings[:path], false, true)
       myself.status = code.project_failure unless project
     end
   end
+end
 end
 end
 end

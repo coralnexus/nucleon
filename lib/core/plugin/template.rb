@@ -1,7 +1,7 @@
 
 module Nucleon
 module Plugin
-class Template < Base
+class Template < Nucleon.plugin_class(:nucleon, :base)
 
   #-----------------------------------------------------------------------------
   # Template plugin interface

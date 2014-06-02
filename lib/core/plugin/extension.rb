@@ -1,7 +1,7 @@
 
 module Nucleon
 module Plugin
-class Extension < Base
+class Extension < Nucleon.plugin_class(:nucleon, :base)
 
   #-----------------------------------------------------------------------------
   # Extension plugin interface

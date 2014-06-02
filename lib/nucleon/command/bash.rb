@@ -1,7 +1,7 @@
 
 module Nucleon
 module Command
-class Bash < Plugin::Command
+class Bash < Nucleon.plugin_class(:nucleon, :command)
 
   #-----------------------------------------------------------------------------
   # Command plugin interface

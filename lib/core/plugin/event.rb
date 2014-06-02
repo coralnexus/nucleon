@@ -1,7 +1,7 @@
 
 module Nucleon
 module Plugin
-class Event < Base
+class Event < Nucleon.plugin_class(:nucleon, :base)
 
   #-----------------------------------------------------------------------------
   # Event plugin interface
@@ -27,9 +27,9 @@ class Event < Base
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def self.build_info(type, data)  
+  def self.build_info(namespace, plugin_type, data)  
     data = data.split(/\s*,\s*/) if data.is_a?(String)
-    return super(type, data)
+    return super(namespace, plugin_type, data)
   end
   
   #---

@@ -7,14 +7,24 @@ en:
             Usage
           header: |-
             Available actions
+          action_group: |-
+            %{namespace} actions
+          no_actions_found: |-
+            No action found.  Try these.
+          multiple_actions_found: |-
+            Multiple actions were found.  Did you mean one of these?
           footer: |-
-            For help on any individual action run `%{name} <action> -h`
+            For help on any individual action run `%{command}`
         errors:
           missing_argument: |-
             Argument <%{name}> must be specified          
       util:
         cli:
           options:
+            version: |-
+              Print the current version information and exit
+            color: |-
+              Whether or not to output console messages in color (default %{default_value})
             short_help: |-
               Display brief help information for this command
             extended_help: |-
@@ -26,10 +36,6 @@ en:
           parse:
             error: |-
               There was a problem with the command arguments given
-      action:
-        options:
-          color: |-
-            Whether or not to output console messages in color (default %{default_value})
       mixin:
         action:
           project:
@@ -62,8 +68,64 @@ en:
                 Branch to push (default %{default_value})
               propogate_push: |-
                 Propogate pushes to the remote throughout the project tree (default %{default_value})
-    actions:
+    action:
+      unknown: 
+        description: |-
+          This Nucleon action has no description available
+        help: |-
+          There is no extended help information available for this Nucleon action.
+      project:
+        create:
+          description: |-
+            Create a new project
+          options:
+            path: |-
+              Project path (default %{default_value})
+          start: |-
+            Creating a new project at %{path} from %{project_reference}
+        update:
+          description: |-
+            Update this project from a remote
+          options:
+            path: |-
+              Project path (default %{default_value})
+          start: |-
+            Starting update run from provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})
+        save:
+          description: |-
+            Save changes to files in this project
+          options:
+            path: |-
+              Project path (default %{default_value})
+            files: |-
+              Optional space separated list of files to save
+          start: |-
+            Saving project changes with provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})        
+        add:
+          description: |-
+            Add a new sub-project to this project
+          options:
+            path: |-
+              Project path (default %{default_value})
+            sub_path: |-
+              Subproject path
+            editable: |-
+              Whether or not this sub project should be added as an editable remote (default %{default_value})
+          start: |-
+            Adding new subproject from %{sub_reference} at %{sub_path}
+        remove:
+          description: |-
+            Remove an existing sub-project from this project
+          options:
+            path: |-
+              Project path (default %{default_value})
+            sub_path: |-
+              Subproject path
+          start: |-
+            Removing existing subproject at %{sub_path}
       extract:
+        description: |-
+          Extract an encoded package into a directory
         options:
           path: |-
             Base path in which to extract the encoded data
@@ -74,41 +136,4 @@ en:
             "Base path for extracted files must be an existing directory"
           encoded: |-
             "Data is either not properly encoded or is empty %{value}"
-      create:
-        options:
-          path: |-
-            Project path (default %{default_value})
-        start: |-
-          Creating a new project at %{path} from %{project_reference}
-      add:
-        options:
-          path: |-
-            Project path (default %{default_value})
-          sub_path: |-
-            Subproject path
-          editable: |-
-            Whether or not this sub project should be added as an editable remote (default %{default_value})
-        start: |-
-          Adding new subproject from %{sub_reference} at %{sub_path}
-      remove:
-        options:
-          path: |-
-            Project path (default %{default_value})
-          sub_path: |-
-            Subproject path
-        start: |-
-          Removing existing subproject at %{sub_path}
-      update:
-        options:
-          path: |-
-            Project path (default %{default_value})
-        start: |-
-          Starting update run from provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})
-      save:
-        options:
-          path: |-
-            Project path (default %{default_value})
-          files: |-
-            Optional space separated list of files to save
-        start: |-
-          Saving project changes with provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})
+        

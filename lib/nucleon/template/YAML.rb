@@ -1,7 +1,7 @@
 
 module Nucleon
 module Template
-class Yaml < Plugin::Template
+class YAML < Nucleon.plugin_class(:nucleon, :template)
   
   #-----------------------------------------------------------------------------
   # Renderers  

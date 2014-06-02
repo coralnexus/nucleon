@@ -1,7 +1,7 @@
 
 module Nucleon
 module Translator
-class Yaml < Plugin::Translator
+class YAML < Nucleon.plugin_class(:nucleon, :translator)
    
   #-----------------------------------------------------------------------------
   # Translator operations

@@ -1,7 +1,7 @@
 
 module Nucleon
 module Plugin
-class Translator < Base
+class Translator < Nucleon.plugin_class(:nucleon, :base)
 
   #-----------------------------------------------------------------------------
   # Translator plugin interface

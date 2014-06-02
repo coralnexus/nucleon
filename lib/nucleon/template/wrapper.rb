@@ -1,7 +1,7 @@
 
 module Nucleon
 module Template
-class Wrapper < Plugin::Template
+class Wrapper < Nucleon.plugin_class(:nucleon, :template)
   
   #-----------------------------------------------------------------------------
   # Renderers  

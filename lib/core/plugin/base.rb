@@ -5,7 +5,7 @@ class Base < Core
   
   # All Plugin classes should directly or indirectly extend Base
   
-  def initialize(type, provider, options)
+  def initialize(namespace, plugin_type, provider, options)
     config = Util::Data.clean(Config.ensure(options), false)
     name   = Util::Data.ensure_value(config.delete(:plugin_name), config.delete(:name, provider))
     
@@ -14,10 +14,10 @@ class Base < Core
     set_meta(config.delete(:meta, Config.new))
     
     # No logging statements aove this line!!
-    super(config.import({ :logger => "#{plugin_type}->#{plugin_provider}" }), {}, true, false)
+    super(config.import({ :logger => "#{namespace}->#{plugin_type}->#{plugin_provider}" }), {}, true, false)
     myself.plugin_name = name
     
-    logger.debug("Normalizing #{plugin_type} plugin #{plugin_name} with meta data: #{meta.inspect}")
+    logger.debug("Normalizing #{namespace} #{plugin_type} plugin #{plugin_name}")
     normalize(false)
     
     @initialized = true
@@ -128,11 +128,11 @@ class Base < Core
   # Status codes
     
   def code
-    CORL.code
+    Nucleon.code
   end
   
   def codes(*codes)
-    CORL.codes(*codes)
+    Nucleon.codes(*codes)
   end
 
   #---
@@ -238,14 +238,14 @@ class Base < Core
   #-----------------------------------------------------------------------------
   # Utilities
   
-  def self.build_info(type, data)  
+  def self.build_info(namespace, plugin_type, data)  
     plugins = []
         
     if data.is_a?(Hash)
       data = [ data ]
     end
     
-    logger.debug("Building plugin list of #{type} from data: #{data.inspect}")
+    logger.debug("Building plugin list of #{plugin_type}")
     
     if data.is_a?(Array)
       data.each do |info|
@@ -253,7 +253,7 @@ class Base < Core
           info = translate(info)
           
           if Util::Data.empty?(info[:provider])
-            info[:provider] = Nucleon.type_default(type)
+            info[:provider] = Nucleon.type_default(namespace, plugin_type)
           end
           
           logger.debug("Translated plugin info: #{info.inspect}")
@@ -294,7 +294,7 @@ class Base < Core
       return result if return_result
       return true
       
-    rescue Exception => error
+    rescue => error
       logger.error(error.inspect)
       logger.error(error.message)
       
