@@ -301,6 +301,7 @@ end
 
 # Include plugin system
 nucleon_require(core_dir, :gems)
+nucleon_require(core_dir, :environment)
 nucleon_require(core_dir, :manager)
 nucleon_require(plugin_dir, :base)
 nucleon_require(core_dir, :plugin)
