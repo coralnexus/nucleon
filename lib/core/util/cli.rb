@@ -2,7 +2,7 @@
 module Nucleon
 module Util
 module CLI
-         
+        
   #-----------------------------------------------------------------------------
   # Utilities
         
@@ -32,7 +32,11 @@ module CLI
     attr_accessor :options
     attr_accessor :arguments
     attr_accessor :processed
-        
+ 
+    #---
+    
+    include Mixin::Colors
+          
     #---
         
     def initialize(args, banner = '', help = '', split_help = false)
@@ -100,6 +104,12 @@ module CLI
         parser.separator help
       end
     end
+    
+    #---
+    
+    def version
+      # Override in executable script
+    end
         
     #---
         
@@ -108,7 +118,15 @@ module CLI
       error = false
           
       self.processed = false
-          
+      
+      option_bool(:version, false, 
+        '--version', 
+        'nucleon.core.util.cli.options.version'
+      )
+      option_bool(:color, true, 
+        '--[no]-color', 
+        'nucleon.core.util.cli.options.color'
+      )
       option_str(:log_level, nil, 
         '--log_level STR', 
         'nucleon.core.util.cli.options.log_level'
@@ -133,6 +151,13 @@ module CLI
       parser.parse!(args)
       
       # Now we can act on options given
+      Util::Console.use_colors = options[:color] unless split_help
+      
+      if options[:version]
+        puts version
+        exit 0
+      end
+      
       return if options[:help]
       
       parse_encoded
@@ -218,6 +243,10 @@ module CLI
             
         encoded_properties.each do |name, value|
           self.options[name] = value
+          
+          if name == :color
+            Util::Console.use_colors = value
+          end
         end
       end
       options.delete(:encoded_params)
