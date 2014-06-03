@@ -283,6 +283,10 @@ module Facade
   
   #---
   
+  def remove_plugin_by_name(namespace, plugin_type, plugin_instance_name)
+    Manager.connection.remove_by_name(namespace, plugin_type, plugin_instance_name)  
+  end
+  
   def remove_plugin(plugin)
     Manager.connection.remove(plugin)
   end

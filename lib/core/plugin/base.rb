@@ -17,10 +17,20 @@ class Base < Core
     super(config.import({ :logger => "#{namespace}->#{plugin_type}->#{plugin_provider}" }), {}, true, false)
     myself.plugin_name = name
     
+    ObjectSpace.define_finalizer(self, self.class.finalize(namespace, plugin_type, plugin_instance_name))
+    
     logger.debug("Normalizing #{namespace} #{plugin_type} plugin #{plugin_name}")
     normalize(false)
     
     @initialized = true
+  end
+  
+  #---
+  
+  def self.finalize(namespace, plugin_type, plugin_instance_name)
+    proc do 
+      Nucleon.remove_plugin_by_name(namespace, plugin_type, plugin_instance_name) 
+    end
   end
   
   #---

@@ -307,14 +307,24 @@ class Manager
   
   #---
   
-  def remove(plugin)
-    if plugin && plugin.respond_to?(:plugin_type)
-      @@environments[@actor_id].remove_plugin(plugin.plugin_namespace, plugin.plugin_type, plugin.plugin_instance_name) do
-        logger.debug("Removing #{plugin.plugin_type} #{plugin.plugin_name}")
+  def remove_by_name(namespace, plugin_type, plugin_instance_name)
+    active_instances = active_plugins(namespace, plugin_type)
+    
+    if active_instances.has_key?(plugin_instance_name)
+      @@environments[@actor_id].remove_plugin(namespace, plugin_type, plugin_instance_name) do
+        logger.debug("Removing #{plugin_type} #{plugin_instance_name}")
+        
+        plugin = active_instances[plugin_instance_name]
       
         plugin.remove_plugin
         plugin.terminate if plugin.respond_to?(:terminate) # For Celluloid plugins  
-      end
+      end  
+    end
+  end
+  
+  def remove(plugin)
+    if plugin && plugin.respond_to?(:plugin_type)
+      remove_by_name(plugin.plugin_namespace, plugin.plugin_type, plugin.plugin_instance_name)
     end
   end
   
