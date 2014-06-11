@@ -88,8 +88,6 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       exit_status = error.status_code if error.respond_to?(:status_code)
     end
     
-    Nucleon.remove_plugin(action) if action
-
     exit_status = Nucleon.code.unknown_status unless exit_status.is_a?(Integer)
     { :status => exit_status, :result => action_result }  
   end
@@ -577,8 +575,6 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       if ! multiple_found || provider_index.has_key?(info[:provider])
         action        = Nucleon.action(info[:provider], { :settings => {}, :quiet => true })
         command_text  = action.help
-        
-        Nucleon.remove_plugin(action)
         
         command_size  = command_text.gsub(/\e\[(\d+)m/, '').size
         command_width = [ command_width, command_size + 2 ].max
