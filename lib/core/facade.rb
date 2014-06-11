@@ -7,8 +7,9 @@ module Parallel
   
   def self.included(klass)
     if Nucleon.parallel?
-      klass.send :include, Celluloid      
-    end
+      klass.send :include, Celluloid
+      klass.finalizer :parallel_finalize      
+    end    
     klass.send :include, InstanceMethods
     klass.extend ClassMethods
   end
@@ -16,6 +17,12 @@ module Parallel
   #---
   
   module InstanceMethods
+    def parallel_finalize
+      # Override if needed  
+    end
+    
+    #---
+    
     def parallel(method, split_args, *shared_args)
       results    = []
       split_args = [ split_args ] unless split_args.is_a?(Array)
@@ -97,7 +104,7 @@ module Facade
   
   def manager(collection, name, klass, reset = false)
     name     = name.to_sym
-    actor_id = "#{klass}::#{name}"
+    actor_id = "#{klass}::#{name}".to_sym
         
     if collection.has_key?(actor_id)
       manager = parallel? ? Celluloid::Actor[actor_id] : collection[actor_id]
@@ -117,9 +124,6 @@ module Facade
     if parallel?
       begin
         # Raise error if no test method found but retry for dead actors
-        while manager.nil?
-          manager = Celluloid::Actor[actor_id]
-        end
         manager.test_connection
         
       rescue Celluloid::DeadActorError
@@ -512,6 +516,7 @@ module Facade
       exit_status = error.status_code if error.respond_to?(:status_code)
       exit_status = code.unknown_status if exit_status.nil?
     end
+    
     exit_status
   end
   
