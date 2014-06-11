@@ -207,8 +207,8 @@ class Environment
     plugin_type = sanitize_id(plugin_type)
     
     if @active_info.has_key?(namespace) && @active_info[namespace].has_key?(plugin_type)
-      @active_info[namespace][plugin_type].delete(instance_name)
       code.call if code
+      @active_info[namespace][plugin_type].delete(instance_name)
     end
   end
   
