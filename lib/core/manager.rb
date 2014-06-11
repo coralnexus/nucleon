@@ -29,6 +29,18 @@ class Manager
   
   #---
   
+  def parallel_finalize
+    active_plugins.each do |namespace, namespace_plugins|
+      namespace_plugins.each do |plugin_type, type_plugins|
+        type_plugins.each do |instance_name, plugin|
+          remove(plugin)
+        end
+      end
+    end
+  end
+  
+  #---
+  
   attr_reader :logger
   
   #---
@@ -315,9 +327,12 @@ class Manager
         logger.debug("Removing #{plugin_type} #{plugin_instance_name}")
         
         plugin = active_instances[plugin_instance_name]
-      
-        plugin.remove_plugin
-        plugin.terminate if plugin.respond_to?(:terminate) # For Celluloid plugins  
+        
+        if plugin.respond_to?(:terminate) # For Celluloid plugins
+          plugin.terminate   
+        else
+          plugin.remove_plugin  
+        end         
       end  
     end
   end
