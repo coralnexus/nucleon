@@ -295,7 +295,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       if @parser.processed
         set(:processed, true)
         settings.import(Util::Data.merge([ @parser.options, @parser.arguments ], true))
-        logger.debug("Parse successful: #{export.inspect}")
+        logger.debug("Parse successful")
         
       elsif @parser.options[:help] && ! quiet?
         executable = delete(:executable, '')
