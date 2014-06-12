@@ -349,9 +349,7 @@ class Manager
   def exec(method, options = {})
     results = nil
     
-    if Nucleon.log_level == :hook # To save processing on rendering
-      logger.hook("Executing extension hook #{Nucleon.blue(method)} at #{Nucleon.green(Time.now.to_s)}")
-    end
+    logger.info("Executing extension hook #{Nucleon.blue(method)} at #{Nucleon.green(Time.now.to_s)}") 
     
     extensions = active_plugins(:nucleon, :extension)
     
@@ -365,7 +363,7 @@ class Manager
         results = {} if results.nil?       
         
         result = plugin.send(method, options)
-        logger.info("Completed hook #{method} at #{Time.now} with: #{result.inspect}")
+        logger.info("Completed hook #{method} at #{Time.now}")
                     
         if block_given?
           results[provider] = yield(:process, result)
@@ -393,7 +391,7 @@ class Manager
   def config(type, options = {})
     config = Config.ensure(options)
     
-    logger.debug("Generating #{type} extended configuration from: #{config.export.inspect}")
+    logger.debug("Generating #{type} extended configuration")
       
     exec("#{type}_config", Config.new(config.export)) do |op, data|
       if op == :reduce
@@ -406,8 +404,6 @@ class Manager
       end
     end    
     config.delete(:extension_type)
-     
-    logger.debug("Final extended configuration: #{config.export.inspect}")
     config 
   end
   
@@ -416,7 +412,7 @@ class Manager
   def check(method, options = {})
     config = Config.ensure(options)
     
-    logger.debug("Checking extension #{method} given: #{config.export.inspect}")
+    logger.debug("Checking extension #{method}")
     
     success = exec(method, config.import({ :extension_type => :check })) do |op, data|
       if op == :reduce
@@ -437,7 +433,7 @@ class Manager
   def value(method, value, options = {})
     config = Config.ensure(options)
     
-    logger.debug("Setting extension #{method} value given: #{value.inspect}")
+    logger.debug("Setting extension #{method} value")
     
     exec(method, config.import({ :value => value, :extension_type => :value })) do |op, data|
       if op == :process
