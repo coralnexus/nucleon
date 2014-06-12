@@ -113,7 +113,7 @@ module Facade
         klass.supervise_as(actor_id, actor_id, reset)
         manager = Celluloid::Actor[actor_id]
       else
-        manager = klass.new(actor_id, reset) # Managers should not have initialization parameters
+        manager = klass.new(actor_id, reset) # Managers should have standardized initialization parameters
       end
       collection[actor_id] = manager
     end
