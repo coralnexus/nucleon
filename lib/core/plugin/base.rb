@@ -16,21 +16,11 @@ class Base < Core
     # No logging statements above this line!!
     super(config.import({ :logger => "#{namespace}->#{plugin_type}->#{plugin_provider}" }), {}, true, false)
     myself.plugin_name = name
-    
-    ObjectSpace.define_finalizer(self, self.class.finalize(namespace, plugin_type, plugin_instance_name))
-    
+            
     logger.debug("Normalizing #{namespace} #{plugin_type} plugin #{plugin_name}")
     normalize(false)
     
     @initialized = true
-  end
-  
-  #---
-  
-  def self.finalize(namespace, plugin_type, plugin_instance_name)
-    proc do
-      Nucleon.remove_plugin_by_name(namespace, plugin_type, plugin_instance_name) 
-    end
   end
   
   #---
@@ -272,8 +262,6 @@ class Base < Core
             info[:provider] = Nucleon.type_default(namespace, plugin_type)
           end
           
-          logger.debug("Translated plugin info: #{info.inspect}")
-          
           plugins << info
         end
       end
@@ -284,7 +272,7 @@ class Base < Core
   #---
 
   def self.translate(data)
-    logger.debug("Translating data to internal plugin structure: #{data.inspect}")
+    logger.debug("Translating input data to internal plugin structure")
     return ( data.is_a?(Hash) ? symbol_map(data) : data )
   end
   
