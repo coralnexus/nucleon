@@ -23,18 +23,52 @@ module Parallel
     
     #---
     
-    def parallel(method, split_args, *shared_args)
+    def parallel(method, args, *shared_args)
+      results = nil
+      
+      case args
+      when Hash
+        results = parallel_hash(method, args, *shared_args)
+      when Array, String, Symbol
+        results = parallel_array(method, args, *shared_args)   
+      end
+      results
+    end
+    
+    #---
+    
+    def parallel_array(method, array_args, *shared_args)
       results    = []
-      split_args = [ split_args ] unless split_args.is_a?(Array)
+      array_args = [ array_args ] unless array_args.is_a?(Array)
   
       if Nucleon.parallel?
-        split_args.each do |arg|
+        array_args.each do |arg|
           results << future.send(method, arg, *shared_args)
         end
         results.map { |future| future.value } # Wait for all to finish.
       else
-        split_args.each do |arg|
+        array_args.each do |arg|
           results << send(method, arg, *shared_args)
+        end  
+      end
+      results
+    end
+    
+    #---
+    
+    def parallel_hash(method, hash_args, *shared_args)
+      results = {}
+      
+      if Nucleon.parallel?
+        hash_args.each do |key, value|
+          results[key] = future.send(method, key, value, *shared_args)
+        end
+        results.keys.each do |key| # Wait for all to finish.
+          results[key] = results[key].value
+        end
+      else
+        hash_args.each do |key, value|
+          results[key] = send(method, key, value, *shared_args)
         end  
       end
       results
