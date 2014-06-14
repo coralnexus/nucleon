@@ -236,10 +236,13 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     arguments.each do |arg|
       arg_config = config[arg.to_sym]
       
+      arg_prefix = arg_config.default ? '[' : ''
+      arg_suffix = arg_config.default ? ']' : ''
+      
       if arg_config.type == :array
-        usage << "<#{arg}> ..."
+        usage << "#{arg_prefix}<#{arg}> ...#{arg_suffix}"
       else
-        usage << "<#{arg}> "  
+        usage << "#{arg_prefix}<#{arg}>#{arg_suffix} "  
       end      
     end
     myself.usage = yellow(usage)
