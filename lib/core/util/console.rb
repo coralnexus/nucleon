@@ -222,7 +222,7 @@ class Console
     if @resource && ! @resource.empty? && options[:prefix]
       prefix = "[#{@resource}]"
     end
-    message = "#{prefix} #{message}".lstrip
+    message = "#{prefix} #{message}".sub(/^ +/, '')
     
     if @@use_colors && @color
       if options.has_key?(:color)
