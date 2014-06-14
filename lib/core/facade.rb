@@ -487,7 +487,7 @@ module Facade
       
       load_plugins
       
-      arg_components = Util::CLI::Parser.split(args, cyan(name) + yellow(" <action components> [ <arg> ... ]"))
+      arg_components = Util::CLI::Parser.split(args, cyan(name) + yellow(" <action components> [<arg> ...]"))
       main_command   = arg_components.shift
       
       action, action_components, args = search_actions(args)
