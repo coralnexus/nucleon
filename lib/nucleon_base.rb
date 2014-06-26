@@ -12,21 +12,6 @@
 # Global namespace
 
 module Kernel
-   
-  def dbg(data, label = '')
-    # Invocations of this function should NOT be committed to the project
-    require 'pp'
-    
-    puts '>>----------------------'
-    unless ! label || label.empty?
-      puts label
-      puts '---'
-    end
-    pp data
-    puts '<<'
-  end
-  
-  #---  
     
   def nucleon_locate(command)
     command = command.to_s
@@ -170,7 +155,34 @@ module Nucleon
   
   def self.parallel?
     debugging? || ENV['NUCLEON_NO_PARALLEL'] ? false : true
+  end
+  
+  #---
+  
+  @@console_lock = Mutex.new
+  
+  def self.console_lock
+    @@console_lock
   end  
+end
+
+#-------------------------------------------------------------------------------
+
+module Kernel
+  
+  def dbg(data, label = '')
+    # Invocations of this function should NOT be committed to the project
+    Nucleon.console_lock.synchronize do
+      require 'pp'
+      puts '>>----------------------'
+      unless ! label || label.empty?
+        puts label
+        puts '---'
+      end
+      pp data
+      puts '<<'
+    end
+  end
 end
   
 #-------------------------------------------------------------------------------

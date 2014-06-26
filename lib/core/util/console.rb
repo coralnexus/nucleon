@@ -9,7 +9,7 @@ class Console
   
   #---
   
-  @@console_lock = Mutex.new
+  @@console_lock = Nucleon.console_lock
   @@quiet        = false
   @@use_colors   = true
   
@@ -105,9 +105,9 @@ class Console
     end
     
     if options[:sync]
-      @@console_lock.synchronize do
+      #@@console_lock.synchronize do
         render.call
-      end
+      #end
     else
       render.call
     end
@@ -140,9 +140,9 @@ class Console
     end
 
     if options[:sync]
-      @@console_lock.synchronize do
+      #@@console_lock.synchronize do
         return collect.call
-      end
+      #end
     else
       return collect.call  
     end
@@ -176,9 +176,9 @@ class Console
     end
     
     if options[:sync]
-      @@console_lock.synchronize do
+      #@@console_lock.synchronize do
         return collect.call
-      end
+      #end
     else
       return collect.call  
     end
