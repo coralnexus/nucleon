@@ -218,7 +218,7 @@ class Manager
           logger.debug("Autoloading provider #{provider} at #{plugin[:directory]}")
         
           require plugin[:file]
-        
+          
           load_info[namespace][plugin_type][provider][:class] = class_const(plugin[:class_components])
           logger.debug("Updated #{plugin_type} #{provider} load info")
         
@@ -323,10 +323,8 @@ class Manager
     active_instances = active_plugins(namespace, plugin_type)
     
     if active_instances.has_key?(plugin_instance_name)
-      @@environments[@actor_id].remove_plugin(namespace, plugin_type, plugin_instance_name) do
+      @@environments[@actor_id].remove_plugin(namespace, plugin_type, plugin_instance_name) do |plugin|
         logger.debug("Removing #{plugin_type} #{plugin_instance_name}")
-        
-        plugin = active_instances[plugin_instance_name]
         
         if plugin.respond_to?(:terminate) # For Celluloid plugins
           plugin.terminate   
@@ -338,8 +336,11 @@ class Manager
   end
   
   def remove(plugin)
-    if plugin && plugin.respond_to?(:plugin_type)
-      remove_by_name(plugin.plugin_namespace, plugin.plugin_type, plugin.plugin_instance_name)
+    begin # TODO: Figure out what do do about the plugin proxy being terminated before respond_to? method called.
+      if plugin && plugin.respond_to?(:plugin_type)
+        remove_by_name(plugin.plugin_namespace, plugin.plugin_type, plugin.plugin_instance_name)
+      end
+    rescue
     end
   end
   
