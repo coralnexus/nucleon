@@ -3,10 +3,6 @@ module Nucleon
 module Plugin
 class Project < Nucleon.plugin_class(:nucleon, :base)
   
-  @@ignore_lock = Mutex.new
-  
-  #---
-  
   @@projects = {}
   
   #---
@@ -48,7 +44,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     
     set_url(get(:url)) if get(:url, false)
     
-    myself.plugin_name = path if ! plugin_name || plugin_name == plugin_provider
+    myself.plugin_name = path if ! plugin_name || plugin_name.to_sym == plugin_provider
     
     ui.resource = plugin_name
     logger      = plugin_name
@@ -486,11 +482,9 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   def ignore(files)
     return unless directory && manage_ignore?
     
-    @@ignore_lock.synchronize do
-      files = nil
-      files = yield if block_given?
-      commit(files, { :message => "Adding project ignores." }) if files
-    end
+    files = nil
+    files = yield if block_given?
+    commit(files, { :message => "Adding project ignores." }) if files
   end
   
   #-----------------------------------------------------------------------------
