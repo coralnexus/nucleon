@@ -95,7 +95,7 @@ module PluginInterface
       data = get_hash(_plural) unless data
       
       providers = [ providers ] if providers && ! providers.is_a?(Array)
-      providers.collect! { |elem| elem.to_sym }
+      providers.collect! { |elem| elem.to_sym } if providers
       
       logger.debug("Initializing #{_plugin_type} plugin data: #{data.inspect}")
       logger.debug("Providers: #{providers.inspect}")
