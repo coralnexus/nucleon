@@ -44,7 +44,7 @@ class Config
     @properties = {}
     
     if defaults.is_a?(Hash) && ! defaults.empty?
-      defaults = symbol_map(defaults)
+      defaults = symbol_map(defaults.clone)
     end
     
     case data
@@ -53,7 +53,7 @@ class Config
     when Hash
       @properties = {}
       if data.is_a?(Hash)
-        @properties = Util::Data.merge([ defaults, symbol_map(data) ], force)
+        @properties = Util::Data.merge([ defaults, symbol_map(data.clone) ], force)
       end  
     end
   end
@@ -207,7 +207,7 @@ class Config
     
     case properties
     when Hash
-      data = [ @properties, symbol_map(properties) ]
+      data = [ @properties, symbol_map(properties.clone) ]
       data = data.reverse if import_type != :override
       
       @properties = Util::Data.merge(data, config)
@@ -221,7 +221,7 @@ class Config
       @properties = Util::Data.merge(data, config)
      
     when Array
-      properties.each do |item|
+      properties.clone.each do |item|
         import_base(item, config)
       end
     end
@@ -246,7 +246,7 @@ class Config
   #---
   
   def export
-    return @properties
+    return @properties.clone
   end
   
   #-----------------------------------------------------------------------------
