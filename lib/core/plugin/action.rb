@@ -413,7 +413,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     myself.status = code.unknown_status unless status.is_a?(Integer)
     
     if processed? && status != code.success
-      logger.warn("Execution failed for #{plugin_provider} with status #{status}: #{export.inspect}")
+      logger.warn("Execution failed for #{plugin_provider} with status #{status}")
       alert(Codes.render_index(status))
     end  
     
