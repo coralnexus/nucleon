@@ -28,19 +28,20 @@ class SSH < Core
     
     private_key  = config.get(:private_key, nil)
     original_key = nil
-    key_comment  = config.get(:comment, '')    
+    key_comment  = config.get(:comment, '')
+    passphrase   = config.get(:passphrase, nil)
+    force        = config.get(:force, false)    
     
     if private_key.nil?
       key_type    = config.get(:type, "RSA")
       key_bits    = config.get(:bits, 2048)
-      passphrase  = config.get(:passphrase, nil)
-    
-      key_data = SSHKey.generate(
+      
+      key_data = SSHKey.generate({
         :type       => key_type, 
         :bits       => key_bits, 
         :comment    => key_comment, 
         :passphrase => passphrase
-      )
+      })
       is_new = true
       
     else
@@ -50,12 +51,18 @@ class SSH < Core
         original_key = Disk.read(private_key)
       end
       
-      key_data = SSHKey.new(original_key, :comment => key_comment) if original_key
-      is_new   = false
+      if original_key
+        encrypted = original_key.include?('ENCRYPTED')
+        key_data  = SSHKey.new(original_key, { 
+          :comment    => key_comment, 
+          :passphrase => passphrase 
+        }) if force || ! encrypted || passphrase 
+      end      
+      is_new = false
     end
     
     return nil unless key_data && ! key_data.ssh_public_key.empty?
-    Keypair.new(key_data, is_new, original_key)
+    Keypair.new(key_data, is_new, original_key, passphrase)
   end
   
   #-----------------------------------------------------------------------------
@@ -69,32 +76,61 @@ class SSH < Core
   # Keypair interface
     
   class Keypair
-    attr_reader :type, :private_key, :encrypted_key, :public_key, :ssh_key
+    attr_reader :type, :private_key, :encrypted_key, :public_key, :ssh_key, :passphrase
     
-    def initialize(key_data, is_new, original_key)
+    #---
+    
+    def initialize(key_data, is_new, original_key, passphrase = nil)
       @type          = key_data.type
       @private_key   = key_data.private_key
       @encrypted_key = is_new ? key_data.encrypted_private_key : original_key
       @public_key    = key_data.public_key
       @ssh_key       = key_data.ssh_public_key
+      @passphrase    = passphrase
     end
     
     #---
     
-    def store(key_path = nil, key_base = 'id')
-      key_path         = SSH.key_path if key_path.nil?
-      private_key_file = File.join(key_path, "#{key_base}_#{type.downcase}")
-      public_key_file  = File.join(key_path, "#{key_base}_#{type.downcase}.pub")
+    def private_key_file(key_path = nil, key_base = 'id')
+      key_path = SSH.key_path if key_path.nil?
+      key_name = render(key_base)
       
-      private_success = Disk.write(private_key_file, encrypted_key)
+      File.join(key_path, "#{key_name}")  
+    end
+    
+    def public_key_file(key_path = nil, key_base = 'id')
+      private_key_file(key_path, key_base) + '.pub'  
+    end
+    
+    #---
+    
+    def store(key_path = nil, key_base = 'id', secure = true)
+      private_key_file = private_key_file(key_path, key_base)
+      public_key_file  = public_key_file(key_path, key_base)
+      
+      if secure
+        private_success = Disk.write(private_key_file, encrypted_key)
+      else
+        private_success = Disk.write(private_key_file, private_key)  
+      end
       FileUtils.chmod(0600, private_key_file) if private_success
       
-      public_success  = Disk.write(public_key_file, ssh_key)
+      public_success = Disk.write(public_key_file, ssh_key)
       
       if private_success && public_success
         return { :private_key => private_key_file, :public_key => public_key_file }
       end
       false
+    end
+    
+    #---
+    
+    def render(key_base = 'id')
+      self.class.render(type, key_base)
+    end
+    
+    def self.render(type, key_base = 'id')
+      "#{key_base}_#{type.downcase}"  
     end
   end
   
@@ -102,6 +138,7 @@ class SSH < Core
   # SSH Execution interface
   
   @@sessions = {}
+  @@auth     = {}
   
   #---
   
@@ -114,23 +151,38 @@ class SSH < Core
   def self.session(hostname, user, port = 22, private_key = nil, reset = false, options = {})
     require 'net/ssh'
     
+    session_id  = session_id(hostname, user)
+    config      = Config.ensure(options)
+    
     ssh_options = Config.new({
       :user_known_hosts_file => [ File.join(key_path, 'known_hosts'), File.join(key_path, 'known_hosts2') ],
-      :key_data              => [],
-      :keys_only             => false,
       :auth_methods          => [ 'publickey' ],
       :paranoid              => :very
-    }).import(options)
+    }).import(Util::Data.subset(config, config.keys - [ :keypair, :key_dir, :key_name ]))
     
-    ssh_options[:port] = port
-    ssh_options[:keys] = private_key.nil? ? [] : [ private_key ]
+    if private_key
+      auth_id = [ session_id, private_key ].join('_')      
+      
+      if ! @@auth[auth_id] && keypair = unlock_private_key(private_key, config)
+        @@auth[auth_id] = keypair
+      end
+      config[:keypair] = @@auth[auth_id] # Reset so caller can access updated keypair      
+      
+      if @@auth[auth_id].is_a?(String)
+        ssh_options[:keys_only] = false
+        ssh_options[:keys]      = [ @@auth[auth_id] ]  
+      else
+        ssh_options[:keys_only] = true
+        ssh_options[:key_data]  = [ @@auth[auth_id].private_key ]
+      end
+    end
     
-    session_id = session_id(hostname, user)
+    ssh_options[:port] = port    
     
     if reset || ! @@sessions.has_key?(session_id)
       @@sessions[session_id] = Net::SSH.start(hostname, user, ssh_options.export)
     end
-    yield(@@sessions[session_id]) if block_given? && @@sessions[session_id]
+    yield(@@sessions[session_id]) if block_given? && @@sessions[session_id]    
     @@sessions[session_id] 
   end
   
@@ -188,6 +240,8 @@ class SSH < Core
           command = command.flatten.join(' ') if command.is_a?(Array)
           command = command.to_s
           result  = Shell::Result.new(command)
+          
+          logger.info(">> running SSH: #{command}")
               
           ssh.open_channel do |ssh_channel|
             ssh_channel.request_pty
@@ -216,8 +270,11 @@ class SSH < Core
               end
             end
           end
-          ssh.loop              
+          logger.warn("`#{command}` messages: #{result.errors}") if result.errors.length > 0
+          logger.warn("`#{command}` status: #{result.status}") unless result.status == 0
+       
           results << result
+          ssh.loop          
         end
       end
     rescue Net::SSH::HostKeyMismatch => error
@@ -350,6 +407,73 @@ class SSH < Core
     process.start
     process.wait
     process.exit_code
+  end
+  
+  #-----------------------------------------------------------------------------
+  # SSH utilities
+  
+  def self.unlock_private_key(private_key, options = {})
+    require 'net/ssh'
+    
+    config   = Config.ensure(options)
+    keypair  = config.get(:keypair, nil)
+    key_dir  = config.get(:key_dir, nil)
+    key_name = config.get(:key_name, 'default')
+    no_file  = ENV['NUCLEON_NO_SSH_KEY_SAVE']
+    
+    password    = nil
+    tmp_key_dir = nil
+    
+    if private_key
+      keypair = nil if keypair && ! keypair.private_key
+      
+      unless no_file
+        if key_dir && key_name && File.exists?(private_key) && loaded_private_key = Util::Disk.read(private_key)
+          FileUtils.mkdir_p(key_dir)
+      
+          loaded_private_key =~ /BEGIN\s+([A-Z]+)\s+/
+        
+          local_key_type = $1
+          local_key_name = Keypair.render(local_key_type, key_name)
+          local_key_path = File.join(key_dir, local_key_name)
+        
+          keypair = generate({ :private_key => local_key_path }) if File.exists?(local_key_path)
+        end
+      end
+      
+      unless keypair
+        key_manager_logger       = ::Logger.new(STDERR)
+        key_manager_logger.level = ::Logger::FATAL
+        key_manager              = Net::SSH::Authentication::KeyManager.new(key_manager_logger)        
+        
+        key_manager.each_identity do |identity|
+          if identity.comment == private_key
+            # Feed the key to the system password manager if it exists
+            keypair = private_key
+          end
+        end
+        key_manager.finish
+      
+        until keypair
+          keypair = generate({
+            :private_key => private_key,
+            :passphrase  => password
+          })        
+          password = ui.ask("Enter passphrase for #{private_key}: ", { :echo => false }) unless keypair
+        end
+        
+        unless no_file
+          if key_dir && key_name && ! keypair.is_a?(String)
+            key_files = keypair.store(key_dir, key_name, false)
+          
+            if key_files && File.exists?(key_files[:private_key])
+              keypair = generate({ :private_key => key_files[:private_key] })
+            end
+          end
+        end
+      end
+    end
+    keypair      
   end
 end
 end
