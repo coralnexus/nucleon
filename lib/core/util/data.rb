@@ -341,9 +341,13 @@ class Data
   
   #---
   
-  def self.rm_keys(data, keys)
+  def self.rm_keys(data, keys, symbolize = false)
     keys = [ keys ] unless keys.is_a?(Array)
+    data = hash(data)
+    data = symbol_map(data) if symbolize
+    
     keys.each do |key|
+      key = key.to_sym if symbolize
       data.delete(key)
     end
     data
@@ -351,10 +355,14 @@ class Data
   
   #---
   
-  def self.subset(data, keys)
+  def self.subset(data, keys, symbolize = false)
     keys     = [ keys ] unless keys.is_a?(Array)
-    new_data = {} 
+    data     = hash(data)
+    data     = symbol_map(data) if symbolize
+    new_data = {}
+     
     keys.each do |key|
+      key           = key.to_sym if symbolize
       new_data[key] = data[key] if data.has_key?(key)
     end
     new_data 
