@@ -37,11 +37,11 @@ class Shell < Core
     #---
     
     def append_output(output_str)
-      @output << output_str
+      @output << output_str.rstrip << "\n"
     end
     
     def append_errors(error_str)
-      @errors << error_str
+      @errors << error_str.rstrip << "\n"
     end  
   end
   
@@ -82,7 +82,7 @@ class Shell < Core
     system_result = Result.new(command)
     
     for i in tries.downto(1)
-      logger.info(">> running: #{command}")
+      logger.info(">> running shell: #{command}")
       
       begin
         t1, output_new, output_orig, output_reader = pipe_exec_stream($stdout, conditions, { 
@@ -111,6 +111,9 @@ class Shell < Core
         error_success  = close_exec_pipe(t2, $stderr, error_orig, error_new, 'error')
       end
       
+      logger.warn("`#{command}` messages: #{system_result.errors}") if system_result.errors.length > 0
+      logger.warn("`#{command}` status: #{system_result.status}") unless system_result.status == 0
+        
       success = ( system_success && output_success && error_success )
                   
       min -= 1
