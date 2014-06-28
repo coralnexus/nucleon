@@ -399,7 +399,7 @@ class Git < Nucleon.plugin_class(:nucleon, :project)
   
   #---
     
-  def syncronize(cloud, options = {})
+  def synchronize(cloud, options = {})
     return super do |config|
       config.init(:remote_path, '/var/git')
       config.set(:add, true)
