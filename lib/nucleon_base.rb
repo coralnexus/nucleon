@@ -172,16 +172,14 @@ module Kernel
   
   def dbg(data, label = '')
     # Invocations of this function should NOT be committed to the project
-    Nucleon.console_lock.synchronize do
-      require 'pp'
-      puts '>>----------------------'
-      unless ! label || label.empty?
-        puts label
-        puts '---'
-      end
-      pp data
-      puts '<<'
+    require 'pp'
+    puts '>>----------------------'
+    unless ! label || label.empty?
+      puts label
+      puts '---'
     end
+    pp data
+    puts '<<'
   end
 end
   
