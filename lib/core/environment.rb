@@ -166,7 +166,10 @@ class Environment
     end
         
     if type_info = loaded_plugin(namespace, plugin_type, provider)
-      instance_name = "#{provider}_" + Nucleon.sha1(options)            
+      ids              = Util::Data.array(type_info[:class].register_ids).flatten
+      instance_options = Config.new(options).export
+      instance_options = Util::Data.subset(instance_options, ids, true)      
+      instance_name    = "#{provider}_" + Nucleon.sha1(instance_options)
       
       @active_info[namespace] = {} unless @active_info.has_key?(namespace)        
       @active_info[namespace][plugin_type] = {} unless @active_info[namespace].has_key?(plugin_type)

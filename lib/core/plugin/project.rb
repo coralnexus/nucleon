@@ -10,6 +10,12 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   def self.collection
     @@projects
   end
+  
+  #---
+  
+  def self.register_ids
+    [ :name, :directory ]
+  end
      
   #-----------------------------------------------------------------------------
   # Constructor / Destructor

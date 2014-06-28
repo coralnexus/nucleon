@@ -3,6 +3,10 @@ module Nucleon
 module Plugin
 class Base < Core
   
+  def self.register_ids
+    :name
+  end
+  
   # All Plugin classes should directly or indirectly extend Base
   
   def initialize(namespace, plugin_type, provider, options)

@@ -261,7 +261,7 @@ class Manager
         end
       end
     end
-    create(namespace, plugin_type, provider, options)   
+    create(namespace, plugin_type, provider, config)   
   end
   
   #---
