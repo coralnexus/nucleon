@@ -478,7 +478,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
         end
       end
     else
-      logger.warn("Project #{name} does not meet the criteria for persistence and can be committed to")                
+      logger.warn("Project #{name} does not meet the criteria for persistence and can not be committed to")                
     end
     success     
   end
