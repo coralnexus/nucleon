@@ -3,6 +3,10 @@ module Nucleon
 module Plugin
 class Command < Nucleon.plugin_class(:nucleon, :base)
 
+  def self.register_ids
+    [ :command, :args, :flags, :data, :subcommand ]
+  end
+  
   #-----------------------------------------------------------------------------
   # Command plugin interface
   
