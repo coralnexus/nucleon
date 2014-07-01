@@ -140,6 +140,8 @@ class SSH < Core
   @@sessions = {}
   @@auth     = {}
   
+  @@session_lock = Mutex.new
+  
   #---
   
   def self.session_id(hostname, user)
@@ -152,37 +154,40 @@ class SSH < Core
     require 'net/ssh'
     
     session_id  = session_id(hostname, user)
-    config      = Config.ensure(options)
     
-    ssh_options = Config.new({
-      :user_known_hosts_file => [ File.join(key_path, 'known_hosts'), File.join(key_path, 'known_hosts2') ],
-      :auth_methods          => [ 'publickey' ],
-      :paranoid              => :very
-    }).import(Util::Data.subset(config, config.keys - [ :keypair, :key_dir, :key_name ]))
+    @@session_lock.synchronize do    
+      config      = Config.ensure(options)
     
-    if private_key
-      auth_id = [ session_id, private_key ].join('_')      
+      ssh_options = Config.new({
+        :user_known_hosts_file => [ File.join(key_path, 'known_hosts'), File.join(key_path, 'known_hosts2') ],
+        :auth_methods          => [ 'publickey' ],
+        :paranoid              => :very
+      }).import(Util::Data.subset(config, config.keys - [ :keypair, :key_dir, :key_name ]))
+    
+      if private_key
+        auth_id = [ session_id, private_key ].join('_')      
       
-      if ! @@auth[auth_id] && keypair = unlock_private_key(private_key, config)
-        @@auth[auth_id] = keypair
+        if ! @@auth[auth_id] && keypair = unlock_private_key(private_key, config)
+          @@auth[auth_id] = keypair
+        end
+        config[:keypair] = @@auth[auth_id] # Reset so caller can access updated keypair      
+      
+        if @@auth[auth_id].is_a?(String)
+          ssh_options[:keys_only] = false
+          ssh_options[:keys]      = [ @@auth[auth_id] ]  
+        else
+          ssh_options[:keys_only] = true
+          ssh_options[:key_data]  = [ @@auth[auth_id].private_key ]
+        end
       end
-      config[:keypair] = @@auth[auth_id] # Reset so caller can access updated keypair      
-      
-      if @@auth[auth_id].is_a?(String)
-        ssh_options[:keys_only] = false
-        ssh_options[:keys]      = [ @@auth[auth_id] ]  
-      else
-        ssh_options[:keys_only] = true
-        ssh_options[:key_data]  = [ @@auth[auth_id].private_key ]
+    
+      ssh_options[:port] = port    
+    
+      if reset || ! @@sessions.has_key?(session_id)
+        @@sessions[session_id] = Net::SSH.start(hostname, user, ssh_options.export)
       end
     end
-    
-    ssh_options[:port] = port    
-    
-    if reset || ! @@sessions.has_key?(session_id)
-      @@sessions[session_id] = Net::SSH.start(hostname, user, ssh_options.export)
-    end
-    yield(@@sessions[session_id]) if block_given? && @@sessions[session_id]    
+    yield(@@sessions[session_id]) if block_given? && @@sessions[session_id]
     @@sessions[session_id] 
   end
   
