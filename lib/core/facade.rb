@@ -602,6 +602,21 @@ module Facade
   def render_object(data)
     require 'pp'
     PP.pp(data, "").strip
+  end
+  
+  #---
+  
+  def render_tree(data, logger, state = :debug, padding = '')
+    if data.is_a?(Hash) || data.is_a?(Nucleon::Config)
+      data = data.export if data.is_a?(Nucleon::Config)
+      data.each do |key, value|
+        logger.send(state, "#{padding}#{key}")
+        if value.is_a?(Hash) || value.is_a?(Nucleon::Config)
+          value = value.export if value.is_a?(Nucleon::Config)
+          render_tree(value, logger, state, "#{padding}  ")   
+        end
+      end
+    end
   end  
 end
 end
