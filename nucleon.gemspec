@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adrian Webb"]
-  s.date = "2014-07-01"
+  s.date = "2014-07-02"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -42,6 +42,7 @@ Gem::Specification.new do |s|
     "lib/core/mixin/action/commit.rb",
     "lib/core/mixin/action/project.rb",
     "lib/core/mixin/action/push.rb",
+    "lib/core/mixin/action/registration.rb",
     "lib/core/mixin/colors.rb",
     "lib/core/mixin/config/collection.rb",
     "lib/core/mixin/config/options.rb",
