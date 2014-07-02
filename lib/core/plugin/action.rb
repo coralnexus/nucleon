@@ -76,7 +76,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       action        = Nucleon.action(provider, options)
       exit_status   = action.execute
       action_result = action.result
-      
+            
     rescue => error
       logger.error("Nucleon action #{provider} experienced an error:")
       logger.error(error.inspect)
@@ -131,6 +131,13 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       configure
       parse_base(args)
     end 
+  end
+  
+  #---
+  
+  def prepare
+    # Override in action providers if needed.
+    true
   end
   
   #-----------------------------------------------------------------------------
@@ -393,8 +400,10 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     if processed?      
       begin
         if skip_validate || validate
-          yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
-          myself.status = extension_set(:exec_exit, myself.status) unless skip_hooks
+          if prepare
+            yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
+            myself.status = extension_set(:exec_exit, myself.status) unless skip_hooks
+          end
         else
           puts "\n" + I18n.t('nucleon.core.exec.help.usage') + ': ' + help + "\n" unless quiet?
           myself.status = code.validation_failed 
