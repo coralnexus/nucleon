@@ -111,7 +111,9 @@ class Shell < Core
         error_success  = close_exec_pipe(t2, $stderr, error_orig, error_new, 'error')
       end
       
-      logger.warn("`#{command}` messages: #{system_result.errors}") if system_result.errors.length > 0
+      unless config.get(:quiet, false)
+        logger.warn("`#{command}` messages: #{system_result.errors}") if system_result.errors.length > 0
+      end
       logger.warn("`#{command}` status: #{system_result.status}") unless system_result.status == 0
         
       success = ( system_success && output_success && error_success )
