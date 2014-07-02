@@ -180,7 +180,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   #---
   
-  def register(name, type, default, locale = nil)
+  def register(name, type, default = nil, locale = nil)
     name = name.to_sym
         
     if block_given?
@@ -446,6 +446,24 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   #-----------------------------------------------------------------------------
   # Utilities
+  
+  def validate_plugins(namespace, type, name, values)
+    plugin_class   = Nucleon.plugin_class(namespace, type)
+    loaded_plugins = Nucleon.loaded_plugins(namespace, type)
+    success          = true
+        
+    array(values).each do |value|
+      if info = plugin_class.translate_reference(value)
+        if ! loaded_plugins.keys.include?(info[:provider].to_sym)
+          warn("corl.actions.#{plugin_name.gsub('_', '.')}.errors.#{name}", Util::Data.merge([ info, { :value => value } ]))
+          success = false
+        end
+      end
+    end      
+    success
+  end
+  
+  #---
   
   def self.components(search)
     components = []
