@@ -242,7 +242,7 @@ class Console
       end      
     end
        
-    message = lines.join("\n") + "\n"
+    message = lines.join("\n")
     
     if @@use_colors && @color
       if options.has_key?(:color)
