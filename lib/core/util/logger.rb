@@ -116,32 +116,42 @@ class Logger
   # Log statements
   
   def debug(message)
-    @logger.debug(message)
+    unless Util::Console.quiet
+      @logger.debug(message)
+    end
   end
   
   #---
   
   def info(message)
-    @logger.info(message)
+    unless Util::Console.quiet
+      @logger.info(message)
+    end
   end
   
   #---
   
   def warn(message)
-    @logger.warn(message)
+    unless Util::Console.quiet
+      @logger.warn(message)
+    end
   end
   
   #---
   
   def error(message)
-    @logger.error(message)
+    unless Util::Console.quiet
+      @logger.error(message)
+    end
   end
   
   #---
   
   def hook(message)
-    @logger.hook(message)  
-  end          
+    unless Util::Console.quiet
+      @logger.hook(message)
+    end
+  end         
 end
 end
 end
