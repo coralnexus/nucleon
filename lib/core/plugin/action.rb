@@ -43,7 +43,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       @name      = name
       @type      = type
       @default   = default
-      @locale    = locale.nil? ? "#{namespace}.actions.#{provider}.options.#{name}" : locale
+      @locale    = locale.nil? ? "#{namespace}.action.#{provider.to_s.gsub('_', '.')}.options.#{name}" : locale
       @validator = validator if validator
     end
     
@@ -464,7 +464,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     array(values).each do |value|
       if info = plugin_class.translate_reference(value)
         if ! loaded_plugins.keys.include?(info[:provider].to_sym)
-          warn("corl.actions.#{plugin_name.gsub('_', '.')}.errors.#{name}", Util::Data.merge([ info, { :value => value } ]))
+          warn("corl.action.#{plugin_name.to_s.gsub('_', '.')}.errors.#{name}", Util::Data.merge([ info, { :value => value } ]))
           success = false
         end
       end
