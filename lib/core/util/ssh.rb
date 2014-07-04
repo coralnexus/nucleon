@@ -249,7 +249,6 @@ class SSH < Core
           logger.info(">> running SSH: #{command}")
               
           ssh.open_channel do |ssh_channel|
-            ssh_channel.request_pty
             ssh_channel.exec(command) do |channel, success|
               unless success
                 raise "Could not execute command: #{command.inspect}"
@@ -261,7 +260,6 @@ class SSH < Core
               end
 
               channel.on_extended_data do |ch, type, data|
-                next unless type == 1
                 result.append_errors(data)
                 yield(:error, command, data) if block_given?
               end
