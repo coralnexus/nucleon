@@ -229,8 +229,8 @@ class Console
     
     message.split("\n").each do |line|
       line = prev_color + line if prev_color
-            
-      lines << "#{prefix} #{line}".sub(/^ +/, '')
+      
+      lines << "#{prefix} #{line}".sub(/^ /, '')
       
       # Set next previous color
       if line =~ /#{escaped_clear}$/
