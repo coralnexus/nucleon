@@ -9,7 +9,6 @@ class Console
   
   #---
   
-  @@console_lock = Nucleon.console_lock
   @@quiet        = false
   @@use_colors   = true
   
@@ -95,22 +94,18 @@ class Console
     defaults = { :new_line => true, :prefix => true }
     options  = defaults.merge(options)
     printer  = options[:new_line] ? :puts : :print
-    channel  = type == :error || options[:channel] == :error ? @error : @output
     
-    options[:sync] = true unless options.has_key?(:sync)
+    puts_options           = { :printer => printer }
+    puts_options[:channel] = options[:channel] if options.has_key?(:channel)
     
-    render = lambda do 
-      safe_puts(format_message(type, message, options),
-                :channel => channel, :printer => printer)  
-    end
-    
-    if options[:sync]
-      #@@console_lock.synchronize do
-        render.call
-      #end
-    else
-      render.call
-    end
+    safe_puts(format_message(type, message, options), puts_options)
+  end
+  
+  #---
+  
+  def dump(data, options = {})
+    options[:channel] = options.has_key?(:channel) ? options[:channel] : @error
+    safe_puts(data.to_s, options)  
   end
   
   #---
@@ -122,30 +117,18 @@ class Console
     options[:prefix] = false if ! options.has_key?(:prefix)
     options[:echo] = true if ! options.has_key?(:echo)
     
-    options[:sync] = true unless options.has_key?(:sync)
-    
     user_input = nil
     
-    collect = lambda do 
-      say(:info, message, Config.ensure(options).import({ :sync => false, :quiet_override => true }).export)
+    say(:info, message, Config.ensure(options).import({ :quiet_override => true }).export)
       
-      if options[:echo]
-        user_input = @input.gets.chomp
-      else
-        require 'io/console'        
-        user_input = @input.noecho(&:gets).chomp
-      end
-      safe_puts("\n")
-      user_input  
-    end
-
-    if options[:sync]
-      #@@console_lock.synchronize do
-        return collect.call
-      #end
+    if options[:echo]
+      user_input = @input.gets.chomp
     else
-      return collect.call  
+      require 'io/console'        
+      user_input = @input.noecho(&:gets).chomp
     end
+    safe_puts("\n")
+    user_input
   end
   
   #---
@@ -153,35 +136,23 @@ class Console
   def password(type, options = {})
     return @delegate.password(type, options) if check_delegate('password')
     
-    options[:sync] = true unless options.has_key?(:sync)
-    
-    collect = lambda do
-      try_again = true
-      password  = nil
+    try_again = true
+    password  = nil
       
-      while try_again
-        # Get and check a password from the keyboard
-        password              = ask("Enter #{type} password: ", { :echo => false, :sync => false })
-        confirmation_password = ask("Confirm #{type} password: ", { :echo => false, :sync => false })
+    while try_again
+      # Get and check a password from the keyboard
+      password              = ask("Enter #{type} password: ", { :echo => false })
+      confirmation_password = ask("Confirm #{type} password: ", { :echo => false })
     
-        if password != confirmation_password
-          choice    = ask('Passwords do not match!  Try again? (Y|N): ', { :sync => false })
-          try_again = choice.upcase == "Y"
-          password  = nil unless try_again
-        else
-          try_again = false
-        end
+      if password != confirmation_password
+        choice    = ask('Passwords do not match!  Try again? (Y|N): ')
+        try_again = choice.upcase == "Y"
+        password  = nil unless try_again
+      else
+        try_again = false
       end
-      password.strip
     end
-    
-    if options[:sync]
-      #@@console_lock.synchronize do
-        return collect.call
-      #end
-    else
-      return collect.call  
-    end
+    password.strip
   end
   
   #-----------------------------------------------------------------------------
