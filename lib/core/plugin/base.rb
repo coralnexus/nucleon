@@ -202,6 +202,19 @@ class Base < Core
   end
   
   #-----------------------------------------------------------------------------
+  # Input
+  
+  def ask(message, options = {})
+    ui.ask(message, options)
+  end
+  
+  #---
+  
+  def password(type, options = {})
+    ui.password(type, options)
+  end
+  
+  #-----------------------------------------------------------------------------
   # Output
   
   def render_options
@@ -211,38 +224,77 @@ class Base < Core
   
   #---
   
-  def render(display, options = {})
-    ui.info(display, options) unless quiet? || display.strip.empty?
+  def render_message(message, options = {})
+    config = Config.ensure(options)
+    
+    if config.delete(:i18n, true)
+      message = I18n.t(message, Util::Data.merge([ Config.ensure(render_options).export, config.export ], true))  
+    end
+    message  
+  end
+  protected :render_message
+  
+  #---
+  
+  def render(data, options = {})
+    config = Config.ensure(options)
+    
+    unless quiet?
+      translator  = nil
+      translator  = CORL.translator({}, config[:format]) if config[:format]
+      data        = translator.generate(data) if translator
+    
+      ui.dump(data, options) unless data.strip.empty?
+    end
+    data
   end
   
   #---
         
-  def info(name, options = {})
-    ui.info(I18n.t(name, Util::Data.merge([ Config.ensure(render_options).export, options ], true))) unless quiet?
+  def info(message, options = {})
+    config = Config.ensure(options)
+    
+    unless quiet?
+      message = render_message(message, config)
+      ui.info(message)
+    end
+    message
   end
-  
-  #---
-   
-  def alert(display, options = {})
-    ui.warn(display, options) unless quiet? || display.strip.empty?
-  end
-        
+       
   #---
        
-  def warn(name, options = {})
-    ui.warn(I18n.t(name, Util::Data.merge([ Config.ensure(render_options).export, options ], true))) unless quiet?  
+  def warn(message, options = {})
+    config = Config.ensure(options)
+    
+    unless quiet?
+      message = render_message(message, config)
+      ui.warn(message)
+    end
+    message
   end
         
   #---
         
   def error(name, options = {})
-    ui.error(I18n.t(name, Util::Data.merge([ Config.ensure(render_options).export, options ], true))) unless quiet?  
+    config = Config.ensure(options)
+    
+    unless quiet?
+      message = render_message(message, config)
+      ui.error(message)
+    end
+    message
   end
         
   #---
         
   def success(name, options = {})
-    ui.success(I18n.t(name, Util::Data.merge([ Config.ensure(render_options).export, options ], true))) unless quiet?  
+    config = Config.ensure(options)
+    
+    unless quiet?
+      message = render_message(message, config)
+      ui.success(message)
+    end
+    message
   end
   
   #-----------------------------------------------------------------------------
@@ -282,6 +334,33 @@ class Base < Core
   
   #---
   
+  def self.translate_reference(reference, editable = false)
+    # ex: provider:::name
+    if reference && reference.match(/^\s*([a-zA-Z0-9_-]+)(?::::)?(.*)?\s*$/)
+      provider = $1
+      name     = $2
+      
+      logger.debug("Translating plugin reference: #{provider}  #{name}")
+      
+      info = {
+        :provider => provider,
+        :name     => name
+      }
+      
+      logger.debug("Plugin reference info: #{info.inspect}")
+      return info
+    end
+    nil
+  end
+  
+  #---
+  
+  def translate_reference(reference, editable = false)
+    myself.class.translate_reference(reference, editable)
+  end
+  
+  #---
+  
   def self.init_plugin_collection(*external_block_methods)
     logger.debug("Initializing plugin collection interface at #{Time.now}")
     
@@ -306,7 +385,7 @@ class Base < Core
       logger.error(error.inspect)
       logger.error(error.message)
       
-      ui.error(error.message, { :prefix => false }) if error.message
+      error(error.message, { :prefix => false, :i18n => false }) if error.message
     end
     return false
   end
@@ -317,7 +396,7 @@ class Base < Core
     if Nucleon.admin?
       safe_exec(return_result, &block)
     else
-      ui.warn("The #{plugin_provider} action must be run as a machine administrator")
+      warn("The #{plugin_provider} action must be run as a machine administrator", { :i18n => false })
       myself.status = code.access_denied    
     end
   end
