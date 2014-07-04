@@ -212,7 +212,7 @@ class Base < Core
   #---
   
   def render(display, options = {})
-    ui.info(display.strip, options) unless quiet? || display.strip.empty?
+    ui.info(display, options) unless quiet? || display.strip.empty?
   end
   
   #---
@@ -224,7 +224,7 @@ class Base < Core
   #---
    
   def alert(display, options = {})
-    ui.warn(display.strip, options) unless quiet? || display.strip.empty?
+    ui.warn(display, options) unless quiet? || display.strip.empty?
   end
         
   #---
