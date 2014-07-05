@@ -9,7 +9,7 @@ class JSON < Nucleon.plugin_class(:nucleon, :translator)
   def parse(json_text)
     return super do |properties|
       if json_text && ! json_text.empty?
-        properties = Util::Data.parse_json(json_text)
+        properties = Util::Data.symbol_map(Util::Data.parse_json(json_text))
       end
       properties
     end
@@ -19,7 +19,7 @@ class JSON < Nucleon.plugin_class(:nucleon, :translator)
   
   def generate(properties)
     return super do
-      Util::Data.to_json(properties, get(:pretty, true))
+      Util::Data.to_json(Util::Data.string_map(properties), get(:pretty, true))
     end
   end
 end

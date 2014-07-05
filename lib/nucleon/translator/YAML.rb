@@ -9,7 +9,7 @@ class YAML < Nucleon.plugin_class(:nucleon, :translator)
   def parse(yaml_text)
     return super do |properties|
       if yaml_text && ! yaml_text.empty?
-        properties = Util::Data.parse_yaml(yaml_text)
+        properties = Util::Data.symbol_map(Util::Data.parse_yaml(yaml_text))
       end
       properties
     end
@@ -19,7 +19,7 @@ class YAML < Nucleon.plugin_class(:nucleon, :translator)
   
   def generate(properties)
     return super do
-      Util::Data.to_yaml(properties)
+      Util::Data.to_yaml(Util::Data.string_map(properties))
     end
   end
 end
