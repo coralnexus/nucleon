@@ -202,6 +202,26 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     settings[name] = option.default if settings[name].nil?
   end
   
+  def register_bool(name, default = false, locale = nil)
+    register(name, :bool, default, locale)
+  end
+  
+  def register_int(name, default = nil, locale = nil)
+    register(name, :int, default, locale)
+  end
+  
+  def register_float(name, default = nil, locale = nil)
+    register(name, :float, default, locale)
+  end
+  
+  def register_str(name, default = '', locale = nil)
+    register(name, :str, default, locale)
+  end
+  
+  def register_array(name, default = [], locale = nil)
+    register(name, :array, default, locale)
+  end
+  
   #---
   
   def remove(names)
@@ -323,11 +343,15 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   #---
   
+  def parse_types
+    [ :bool, :int, :float, :str, :array ]  
+  end
+  
   def parse(parser)
          
     generate = lambda do |format, name|
       formats = [ :option, :arg ]
-      types   = [ :bool, :int, :float, :str, :array ]
+      types   = parse_types
       name    = name.to_sym
           
       if config.export.has_key?(name) && formats.include?(format.to_sym)
