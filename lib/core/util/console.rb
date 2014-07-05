@@ -104,6 +104,8 @@ class Console
   #---
   
   def dump(data, options = {})
+    return @delegate.dump(data, options) if check_delegate('dump')
+    
     options[:channel] = options.has_key?(:channel) ? options[:channel] : @error
     safe_puts(data.to_s, options)  
   end
