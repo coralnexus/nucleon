@@ -133,13 +133,6 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     end 
   end
   
-  #---
-  
-  def prepare
-    # Override in action providers if needed.
-    true
-  end
-  
   #-----------------------------------------------------------------------------
   # Checks
   
@@ -187,12 +180,12 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   #---
   
-  def register(name, type, default = nil, locale = nil)
+  def register(name, type, default = nil, locale = nil, &code)
     name = name.to_sym
         
-    if block_given?
+    if code
       option = Option.new(namespace, plugin_provider, name, type, default, locale) do |value, success|
-        yield(value, success)
+        code.call(value, success)
       end
     else
       option = Option.new(namespace, plugin_provider, name, type, default, locale)
@@ -202,24 +195,26 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     settings[name] = option.default if settings[name].nil?
   end
   
-  def register_bool(name, default = false, locale = nil)
-    register(name, :bool, default, locale)
+  #---
+  
+  def register_bool(name, default = false, locale = nil, &code)
+    register(name, :bool, default, locale, &code)
   end
   
-  def register_int(name, default = nil, locale = nil)
-    register(name, :int, default, locale)
+  def register_int(name, default = nil, locale = nil, &code)
+    register(name, :int, default, locale, &code)
   end
   
-  def register_float(name, default = nil, locale = nil)
-    register(name, :float, default, locale)
+  def register_float(name, default = nil, locale = nil, &code)
+    register(name, :float, default, locale, &code)
   end
   
-  def register_str(name, default = '', locale = nil)
-    register(name, :str, default, locale)
+  def register_str(name, default = '', locale = nil, &code)
+    register(name, :str, default, locale, &code)
   end
   
-  def register_array(name, default = [], locale = nil)
-    register(name, :array, default, locale)
+  def register_array(name, default = [], locale = nil, &code)
+    register(name, :array, default, locale, &code)
   end
   
   #---
