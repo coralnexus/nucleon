@@ -61,7 +61,7 @@ module Nucleon
       #---
       
       it "routes message to output and error channels based on type given" do       
-        [:info, :warn, :success].each do |type|
+        [:info, :warn, :success, :error].each do |type|
           output = double('output')
           output.should_receive(:puts).with('message')
         
@@ -79,7 +79,7 @@ module Nucleon
           :error   => error,
           :printer => :puts,
           :color   => false,
-        }).say(:error, 'message')   
+        }).dump('message')   
       end
       
       #---
@@ -87,22 +87,20 @@ module Nucleon
       it "routes message to output and error channels based on channel given" do
         [:info, :warn, :success].each do |type|
           output = double('output')
-          output.should_receive(:puts).with('message')
+          output.should_receive(:puts).with('message1')
         
           Util::Console.new({
-            :output  => output,
             :printer => :puts,
-          }).say(:info, 'message', { :channel => type })        
+          }).say(:info, 'message1', { :channel => output })        
         end
         
         error = double('error')
-        error.should_receive(:puts).with('message')
+        error.should_receive(:puts).with('message2')
         
         Util::Console.new({
-          :error   => error,
           :printer => :puts,
           :color   => false,
-        }).say(:info, 'message', { :channel => :error })
+        }).say(:info, 'message2', { :channel => error })
       end  
     end
     
@@ -207,11 +205,11 @@ module Nucleon
       # Delegation
       
       it "can delegate to another class that contains this method" do
-        error  = double('error')
-        error.should_receive(:puts).with('message')
+        output = double('output')
+        output.should_receive(:puts).with('message')
         
         ui = Util::Console.new({
-          :error   => error,
+          :output  => output,
           :printer => :puts,
           :color   => false,
         })        
@@ -222,11 +220,11 @@ module Nucleon
       # Printing
       
       it "prints an uncolored error message" do
-        error = double('error')
-        error.should_receive(:puts).with('message')
+        output = double('output')
+        output.should_receive(:puts).with('message')
         
         Util::Console.new({ 
-          :error   => error,
+          :output  => output,
           :printer => :puts,
           :color   => false, 
         }).error('message')
@@ -235,12 +233,12 @@ module Nucleon
       #---
       
       it "prints a colored error message" do
-        error = double('error')
-        error.should_receive(:print).with(/^\e\[31mmessage\e\[0m$/)
+        output = double('output')
+        output.should_receive(:print).with(/^\e\[31mmessage\e\[0m$/)
         
         Util::Console.new({ 
-          :error => error,
-          :color => true, 
+          :output => output,
+          :color  => true, 
         }).error('message', { :new_line => false })
       end 
     end
@@ -291,6 +289,40 @@ module Nucleon
       end  
     end
   
+    #---
+    
+    describe "#dump" do
+    
+      #-------------------------------------------------------------------------
+      # Delegation
+      
+      it "can delegate to another class that contains this method" do
+        error  = double('error')
+        error.should_receive(:puts).with('message')
+        
+        ui = Util::Console.new({
+          :error   => error,
+          :printer => :puts,
+          :color   => false,
+        })        
+        Util::Console.new({ :console_delegate => ui }).dump('message')
+      end
+      
+      #-------------------------------------------------------------------------
+      # Printing
+      
+      it "dumps data to stderr output channel" do
+        error  = double('error')
+        error.should_receive(:puts).with('message')
+        
+        Util::Console.new({ 
+          :error   => error,
+          :printer => :puts,
+          :color   => false, 
+        }).dump('message')
+      end
+    end
+    
     #---------------------------------------------------------------------------
     # Utilities
     
