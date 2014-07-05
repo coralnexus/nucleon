@@ -9,6 +9,10 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   # Info
   
   def self.describe(group = nil, action = 'unknown', weight = -1000, description = nil, help = nil)
+    describe_base(group, action, weight, description, help)
+  end
+  
+  def self.describe_base(group = nil, action = 'unknown', weight = -1000, description = nil, help = nil)
     if group
       group_name  = Util::Data.array(group).join('.')
       description_id = "#{namespace}.action.#{group_name}.#{action}.description"
@@ -567,7 +571,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
         action_id_pattern = action_id.gsub('::', ':.*:')
         
         action_index.each do |loaded_action_id, loaded_action_info|
-          if loaded_action_id.match(/#{action_id_pattern}/)
+          if loaded_action_id.match(/(^|\:)#{action_id_pattern}(\:|$)/)
             loaded_action_info[:action_id] = loaded_action_id
             actions_found << loaded_action_info
           end
