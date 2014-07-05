@@ -239,12 +239,12 @@ class Base < Core
   def render(data, options = {})
     config = Config.ensure(options)
     
-    unless quiet?
+    if ! quiet? || config[:silent]
       translator  = nil
       translator  = CORL.translator({}, config[:format]) if config[:format]
       data        = translator.generate(data) if translator
-    
-      ui.dump(data, options) unless data.strip.empty?
+      
+      ui.dump(data, options) unless data.strip.empty? || config[:silent]
     end
     data
   end
