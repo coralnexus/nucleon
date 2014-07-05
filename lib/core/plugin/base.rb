@@ -275,7 +275,7 @@ class Base < Core
         
   #---
         
-  def error(name, options = {})
+  def error(message, options = {})
     config = Config.ensure(options)
     
     unless quiet?
@@ -287,7 +287,7 @@ class Base < Core
         
   #---
         
-  def success(name, options = {})
+  def success(message, options = {})
     config = Config.ensure(options)
     
     unless quiet?
