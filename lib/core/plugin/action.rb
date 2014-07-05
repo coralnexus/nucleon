@@ -419,10 +419,8 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     if processed?      
       begin
         if skip_validate || validate
-          if prepare
-            yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
-            myself.status = extension_set(:exec_exit, myself.status) unless skip_hooks
-          end
+          yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
+          myself.status = extension_set(:exec_exit, myself.status) unless skip_hooks
         else
           puts "\n" + I18n.t('nucleon.core.exec.help.usage') + ': ' + help + "\n" unless quiet?
           myself.status = code.validation_failed 
