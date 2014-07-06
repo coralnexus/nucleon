@@ -24,10 +24,18 @@ class Cache < Core
     @cache_translator = Nucleon.type_default(:nucleon, :translator)
     @cache_filename   = "#{id}.#{translator}"
     @cache_path       = File.join(@cache_root, @cache_filename)
+    
+    load
   end
       
   #-----------------------------------------------------------------------------
   # Property accessors / modifiers
+  
+  def status
+    @status
+  end
+  
+  #---
   
   def base_path
     @cache_root
@@ -109,6 +117,7 @@ class Cache < Core
   
   def load
     success = false
+    @status = 255
     
     @@cache_lock.synchronize do  
       logger.info("Loading #{translator} translated cache from #{file}")
@@ -124,6 +133,7 @@ class Cache < Core
         
         import(parse_properties, { :no_save => true }) unless parse_properties.empty?
         success = true
+        @status = Nucleon.code.success
       end
     end  
     success   
@@ -134,6 +144,7 @@ class Cache < Core
   
   def save
     success = false
+    @status = 255
     
     @@cache_lock.synchronize do
       if renderer = CORL.translator({}, translator)
@@ -143,6 +154,7 @@ class Cache < Core
           
         if Disk.write(file, rendering)
           success = true
+          @status = Nucleon.code.success
         end
       end
     end
