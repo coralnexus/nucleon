@@ -192,8 +192,13 @@ class Console
     return @delegate.format_message(type, message, options) if check_delegate('format_message')    
     return '' if message.to_s.strip.empty?
     
-    if @resource && ! @resource.empty? && options[:prefix]
-      prefix = "[#{@resource}]"
+    if options[:prefix]
+      if prefix_text = options[:prefix_text]
+        prefix = "[#{prefix_text}]"
+        
+      elsif @resource && ! @resource.empty?
+        prefix = "[#{@resource}]"
+      end
     end
     
     lines         = []
