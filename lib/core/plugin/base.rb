@@ -10,6 +10,8 @@ class Base < Core
   # All Plugin classes should directly or indirectly extend Base
   
   def initialize(namespace, plugin_type, provider, options)
+    @actor = Nucleon.handle(self)
+    
     config = Util::Data.clean(Config.ensure(options), false)
     name   = Util::Data.ensure_value(config.delete(:plugin_name), config.delete(:name, provider))
     
@@ -56,7 +58,7 @@ class Base < Core
   # Property accessor / modifiers
   
   def myself
-    Nucleon.handle(self)
+    @actor
   end
   alias_method :me, :myself
   
@@ -256,7 +258,7 @@ class Base < Core
     
     unless quiet?
       message = render_message(message, config)
-      ui.info(message)
+      ui.info(message, config.export)
     end
     message
   end
@@ -268,7 +270,7 @@ class Base < Core
     
     unless quiet?
       message = render_message(message, config)
-      ui.warn(message)
+      ui.warn(message, config.export)
     end
     message
   end
@@ -280,7 +282,7 @@ class Base < Core
     
     unless quiet?
       message = render_message(message, config)
-      ui.error(message)
+      ui.error(message, config.export)
     end
     message
   end
@@ -292,7 +294,7 @@ class Base < Core
     
     unless quiet?
       message = render_message(message, config)
-      ui.success(message)
+      ui.success(message, config.export)
     end
     message
   end
