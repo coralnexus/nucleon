@@ -4,7 +4,7 @@ module Plugin
 class Base < Core
   
   def self.register_ids
-    :name
+    [ :plugin_name, :name ]
   end
   
   # All Plugin classes should directly or indirectly extend Base
