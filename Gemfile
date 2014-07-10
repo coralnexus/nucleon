@@ -4,6 +4,7 @@ gem "log4r", "~> 1.1"
 gem "i18n", "~> 0.6"
 gem "netrc", "~> 0.7"
 gem "highline", "~> 1.6"
+gem "erubis", "~> 2.7"
 
 gem "deep_merge", "~> 1.0"
 gem "multi_json", "~> 1.7"
