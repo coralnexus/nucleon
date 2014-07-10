@@ -260,12 +260,15 @@ class Data
   
   #---
   
-  def self.merge(data, force = true)
+  def self.merge(data, force = true, basic = true)
     value = data
     
     # Special case because this method is called from within Config.new so we 
     # can not use Config.ensure, as that would cause an infinite loop.
-    force = force.is_a?(Nucleon::Config) ? force.get(:force, true) : force
+    if force.is_a?(Nucleon::Config)
+      basic = force.get(:basic, true)
+      force = force.get(:force, true)      
+    end
     
     if data.is_a?(Array)
       value = undef?(data[0]) ? nil : data.shift.clone
@@ -275,15 +278,23 @@ class Data
         
         case value
         when Hash
-          begin
-            require 'deep_merge'
-            value = force ? value.deep_merge!(item) : value.deep_merge(item)
-            
-          rescue LoadError
-            if item.is_a?(Hash) # Non recursive top level by default.
+          if basic
+            if item.is_a?(Hash)
               value = value.merge(item)              
             elsif force
               value = item
+            end  
+          else
+            begin
+              require 'deep_merge'
+              value = force ? value.deep_merge!(item) : value.deep_merge(item)
+              
+            rescue LoadError
+              if item.is_a?(Hash) # Non recursive top level by default.
+                value = value.merge(item)              
+              elsif force
+                value = item
+              end
             end
           end  
         when Array
@@ -298,7 +309,6 @@ class Data
         end
       end  
     end
-    
     return value
   end
 
