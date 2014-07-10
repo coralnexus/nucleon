@@ -80,7 +80,7 @@ class Cache < Core
 
   #---
   
-  def set(keys, value)
+  def set(keys, value, delete_nil = false)
     result = super
     save if initialized?
     result

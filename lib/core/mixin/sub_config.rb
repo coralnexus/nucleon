@@ -58,22 +58,22 @@ module SubConfig
 
   #---
  
-  def _set(keys, value = '')
-    modify(@properties, array(keys).flatten, value)
+  def _set(keys, value = '', delete_nil = false)
+    modify(@properties, array(keys).flatten, value, delete_nil)
   end
   protected :_set
   
   #---
     
-  def set(keys, value = '')
+  def set(keys, value = '', delete_nil = false)
     init_subconfig
-    config.set(keys, value)
+    config.set(keys, value, delete_nil)
   end
   
   #---
  
   def _delete(keys, default = nil)
-    existing = modify(@properties, array(keys).flatten, nil)
+    existing = modify(@properties, array(keys).flatten, nil, true)
     return existing[:value] if existing[:value]
     return default 
   end
