@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Nucleon::Util::Data - nucleon 0.2.1</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/core/util/data.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-array">::array</a>
+    
+    <li><a href="#method-c-clean">::clean</a>
+    
+    <li><a href="#method-c-deep_clean">::deep_clean</a>
+    
+    <li><a href="#method-c-empty-3F">::empty?</a>
+    
+    <li><a href="#method-c-ensure">::ensure</a>
+    
+    <li><a href="#method-c-ensure_value">::ensure_value</a>
+    
+    <li><a href="#method-c-exists-3F">::exists?</a>
+    
+    <li><a href="#method-c-false-3F">::false?</a>
+    
+    <li><a href="#method-c-filter">::filter</a>
+    
+    <li><a href="#method-c-hash">::hash</a>
+    
+    <li><a href="#method-c-interpolate">::interpolate</a>
+    
+    <li><a href="#method-c-merge">::merge</a>
+    
+    <li><a href="#method-c-parse_json">::parse_json</a>
+    
+    <li><a href="#method-c-parse_yaml">::parse_yaml</a>
+    
+    <li><a href="#method-c-prefix">::prefix</a>
+    
+    <li><a href="#method-c-rm_keys">::rm_keys</a>
+    
+    <li><a href="#method-c-string">::string</a>
+    
+    <li><a href="#method-c-string_map">::string_map</a>
+    
+    <li><a href="#method-c-subset">::subset</a>
+    
+    <li><a href="#method-c-symbol">::symbol</a>
+    
+    <li><a href="#method-c-symbol_map">::symbol_map</a>
+    
+    <li><a href="#method-c-test">::test</a>
+    
+    <li><a href="#method-c-to_json">::to_json</a>
+    
+    <li><a href="#method-c-to_yaml">::to_yaml</a>
+    
+    <li><a href="#method-c-true-3F">::true?</a>
+    
+    <li><a href="#method-c-undef-3F">::undef?</a>
+    
+    <li><a href="#method-c-value">::value</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../ARCHITECTURE_rdoc.html">ARCHITECTURE</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../TODO_rdoc.html">TODO</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Nucleon.html">Nucleon</a>
+  
+    <li><a href="../../Nucleon/Action.html">Nucleon::Action</a>
+  
+    <li><a href="../../Nucleon/Action/Extract.html">Nucleon::Action::Extract</a>
+  
+    <li><a href="../../Nucleon/Action/Project.html">Nucleon::Action::Project</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Add.html">Nucleon::Action::Project::Add</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Create.html">Nucleon::Action::Project::Create</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Remove.html">Nucleon::Action::Project::Remove</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Save.html">Nucleon::Action::Project::Save</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Update.html">Nucleon::Action::Project::Update</a>
+  
+    <li><a href="../../Nucleon/Codes.html">Nucleon::Codes</a>
+  
+    <li><a href="../../Nucleon/Command.html">Nucleon::Command</a>
+  
+    <li><a href="../../Nucleon/Command/Bash.html">Nucleon::Command::Bash</a>
+  
+    <li><a href="../../Nucleon/Config.html">Nucleon::Config</a>
+  
+    <li><a href="../../Nucleon/Config/Collection.html">Nucleon::Config::Collection</a>
+  
+    <li><a href="../../Nucleon/Config/Options.html">Nucleon::Config::Options</a>
+  
+    <li><a href="../../Nucleon/Core.html">Nucleon::Core</a>
+  
+    <li><a href="../../Nucleon/Environment.html">Nucleon::Environment</a>
+  
+    <li><a href="../../Nucleon/Errors.html">Nucleon::Errors</a>
+  
+    <li><a href="../../Nucleon/Errors/BatchError.html">Nucleon::Errors::BatchError</a>
+  
+    <li><a href="../../Nucleon/Errors/NucleonError.html">Nucleon::Errors::NucleonError</a>
+  
+    <li><a href="../../Nucleon/Errors/SSHUnavailable.html">Nucleon::Errors::SSHUnavailable</a>
+  
+    <li><a href="../../Nucleon/Event.html">Nucleon::Event</a>
+  
+    <li><a href="../../Nucleon/Event/Regex.html">Nucleon::Event::Regex</a>
+  
+    <li><a href="../../Nucleon/Facade.html">Nucleon::Facade</a>
+  
+    <li><a href="../../Nucleon/Gems.html">Nucleon::Gems</a>
+  
+    <li><a href="../../Nucleon/Manager.html">Nucleon::Manager</a>
+  
+    <li><a href="../../Nucleon/Mixin.html">Nucleon::Mixin</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action.html">Nucleon::Mixin::Action</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Commit.html">Nucleon::Mixin::Action::Commit</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Registration.html">Nucleon::Mixin::Action::Registration</a>
+  
+    <li><a href="../../Nucleon/Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+    <li><a href="../../Nucleon/Mixin/ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+  
+    <li><a href="../../Nucleon/Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro.html">Nucleon::Mixin::Macro</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro/ObjectInterface.html">Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro/PluginInterface.html">Nucleon::Mixin::Macro::PluginInterface</a>
+  
+    <li><a href="../../Nucleon/Mixin/Settings.html">Nucleon::Mixin::Settings</a>
+  
+    <li><a href="../../Nucleon/Mixin/SubConfig.html">Nucleon::Mixin::SubConfig</a>
+  
+    <li><a href="../../Nucleon/Parallel.html">Nucleon::Parallel</a>
+  
+    <li><a href="../../Nucleon/Parallel/ClassMethods.html">Nucleon::Parallel::ClassMethods</a>
+  
+    <li><a href="../../Nucleon/Parallel/InstanceMethods.html">Nucleon::Parallel::InstanceMethods</a>
+  
+    <li><a href="../../Nucleon/Plugin.html">Nucleon::Plugin</a>
+  
+    <li><a href="../../Nucleon/Plugin/Action.html">Nucleon::Plugin::Action</a>
+  
+    <li><a href="../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
+  
+    <li><a href="../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
+  
+    <li><a href="../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
+  
+    <li><a href="../../Nucleon/Plugin/Event.html">Nucleon::Plugin::Event</a>
+  
+    <li><a href="../../Nucleon/Plugin/Extension.html">Nucleon::Plugin::Extension</a>
+  
+    <li><a href="../../Nucleon/Plugin/Project.html">Nucleon::Plugin::Project</a>
+  
+    <li><a href="../../Nucleon/Plugin/Template.html">Nucleon::Plugin::Template</a>
+  
+    <li><a href="../../Nucleon/Plugin/Translator.html">Nucleon::Plugin::Translator</a>
+  
+    <li><a href="../../Nucleon/Project.html">Nucleon::Project</a>
+  
+    <li><a href="../../Nucleon/Project/Git.html">Nucleon::Project::Git</a>
+  
+    <li><a href="../../Nucleon/Project/Github.html">Nucleon::Project::Github</a>
+  
+    <li><a href="../../Nucleon/Template.html">Nucleon::Template</a>
+  
+    <li><a href="../../Nucleon/Template/JSON.html">Nucleon::Template::JSON</a>
+  
+    <li><a href="../../Nucleon/Template/Wrapper.html">Nucleon::Template::Wrapper</a>
+  
+    <li><a href="../../Nucleon/Template/YAML.html">Nucleon::Template::YAML</a>
+  
+    <li><a href="../../Nucleon/Translator.html">Nucleon::Translator</a>
+  
+    <li><a href="../../Nucleon/Translator/JSON.html">Nucleon::Translator::JSON</a>
+  
+    <li><a href="../../Nucleon/Translator/YAML.html">Nucleon::Translator::YAML</a>
+  
+    <li><a href="../../Nucleon/Util.html">Nucleon::Util</a>
+  
+    <li><a href="../../Nucleon/Util/CLI.html">Nucleon::Util::CLI</a>
+  
+    <li><a href="../../Nucleon/Util/CLI/Parser.html">Nucleon::Util::CLI::Parser</a>
+  
+    <li><a href="../../Nucleon/Util/Cache.html">Nucleon::Util::Cache</a>
+  
+    <li><a href="../../Nucleon/Util/Console.html">Nucleon::Util::Console</a>
+  
+    <li><a href="../../Nucleon/Util/Data.html">Nucleon::Util::Data</a>
+  
+    <li><a href="../../Nucleon/Util/Disk.html">Nucleon::Util::Disk</a>
+  
+    <li><a href="../../Nucleon/Util/Git.html">Nucleon::Util::Git</a>
+  
+    <li><a href="../../Nucleon/Util/Liquid.html">Nucleon::Util::Liquid</a>
+  
+    <li><a href="../../Nucleon/Util/Logger.html">Nucleon::Util::Logger</a>
+  
+    <li><a href="../../Nucleon/Util/Package.html">Nucleon::Util::Package</a>
+  
+    <li><a href="../../Nucleon/Util/SSH.html">Nucleon::Util::SSH</a>
+  
+    <li><a href="../../Nucleon/Util/SSH/Keypair.html">Nucleon::Util::SSH::Keypair</a>
+  
+    <li><a href="../../Nucleon/Util/Shell.html">Nucleon::Util::Shell</a>
+  
+    <li><a href="../../Nucleon/Util/Shell/Result.html">Nucleon::Util::Shell::Result</a>
+  
+    <li><a href="../../Hash.html">Hash</a>
+  
+    <li><a href="../../Kernel.html">Kernel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Nucleon::Util::Data</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-array" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">array</span><span
+            class="method-args">(data, default = [], split_string = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="array-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 165</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = [], <span class="ruby-identifier">split_string</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-identifier">default</span>    
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+      <span class="ruby-identifier">result</span> = <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+      <span class="ruby-identifier">result</span> = [ ( <span class="ruby-identifier">split_string</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/\s*,\s*/</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">data</span> ) ]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">result</span> = [ <span class="ruby-identifier">data</span> ]
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- array-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- array-method -->
+
+    
+      <div id="method-c-clean" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clean</span><span
+            class="method-args">(data, remove_empty = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="clean-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 237</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">clean</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">remove_empty</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">data</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">data</span>[<span class="ruby-identifier">key</span>]
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> ( <span class="ruby-identifier">remove_empty</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">empty?</span> )
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">data</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clean-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clean-method -->
+
+    
+      <div id="method-c-deep_clean" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">deep_clean</span><span
+            class="method-args">(data, remove_empty = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="deep_clean-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 247</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">deep_clean</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">remove_empty</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">data</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">data</span>[<span class="ruby-identifier">key</span>]
+      
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> ( <span class="ruby-identifier">remove_empty</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">empty?</span> )
+      <span class="ruby-identifier">data</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)
+        
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">data</span>[<span class="ruby-identifier">key</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+      <span class="ruby-identifier">deep_clean</span>(<span class="ruby-identifier">data</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">remove_empty</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">data</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- deep_clean-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- deep_clean-method -->
+
+    
+      <div id="method-c-empty-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">empty?</span><span
+            class="method-args">(value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="empty-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">undef?</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">false?</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">||</span> (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-string">&#39;empty?&#39;</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- empty-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- empty-3F-method -->
+
+    
+      <div id="method-c-ensure" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ensure</span><span
+            class="method-args">(test, success_value = nil, failure_value = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ensure-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 412</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-keyword">ensure</span>(<span class="ruby-identifier">test</span>, <span class="ruby-identifier">success_value</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">failure_value</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">success_value</span> = (<span class="ruby-identifier">success_value</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">success_value</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">test</span>)
+  <span class="ruby-identifier">failure_value</span> = (<span class="ruby-identifier">failure_value</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">failure_value</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+    
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">test</span>)
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">failure_value</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">success_value</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ensure-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ensure-method -->
+
+    
+      <div id="method-c-ensure_value" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ensure_value</span><span
+            class="method-args">(value, failure_value = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="ensure_value-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 426</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ensure_value</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">failure_value</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">value</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">failure_value</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ensure_value-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ensure_value-method -->
+
+    
+      <div id="method-c-exists-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">exists?</span><span
+            class="method-args">(data, keys, check_empty = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="exists-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 49</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">check_empty</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+    <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">keys</span> ]
+  <span class="ruby-keyword">end</span>    
+  <span class="ruby-identifier">key</span> = <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">to_sym</span>
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">data</span>[<span class="ruby-identifier">key</span>]
+    
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_empty</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">value</span>)
+      <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">data</span>[<span class="ruby-identifier">key</span>], <span class="ruby-identifier">keys</span>)  
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- exists-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- exists-3F-method -->
+
+    
+      <div id="method-c-false-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">false?</span><span
+            class="method-args">(value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="false-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 30</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">false?</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">||</span> 
+    (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^\s*(false|FALSE|False)\s*$/</span>))
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- false-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- false-3F-method -->
+
+    
+      <div id="method-c-filter" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">filter</span><span
+            class="method-args">(data, method = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="filter-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 155</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">method</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">method</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">method</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>) <span class="ruby-operator">&amp;&amp;</span> 
+    [ <span class="ruby-value">:array</span>, <span class="ruby-value">:hash</span>, <span class="ruby-value">:string</span>, <span class="ruby-value">:symbol</span>, <span class="ruby-value">:test</span> ].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">method</span>.<span class="ruby-identifier">to_sym</span>)
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">data</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">data</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- filter-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- filter-method -->
+
+    
+      <div id="method-c-hash" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">hash</span><span
+            class="method-args">(data, default = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="hash-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 182</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = {})
+  <span class="ruby-identifier">result</span> = <span class="ruby-identifier">default</span>    
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+      <span class="ruby-identifier">result</span> = <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">result</span> = {}
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- hash-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- hash-method -->
+
+    
+      <div id="method-c-interpolate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">interpolate</span><span
+            class="method-args">(value, scope, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="interpolate-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 317</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">interpolate</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">scope</span>, <span class="ruby-identifier">options</span> = {})    
+  
+  <span class="ruby-identifier">pattern</span> = ( <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:pattern</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:pattern</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&#39;\$(\{)?([a-zA-Z0-9\_\-]+)(\})?&#39;</span> )
+  <span class="ruby-identifier">group</span>   = ( <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:var_group</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:var_group</span>] <span class="ruby-operator">:</span> <span class="ruby-value">2</span> )
+  <span class="ruby-identifier">flags</span>   = ( <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:flags</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:flags</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span> )
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+    <span class="ruby-identifier">regexp</span> = <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">pattern</span>, <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;&#39;</span>))
+  
+    <span class="ruby-identifier">replace</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">matches</span> = <span class="ruby-identifier">item</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">regexp</span>)
+      <span class="ruby-identifier">result</span>  = <span class="ruby-keyword">nil</span>
+      
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">matches</span>.<span class="ruby-identifier">nil?</span>
+        <span class="ruby-identifier">replacement</span> = <span class="ruby-identifier">scope</span>.<span class="ruby-identifier">search</span>(<span class="ruby-identifier">matches</span>[<span class="ruby-identifier">group</span>], <span class="ruby-identifier">options</span>)
+        <span class="ruby-identifier">result</span>      = <span class="ruby-identifier">item</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-identifier">matches</span>[<span class="ruby-value">0</span>], <span class="ruby-identifier">replacement</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">replacement</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+    <span class="ruby-keyword">end</span>
+    
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">value</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+      <span class="ruby-keyword">while</span> (<span class="ruby-identifier">temp</span> = <span class="ruby-identifier">replace</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">value</span>))
+        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">temp</span>
+      <span class="ruby-keyword">end</span>
+      
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+      <span class="ruby-identifier">value</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">value</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">interpolate</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">scope</span>, <span class="ruby-identifier">options</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">value</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- interpolate-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- interpolate-method -->
+
+    
+      <div id="method-c-merge" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">merge</span><span
+            class="method-args">(data, force = true, basic = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="merge-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 263</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">basic</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">value</span> = <span class="ruby-identifier">data</span>
+  
+  <span class="ruby-comment"># Special case because this method is called from within Config.new so we </span>
+  <span class="ruby-comment"># can not use Config.ensure, as that would cause an infinite loop.</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">force</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>)
+    <span class="ruby-identifier">basic</span> = <span class="ruby-identifier">force</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:basic</span>, <span class="ruby-keyword">true</span>)
+    <span class="ruby-identifier">force</span> = <span class="ruby-identifier">force</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:force</span>, <span class="ruby-keyword">true</span>)      
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+    <span class="ruby-identifier">value</span> = <span class="ruby-identifier">undef?</span>(<span class="ruby-identifier">data</span>[<span class="ruby-value">0</span>]) <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">shift</span>.<span class="ruby-identifier">clone</span>
+    
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">item</span> = <span class="ruby-identifier">undef?</span>(<span class="ruby-identifier">item</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">clone</span>
+      
+      <span class="ruby-keyword">case</span> <span class="ruby-identifier">value</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">basic</span>
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+            <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">item</span>)              
+          <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">force</span>
+            <span class="ruby-identifier">value</span> = <span class="ruby-identifier">item</span>
+          <span class="ruby-keyword">end</span>  
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-keyword">begin</span>
+            <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;deep_merge&#39;</span>
+            <span class="ruby-identifier">value</span> = <span class="ruby-identifier">force</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">deep_merge!</span>(<span class="ruby-identifier">item</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">deep_merge</span>(<span class="ruby-identifier">item</span>)
+            
+          <span class="ruby-keyword">rescue</span> <span class="ruby-constant">LoadError</span>
+            <span class="ruby-keyword">if</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-comment"># Non recursive top level by default.</span>
+              <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">item</span>)              
+            <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">force</span>
+              <span class="ruby-identifier">value</span> = <span class="ruby-identifier">item</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>  
+      <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+          <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-identifier">item</span>).<span class="ruby-identifier">uniq</span>
+        <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">force</span>
+          <span class="ruby-identifier">value</span> = <span class="ruby-identifier">item</span>
+        <span class="ruby-keyword">end</span>
+              
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">item</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">force</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>  
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">value</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- merge-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- merge-method -->
+
+    
+      <div id="method-c-parse_json" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parse_json</span><span
+            class="method-args">(json_text)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="parse_json-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 105</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">json_text</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">MultiJson</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">json_text</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- parse_json-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- parse_json-method -->
+
+    
+      <div id="method-c-parse_yaml" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">parse_yaml</span><span
+            class="method-args">(yaml_text)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="parse_yaml-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parse_yaml</span>(<span class="ruby-identifier">yaml_text</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">yaml_text</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- parse_yaml-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- parse_yaml-method -->
+
+    
+      <div id="method-c-prefix" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">prefix</span><span
+            class="method-args">(prefix, data, pad = '_')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="prefix-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 384</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">prefix</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">pad</span> = <span class="ruby-string">&#39;_&#39;</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
+  
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">prefix</span>)
+    <span class="ruby-identifier">prefix</span> = <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>, <span class="ruby-constant">Symbol</span>
+    <span class="ruby-identifier">result</span> = ( <span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">prefix</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">pad</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span> )
+    
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+    <span class="ruby-identifier">result</span> = []
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">result</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">prefix</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">pad</span>)
+    <span class="ruby-keyword">end</span>
+    
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-identifier">result</span> = {}
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">result</span>[<span class="ruby-identifier">prefix</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">pad</span>)] = <span class="ruby-identifier">value</span>  
+    <span class="ruby-keyword">end</span>      
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- prefix-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- prefix-method -->
+
+    
+      <div id="method-c-rm_keys" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">rm_keys</span><span
+            class="method-args">(data, keys, symbolize = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="rm_keys-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 354</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rm_keys</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">symbolize</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">keys</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+  <span class="ruby-identifier">data</span> = <span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-identifier">data</span> = <span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">symbolize</span>
+  
+  <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">key</span> = <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">symbolize</span>
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">key</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">data</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- rm_keys-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- rm_keys-method -->
+
+    
+      <div id="method-c-string" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">string</span><span
+            class="method-args">(data, default = '')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="string-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 197</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">string</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-identifier">default</span>    
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+      <span class="ruby-identifier">result</span> = <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">result</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- string-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- string-method -->
+
+    
+      <div id="method-c-string_map" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">string_map</span><span
+            class="method-args">(data)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="string_map-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 88</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">string_map</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-identifier">results</span> = {}
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">data</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">data</span>
+  
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">results</span>[<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">string_map</span>(<span class="ruby-identifier">value</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">data</span>
+  <span class="ruby-keyword">end</span>    
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">results</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- string_map-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- string_map-method -->
+
+    
+      <div id="method-c-subset" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">subset</span><span
+            class="method-args">(data, keys, symbolize = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="subset-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 368</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">subset</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">symbolize</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">keys</span>     = [ <span class="ruby-identifier">keys</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+  <span class="ruby-identifier">data</span>     = <span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-identifier">data</span>     = <span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">symbolize</span>
+  <span class="ruby-identifier">new_data</span> = {}
+   
+  <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">key</span>           = <span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">symbolize</span>
+    <span class="ruby-identifier">new_data</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">data</span>[<span class="ruby-identifier">key</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">key</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">new_data</span> 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- subset-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- subset-method -->
+
+    
+      <div id="method-c-symbol" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">symbol</span><span
+            class="method-args">(data, default = :undefined)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="symbol-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 212</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">symbol</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = <span class="ruby-value">:undefined</span>)
+  <span class="ruby-identifier">result</span> = <span class="ruby-identifier">default</span>    
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">Symbol</span>
+      <span class="ruby-identifier">result</span> = <span class="ruby-identifier">data</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+      <span class="ruby-identifier">result</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_sym</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">result</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_sym</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- symbol-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- symbol-method -->
+
+    
+      <div id="method-c-symbol_map" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">symbol_map</span><span
+            class="method-args">(data)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="symbol_map-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-identifier">results</span> = {}
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">data</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">data</span>
+  
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">data</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">results</span>[<span class="ruby-identifier">key</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">value</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">data</span>
+  <span class="ruby-keyword">end</span>    
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">results</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- symbol_map-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- symbol_map-method -->
+
+    
+      <div id="method-c-test" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test</span><span
+            class="method-args">(data)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="test-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 229</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">test</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test-method -->
+
+    
+      <div id="method-c-to_json" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_json</span><span
+            class="method-args">(data, pretty = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_json-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 111</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_json</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">pretty</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">MultiJson</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">data</span>, <span class="ruby-value">:pretty</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">pretty</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_json-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_json-method -->
+
+    
+      <div id="method-c-to_yaml" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_yaml</span><span
+            class="method-args">(data)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="to_yaml-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 123</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_yaml</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">data</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_yaml-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_yaml-method -->
+
+    
+      <div id="method-c-true-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">true?</span><span
+            class="method-args">(value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="true-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">true?</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">||</span> 
+    (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^\s*(true|TRUE|True)\s*$/</span>))
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- true-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- true-3F-method -->
+
+    
+      <div id="method-c-undef-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">undef?</span><span
+            class="method-args">(value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="undef-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">undef?</span>(<span class="ruby-identifier">value</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">||</span> 
+    (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value">:undef</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value">:undefined</span>) <span class="ruby-operator">||</span> 
+    (<span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^\s*(undef|UNDEF|Undef|nil|NIL|Nil)\s*$/</span>))
+    <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- undef-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- undef-3F-method -->
+
+    
+      <div id="method-c-value" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">value</span><span
+            class="method-args">(value, undefined_value = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="value-source">
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 129</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">undefined_value</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">String</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">undef?</span>(<span class="ruby-identifier">value</span>)
+      <span class="ruby-identifier">value</span> = <span class="ruby-identifier">undefined_value</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">true?</span>(<span class="ruby-identifier">value</span>)
+      <span class="ruby-identifier">value</span> = <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">false?</span>(<span class="ruby-identifier">value</span>)
+      <span class="ruby-identifier">value</span> = <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
+    <span class="ruby-identifier">value</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">item</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">value</span>[<span class="ruby-identifier">index</span>] = <span class="ruby-identifier">value</span>(<span class="ruby-identifier">item</span>, <span class="ruby-identifier">undefined_value</span>)
+    <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
+    <span class="ruby-identifier">value</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">value</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">value</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">undefined_value</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">value</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- value-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- value-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
