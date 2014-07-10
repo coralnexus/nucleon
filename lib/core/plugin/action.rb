@@ -109,7 +109,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   def normalize(reload)
     args = array(delete(:args, []))
-       
+      
     @action_interface = Util::Liquid.new do |method, method_args|
       options = {}
       options = method_args[0] if method_args.length > 0
@@ -139,6 +139,12 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   #-----------------------------------------------------------------------------
   # Checks
+  
+  def strict?
+    true # Override in providers if needed (allow extra options if false)
+  end
+  
+  #---
   
   def processed?
     get(:processed, false)
@@ -316,6 +322,8 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     end
     
     @parser = Util::CLI::Parser.new(args, usage, "\n#{help_text}\n") do |parser|
+      parser.strict = strict?
+      
       parse(parser)      
       extension(:parse, { :parser => parser, :config => config })
     end
@@ -323,7 +331,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     if @parser 
       if @parser.processed
         set(:processed, true)
-        settings.import(Util::Data.merge([ @parser.options, @parser.arguments ], true))
+        settings.import(Util::Data.merge([ @parser.extra, @parser.options, @parser.arguments ], true))
         logger.debug("Parse successful")
         
       elsif @parser.options[:help] && ! quiet?
