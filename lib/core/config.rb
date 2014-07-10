@@ -11,37 +11,38 @@ class Config
   #-----------------------------------------------------------------------------
   # Instance generators
   
-  def self.ensure(config)
+  def self.ensure(config, defaults = {}, force = true, basic_merge = true)
     case config
     when Nucleon::Config
-      return config
+      return config.defaults(defaults)
     when Hash
-      return new(config) 
+      return new(config, defaults, force, basic_merge) 
     end
-    return new
+    return new({}, defaults, force, basic_merge)
   end
   
   #---
   
-  def self.init(options, contexts = [], hierarchy = [], defaults = {})
+  def self.init(options, contexts = [], hierarchy = [], defaults = {}, force = true, basic_merge = true)
     contexts = contexts(contexts, hierarchy)
-    config   = new(get_options(contexts), defaults)
+    config   = new(get_options(contexts), defaults, force, basic_merge)
     config.import(options) unless Util::Data.empty?(options)
     return config
   end
   
   #---
   
-  def self.init_flat(options, contexts = [], defaults = {})
-    return init(options, contexts, [], defaults)
+  def self.init_flat(options, contexts = [], defaults = {}, force = true, basic_merge = true)
+    return init(options, contexts, [], defaults, force, basic_merge)
   end
    
   #-----------------------------------------------------------------------------
   # Constructor / Destructor
    
-  def initialize(data = {}, defaults = {}, force = true)
-    @force      = force
-    @properties = {}
+  def initialize(data = {}, defaults = {}, force = true, basic_merge = true)
+    @force       = force
+    @basic_merge = basic_merge
+    @properties  = {}
     
     if defaults.is_a?(Hash) && ! defaults.empty?
       defaults = symbol_map(defaults.clone)
@@ -49,12 +50,12 @@ class Config
     
     case data
     when Nucleon::Config
-      @properties = Util::Data.merge([ defaults, data.export ], force)
+      @properties = Util::Data.merge([ defaults, data.export ], force, basic_merge)
     when Hash
       @properties = {}
       if data.is_a?(Hash)
-        @properties = Util::Data.merge([ defaults, symbol_map(data.clone) ], force)
-      end  
+        @properties = Util::Data.merge([ defaults, symbol_map(data.clone) ], force, basic_merge)
+      end
     end
   end
   
@@ -200,7 +201,7 @@ class Config
   # Import / Export
  
   def import_base(properties, options = {})
-    config      = Config.new(options, { :force => @force }).set(:context, :hash)    
+    config      = Config.new(options, { :force => @force, :basic => @basic_merge }).set(:context, :hash)    
     import_type = config.get(:import_type, :override)
     
     properties  = properties.export if properties.is_a?(Nucleon::Config)
