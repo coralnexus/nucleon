@@ -206,23 +206,25 @@ class Console
     escaped_clear = Regexp.escape(@@colors[:clear])
     
     message.split("\n").each do |line|
-      line = prev_color + line if prev_color
+      line = prev_color + line if self.class.use_colors && @color && prev_color
       
       lines << "#{prefix} #{line}".sub(/^ /, '')
       
-      # Set next previous color
-      if line =~ /#{escaped_clear}$/
-        prev_color = nil  
-      else
-        line_section = line.split(/#{escaped_clear}/).pop
-        prev_colors  = line_section.scan(/\e\[[0-9][0-9]?m/)
-        prev_color   = prev_colors.pop unless prev_colors.empty?
-      end      
+      if self.class.use_colors && @color
+        # Set next previous color
+        if line =~ /#{escaped_clear}$/
+          prev_color = nil  
+        else
+          line_section = line.split(/#{escaped_clear}/).pop
+          prev_colors  = line_section.scan(/\e\[[0-9][0-9]?m/)
+          prev_color   = prev_colors.pop unless prev_colors.empty?
+        end
+      end
     end
        
     message = lines.join("\n")
     
-    if @@use_colors && @color
+    if self.class.use_colors && @color
       if options.has_key?(:color)
         message = self.class.colorize(message, options[:color]) 
       else
