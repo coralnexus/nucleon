@@ -216,8 +216,11 @@ class Console
           prev_color = nil  
         else
           line_section = line.split(/#{escaped_clear}/).pop
-          prev_colors  = line_section.scan(/\e\[[0-9][0-9]?m/)
-          prev_color   = prev_colors.pop unless prev_colors.empty?
+          
+          if line_section
+            prev_colors = line_section.scan(/\e\[[0-9][0-9]?m/)
+            prev_color  = prev_colors.pop unless prev_colors.empty?
+          end
         end
       end
     end
