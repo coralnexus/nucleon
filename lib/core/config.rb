@@ -104,7 +104,7 @@ class Config
   
   #---
   
-  def modify(data, keys, value = nil) 
+  def modify(data, keys, value = nil, delete_nil = false) 
     if keys.is_a?(String) || keys.is_a?(Symbol)
       keys = [ keys ]
     end
@@ -120,7 +120,7 @@ class Config
     if keys.empty?      
       existing[:value] = data[key] if has_key
       
-      if value.nil?
+      if value.nil? && delete_nil
         data.delete(key) if has_key
       else
         data[key] = value
@@ -171,8 +171,8 @@ class Config
 
   #---
   
-  def set(keys, value)
-    modify(@properties, array(keys).flatten, value)
+  def set(keys, value, delete_nil = false)
+    modify(@properties, array(keys).flatten, value, delete_nil)
     return self
   end
   
@@ -185,7 +185,7 @@ class Config
   #---
   
   def delete(keys, default = nil)
-    existing = modify(@properties, array(keys).flatten, nil)
+    existing = modify(@properties, array(keys).flatten, nil, true)
     return existing[:value] unless existing[:value].nil?
     return default
   end
