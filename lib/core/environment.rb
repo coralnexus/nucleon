@@ -306,13 +306,13 @@ class Environment
   
   def parse_plugin_info(namespace, plugin_type, base_path, file)
     dir_components   = base_path.split(File::SEPARATOR)    
-    file_components  = file.split(File::SEPARATOR)  
+    file_components  = file.split(File::SEPARATOR)
     
     file_name        = file_components.pop.sub(/\.rb/, '')
     directory        = file_components.join(File::SEPARATOR)
     
     file_class       = sanitize_class(file_name)
-    group_components = file_components - dir_components
+    group_components = directory.sub(/^#{base_path}#{File::SEPARATOR}?/, '').split(File::SEPARATOR)
     
     class_components = [ sanitize_class(namespace), sanitize_class(plugin_type) ]
       
