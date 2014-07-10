@@ -64,6 +64,18 @@ module Nucleon
   def self.VERSION
     File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))  
   end
+  
+  #-----------------------------------------------------------------------------
+  
+  @@dump_enabled = false
+  
+  def self.dump_enabled=dump
+    @@dump_enabled = dump
+  end
+  
+  def self.dump_enabled
+    @@dump_enabled
+  end
  
   #-----------------------------------------------------------------------------
   
@@ -170,16 +182,18 @@ end
 
 module Kernel
   
-  def dbg(data, label = '')
+  def dbg(data, label = '', override_enabled = false)
     # Invocations of this function should NOT be committed to the project
-    require 'pp'
-    puts '>>----------------------'
-    unless ! label || label.empty?
-      puts label
-      puts '---'
+    if Nucleon.dump_enabled || override_enabled
+      require 'pp'
+      puts '>>----------------------'
+      unless ! label || label.empty?
+        puts label
+        puts '---'
+      end
+      pp data
+      puts '<<'
     end
-    pp data
-    puts '<<'
   end
 end
   
