@@ -22,17 +22,14 @@ module CLI
   def self.decode(encoded_string)
     Util::Data.symbol_map(Util::Data.parse_json(Base64.urlsafe_decode64(encoded_string)))  
   end
-        
+       
   #-------------------------------------------------------------------------
   # Parser
        
   class Parser
         
-    attr_accessor :parser
-    attr_accessor :options
-    attr_accessor :arguments
-    attr_accessor :processed
- 
+    attr_accessor :parser, :options, :arguments, :extra, :processed, :strict
+    
     #---
     
     include Mixin::Colors
@@ -40,12 +37,13 @@ module CLI
     #---
         
     def initialize(args, banner = '', help = '', split_help = false)
-          
       @parser = OptionParser.new
-          
+         
       self.options   = {}
       self.arguments = {}
+      self.extra     = {}
       self.processed = false
+      self.strict    = true      
           
       @arg_settings  = []
           
@@ -53,7 +51,7 @@ module CLI
       self.help    = help
           
       yield(self) if block_given?
-          
+         
       parse_command(args, split_help)
     end
         
@@ -148,10 +146,16 @@ module CLI
           options[:help] = true
         end  
       end
-      parser.parse!(args)
+      
+      if strict
+        parser.parse!(args)
+        extra_args = {}
+      else
+        args, extra_args = parse_known_args(parser, args)
+      end
       
       # Now we can act on options given
-      Util::Console.use_colors = options[:color] unless split_help
+      options[:color] = Util::Console.use_colors
       
       if options[:version]
         puts version
@@ -163,6 +167,8 @@ module CLI
       parse_encoded
       
       Nucleon.log_level = options[:log_level] if options[:log_level]
+      
+      self.extra = normalize_extra_options(extra_args) unless extra_args.empty?
          
       remaining_args = args.dup
       arg_messages   = []
@@ -252,6 +258,66 @@ module CLI
       options.delete(:encoded_params)
     end
   
+    #---
+  
+    def parse_known_args(parser, args)
+      extra_args = []
+      
+      parse_args = lambda do |arg_list|
+        begin
+          original_list = arg_list.clone
+          
+          parser.parse! arg_list
+          args = arg_list
+          
+        rescue OptionParser::InvalidOption => e
+          extra_args += e.args
+          while arg_list[0] && arg_list[0][0] != '-'
+            extra_args << arg_list.shift
+          end
+          parse_args.call original_list - extra_args
+        end
+      end
+      parse_args.call args
+      [ args, extra_args ]
+    end
+    
+    #---
+    
+    def normalize_extra_options(arg_list)
+      options     = {}      
+      last_option = nil
+      
+      Util::Data.array(arg_list).each do |arg|
+        components = arg.split('=')
+        value      = nil      
+        
+        if components.size > 1
+          arg   = components[0]
+          value = components[1]  
+        end
+        
+        if arg[0] == '-'
+          last_option          = arg.sub(/^\-+/, '').to_sym
+          options[last_option] = Util::Data.value(value) if value          
+        else
+          if last_option
+            if options[last_option]
+              options[last_option] = [ options[last_option] ] unless options[last_option].is_a?(Array)
+              options[last_option] << Util::Data.value(arg)
+            else
+              options[last_option] = Util::Data.value(arg)  
+            end  
+          else
+            parser.warn(CLI.message('nucleon.core.util.cli.parse.error') + "\n\n" + parser.help)
+            break  
+          end
+        end        
+      end      
+      options
+    end
+    protected :normalize_extra_options
+   
     #---
           
     def option(name, default, option_str, allowed_values, message_id, config = {})
