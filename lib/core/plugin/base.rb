@@ -219,11 +219,18 @@ class Base < Core
   #-----------------------------------------------------------------------------
   # Output
   
+  def render_provider
+    plugin_provider
+  end
+  protected :render_provider
+  
+  #---
+  
   def render_options
     export.merge({ 
       :plugin_namespace => self.class.respond_to?(:namespace) ? self.class.namespace : plugin_namespace, 
       :plugin_type      => plugin_type, 
-      :plugin_provider  => plugin_provider 
+      :plugin_provider  => render_provider 
     })  
   end
   protected :render_options
@@ -235,7 +242,7 @@ class Base < Core
     
     if config.delete(:i18n, true)
       plugin_namespace = self.class.namespace if self.class.respond_to?(:namespace)
-      prefix           = "#{plugin_namespace}.#{plugin_type}.#{plugin_provider.to_s.gsub('_', '.')}."
+      prefix           = "#{plugin_namespace}.#{plugin_type}.#{render_provider.to_s.gsub('_', '.')}."
       
       message = prefix + message.sub(/^#{prefix}/, '')
       message = I18n.t(message, Util::Data.merge([ Config.ensure(render_options).export, config.export ], true))
@@ -305,6 +312,13 @@ class Base < Core
       ui.success(message, config.export)
     end
     message
+  end
+  
+  #---
+  
+  def prefixed_message(type, prefix, message, options = {})
+    return unless [ :info, :warn, :error, :success ].include?(type.to_sym)
+    send(type, prefix.to_s + render_message(message, Config.new(options).import({ :prefix => false }).export), Config.new(options).import({ :i18n => false }).export)
   end
   
   #-----------------------------------------------------------------------------

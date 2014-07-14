@@ -14,14 +14,20 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     describe_base(group, action, weight, description, help)
   end
   
-  def self.describe_base(group = nil, action = 'unknown', weight = -1000, description = nil, help = nil)
-    if group
-      group_name  = Util::Data.array(group).join('.')
-      description_id = "#{namespace}.action.#{group_name}.#{action}.description"
-      help_id        = "#{namespace}.action.#{group_name}.#{action}.help"
+  def self.describe_base(group = nil, action = 'unknown', weight = -1000, description = nil, help = nil, provider_override = nil)
+    if provider_override
+      provider_override = provider_override.to_s.gsub('_', '.')
+      description_id    = "#{namespace}.action.#{provider_override}.description"
+      help_id           = "#{namespace}.action.#{provider_override}.help"  
     else
-      description_id = "#{namespace}.action.#{action}.description"
-      help_id        = "#{namespace}.action.#{action}.help"
+      if group
+        group_name     = Util::Data.array(group).join('.')
+        description_id = "#{namespace}.action.#{group_name}.#{action}.description"
+        help_id        = "#{namespace}.action.#{group_name}.#{action}.help"
+      else
+        description_id = "#{namespace}.action.#{action}.description"
+        help_id        = "#{namespace}.action.#{action}.help"
+      end
     end
     
     {
