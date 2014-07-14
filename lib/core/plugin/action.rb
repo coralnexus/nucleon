@@ -5,6 +5,8 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   extend Mixin::Colors
   
+  include Mixin::Action::Registration
+  
   #-----------------------------------------------------------------------------
   # Info
   
@@ -207,28 +209,6 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   #---
   
-  def register_bool(name, default = false, locale = nil, &code)
-    register(name, :bool, default, locale, &code)
-  end
-  
-  def register_int(name, default = nil, locale = nil, &code)
-    register(name, :int, default, locale, &code)
-  end
-  
-  def register_float(name, default = nil, locale = nil, &code)
-    register(name, :float, default, locale, &code)
-  end
-  
-  def register_str(name, default = '', locale = nil, &code)
-    register(name, :str, default, locale, &code)
-  end
-  
-  def register_array(name, default = [], locale = nil, &code)
-    register(name, :array, default, locale, &code)
-  end
-  
-  #---
-  
   def remove(names)
     Util::Data.rm_keys(config, names)
     Util::Data.rm_keys(settings, names)
@@ -318,7 +298,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     
     help_text = ''
     action_info[:description][:help].split("\n").each do |line|
-      help_text << '     ' + line + "\n"
+      help_text << '     ' + green(line) + "\n"
     end
     
     @parser = Util::CLI::Parser.new(args, usage, "\n#{help_text}\n") do |parser|

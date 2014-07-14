@@ -5,7 +5,37 @@ module Action
 module Registration
         
   #-----------------------------------------------------------------------------
-  # Options
+  # Registration definitions
+  
+  def register_bool(name, default = false, locale = nil, &code)
+    register(name, :bool, default, locale, &code)
+  end
+  
+  #---
+  
+  def register_int(name, default = nil, locale = nil, &code)
+    register(name, :int, default, locale, &code)
+  end
+  
+  #---
+  
+  def register_float(name, default = nil, locale = nil, &code)
+    register(name, :float, default, locale, &code)
+  end
+  
+  #---
+  
+  def register_str(name, default = '', locale = nil, &code)
+    register(name, :str, default, locale, &code)
+  end
+  
+  #---
+  
+  def register_array(name, default = [], locale = nil, &code)
+    register(name, :array, default, locale, &code)
+  end
+  
+  #---
     
   def register_file(name, default = nil)
     name = name.to_sym
