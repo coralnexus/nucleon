@@ -459,7 +459,8 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   # Output
   
   def render_options
-    settings
+    options = super
+    options.merge(settings.export)
   end
   
   #-----------------------------------------------------------------------------

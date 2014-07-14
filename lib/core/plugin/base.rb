@@ -220,7 +220,11 @@ class Base < Core
   # Output
   
   def render_options
-    export  
+    export.merge({ 
+      :plugin_namespace => self.class.respond_to?(:namespace) ? self.class.namespace : plugin_namespace, 
+      :plugin_type      => plugin_type, 
+      :plugin_provider  => plugin_provider 
+    })  
   end
   protected :render_options
   
@@ -230,7 +234,11 @@ class Base < Core
     config = Config.ensure(options)
     
     if config.delete(:i18n, true)
-      message = I18n.t(message, Util::Data.merge([ Config.ensure(render_options).export, config.export ], true))  
+      plugin_namespace = self.class.namespace if self.class.respond_to?(:namespace)
+      prefix           = "#{plugin_namespace}.#{plugin_type}.#{plugin_provider.to_s.gsub('_', '.')}."
+      
+      message = prefix + message.sub(/^#{prefix}/, '')
+      message = I18n.t(message, Util::Data.merge([ Config.ensure(render_options).export, config.export ], true))
     end
     message  
   end
