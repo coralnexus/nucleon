@@ -242,9 +242,10 @@ class Base < Core
     
     if config.delete(:i18n, true)
       plugin_namespace = self.class.namespace if self.class.respond_to?(:namespace)
+      operation_id     = config.has_key?(:operation) ? config[:operation] : ''
       prefix           = "#{plugin_namespace}.#{plugin_type}.#{render_provider.to_s.gsub('_', '.')}."
       
-      message = prefix + message.sub(/^#{prefix}/, '')
+      message = prefix + ( operation_id.empty? ? '' : "#{operation_id}." ) + message.sub(/^#{prefix}/, '')
       message = I18n.t(message, Util::Data.merge([ Config.ensure(render_options).export, config.export ], true))
     end
     message  
@@ -269,7 +270,7 @@ class Base < Core
   #---
         
   def info(message, options = {})
-    config = Config.ensure(options)
+    config = Config.new(options).import({ :operation => :info })
     
     unless quiet?
       message = render_message(message, config)
@@ -281,7 +282,7 @@ class Base < Core
   #---
        
   def warn(message, options = {})
-    config = Config.ensure(options)
+    config = Config.new(options).import({ :operation => :warn })
     
     unless quiet?
       message = render_message(message, config)
@@ -293,7 +294,7 @@ class Base < Core
   #---
         
   def error(message, options = {})
-    config = Config.ensure(options)
+    config = Config.new(options).import({ :operation => :error })
     
     unless quiet?
       message = render_message(message, config)
@@ -305,7 +306,7 @@ class Base < Core
   #---
         
   def success(message, options = {})
-    config = Config.ensure(options)
+    config = Config.new(options).import({ :operation => :success })
     
     unless quiet?
       message = render_message(message, config)
@@ -318,7 +319,7 @@ class Base < Core
   
   def prefixed_message(type, prefix, message, options = {})
     return unless [ :info, :warn, :error, :success ].include?(type.to_sym)
-    send(type, prefix.to_s + render_message(message, Config.new(options).import({ :prefix => false }).export), Config.new(options).import({ :i18n => false }).export)
+    send(type, prefix.to_s + render_message(message, Config.new(options).import({ :prefix => false, :operation => type.to_sym }).export), Config.new(options).import({ :i18n => false }).export)
   end
   
   #-----------------------------------------------------------------------------
