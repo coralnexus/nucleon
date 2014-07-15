@@ -15,7 +15,7 @@ module SubConfig
     return if @subconfig_initialized && ! reset
     
     unless @config
-      @config = Config.new
+      @config = Config.new({}, {}, true, false)
     end
     
     @subconfig_initialized = true

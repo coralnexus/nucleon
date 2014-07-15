@@ -14,8 +14,8 @@ class Core < Config
   #-----------------------------------------------------------------------------
   # Constructor / Destructor
   
-  def initialize(data = {}, defaults = {}, force = true, set_initialized = true)
-    super(data, defaults, force)   
+  def initialize(data = {}, defaults = {}, force = true, set_initialized = true, basic_merge = true)
+    super(data, defaults, force, basic_merge)   
     
     @class_color = Util::Data.ensure_value(delete(:class_color, :cyan), :cyan)
     @class_label = self.class.to_s.downcase.gsub(/^nucleon::/, '')

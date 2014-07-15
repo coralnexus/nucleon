@@ -20,7 +20,7 @@ class Base < Core
     set_meta(config.delete(:meta, Config.new))
     
     # No logging statements above this line!!
-    super(config.import({ :logger => "#{namespace}->#{plugin_type}->#{plugin_provider}" }), {}, true, false)
+    super(config.import({ :logger => "#{namespace}->#{plugin_type}->#{plugin_provider}" }), {}, true, false, false)
     myself.plugin_name = name
             
     logger.debug("Normalizing #{namespace} #{plugin_type} plugin #{plugin_name}")
