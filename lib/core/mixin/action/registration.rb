@@ -37,61 +37,61 @@ module Registration
   
   #---
     
-  def register_file(name, default = nil)
+  def register_file(name, default = nil, locale = nil, &code)
     name = name.to_sym
     
-    register name, :str, default do |value|
-      validate_file(value)
+    register name, :str, default, locale do |value|
+      validate_file(value) && ( ! code || code.call(value) )
     end
   end
   
   #---
     
-  def register_directory(name, default = nil)
+  def register_directory(name, default = nil, locale = nil, &code)
     name = name.to_sym
     
-    register name, :str, default do |value|
-      validate_directory(value)
+    register name, :str, default, locale do |value|
+      validate_directory(value) && ( ! code || code.call(value) )
     end
   end
   
   #---
     
-  def register_project(name, default = nil)
+  def register_project(name, default = nil, locale = nil, &code)
     name = name.to_sym
     
-    register name, :str, default do |value|
-      validate_plugins(:nucleon, :project, name, value)
+    register name, :str, default, locale do |value|
+      validate_plugins(:nucleon, :project, name, value) && ( ! code || code.call(value) )
     end
   end
   
   #---
     
-  def register_projects(name, default = nil)
+  def register_projects(name, default = nil, locale = nil, &code)
     name = name.to_sym
     
-    register name, :array, default do |values|
-      validate_plugins(:nucleon, :project, name, values)
+    register name, :array, default, locale do |values|
+      validate_plugins(:nucleon, :project, name, values) && ( ! code || code.call(values) )
     end
   end
   
   #---
     
-  def register_translator(name, default = nil)
+  def register_translator(name, default = nil, locale = nil, &code)
     name = name.to_sym
     
-    register name, :str, default do |value|
-      validate_plugins(:nucleon, :translator, name, value)
+    register name, :str, default, locale do |value|
+      validate_plugins(:nucleon, :translator, name, value) && ( ! code || code.call(value) )
     end
   end
   
   #---
     
-  def register_translators(name, default = nil)
+  def register_translators(name, default = nil, locale = nil, &code)
     name = name.to_sym
     
-    register name, :array, default do |values|
-      validate_plugins(:nucleon, :translator, name, values)
+    register name, :array, default, locale do |values|
+      validate_plugins(:nucleon, :translator, name, values) && ( ! code || code.call(values) )
     end
   end
   
