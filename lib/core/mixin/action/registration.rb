@@ -43,6 +43,7 @@ module Registration
     register_str(name, default, locale) do |value|
       success = validate_file(value)
       success = code.call(value, success) if code
+      success
     end
   end
   
@@ -54,6 +55,7 @@ module Registration
     register_str(name, default, locale) do |value|
       success = validate_directory(value)
       success = code.call(value, success) if code
+      success
     end
   end
   
@@ -67,6 +69,7 @@ module Registration
     register_str(name, default, option_locale) do |value|
       success = validate_plugin_types(namespace, name, value, validation_locale)
       success = code.call(value, success) if code
+      success
     end  
   end
   
@@ -80,6 +83,7 @@ module Registration
     register_array(name, default, option_locale) do |values|
       success = validate_plugin_types(namespace, name, values, validation_locale)
       success = code.call(value, success) if code
+      success
     end  
   end
   
@@ -93,6 +97,7 @@ module Registration
     register_str(name, default, option_locale) do |value|
       success = validate_plugin_providers(namespace, type, name, value, validation_locale)
       success = code.call(value, success) if code
+      success
     end  
   end
   
@@ -106,6 +111,7 @@ module Registration
     register_array(name, default, option_locale) do |values|
       success = validate_plugin_providers(namespace, type, name, values, validation_locale)
       success = code.call(value, success) if code
+      success
     end  
   end
   
@@ -119,6 +125,7 @@ module Registration
     register_str(name, default, option_locale) do |value|
       success = validate_plugins(namespace, type, name, value, validation_locale)
       success = code.call(value, success) if code
+      success
     end  
   end
   
@@ -132,6 +139,7 @@ module Registration
     register_array(name, default, option_locale) do |values|
       success = validate_plugins(namespace, type, name, values, validation_locale)
       success = code.call(values, success) if code
+      success
     end  
   end
   
@@ -220,7 +228,7 @@ module Registration
     locale                  = "validation.#{name}" unless locale
     
     array(values).each do |value|
-      if ! loaded_plugin_providers.keys.include?(value.to_sym)
+      if ! loaded_plugin_providers.include?(value.to_sym)
         warn(locale, { :value => value, :choices => loaded_plugin_providers.join(", ") })
         success = false
       end
