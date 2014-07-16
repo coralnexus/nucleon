@@ -471,25 +471,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   
   #-----------------------------------------------------------------------------
   # Utilities
-  
-  def validate_plugins(namespace, type, name, values)
-    plugin_class   = Nucleon.plugin_class(namespace, type)
-    loaded_plugins = Nucleon.loaded_plugins(namespace, type)
-    success          = true
-        
-    array(values).each do |value|
-      if info = plugin_class.translate_reference(value)
-        if ! loaded_plugins.keys.include?(info[:provider].to_sym)
-          warn("corl.action.#{plugin_name.to_s.gsub('_', '.')}.errors.#{name}", Util::Data.merge([ info, { :value => value } ]))
-          success = false
-        end
-      end
-    end      
-    success
-  end
-  
-  #---
-  
+
   def self.components(search)
     components = []
       
