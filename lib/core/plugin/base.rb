@@ -238,14 +238,24 @@ class Base < Core
   #---
   
   def render_message(message, options = {})
-    config = Config.ensure(options)
+    config     = Config.ensure(options)
+    use_prefix = true
     
     if config.delete(:i18n, true)
-      plugin_namespace = self.class.namespace if self.class.respond_to?(:namespace)
-      operation_id     = config.has_key?(:operation) ? config[:operation] : ''
-      prefix           = "#{plugin_namespace}.#{plugin_type}.#{render_provider.to_s.gsub('_', '.')}."
+      Nucleon.namespaces.each do |namespace|
+        if message =~ /^#{namespace}\./
+          use_prefix = false
+          break
+        end
+      end      
       
-      message = prefix + ( operation_id.empty? ? '' : "#{operation_id}." ) + message.sub(/^#{prefix}/, '')
+      if use_prefix
+        plugin_namespace = self.class.namespace if self.class.respond_to?(:namespace)
+        operation_id     = config.has_key?(:operation) ? config[:operation] : ''
+        prefix           = "#{plugin_namespace}.#{plugin_type}.#{render_provider.to_s.gsub('_', '.')}."
+      
+        message = prefix + ( operation_id.empty? ? '' : "#{operation_id}." ) + message.sub(/^#{prefix}/, '')
+      end
       message = I18n.t(message, Util::Data.merge([ Config.ensure(render_options).export, config.export ], true))
     end
     message  
