@@ -243,7 +243,7 @@ class Base < Core
     
     if config.delete(:i18n, true)
       Nucleon.namespaces.each do |namespace|
-        if message =~ /^#{namespace}\./
+        if message =~ /^#{namespace.to_s.downcase}\./
           use_prefix = false
           break
         end
