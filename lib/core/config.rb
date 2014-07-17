@@ -129,7 +129,7 @@ class Config
       data[key] = {} unless has_key
       
       if data[key].is_a?(Hash)
-        existing = modify(data[key], keys, value)
+        existing = modify(data[key], keys, value, delete_nil)
       else
         existing[:value] = nil 
       end  
