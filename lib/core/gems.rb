@@ -57,9 +57,20 @@ module Gems
       Manager.connection.register(base_path) do |data|
         namespace   = data[:namespace]
         plugin_path = data[:directory]
-      
-        logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}") unless @@gems.has_key?(name)
-      
+        
+        unless @@gems.has_key?(name)
+          logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}")
+          
+          base_loader = File.join(base_path, "#{name}_base.rb")
+          loader      = File.join(base_path, "#{name}.rb")
+          
+          if File.exists?(base_loader)
+            require base_loader
+          elsif File.exists?(loader)
+            require loader
+          end
+        end 
+        
         @@gems[name] = { 
           :spec       => spec, 
           :base_path  => base_path, 
