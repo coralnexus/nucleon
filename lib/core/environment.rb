@@ -81,6 +81,7 @@ class Environment
       data = {
         :namespace        => namespace,
         :type             => plugin_type,
+        :base_path        => base_path,
         :file             => file,
         :provider         => plugin_info[:provider],        
         :directory        => plugin_info[:directory],        
