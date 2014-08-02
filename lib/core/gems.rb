@@ -28,12 +28,12 @@ module Gems
   
   #---
   
-  def self.register(reset = false)
+  def self.register(reset = false, loaded = [])
     if reset || Util::Data.empty?(@@gems)
       logger.info("Registering external gem defined Nucleon plugins at #{Time.now}")
       
       each_gem do |spec|
-        register_gem(spec)
+        register_gem(spec, loaded)
       end
     end
     @@gems
@@ -41,7 +41,7 @@ module Gems
   
   #---
   
-  def self.register_gem(spec)
+  def self.register_gem(spec, loaded = [])
     name      = spec.name.to_sym
     base_path = File.join(spec.full_gem_path, 'lib')
     
@@ -61,13 +61,9 @@ module Gems
         unless @@gems.has_key?(name)
           logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}")
           
-          base_loader = File.join(base_path, "#{name}_base.rb")
-          loader      = File.join(base_path, "#{name}.rb")
-          
-          if File.exists?(base_loader)
-            require base_loader
-          elsif File.exists?(loader)
-            require loader
+          unless loaded.include?(name)          
+            loader = File.join(base_path, "#{name}.rb")
+            require loader if File.exists?(loader)
           end
         end 
         

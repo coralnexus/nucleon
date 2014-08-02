@@ -111,7 +111,7 @@ class Manager
   #-----------------------------------------------------------------------------
   # Plugin registration / initialization
   
-  def reload(core = false, &code)
+  def reload(core = false, loaded = [], &code)
     logger.info("Loading Nucleon plugins at #{Time.now}")
     
     if core
@@ -131,13 +131,13 @@ class Manager
     # Allow block level namespace and type registration
     code.call(:define, myself) if code
                               
-    load_plugins(core, &code)                                  
+    load_plugins(core, loaded, &code)                                  
     logger.info("Finished loading Nucleon plugins at #{Time.now}")    
   end
   
   #---
   
-  def load_plugins(core = false, &code)
+  def load_plugins(core = false, loaded = [], &code)
     if core    
       # Register core plugins
       logger.info("Initializing core plugins at #{Time.now}")
@@ -145,7 +145,7 @@ class Manager
     end
     
     # Register external Gem defined plugins
-    Gems.register(true)
+    Gems.register(true, Util::Data.array(loaded))
     
     # Register any other extension plugins
     exec(:register_plugins)

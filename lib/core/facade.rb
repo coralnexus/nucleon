@@ -236,8 +236,8 @@ module Facade
   #-----------------------------------------------------------------------------
   # Core plugin interface
   
-  def reload(core = false, &code)
-    Manager.connection.reload(core, &code)  
+  def reload(core = false, loaded = [], &code)
+    Manager.connection.reload(core, loaded, &code)  
   end
   
   #---
