@@ -48,6 +48,20 @@ module Registration
   end
   
   #---
+  
+  def register_files(name, default = nil, locale = nil, &code)
+    name = name.to_sym
+    
+    option_locale, validation_locale = split_locales(locale)
+    
+    register_array(name, default, option_locale) do |values|
+      success = validate_files(values, validation_locale)
+      success = code.call(values, success) if code
+      success
+    end  
+  end
+  
+  #---
     
   def register_directory(name, default = nil, locale = nil, &code)
     name = name.to_sym
@@ -57,6 +71,20 @@ module Registration
       success = code.call(value, success) if code
       success
     end
+  end
+  
+  #---
+  
+  def register_directories(name, default = nil, locale = nil, &code)
+    name = name.to_sym
+    
+    option_locale, validation_locale = split_locales(locale)
+    
+    register_array(name, default, option_locale) do |values|
+      success = validate_directories(values, validation_locale)
+      success = code.call(values, success) if code
+      success
+    end  
   end
   
   #---
@@ -82,7 +110,7 @@ module Registration
     
     register_array(name, default, option_locale) do |values|
       success = validate_plugin_types(namespace, name, values, validation_locale)
-      success = code.call(value, success) if code
+      success = code.call(values, success) if code
       success
     end  
   end
@@ -110,7 +138,7 @@ module Registration
     
     register_array(name, default, option_locale) do |values|
       success = validate_plugin_providers(namespace, type, name, values, validation_locale)
-      success = code.call(value, success) if code
+      success = code.call(values, success) if code
       success
     end  
   end
@@ -194,14 +222,42 @@ module Registration
   #-----------------------------------------------------------------------------
   # Validators
   
-  def validate_file(file_name)
-    file_name.nil? || File.exists?(file_name)  
+  def validate_file(file_name, locale = nil)
+    success = file_name.nil? || File.exists?(file_name)
+    warn(locale, { :file => file_name }) unless success
+    success  
   end
   
   #---
   
-  def validate_directory(dir_name)
-    dir_name.nil? || File.directory?(dir_name)
+  def validate_files(file_names, locale = nil)
+    success = true
+    
+    file_names.each do |file_name|
+      test    = validate_file(file_name, locale)
+      success = false unless test
+    end
+    success  
+  end
+  
+  #---
+  
+  def validate_directory(dir_name, locale = nil)
+    success = dir_name.nil? || File.directory?(dir_name)
+    warn(locale, { :directory => dir_name }) unless success
+    success 
+  end
+  
+  #---
+  
+  def validate_directories(dir_names, locale = nil)
+    success = true
+    
+    dir_names.each do |dir_name|
+      test    = validate_directory(dir_name, locale)
+      success = false unless test
+    end
+    success  
   end
   
   #---
