@@ -233,7 +233,7 @@ module Registration
   def validate_files(file_names, locale = nil)
     success = true
     
-    file_names.each do |file_name|
+    array(file_names).each do |file_name|
       test    = validate_file(file_name, locale)
       success = false unless test
     end
@@ -253,7 +253,7 @@ module Registration
   def validate_directories(dir_names, locale = nil)
     success = true
     
-    dir_names.each do |dir_name|
+    array(dir_names).each do |dir_name|
       test    = validate_directory(dir_name, locale)
       success = false unless test
     end
