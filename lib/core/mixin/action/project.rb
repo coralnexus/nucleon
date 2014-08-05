@@ -9,14 +9,14 @@ module Project
         
   def project_config
     register_project_provider :project_provider, :git, [ 
-      'nucleon.core.action.project.options.project_provider', 
-      'nucleon.core.action.project.errors.project_provider' 
+      'nucleon.core.mixin.action.project.options.project_provider', 
+      'nucleon.core.mixin.action.project.errors.project_provider' 
     ]
     register_project :project_reference, nil, [ 
-      'nucleon.core.action.project.options.project_reference', 
-      'nucleon.core.action.project.errors.project_reference' 
+      'nucleon.core.mixin.action.project.options.project_reference', 
+      'nucleon.core.mixin.action.project.errors.project_reference' 
     ]
-    register_str :project_revision, :master, 'nucleon.core.action.project.options.project_revision'
+    register_str :project_revision, :master, 'nucleon.core.mixin.action.project.options.project_revision'
   end
   
   #---
