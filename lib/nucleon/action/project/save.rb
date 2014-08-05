@@ -24,8 +24,8 @@ class Save < Nucleon.plugin_class(:nucleon, :action)
             :commit_failure,
             :push_failure
       
-      register :path, :str, Dir.pwd
-      register :files, :array, '.'
+      register_str :path, Dir.pwd
+      register_files :files, '.'
       
       project_config
       commit_config(false)
@@ -44,7 +44,7 @@ class Save < Nucleon.plugin_class(:nucleon, :action)
    
   def execute          
     super do
-      info('nucleon.action.project.save.start')
+      info('start')
           
       if project = project_load(settings[:path], false, false)
         if commit(project, settings[:files])
