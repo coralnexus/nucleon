@@ -8,34 +8,15 @@ module Project
   # Settings
         
   def project_config
-    project_plugins = Nucleon.loaded_plugins(:nucleon, :project)
-    
-    register :project_provider, :str, :git, 'nucleon.core.mixin.action.project.options.project_provider' do |value|
-      value = value.to_sym
-      
-      unless project_plugins.keys.include?(value)
-        warn('nucleon.core.mixin.action.project.errors.project_provider', { :value => value, :choices => project_plugins.keys.join(", ") })
-        next false
-      end
-      true
-    end
-    register :project_reference, :str, nil, 'nucleon.core.mixin.action.project.options.project_reference' do |value|
-      success = true
-      if info = Nucleon.plugin_class(:nucleon, :project).translate_reference(value)
-        if ! project_plugins.keys.include?(info[:provider].to_sym)
-          warn('nucleon.core.mixin.action.project.errors.project_reference', { 
-            :value     => value, 
-            :provider  => info[:provider],  
-            :reference => info[:reference],
-            :url       => info[:url],
-            :revision  => info[:revision] 
-          })
-          success = false
-        end
-      end
-      success
-    end
-    register :project_revision, :str, :master, 'nucleon.core.mixin.action.project.options.project_revision'
+    register_project_provider :project_provider, :git, [ 
+      'nucleon.core.action.project.options.project_provider', 
+      'nucleon.core.action.project.errors.project_provider' 
+    ]
+    register_project :project_reference, nil, [ 
+      'nucleon.core.action.project.options.project_reference', 
+      'nucleon.core.action.project.errors.project_reference' 
+    ]
+    register_str :project_revision, :master, 'nucleon.core.action.project.options.project_revision'
   end
         
   #-----------------------------------------------------------------------------
