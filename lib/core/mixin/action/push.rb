@@ -22,6 +22,12 @@ module Push
     register_str :remote, :edit, 'nucleon.core.mixin.action.push.options.remote'
     register_str :revision, :master, 'nucleon.core.mixin.action.push.options.revision'    
   end
+  
+  #---
+  
+  def push_ignore
+    [ :push, :pull, :propogate_push, :remote, :revision ]
+  end
         
   #-----------------------------------------------------------------------------
   # Operations

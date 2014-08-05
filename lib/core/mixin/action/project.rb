@@ -18,6 +18,12 @@ module Project
     ]
     register_str :project_revision, :master, 'nucleon.core.action.project.options.project_revision'
   end
+  
+  #---
+  
+  def project_ignore
+    [ :project_provider, :project_reference, :project_revision ]
+  end
         
   #-----------------------------------------------------------------------------
   # Operations

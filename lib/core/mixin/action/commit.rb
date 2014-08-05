@@ -28,6 +28,12 @@ module Commit
       false
     end
   end
+  
+  #---
+  
+  def commit_ignore
+    [ :commit, :allow_empty, :propogate_commit, :message, :author ]
+  end
         
   #-----------------------------------------------------------------------------
   # Operations
