@@ -177,7 +177,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   #---
   
   def set_url(url)
-    if url && url = extension_set(:set_url, url.strip)      
+    if url && url = extension_set(:set_url, url.strip)
       logger.info("Setting project #{name} url to #{url}")
       
       set(:url, url)
@@ -806,11 +806,12 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     
   def push(remote = :edit, options = {})
     config  = Config.ensure(options).import({ :remote => remote })
+    no_pull = config.delete(:no_pull, false)
     success = false
     
     push_project = lambda do |push_remote|
       logger.info("Pushing to #{push_remote} from #{directory}") 
-      success = yield(config, push_remote) if block_given? && pull(push_remote, config)  
+      success = yield(config, push_remote) if block_given? && ( no_pull || pull(push_remote, config) )  
     end
     
     if can_persist?
@@ -893,9 +894,10 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     
     if options.has_key?(:url)
       if matches = translate_reference(options[:url])
-        options[:provider] = matches[:provider]
-        options[:url]      = matches[:url]
-        options[:revision] = matches[:revision] unless options.has_key?(:revision)
+        options[:provider]  = matches[:provider]
+        options[:reference] = matches[:reference]
+        options[:url]       = matches[:url]
+        options[:revision]  = matches[:revision] unless options.has_key?(:revision)
         
         logger.debug("Translating project options: #{options.inspect}")  
       end
