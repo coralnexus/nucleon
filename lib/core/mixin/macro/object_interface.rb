@@ -291,11 +291,11 @@ module ObjectInterface
                 if group_options.has_key?(:settings)
                   group_options = add_settings.call(group_options, group_options[:settings])
                 end
-                local_options = Util::Data.merge([ local_options, group_options ], true)  
+                local_options = Util::Data.merge([ local_options, group_options ], true, false)  
               end
             end
             unless local_options.empty?
-              final_options = Util::Data.merge([ local_options, final_options ], true)   
+              final_options = Util::Data.merge([ local_options, final_options ], true, false)   
             end
           end
           final_options
@@ -332,7 +332,7 @@ module ObjectInterface
           final_config = Config.new(Util::Data.merge([ 
             Util::Data.clean(settings), 
             Util::Data.clean(obj_config.export) 
-          ], true))
+          ], true, false))
           value = final_config.get(keys)
            
           logger.debug("Final configuration: #{final_config.export.inspect}")
