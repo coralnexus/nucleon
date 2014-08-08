@@ -79,6 +79,7 @@ Gem::Specification.new do |s|
     "lib/nucleon/action/project/update.rb",
     "lib/nucleon/command/bash.rb",
     "lib/nucleon/event/regex.rb",
+    "lib/nucleon/extension/project.rb",
     "lib/nucleon/project/git.rb",
     "lib/nucleon/project/github.rb",
     "lib/nucleon/template/JSON.rb",
