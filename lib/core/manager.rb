@@ -274,6 +274,11 @@ class Manager
     provider = config.delete(:provider, provider)
     provider = default_provider unless provider
     
+    provider = value(:manager_plugin_provider, provider, Util::Data.merge([ config.export, { 
+      :namespace => namespace, 
+      :type      => plugin_type 
+    }]))
+    
     load_base(namespace, plugin_type, provider, config)
   end
   

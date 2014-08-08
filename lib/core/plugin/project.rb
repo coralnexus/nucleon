@@ -45,7 +45,9 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   def normalize(reload)
     super
     
-    set_directory(Util::Disk.filename(get(:directory, Dir.pwd)))
+    directory = Util::Disk.filename(get(:directory, Dir.pwd))
+    
+    set_directory(directory)
     register
     
     set_url(get(:url)) if get(:url, false)
@@ -70,6 +72,10 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     unless reload
       @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
       init_cache
+      
+      unless self.class.load_provider(directory)
+        self.class.store_provider(directory, plugin_provider)
+      end
     end
   end
   
@@ -326,7 +332,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   # Project operations
   
   def init_cache
-    # Override in providers if needed
+    ignore(self.class.state_file)
   end
   protected :init_cache
   
@@ -871,7 +877,38 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     end
     success
   end
-     
+  
+  #-----------------------------------------------------------------------------
+  # State configurations
+    
+  def self.state_file
+    '.corl'
+  end
+  
+  #---
+  
+  @@project_data = {}
+  
+  def self.store_provider(directory, provider)
+    @@project_data[directory] = {
+      :provider => provider
+    }
+    json_data = Util::Data.to_json(@@project_data[directory], true)    
+    Util::Disk.write(File.join(directory, state_file), json_data)
+  end
+  
+  #---
+  
+  def self.load_provider(directory, override = nil)
+    @@project_data[directory] = {} unless @@project_data.has_key?(directory)
+    
+    if override.nil? && @@project_data[directory].empty?
+      json_data                 = Util::Disk.read(File.join(directory, state_file))
+      @@project_data[directory] = hash(Util::Data.parse_json(json_data)) if json_data
+    end
+    override.nil? ? symbol_map(@@project_data[directory])[:provider] : override  
+  end
+    
   #-----------------------------------------------------------------------------
   # Utilities
   
