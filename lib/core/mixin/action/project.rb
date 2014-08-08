@@ -8,7 +8,7 @@ module Project
   # Settings
         
   def project_config
-    register_project_provider :project_provider, :git, [ 
+    register_project_provider :project_provider, nil, [ 
       'nucleon.core.mixin.action.project.options.project_provider', 
       'nucleon.core.mixin.action.project.errors.project_provider' 
     ]
