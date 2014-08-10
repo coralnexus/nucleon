@@ -890,11 +890,19 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   @@project_data = {}
   
   def self.store_provider(directory, provider)
-    @@project_data[directory] = {
-      :provider => provider
-    }
-    json_data = Util::Data.to_json(@@project_data[directory], true)    
-    Util::Disk.write(File.join(directory, state_file), json_data)
+    if File.directory?(directory)
+      @@project_data[directory] = {
+        :provider => provider
+      }
+      json_data = Util::Data.to_json(@@project_data[directory], true)    
+      Util::Disk.write(File.join(directory, state_file), json_data)
+    end
+  end
+  
+  #---
+  
+  def self.clear_provider(directory)
+    @@project_data.delete(directory)
   end
   
   #---
