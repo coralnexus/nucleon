@@ -242,13 +242,15 @@ class Manager
     options    = translate_type(type_info, options)    
     config     = Config.ensure(options)
     name       = config.get(:name, nil)
-    ensure_new = config.delete(:new, false)
+    ensure_new = config.get(:new, false)
     
     if name
       logger.debug("Looking up existing instance of #{name}")
       
       if existing_instance = get(namespace, plugin_type, name)
         unless ensure_new
+          config.delete(:new)
+          
           config.export.each do |property_name, value|
             unless [ :name, :meta ].include?(property_name)
               existing_instance[property_name] = value  
