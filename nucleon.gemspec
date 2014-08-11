@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Adrian Webb"]
-  s.date = "2014-08-10"
+  s.date = "2014-08-11"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -567,11 +567,11 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.required_ruby_version = Gem::Requirement.new(">= 1.8.1")
   s.rubyforge_project = "nucleon"
-  s.rubygems_version = "2.0.14"
+  s.rubygems_version = "1.8.23"
   s.summary = "Framework that provides a simple foundation for building distributively configured, extremely pluggable and extendable, and easily parallel Ruby applications"
 
   if s.respond_to? :specification_version then
-    s.specification_version = 4
+    s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<log4r>, ["~> 1.1"])
