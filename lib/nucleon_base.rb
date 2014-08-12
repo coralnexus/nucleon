@@ -207,7 +207,7 @@ $:.unshift(lib_dir) unless $:.include?(lib_dir) || $:.include?(File.expand_path(
 if Nucleon.debugging?
   require 'pry'
   require 'pry-stack_explorer'
-  require 'pry-debugger'
+  require 'pry-byebug'
 
   if defined?(PryDebugger)
     Pry.commands.alias_command 'c', 'continue'

@@ -25,5 +25,5 @@ group :development do
   gem "yard", "~> 0.8"
   gem "pry", "~> 0.9"
   gem "pry-stack_explorer", "~> 0.4"
-  gem "pry-debugger", "~> 0.2"
+  gem "pry-byebug", "~> 1.3"
 end
