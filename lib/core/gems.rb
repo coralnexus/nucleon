@@ -4,8 +4,9 @@ module Gems
   
   #-----------------------------------------------------------------------------
   
-  @@core = nil
-  @@gems = {}
+  @@core     = nil
+  @@gems     = {}
+  @@gateways = []
   
   #-----------------------------------------------------------------------------
   # Gem interface
@@ -18,6 +19,14 @@ module Gems
     
   def self.core
     @@core
+  end
+  
+  #---
+  
+  def self.gateway(name)
+    unless @@gateways.include?(name.to_s)
+      @@gateways << name.to_s
+    end
   end
   
   #---
@@ -61,13 +70,15 @@ module Gems
         unless @@gems.has_key?(name)
           logger.info("Registering gem #{name} at #{plugin_path} at #{Time.now}")
           
-          base_loader = File.join(base_path, "#{name}_base.rb")
-          loader      = File.join(base_path, "#{name}.rb")
+          unless @@gateways.include?(name.to_s)
+            base_loader = File.join(base_path, "#{name}_base.rb")
+            loader      = File.join(base_path, "#{name}.rb")
           
-          if File.exists?(base_loader)
-            require base_loader
-          elsif File.exists?(loader)
-            require loader
+            if File.exists?(base_loader)
+              require base_loader
+            elsif File.exists?(loader)
+              require loader
+            end
           end
         end 
         
