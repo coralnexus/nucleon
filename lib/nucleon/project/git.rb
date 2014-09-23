@@ -200,6 +200,7 @@ class Git < Nucleon.plugin_class(:nucleon, :project)
   # Operations
     
   def init_cache
+    super
     ignore(cache.directory_name)   
   end
   

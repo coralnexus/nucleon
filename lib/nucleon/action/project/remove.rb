@@ -23,8 +23,8 @@ class Remove < Nucleon.plugin_class(:nucleon, :action)
             :delete_failure,
             :push_failure
       
-      register :path, :str, Dir.pwd       
-      register :sub_path, :str, nil
+      register_str :path, Dir.pwd       
+      register_str :sub_path, nil
       
       project_config
       push_config
@@ -46,7 +46,7 @@ class Remove < Nucleon.plugin_class(:nucleon, :action)
   
   def execute
     super do
-      info('nucleon.action.project.remove.start')
+      info('start')
       
       if project = project_load(settings[:path], false)
         if project.delete_subproject(settings[:sub_path])

@@ -637,7 +637,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       namespace    = info[:description][:namespace]
       group        = info[:description][:group]
       
-      group_id = group.is_a?(Array) ? group.flatten.join('::') : group
+      group_id = group.is_a?(Array) ? group.flatten.join('::') : group.to_s
       group_id = '' unless group_id
       
       output << "\n" if group_id != last_group

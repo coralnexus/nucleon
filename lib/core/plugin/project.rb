@@ -45,7 +45,9 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   def normalize(reload)
     super
     
-    set_directory(Util::Disk.filename(get(:directory, Dir.pwd)))
+    directory = Util::Disk.filename(get(:directory, Dir.pwd))
+    
+    set_directory(directory)
     register
     
     set_url(get(:url)) if get(:url, false)
@@ -70,6 +72,10 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     unless reload
       @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
       init_cache
+      
+      unless self.class.load_provider(directory)
+        self.class.store_provider(directory, plugin_provider)
+      end
     end
   end
   
@@ -177,7 +183,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   #---
   
   def set_url(url)
-    if url && url = extension_set(:set_url, url.strip)      
+    if url && url = extension_set(:set_url, url.strip)
       logger.info("Setting project #{name} url to #{url}")
       
       set(:url, url)
@@ -326,7 +332,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   # Project operations
   
   def init_cache
-    # Override in providers if needed
+    ignore(self.class.state_file)
   end
   protected :init_cache
   
@@ -806,11 +812,12 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     
   def push(remote = :edit, options = {})
     config  = Config.ensure(options).import({ :remote => remote })
+    no_pull = config.delete(:no_pull, false)
     success = false
     
     push_project = lambda do |push_remote|
       logger.info("Pushing to #{push_remote} from #{directory}") 
-      success = yield(config, push_remote) if block_given? && pull(push_remote, config)  
+      success = yield(config, push_remote) if block_given? && ( no_pull || pull(push_remote, config) )  
     end
     
     if can_persist?
@@ -870,7 +877,46 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     end
     success
   end
-     
+  
+  #-----------------------------------------------------------------------------
+  # State configurations
+    
+  def self.state_file
+    '.corl'
+  end
+  
+  #---
+  
+  @@project_data = {}
+  
+  def self.store_provider(directory, provider)
+    if File.directory?(directory)
+      @@project_data[directory] = {
+        :provider => provider
+      }
+      json_data = Util::Data.to_json(@@project_data[directory], true)    
+      Util::Disk.write(File.join(directory, state_file), json_data)
+    end
+  end
+  
+  #---
+  
+  def self.clear_provider(directory)
+    @@project_data.delete(directory)
+  end
+  
+  #---
+  
+  def self.load_provider(directory, override = nil)
+    @@project_data[directory] = {} unless @@project_data.has_key?(directory)
+    
+    if override.nil? && @@project_data[directory].empty?
+      json_data                 = Util::Disk.read(File.join(directory, state_file))
+      @@project_data[directory] = hash(Util::Data.parse_json(json_data)) if json_data
+    end
+    override.nil? ? symbol_map(@@project_data[directory])[:provider] : override  
+  end
+    
   #-----------------------------------------------------------------------------
   # Utilities
   
@@ -893,9 +939,10 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     
     if options.has_key?(:url)
       if matches = translate_reference(options[:url])
-        options[:provider] = matches[:provider]
-        options[:url]      = matches[:url]
-        options[:revision] = matches[:revision] unless options.has_key?(:revision)
+        options[:provider]  = matches[:provider]
+        options[:reference] = matches[:reference]
+        options[:url]       = matches[:url]
+        options[:revision]  = matches[:revision] unless options.has_key?(:revision)
         
         logger.debug("Translating project options: #{options.inspect}")  
       end

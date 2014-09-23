@@ -161,21 +161,23 @@ class Environment
     namespace   = namespace.to_sym
     plugin_type = sanitize_id(plugin_type)
     provider    = sanitize_id(provider)
-       
+           
     unless plugin_type_defined?(namespace, plugin_type)
       return nil
     end
         
     if type_info = loaded_plugin(namespace, plugin_type, provider)
-      ids              = Util::Data.array(type_info[:class].register_ids).flatten
-      instance_options = Config.new(options).export
-      instance_options = Util::Data.subset(instance_options, ids, true)      
-      instance_name    = "#{provider}_" + Nucleon.sha1(instance_options)
+      ids             = Util::Data.array(type_info[:class].register_ids).flatten
+      instance_config = Config.new(options)
+      ensure_new      = instance_config.delete(:new, false)
       
+      instance_options = Util::Data.subset(instance_config.export, ids, true)      
+      instance_name    = "#{provider}_" + Nucleon.sha1(instance_options)
+            
       @active_info[namespace] = {} unless @active_info.has_key?(namespace)        
       @active_info[namespace][plugin_type] = {} unless @active_info[namespace].has_key?(plugin_type)
       
-      unless instance_name && @active_info[namespace][plugin_type].has_key?(instance_name)
+      if ensure_new || ! ( instance_name && @active_info[namespace][plugin_type].has_key?(instance_name) )
         type_info[:instance_name] = instance_name
         
         options = code.call(type_info, options) if code

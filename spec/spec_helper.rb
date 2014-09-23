@@ -10,6 +10,6 @@ require 'coral_mock_input'
 
 RSpec.configure do |config|
   config.mock_framework = :rspec
-  config.color_enabled  = true
+  config.color          = true
   config.formatter      = 'documentation'
 end

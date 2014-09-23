@@ -10,15 +10,23 @@ module Push
   def push_config(optional = true)
     
     if optional
-      register :push, :bool, false, 'nucleon.core.mixin.action.push.options.push'
+      register_bool :push, false, 'nucleon.core.mixin.action.push.options.push'
     else
       settings[:push] = true
     end
     
-    register :remote, :str, :edit, 'nucleon.core.mixin.action.push.options.remote'
-    register :revision, :str, :master, 'nucleon.core.mixin.action.push.options.revision'
+    register_bool :pull, true, 'nucleon.core.mixin.action.push.options.pull'
     
-    register :propogate_push, :bool, false, 'nucleon.core.mixin.action.push.options.propogate_push'
+    register_bool :propogate_push, false, 'nucleon.core.mixin.action.push.options.propogate_push'
+    
+    register_str :remote, :edit, 'nucleon.core.mixin.action.push.options.remote'
+    register_str :revision, :master, 'nucleon.core.mixin.action.push.options.revision'    
+  end
+  
+  #---
+  
+  def push_ignore
+    [ :push, :pull, :propogate_push, :remote, :revision ]
   end
         
   #-----------------------------------------------------------------------------
@@ -30,7 +38,8 @@ module Push
     if project && settings[:push]
       success = project.push(settings[:remote], extended_config(:push, {
         :revision  => settings[:revision],
-        :propogate => settings[:propogate_push]
+        :propogate => settings[:propogate_push],
+        :no_pull   => ! settings[:pull]
       }))
     end
     success

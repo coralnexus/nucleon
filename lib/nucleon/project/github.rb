@@ -12,7 +12,7 @@ class Github < Git
  
   def normalize(reload)    
     if reference = delete(:reference, nil)
-      myself.plugin_name = reference
+      myself.plugin_name = normalize_reference(reference)
     else
       if url = get(:url, nil)
         myself.plugin_name = url
@@ -80,14 +80,19 @@ class Github < Git
   # Utilities
   
   def self.expand_url(path, editable = false)
-    if editable
-      protocol  = 'git@'
-      separator = ':'
+    if path =~ /^[a-zA-Z0-9_\-\/]+$/
+      if editable
+        protocol  = 'git@'
+        separator = ':'
+      else
+        protocol  = 'https://'
+        separator = '/'
+      end
+      url = "#{protocol}github.com#{separator}" + path + '.git'
     else
-      protocol  = 'https://'
-      separator = '/'
+      url = path
     end
-    return "#{protocol}github.com#{separator}" + path + '.git'  
+    url    
   end
   
   #---
@@ -97,6 +102,13 @@ class Github < Git
     Util::SSH.close('github.com', 'git')
   end
   protected :verify_key
+  
+  #---
+  
+  def normalize_reference(reference)
+    reference.sub(/^(git\@|(https?|git)\:\/\/)[^\/\:]+(\/|\:)?/, '').sub(/\.git$/, '')
+  end
+  protected :normalize_reference
 end
 end
 end

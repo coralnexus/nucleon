@@ -17,6 +17,12 @@ class Codes
   
   #---
   
+  def self.status_index
+    @@status_index
+  end
+  
+  #---
+  
   def self.index(status_code = nil)
     if status_code.nil? || ! status_code.integer?
       @@status_index

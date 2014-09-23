@@ -509,12 +509,12 @@ module Nucleon
     describe "#check_delegate" do
       
       it "returns false if no delegate exists" do
-        Util::Console.new.check_delegate('safe_puts').should be_false
+        Util::Console.new.check_delegate('safe_puts').should be_falsey
       end
       it "returns true if a delegate exists and it implements given method" do
         test = Util::Console.new({ :console_delegate => Util::Console.new })
-        test.check_delegate('safe_puts').should be_true
-        test.check_delegate('nonexistent').should be_false
+        test.check_delegate('safe_puts').should be_truthy
+        test.check_delegate('nonexistent').should be_falsey
       end
     end  
   end

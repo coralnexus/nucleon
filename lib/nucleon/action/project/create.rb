@@ -20,7 +20,7 @@ class Create < Nucleon.plugin_class(:nucleon, :action)
     super do    
       codes :project_failure
       
-      register :path, :str, Dir.pwd      
+      register_str :path, Dir.pwd      
       project_config
       
       config[:project_reference].default = ''
@@ -38,7 +38,7 @@ class Create < Nucleon.plugin_class(:nucleon, :action)
    
   def execute
     super do
-      info('nucleon.action.project.create.start')
+      info('start')
       
       project       = project_load(settings[:path], true, true)
       myself.status = code.project_failure unless project

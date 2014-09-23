@@ -23,26 +23,12 @@ class Add < Nucleon.plugin_class(:nucleon, :action)
             :add_failure,
             :push_failure
       
-      register :path, :str, Dir.pwd        
+      register_str :path, Dir.pwd        
+      register_str :sub_path, nil
       
-      register :sub_path, :str, nil
-      register :sub_reference, :str, nil do |value|
-        success = true
-        if info = Nucleon.plugin_class(:nucleon, :project).translate_reference(value)
-          if ! Nucleon.loaded_plugins(:nucleon, :project).keys.include?(info[:provider].to_sym)
-            warn('nucleon.core.mixin.action.project.errors.project_reference', { 
-              :value     => value, 
-              :provider  => info[:provider],  
-              :reference => info[:reference],
-              :url       => info[:url],
-              :revision  => info[:revision] 
-            })
-            success = false
-          end
-        end
-        success
-      end      
-      register :editable, :bool, false
+      register_project :sub_reference, nil
+      
+      register_bool :editable
       
       project_config
       push_config
@@ -60,7 +46,7 @@ class Add < Nucleon.plugin_class(:nucleon, :action)
    
   def execute
     super do
-      info('nucleon.action.project.add.start')
+      info('start')
       
       if project = project_load(settings[:path], false)
         sub_info = project.translate_reference(settings[:sub_reference], settings[:editable])
