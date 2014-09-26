@@ -1,12 +1,12 @@
 == Nucleon architecture guide
 
-Nucleon is built to provide an easy and minimal, yet extremely powerful, 
-framework for building applications that are highly distributable in nature.
+Nucleon is a framework that provides a simple foundation for building distributed,
+pluggable, and integrated applications.  It is both minimal, yet powerful.
 
-This project should be applicable to any Ruby application that needs to be 
-built in a pluggable, concurrent, and configurable fashion.  It is capable of 
-being used as pieces in existing programming models and it provides an 
-extremely simple core programming model that you can build on.
+This framework should be applicable to any Ruby application that needs to be 
+built in a pluggable, concurrent, and/or configurable fashion.  It can be used 
+as pieces in existing programming models and it provides an extremely simple 
+core programming model that you can build on.
 
 There are five major architectural goals of the project:
 
@@ -15,7 +15,7 @@ There are five major architectural goals of the project:
 ==== Important concept:  Objects == Property trees
 
 At the core of the Nucleon framework is the configuration.  The configuration 
-is used for allowing us to store, lookup, and perform other operations (such 
+is used to store, lookup, and perform other operations (such 
 as merge) on our class data by treating a subset of class properties as a tree 
 based data structure.
 
@@ -191,7 +191,7 @@ For example:
   # This would be defined within a namespaced load path.
   # More on that in the usage section.
   # 
-  class MyExtension < Nucleon.plugin_class(:extension)
+  class Nucleon::Extension::MyExtension < Nucleon.plugin_class(:nucleon, :extension)
   
     @objs = []
     
@@ -216,13 +216,14 @@ For example:
   #---
   
   # Extension would normally be loaded via Nucleon.register(load_path)
-  # No one overruled me, Whew!
-  
+    
   myobj = Nucleon.config(:myobj, { :nucleon => :is })
   # myobj = {
   #   :nucleon => :is,
   #   :awesome => true
   # }
+  
+  # No one overruled me, Whew!
   
   Nucleon.exec(:record_object, myobj)
   
@@ -266,7 +267,7 @@ above.
 Concurrency is the backbone of scalability and fault tolerance.  With Nucleon
 we seek to create a system that can utilize the whole of the resources available
 to us in the most flexible way possible.  We should be able to write parallel
-capable objects without even thinking about it (ok, maybe a litle).  It should
+capable objects without even thinking about it (ok, maybe a little).  It should
 also be capable of completely disabling the parallel execution and library
 inclusion to make it easier to troubleshoot and debug.
 
