@@ -1,4 +1,4 @@
-Thu, 25 Sep 2014 21:59:15 -0400
+Thu, 25 Sep 2014 23:32:21 -0400
 ARCHITECTURE.rdoc	Thu, 17 Apr 2014 22:01:49 -0400
 README.rdoc	Thu, 17 Apr 2014 03:30:08 -0400
 TODO.rdoc	Mon, 02 Jun 2014 17:55:31 -0400
@@ -16,13 +16,13 @@ lib/core/mixin/action/commit.rb	Tue, 05 Aug 2014 13:39:55 -0400
 lib/core/mixin/action/project.rb	Fri, 08 Aug 2014 02:16:59 -0400
 lib/core/mixin/action/push.rb	Tue, 05 Aug 2014 01:13:15 -0400
 lib/core/mixin/action/registration.rb	Sat, 02 Aug 2014 16:01:05 -0400
-lib/core/mixin/colors.rb	Wed, 19 Mar 2014 18:52:22 -0400
+lib/core/mixin/colors.rb	Thu, 25 Sep 2014 23:17:09 -0400
 lib/core/mixin/config/collection.rb	Thu, 25 Sep 2014 03:19:14 -0400
 lib/core/mixin/config/options.rb	Thu, 25 Sep 2014 02:14:02 -0400
-lib/core/mixin/macro/object_interface.rb	Thu, 07 Aug 2014 16:50:12 -0400
-lib/core/mixin/macro/plugin_interface.rb	Sat, 14 Jun 2014 05:04:29 -0400
-lib/core/mixin/settings.rb	Wed, 14 May 2014 18:24:25 -0400
-lib/core/mixin/sub_config.rb	Mon, 14 Jul 2014 23:23:30 -0400
+lib/core/mixin/macro/object_interface.rb	Thu, 25 Sep 2014 23:17:40 -0400
+lib/core/mixin/macro/plugin_interface.rb	Thu, 25 Sep 2014 23:17:56 -0400
+lib/core/mixin/settings.rb	Thu, 25 Sep 2014 23:17:19 -0400
+lib/core/mixin/sub_config.rb	Thu, 25 Sep 2014 23:17:28 -0400
 lib/core/mod/hash.rb	Wed, 19 Feb 2014 22:53:47 -0500
 lib/core/plugin/action.rb	Mon, 04 Aug 2014 22:56:08 -0400
 lib/core/plugin/base.rb	Wed, 16 Jul 2014 01:35:16 -0400
@@ -60,4 +60,4 @@ lib/nucleon/template/YAML.rb	Sun, 01 Jun 2014 14:38:30 -0400
 lib/nucleon/template/wrapper.rb	Mon, 02 Jun 2014 01:58:41 -0400
 lib/nucleon/translator/JSON.rb	Sat, 05 Jul 2014 02:23:28 -0400
 lib/nucleon/translator/YAML.rb	Sat, 05 Jul 2014 02:22:43 -0400
-lib/nucleon_base.rb	Thu, 25 Sep 2014 21:52:04 -0400
+lib/nucleon_base.rb	Thu, 25 Sep 2014 23:32:07 -0400
