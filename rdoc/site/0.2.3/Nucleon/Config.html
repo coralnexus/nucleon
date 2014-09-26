@@ -444,7 +444,7 @@ for easier initialization of configurations.</p>
 
           
           <div class="method-source-code" id="array-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 813</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 812</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = [], <span class="ruby-identifier">split_string</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">split_string</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -519,7 +519,7 @@ deep (recursive) merge</p>
 
 <p>See:</p>
 <ul><li>
-<p>initialize</p>
+<p><a href="Config.html#method-c-new">::new</a></p>
 </li><li>
 <p><a href="Config.html#method-i-defaults">defaults</a></p>
 </li></ul>
@@ -592,7 +592,7 @@ symbol (non symbols are converted)</p>
 
           
           <div class="method-source-code" id="filter-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 793</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 792</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">method</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">method</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -629,7 +629,7 @@ symbol (non symbols are converted)</p>
 
           
           <div class="method-source-code" id="hash-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 831</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 830</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = {})
   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">export</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>)
@@ -723,13 +723,13 @@ deep (recursive) merge</p>
 <ul><li>
 <p><a href="Config/Options.html">Nucleon::Config::Options</a></p>
 </li><li>
-<p><a href="Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a></p>
+<p><a
+href="Mixin/ConfigOptions.html#method-i-contexts">Nucleon::Mixin::ConfigOptions#contexts</a></p>
 </li><li>
-<p>::contexts</p>
+<p><a
+href="Mixin/ConfigOptions.html#method-i-get_options">Nucleon::Mixin::ConfigOptions#get_options</a></p>
 </li><li>
-<p>::get_options</p>
-</li><li>
-<p>initialize</p>
+<p><a href="Config.html#method-c-new">::new</a></p>
 </li><li>
 <p><a href="Config.html#method-i-import">import</a></p>
 </li><li>
@@ -740,7 +740,7 @@ deep (recursive) merge</p>
 
           
           <div class="method-source-code" id="init-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 145</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">init</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">contexts</span> = [], <span class="ruby-identifier">hierarchy</span> = [], <span class="ruby-identifier">defaults</span> = {}, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">basic_merge</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-identifier">contexts</span> = <span class="ruby-identifier">contexts</span>(<span class="ruby-identifier">contexts</span>, <span class="ruby-identifier">hierarchy</span>)
   <span class="ruby-identifier">config</span>   = <span class="ruby-identifier">new</span>(<span class="ruby-identifier">get_options</span>(<span class="ruby-identifier">contexts</span>), <span class="ruby-identifier">defaults</span>, <span class="ruby-identifier">force</span>, <span class="ruby-identifier">basic_merge</span>)
@@ -834,7 +834,7 @@ deep (recursive) merge</p>
 
           
           <div class="method-source-code" id="init_flat-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 185</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 184</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">init_flat</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">contexts</span> = [], <span class="ruby-identifier">defaults</span> = {}, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">basic_merge</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">init</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">contexts</span>, [], <span class="ruby-identifier">defaults</span>, <span class="ruby-identifier">force</span>, <span class="ruby-identifier">basic_merge</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -939,7 +939,7 @@ deep (recursive) merge</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 237</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 236</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data</span> = {}, <span class="ruby-identifier">defaults</span> = {}, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">basic_merge</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-ivar">@force</span>       = <span class="ruby-identifier">force</span>
   <span class="ruby-ivar">@basic_merge</span> = <span class="ruby-identifier">basic_merge</span>
@@ -992,7 +992,7 @@ deep (recursive) merge</p>
 
           
           <div class="method-source-code" id="string-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 850</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 849</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">string</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">string</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1036,7 +1036,7 @@ href="Util/Data.html#method-c-string_map">Nucleon::Util::Data.string_map</a></p>
 
           
           <div class="method-source-code" id="string_map-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 763</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 762</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">string_map</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">string_map</span>(<span class="ruby-identifier">data</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1073,7 +1073,7 @@ href="Util/Data.html#method-c-string_map">Nucleon::Util::Data.string_map</a></p>
 
           
           <div class="method-source-code" id="symbol-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 868</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 867</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">symbol</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = <span class="ruby-value">:undefined</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">symbol</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1117,7 +1117,7 @@ href="Util/Data.html#method-c-symbol_map">Nucleon::Util::Data.symbol_map</a></p>
 
           
           <div class="method-source-code" id="symbol_map-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 739</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 738</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1154,7 +1154,7 @@ href="Util/Data.html#method-c-symbol_map">Nucleon::Util::Data.symbol_map</a></p>
 
           
           <div class="method-source-code" id="test-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 886</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 885</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">test</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">test</span>(<span class="ruby-identifier">data</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1226,7 +1226,7 @@ none</p>
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 450</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 449</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">get</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1287,7 +1287,7 @@ none</p>
 
           
           <div class="method-source-code" id="5B-5D-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 558</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 557</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]=</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
   <span class="ruby-identifier">set</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1324,7 +1324,7 @@ none</p>
 
           
           <div class="method-source-code" id="array-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 822</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 821</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">array</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = [], <span class="ruby-identifier">split_string</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">split_string</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1368,7 +1368,7 @@ none</p>
 
           
           <div class="method-source-code" id="clear-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 594</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 593</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">clear</span>
   <span class="ruby-ivar">@properties</span> = {}
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>
@@ -1430,7 +1430,7 @@ dynamically looked up and set.</p>
 
 <p>See also:</p>
 <ul><li>
-<p>initialize</p>
+<p><a href="Config.html#method-c-new">::new</a></p>
 </li><li>
 <p><a href="Config.html#method-i-set">set</a></p>
 </li></ul>
@@ -1439,7 +1439,7 @@ dynamically looked up and set.</p>
 
           
           <div class="method-source-code" id="defaults-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 707</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 706</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">defaults</span>(<span class="ruby-identifier">defaults</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">set</span>(<span class="ruby-value">:import_type</span>, <span class="ruby-value">:default</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">import_base</span>(<span class="ruby-identifier">defaults</span>, <span class="ruby-identifier">config</span>)
@@ -1504,7 +1504,7 @@ found</p>
 
           
           <div class="method-source-code" id="delete-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 579</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 578</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">existing</span> = <span class="ruby-identifier">modify</span>(<span class="ruby-ivar">@properties</span>, <span class="ruby-identifier">array</span>(<span class="ruby-identifier">keys</span>).<span class="ruby-identifier">flatten</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-keyword">true</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">existing</span>[<span class="ruby-value">:value</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">existing</span>[<span class="ruby-value">:value</span>].<span class="ruby-identifier">nil?</span>
@@ -1550,7 +1550,7 @@ found</p>
 
           
           <div class="method-source-code" id="empty-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 269</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 268</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">empty?</span>
   <span class="ruby-ivar">@properties</span>.<span class="ruby-identifier">empty?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1594,7 +1594,7 @@ found</p>
 
           
           <div class="method-source-code" id="export-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 721</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 720</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">export</span>
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@properties</span>.<span class="ruby-identifier">clone</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1631,7 +1631,7 @@ found</p>
 
           
           <div class="method-source-code" id="filter-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 802</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 801</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">filter</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">method</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">method</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1699,7 +1699,7 @@ none</p>
 
           
           <div class="method-source-code" id="get-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 428</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 427</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-ivar">@properties</span>, <span class="ruby-identifier">array</span>(<span class="ruby-identifier">keys</span>).<span class="ruby-identifier">flatten</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1764,7 +1764,7 @@ none</p>
 
           
           <div class="method-source-code" id="get_array-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 472</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 471</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_array</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = [])
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span>, <span class="ruby-value">:array</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1830,7 +1830,7 @@ path</p>
 
           
           <div class="method-source-code" id="get_hash-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 494</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 493</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_hash</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span>, <span class="ruby-value">:hash</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1888,7 +1888,7 @@ interchangeably.</p>
 
           
           <div class="method-source-code" id="has_key-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 289</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 288</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">keys</span>)
   <span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>).<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1925,7 +1925,7 @@ interchangeably.</p>
 
           
           <div class="method-source-code" id="hash-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 841</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 840</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1987,7 +1987,7 @@ dynamically looked up and imported.</p>
 
           
           <div class="method-source-code" id="import-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 681</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 680</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">import</span>(<span class="ruby-identifier">properties</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">import_base</span>(<span class="ruby-identifier">properties</span>, <span class="ruby-identifier">options</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2049,7 +2049,7 @@ exist yet</p>
 
           
           <div class="method-source-code" id="init-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 514</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 513</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">init</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">set</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -2097,7 +2097,7 @@ interchangeably.</p>
 
           
           <div class="method-source-code" id="keys-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 308</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 307</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">keys</span>
   <span class="ruby-ivar">@properties</span>.<span class="ruby-identifier">keys</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2165,7 +2165,7 @@ delete properties)</p>
 
           
           <div class="method-source-code" id="set-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 536</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 535</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set</span>(<span class="ruby-identifier">keys</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">delete_nil</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">modify</span>(<span class="ruby-ivar">@properties</span>, <span class="ruby-identifier">array</span>(<span class="ruby-identifier">keys</span>).<span class="ruby-identifier">flatten</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">delete_nil</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>
@@ -2203,7 +2203,7 @@ delete properties)</p>
 
           
           <div class="method-source-code" id="string-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 859</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 858</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">string</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">string</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2240,7 +2240,7 @@ delete properties)</p>
 
           
           <div class="method-source-code" id="string_map-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 772</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 771</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">string_map</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">string_map</span>(<span class="ruby-identifier">data</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2277,7 +2277,7 @@ delete properties)</p>
 
           
           <div class="method-source-code" id="symbol-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 877</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 876</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">symbol</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span> = <span class="ruby-value">:undefined</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">symbol</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">default</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2314,7 +2314,7 @@ delete properties)</p>
 
           
           <div class="method-source-code" id="symbol_map-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 748</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 747</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2351,7 +2351,7 @@ delete properties)</p>
 
           
           <div class="method-source-code" id="test-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 895</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 894</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">test</span>(<span class="ruby-identifier">data</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2432,7 +2432,7 @@ none</p>
 
           
           <div class="method-source-code" id="fetch-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 335</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 334</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
     <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">keys</span> ]
@@ -2515,7 +2515,7 @@ href="Util/Data.html#method-c-merge">Nucleon::Util::Data.merge</a></p>
 
 <p>See also:</p>
 <ul><li>
-<p>initialize</p>
+<p><a href="Config.html#method-c-new">::new</a></p>
 </li><li>
 <p><a href="Config.html#method-i-get">get</a></p>
 </li><li>
@@ -2532,7 +2532,7 @@ href="Util/Data.html#method-c-merge">Nucleon::Util::Data.merge</a></p>
 
           
           <div class="method-source-code" id="import_base-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 630</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 629</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">import_base</span>(<span class="ruby-identifier">properties</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span>      = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>, { <span class="ruby-value">:force</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@force</span>, <span class="ruby-value">:basic</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@basic_merge</span> }).<span class="ruby-identifier">set</span>(<span class="ruby-value">:context</span>, <span class="ruby-value">:hash</span>)
   <span class="ruby-identifier">import_type</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:import_type</span>, <span class="ruby-value">:override</span>)
@@ -2628,7 +2628,7 @@ delete properties)</p>
 
           
           <div class="method-source-code" id="modify-source">
-            <pre><span class="ruby-comment"># File lib/core/config.rb, line 375</span>
+            <pre><span class="ruby-comment"># File lib/core/config.rb, line 374</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">modify</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">delete_nil</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Symbol</span>)
     <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">keys</span> ]

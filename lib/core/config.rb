@@ -87,7 +87,7 @@ class Config
   # * *Errors*
   #
   # See:
-  # - #initialize
+  # - ::new
   # - #defaults
   #
   def self.ensure(config, defaults = {}, force = true, basic_merge = true)
@@ -135,10 +135,9 @@ class Config
   #
   # See also:
   # - Nucleon::Config::Options
-  # - Nucleon::Mixin::ConfigOptions
-  # - ::contexts
-  # - ::get_options
-  # - #initialize
+  # - Nucleon::Mixin::ConfigOptions#contexts
+  # - Nucleon::Mixin::ConfigOptions#get_options
+  # - ::new
   # - #import
   # - Util::Data::empty?
   #
@@ -620,7 +619,7 @@ class Config
   # * *Errors*
   #
   # See also:
-  # - #initialize
+  # - ::new
   # - #get
   # - #set
   # - #export
@@ -701,7 +700,7 @@ class Config
   # - #import_base
   #
   # See also:
-  # - #initialize
+  # - ::new
   # - #set
   #
   def defaults(defaults, options = {})

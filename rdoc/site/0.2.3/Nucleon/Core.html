@@ -298,6 +298,30 @@
 
   <div id="description" class="description">
     
+<h2 id="label-Core+Nucleon+object"><a href="Core.html">Core</a> <a href="../Nucleon.html">Nucleon</a> object</h2>
+
+<p>The <a href="Core.html">Nucleon::Core</a> class defines a minimal base
+class for creating other capable objects, combining configurations, console
+capabilities, and logging capabilities.</p>
+
+<p>All of the plugins build off of the <a href="Core.html">Core</a> object, as
+do some utility classes.</p>
+
+<p>Five main goals with this object:</p>
+<ol><li>
+<p>Global and instance <a href="Util/Logger.html">Nucleon::Util::Logger</a>
+interfaces</p>
+</li><li>
+<p>Global and instance <a href="Util/Console.html">Nucleon::Util::Console</a>
+interfaces</p>
+</li><li>
+<p>Include color methods</p>
+</li><li>
+<p>Provide contextually prefixed UI groups for console output operations</p>
+</li><li>
+<p>Provide an initialized lookup</p>
+</li></ol>
+
   </div><!-- description -->
 
   
@@ -324,7 +348,10 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt><a href="Util/Logger.html">Nucleon::Util::Logger</a>
+<dd>
+<p>Instance logger</p>
+</dd></dl>
         
         </div>
       </div>
@@ -337,7 +364,10 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt><a href="Util/Console.html">Nucleon::Util::Console</a>
+<dd>
+<p>Instance console</p>
+</dd></dl>
         
         </div>
       </div>
@@ -363,13 +393,25 @@
         <div class="method-description">
           <div class="method-doc" id="logger-doc">
             
-            
+            <p>Return global logger instance</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Util/Logger.html">Nucleon::Util::Logger</a>
+<dd>
+<p>Global logger instance</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- logger-doc -->
 
           
           <div class="method-source-code" id="logger-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 44</span>
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 134</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">@@logger</span>
 <span class="ruby-keyword">end</span></pre>
@@ -395,22 +437,79 @@
         <div class="method-description">
           <div class="method-doc" id="new-doc">
             
-            
+            <p>Initialize a new core <a href="../Nucleon.html">Nucleon</a> object</p>
+
+<p>TODO: Figure out some way to make the console and logging systems
+pluggable?</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>, <a href="Config.html">Nucleon::Config</a>
+<dd>
+<p><strong>data</strong>  Configurations to import</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../Hash.html">Hash</a>
+<dd>
+<p><strong>defaults</strong>  Configuration defaults that may be overridden by
+config data</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>force</strong>  Whether or not to force override of values where
+types don&#39;t match during merge</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>set_initialized</strong>  Whether or not to the initialized flag is
+set after this object is constructed</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>basic_merge</strong>  Whether or not to perform a basic merge or
+deep (recursive) merge</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Config.html#method-c-new">Nucleon::Config.new</a></p>
+</li><li>
+<p><a href="Config.html#method-i-delete">Nucleon::Config#delete</a></p>
+</li><li>
+<p><a href="Config.html#method-i-export">Nucleon::Config#export</a></p>
+</li><li>
+<p><a href="Config.html#method-i-defaults">Nucleon::Config#defaults</a></p>
+</li><li>
+<p><a
+href="Util/Data.html#method-c-ensure_value">Nucleon::Util::Data.ensure_value</a></p>
+</li><li>
+<p><a
+href="Util/Console.html#method-c-colorize">Nucleon::Util::Console.colorize</a></p>
+</li></ul>
             
           </div><!-- new-doc -->
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 81</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data</span> = {}, <span class="ruby-identifier">defaults</span> = {}, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">set_initialized</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">basic_merge</span> = <span class="ruby-keyword">true</span>)
-  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">defaults</span>, <span class="ruby-identifier">force</span>, <span class="ruby-identifier">basic_merge</span>)   
-  
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">defaults</span>, <span class="ruby-identifier">force</span>, <span class="ruby-identifier">basic_merge</span>)
+
   <span class="ruby-ivar">@class_color</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">ensure_value</span>(<span class="ruby-identifier">delete</span>(<span class="ruby-value">:class_color</span>, <span class="ruby-value">:cyan</span>), <span class="ruby-value">:cyan</span>)
   <span class="ruby-ivar">@class_label</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/^nucleon::/</span>, <span class="ruby-string">&#39;&#39;</span>)
-  
+
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-identifier">delete</span>(<span class="ruby-value">:logger</span>, <span class="ruby-ivar">@class_label</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ui</span>     = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">export</span>).<span class="ruby-identifier">defaults</span>({ <span class="ruby-value">:resource</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-ivar">@class_label</span>, <span class="ruby-ivar">@class_color</span>) })
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&#39;Initialized instance logger and interface&#39;</span>)
   <span class="ruby-ivar">@initialized</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">set_initialized</span>
 <span class="ruby-keyword">end</span></pre>
@@ -436,13 +535,28 @@
         <div class="method-description">
           <div class="method-doc" id="ui-doc">
             
-            
+            <p>Return global console instance</p>
+
+<p>This is named ui for historical reasons.  It might change to console in the
+future.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Util/Console.html">Nucleon::Util::Console</a>
+<dd>
+<p>Global console instance</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- ui-doc -->
 
           
           <div class="method-source-code" id="ui-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 60</span>
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 174</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ui</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">@@ui</span>
 <span class="ruby-keyword">end</span></pre>
@@ -468,24 +582,64 @@
         <div class="method-description">
           <div class="method-doc" id="ui_group-doc">
             
-            
+            <p>Contextualize console operations in a code block with a given resource
+name.</p>
+
+<p>TODO: May not need Mutex synchronization?</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>resource</strong>  Console resource identifier (prefix)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>color</strong>  Color to use; <strong>:black</strong>,
+<strong>:red</strong>, <strong>:green</strong>, <strong>:yellow</strong>,
+<strong>:blue</strong>, <strong>:purple</strong>, <strong>:cyan</strong>,
+<strong>:grey</strong></p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li><li>
+<p><strong>Yields</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Util/Console.html">Nucleon::Util::Console</a>
+<dd>
+<p><strong>ui</strong>  Current global console instance</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a
+href="Util/Console.html#method-c-colorize">Nucleon::Util::Console.colorize</a></p>
+</li></ul>
             
           </div><!-- ui_group-doc -->
 
           
           <div class="method-source-code" id="ui_group-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 75</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span> = <span class="ruby-value">:cyan</span>)
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 221</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span> = <span class="ruby-value">:cyan</span>) <span class="ruby-comment"># :yields: ui</span>
   <span class="ruby-identifier">@@ui_lock</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword">do</span>
     <span class="ruby-keyword">begin</span>
       <span class="ruby-identifier">ui_resource</span> = <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span>
       <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span>)
       <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">ui</span>)
-  
+
     <span class="ruby-keyword">ensure</span>
       <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">ui_resource</span>
     <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>  
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- ui_group-source -->
           
@@ -515,13 +669,28 @@
         <div class="method-description">
           <div class="method-doc" id="initialized-3F-doc">
             
-            
+            <p>Check if object is initialized?</p>
+
+<p>The initialized flag must be set from a method within the class.  It can
+not be set externally.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether or not object has been marked as initialized</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- initialized-3F-doc -->
 
           
           <div class="method-source-code" id="initialized-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 33</span>
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialized?</span>
   <span class="ruby-ivar">@initialized</span>
 <span class="ruby-keyword">end</span></pre>
@@ -547,16 +716,41 @@
         <div class="method-description">
           <div class="method-doc" id="logger-3D-doc">
             
-            
+            <p>Set current object logger instance</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, <a href="Util/Logger.html">Nucleon::Util::Logger</a>
+<dd>
+<p><strong>logger</strong>  Logger instance or resource name for new logger</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a
+href="Util/Logger.html#method-c-loggers">Nucleon::Util::Logger.loggers</a></p>
+</li><li>
+<p><a href="Util/Logger.html#method-c-new">Nucleon::Util::Logger.new</a></p>
+</li></ul>
             
           </div><!-- logger-3D-doc -->
 
           
           <div class="method-source-code" id="logger-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 48</span>
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">logger=</span><span class="ruby-identifier">logger</span>
   <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>.<span class="ruby-identifier">loggers</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">resource</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>)
     <span class="ruby-ivar">@logger</span> = <span class="ruby-identifier">logger</span>
   <span class="ruby-keyword">else</span>
@@ -585,19 +779,41 @@
         <div class="method-description">
           <div class="method-doc" id="ui-3D-doc">
             
-            
+            <p>Set current object console instance</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, <a href="Util/Console.html">Nucleon::Util::Console</a>
+<dd>
+<p><strong>ui</strong>  Console instance or resource name for new console</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Util/Console.html#method-c-new">Nucleon::Util::Console.new</a></p>
+</li></ul>
             
           </div><!-- ui-3D-doc -->
 
           
           <div class="method-source-code" id="ui-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 64</span>
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 191</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ui=</span><span class="ruby-identifier">ui</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>)
     <span class="ruby-ivar">@ui</span> = <span class="ruby-identifier">ui</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-ivar">@ui</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ui</span>)
-  <span class="ruby-keyword">end</span>  
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- ui-3D-source -->
           
@@ -621,20 +837,58 @@
         <div class="method-description">
           <div class="method-doc" id="ui_group-doc">
             
-            
+            <p>Contextualize console operations in a code block with a given resource
+name.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>resource</strong>  Console resource identifier (prefix)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>color</strong>  Color to use; <strong>:black</strong>,
+<strong>:red</strong>, <strong>:green</strong>, <strong>:yellow</strong>,
+<strong>:blue</strong>, <strong>:purple</strong>, <strong>:cyan</strong>,
+<strong>:grey</strong></p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li><li>
+<p><strong>Yields</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Util/Console.html">Nucleon::Util::Console</a>
+<dd>
+<p><strong>ui</strong>  Current object console instance</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a
+href="Util/Console.html#method-c-colorize">Nucleon::Util::Console.colorize</a></p>
+</li></ul>
             
           </div><!-- ui_group-doc -->
 
           
           <div class="method-source-code" id="ui_group-source">
-            <pre><span class="ruby-comment"># File lib/core/core.rb, line 90</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span> = <span class="ruby-value">:cyan</span>)
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 251</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span> = <span class="ruby-value">:cyan</span>) <span class="ruby-comment"># :yields: ui</span>
   <span class="ruby-identifier">ui_resource</span> = <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span>
   <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span>)
   <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">ui</span>)
-  
+
 <span class="ruby-keyword">ensure</span>
-  <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">ui_resource</span>  
+  <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">ui_resource</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- ui_group-source -->
           

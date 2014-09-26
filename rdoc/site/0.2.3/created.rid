@@ -1,12 +1,12 @@
-Fri, 26 Sep 2014 05:56:48 -0400
+Fri, 26 Sep 2014 06:50:26 -0400
 ARCHITECTURE.rdoc	Thu, 17 Apr 2014 22:01:49 -0400
 README.rdoc	Thu, 17 Apr 2014 03:30:08 -0400
 TODO.rdoc	Mon, 02 Jun 2014 17:55:31 -0400
 lib/core/codes.rb	Wed, 24 Sep 2014 02:05:00 -0400
-lib/core/config.rb	Thu, 25 Sep 2014 20:54:08 -0400
+lib/core/config.rb	Fri, 26 Sep 2014 06:26:15 -0400
 lib/core/config/collection.rb	Thu, 25 Sep 2014 03:14:40 -0400
 lib/core/config/options.rb	Thu, 25 Sep 2014 02:18:21 -0400
-lib/core/core.rb	Mon, 14 Jul 2014 23:13:58 -0400
+lib/core/core.rb	Fri, 26 Sep 2014 06:49:00 -0400
 lib/core/environment.rb	Wed, 13 Aug 2014 15:20:26 -0400
 lib/core/errors.rb	Thu, 27 Feb 2014 19:25:56 -0500
 lib/core/facade.rb	Sat, 02 Aug 2014 14:54:16 -0400
