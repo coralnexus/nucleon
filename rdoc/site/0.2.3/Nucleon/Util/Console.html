@@ -320,6 +320,56 @@
 
   <div id="description" class="description">
     
+<h2 id="label-Console"><a href="Console.html">Console</a></h2>
+
+<p>The <a href="Console.html">Nucleon::Util::Console</a> class defines a
+console interface that the <a href="../../Nucleon.html">Nucleon</a>
+framework uses to collect and display information to stdin, stdout, and
+stderr.</p>
+
+<p>This console interface is inspired by Vagrant&#39;s UI system but has some
+important differences.</p>
+
+<h3 id="label-Important+rule">Important rule</h3>
+
+<p>We split all outbound message traffic between stdout and stderr by routing
+all data dumps to stderr and all other text based messages to stdout (even
+errors).</p>
+
+<p>TODO: This system will break if other libraries write to stderr. 
+Eventually build multiple messaging systems on top of basic connection.</p>
+
+<p>TODO: Figure out some way to switch to a color profile method instead of
+current color methods.</p>
+
+<p>Remember:</p>
+<ul><li>
+<p><strong>stderr</strong>  Serialized data objects ONLY</p>
+</li><li>
+<p><strong>stdout</strong>  ALL text messages (debug, info, warnings, and
+errors)</p>
+</li></ul>
+
+<p>If you are using this class, you don&#39;t have to think about this but it
+still helps to remember.</p>
+
+<p>Primary functions:</p>
+<ol><li>
+<p>Render and transmit messages to various output channels</p>
+</li><li>
+<p>Dump data to isolated output channels</p>
+</li><li>
+<p>Collect public and private (hidden) information from input channels</p>
+</li><li>
+<p>Provide a color format library for composing potentially nested colored
+strings</p>
+</li></ol>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="../Core.html">Nucleon::Core</a> (base UI capable object)</p>
+</li></ul>
+
   </div><!-- description -->
 
   
@@ -346,7 +396,14 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether or not to use color markers when rendering text</p>
+</dd></dl>
+
+<p>This can be overridden by the global quiet setting <a
+href="Console.html#method-c-quiet">::quiet</a>, <a
+href="Console.html#method-c-quiet-3D">::quiet=</a></p>
         
         </div>
       </div>
@@ -359,7 +416,10 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>ANY
+<dd>
+<p>Any class that implements this console interface</p>
+</dd></dl>
         
         </div>
       </div>
@@ -372,7 +432,12 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>IO
+<dd>
+<p>Error IO object (data)</p>
+</dd></dl>
+
+<p>Don&#39;t touch unless you know what you are doing.</p>
         
         </div>
       </div>
@@ -385,7 +450,12 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>IO
+<dd>
+<p>Input IO object</p>
+</dd></dl>
+
+<p>Don&#39;t touch unless you know what you are doing.</p>
         
         </div>
       </div>
@@ -398,7 +468,12 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>IO
+<dd>
+<p>Output IO object (messages)</p>
+</dd></dl>
+
+<p>Don&#39;t touch unless you know what you are doing.</p>
         
         </div>
       </div>
@@ -411,7 +486,13 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><a href="Console.html">Console</a> resource name</p>
+</dd></dl>
+
+<p>This is the string identifier and default console prefix used when
+rendering.</p>
         
         </div>
       </div>
@@ -437,15 +518,38 @@
         <div class="method-description">
           <div class="method-doc" id="black-doc">
             
-            
+            <p>Color a given string black if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Black or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- black-doc -->
 
           
           <div class="method-source-code" id="black-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 289</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 655</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">black</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:black</span>) 
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:black</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- black-source -->
           
@@ -469,15 +573,38 @@
         <div class="method-description">
           <div class="method-doc" id="blue-doc">
             
-            
+            <p>Color a given string blue if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Blue or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- blue-doc -->
 
           
           <div class="method-source-code" id="blue-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 313</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 723</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">blue</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:blue</span>)  
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:blue</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- blue-source -->
           
@@ -501,26 +628,55 @@
         <div class="method-description">
           <div class="method-doc" id="colorize-doc">
             
-            
+            <p>Colorize a given string if global colors enabled, else return input string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>color</strong>  Color to use; <strong>:black</strong>,
+<strong>:red</strong>, <strong>:green</strong>, <strong>:yellow</strong>,
+<strong>:blue</strong>, <strong>:purple</strong>, <strong>:cyan</strong>,
+<strong>:grey</strong></p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Colorized or input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-use_colors">::use_colors</a></p>
+</li></ul>
             
           </div><!-- colorize-doc -->
 
           
           <div class="method-source-code" id="colorize-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 267</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 622</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-identifier">color</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">string</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">use_colors</span>
-  
+
   <span class="ruby-identifier">color</span>        = <span class="ruby-identifier">color</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">string</span>       = <span class="ruby-identifier">string</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">color_string</span> = <span class="ruby-identifier">string</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@colors</span>[<span class="ruby-identifier">color</span>]
     <span class="ruby-identifier">color</span>         = <span class="ruby-identifier">@@colors</span>[<span class="ruby-identifier">color</span>]
     <span class="ruby-identifier">clear_color</span>   = <span class="ruby-identifier">@@colors</span>[<span class="ruby-value">:clear</span>]
     <span class="ruby-identifier">escaped_clear</span> = <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">escape</span>(<span class="ruby-identifier">clear_color</span>)
-          
+
     <span class="ruby-identifier">color_string</span>  = <span class="ruby-node">&quot;#{color}&quot;</span>
     <span class="ruby-identifier">color_string</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">string</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-node">/#{escaped_clear}(?!\e\[)/</span>, <span class="ruby-node">&quot;#{clear_color}#{color}&quot;</span>)
     <span class="ruby-identifier">color_string</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{clear_color}&quot;</span>
@@ -549,15 +705,38 @@
         <div class="method-description">
           <div class="method-doc" id="cyan-doc">
             
-            
+            <p>Color a given string cyan if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Cyan or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- cyan-doc -->
 
           
           <div class="method-source-code" id="cyan-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 325</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 757</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">cyan</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:cyan</span>)   
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:cyan</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- cyan-source -->
           
@@ -581,15 +760,38 @@
         <div class="method-description">
           <div class="method-doc" id="green-doc">
             
-            
+            <p>Color a given string green if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Green or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- green-doc -->
 
           
           <div class="method-source-code" id="green-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 301</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 689</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">green</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:green</span>)  
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:green</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- green-source -->
           
@@ -613,15 +815,38 @@
         <div class="method-description">
           <div class="method-doc" id="grey-doc">
             
-            
+            <p>Color a given string grey if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Grey or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- grey-doc -->
 
           
           <div class="method-source-code" id="grey-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 331</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 774</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">grey</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:grey</span>) 
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:grey</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- grey-source -->
           
@@ -645,28 +870,84 @@
         <div class="method-description">
           <div class="method-doc" id="new-doc">
             
-            
+            <p>Initialize a new console object</p>
+
+<p>TODO: Figure out some way to make the console system pluggable?</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  <a href="Console.html">Console</a> options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>:resource</strong>  <a href="Logger.html">Logger</a> resource
+identifier (also serves as prefix)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:color</strong>  Whether or not to render messages in color
+(overridden by global quiet)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>:printer</strong>  Printer method (default :puts)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>IO
+<dd>
+<p><strong>:input</strong>  Don&#39;t touch</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>IO
+<dd>
+<p><strong>:output</strong>  Don&#39;t touch</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>IO
+<dd>
+<p><strong>:error</strong>  Don&#39;t touch</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>ANY
+<dd>
+<p><strong>:console_delegate</strong>  Delegate object that handles console
+operations (must implement logging interface)</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="../Config.html#method-c-ensure">Nucleon::Config.ensure</a></p>
+</li></ul>
             
           </div><!-- new-doc -->
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 38</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 97</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
     <span class="ruby-identifier">options</span> = { <span class="ruby-value">:resource</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span> }
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
-  
+
   <span class="ruby-ivar">@resource</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:resource</span>, <span class="ruby-string">&#39;&#39;</span>)
-  
-  <span class="ruby-ivar">@color</span>   = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:color</span>, <span class="ruby-keyword">true</span>)    
+
+  <span class="ruby-ivar">@color</span>   = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:color</span>, <span class="ruby-keyword">true</span>)
   <span class="ruby-ivar">@printer</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:printer</span>, <span class="ruby-value">:puts</span>)
-  
+
   <span class="ruby-ivar">@input</span>  = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:input</span>, <span class="ruby-identifier">$stdin</span>)
   <span class="ruby-ivar">@output</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:output</span>, <span class="ruby-identifier">$stdout</span>)
   <span class="ruby-ivar">@error</span>  = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:error</span>, <span class="ruby-identifier">$stderr</span>)
-  
+
   <span class="ruby-ivar">@delegate</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:console_delegate</span>, <span class="ruby-keyword">nil</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
@@ -691,15 +972,38 @@
         <div class="method-description">
           <div class="method-doc" id="purple-doc">
             
-            
+            <p>Color a given string purple if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Purple or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- purple-doc -->
 
           
           <div class="method-source-code" id="purple-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 319</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 740</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">purple</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:purple</span>)  
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:purple</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- purple-source -->
           
@@ -723,13 +1027,30 @@
         <div class="method-description">
           <div class="method-doc" id="quiet-doc">
             
-            
+            <p>Check current global quiet flag</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether or not console output is disabled at the global level</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-quiet-3D">::quiet=</a></p>
+</li></ul>
             
           </div><!-- quiet-doc -->
 
           
           <div class="method-source-code" id="quiet-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 69</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 183</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">quiet</span>
   <span class="ruby-identifier">@@quiet</span>
 <span class="ruby-keyword">end</span></pre>
@@ -755,13 +1076,36 @@
         <div class="method-description">
           <div class="method-doc" id="quiet-3D-doc">
             
-            
+            <p>Set current global quiet flag</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>quiet</strong>  Whether or not console output is disabled at the
+global level</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-quiet">::quiet</a></p>
+</li></ul>
             
           </div><!-- quiet-3D-doc -->
 
           
           <div class="method-source-code" id="quiet-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 73</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 200</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">quiet=</span><span class="ruby-identifier">quiet</span>
   <span class="ruby-identifier">@@quiet</span> = <span class="ruby-identifier">quiet</span>
 <span class="ruby-keyword">end</span></pre>
@@ -787,15 +1131,38 @@
         <div class="method-description">
           <div class="method-doc" id="red-doc">
             
-            
+            <p>Color a given string red if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Red or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- red-doc -->
 
           
           <div class="method-source-code" id="red-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 295</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 672</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">red</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:red</span>)   
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:red</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- red-source -->
           
@@ -819,15 +1186,32 @@
         <div class="method-description">
           <div class="method-doc" id="use_colors-doc">
             
-            
+            <p>Check current global use colors flag</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether or not console output coloring is allowed at the global level</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-use_colors-3D">::use_colors=</a></p>
+</li></ul>
             
           </div><!-- use_colors-doc -->
 
           
           <div class="method-source-code" id="use_colors-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 79</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 220</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">use_colors</span>
-  <span class="ruby-identifier">@@use_colors</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;NUCLEON_NO_COLOR&#39;</span>] 
+  <span class="ruby-identifier">@@use_colors</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;NUCLEON_NO_COLOR&#39;</span>]
 <span class="ruby-keyword">end</span></pre>
           </div><!-- use_colors-source -->
           
@@ -851,13 +1235,37 @@
         <div class="method-description">
           <div class="method-doc" id="use_colors-3D-doc">
             
-            
+            <p>Set current global use colors flag</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong><a
+href="Console.html#method-c-use_colors">::use_colors</a></strong>  Whether
+or not console output coloring is allowed at the global level</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-use_colors">::use_colors</a></p>
+</li></ul>
             
           </div><!-- use_colors-3D-doc -->
 
           
           <div class="method-source-code" id="use_colors-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 83</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 237</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">use_colors=</span><span class="ruby-identifier">use_colors</span>
   <span class="ruby-identifier">@@use_colors</span> = <span class="ruby-identifier">use_colors</span>
 <span class="ruby-keyword">end</span></pre>
@@ -883,15 +1291,38 @@
         <div class="method-description">
           <div class="method-doc" id="yellow-doc">
             
-            
+            <p>Color a given string yellow if global colors enabled, else return input
+string.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>string</strong>  String to colorize (if colors allowed globally)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Yellow or uncolored input string depending on global color flag</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li></ul>
             
           </div><!-- yellow-doc -->
 
           
           <div class="method-source-code" id="yellow-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 307</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 706</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">yellow</span>(<span class="ruby-identifier">string</span>)
-  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:yellow</span>)  
+  <span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">string</span>, <span class="ruby-value">:yellow</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- yellow-source -->
           
@@ -921,28 +1352,79 @@
         <div class="method-description">
           <div class="method-doc" id="ask-doc">
             
-            
+            <p>Ask terminal user for an input value</p>
+
+<p>Input text can be freely displayed or hidden as typed.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Message to display to the user</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Input options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:new_line</strong>  Append new line to end of message</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:prefix</strong>  Render prefix before message (console resource)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:echo</strong>  Whether or not to echo the input back to the screen</p>
+</dd></dl>
+</li><li>
+<p><a href="Console.html#method-i-say">say</a> options (minus :quiet_override)</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-say">say</a></p>
+</li><li>
+<p><a href="../Config.html#method-c-ensure">Nucleon::Config.ensure</a></p>
+</li><li>
+<p><a href="../Config.html#method-i-import">Nucleon::Config#import</a></p>
+</li><li>
+<p><a href="../Config.html#method-i-export">Nucleon::Config#export</a></p>
+</li></ul>
             
           </div><!-- ask-doc -->
 
           
           <div class="method-source-code" id="ask-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 115</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 330</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ask</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">ask</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;ask&#39;</span>)
 
   <span class="ruby-identifier">options</span>[<span class="ruby-value">:new_line</span>] = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:new_line</span>)
   <span class="ruby-identifier">options</span>[<span class="ruby-value">:prefix</span>] = <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:prefix</span>)
   <span class="ruby-identifier">options</span>[<span class="ruby-value">:echo</span>] = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:echo</span>)
-  
+
   <span class="ruby-identifier">user_input</span> = <span class="ruby-keyword">nil</span>
-  
+
   <span class="ruby-identifier">say</span>(<span class="ruby-value">:info</span>, <span class="ruby-identifier">message</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:quiet_override</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }).<span class="ruby-identifier">export</span>)
-    
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:echo</span>]
     <span class="ruby-identifier">user_input</span> = <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">gets</span>.<span class="ruby-identifier">chomp</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;io/console&#39;</span>        
+    <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;io/console&#39;</span>
     <span class="ruby-identifier">user_input</span> = <span class="ruby-ivar">@input</span>.<span class="ruby-identifier">noecho</span>(&amp;<span class="ruby-value">:gets</span>).<span class="ruby-identifier">chomp</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">safe_puts</span>(<span class="ruby-string">&quot;\n&quot;</span>)
@@ -970,13 +1452,30 @@
         <div class="method-description">
           <div class="method-doc" id="check_delegate-doc">
             
-            
+            <p>Check if a registered delegate exists and responds to a specified method.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>method</strong>  Method to check in delegate if registered</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether a delegate that responds to method exists</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- check_delegate-doc -->
 
           
           <div class="method-source-code" id="check_delegate-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 260</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 601</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-identifier">method</span>)
   <span class="ruby-keyword">return</span> ( <span class="ruby-ivar">@delegate</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">method</span>.<span class="ruby-identifier">to_s</span>) )
 <span class="ruby-keyword">end</span></pre>
@@ -1002,18 +1501,55 @@
         <div class="method-description">
           <div class="method-doc" id="dump-doc">
             
-            
+            <p>Dump an object to an output channel even if quiet specified</p>
+
+<p><a href="Data.html">Data</a> dumps can not be silenced.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>data</strong>  Serialized data object or text string</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Dump options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>:channel</strong>  IO channel to send output to (don&#39;t touch)</p>
+</dd></dl>
+</li><li>
+<p><a href="Console.html#method-i-safe_puts">safe_puts</a> options</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-safe_puts">safe_puts</a></p>
+</li></ul>
             
           </div><!-- dump-doc -->
 
           
           <div class="method-source-code" id="dump-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 106</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 299</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">dump</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;dump&#39;</span>)
-  
+
   <span class="ruby-identifier">options</span>[<span class="ruby-value">:channel</span>] = <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:channel</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:channel</span>] <span class="ruby-operator">:</span> <span class="ruby-ivar">@error</span>
-  <span class="ruby-identifier">safe_puts</span>(<span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">options</span>)  
+  <span class="ruby-identifier">safe_puts</span>(<span class="ruby-identifier">data</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-identifier">options</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- dump-source -->
           
@@ -1037,42 +1573,103 @@
         <div class="method-description">
           <div class="method-doc" id="format_message-doc">
             
-            
+            <p>Format a message for display.</p>
+
+<p>Primary functions:</p>
+<ol><li>
+<p>Add prefix to each line if requested (:prefix)</p>
+</li><li>
+<p>Add colors to each line if requested (global and instance color enabled)</p>
+</li></ol>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>type</strong>  Message type; <strong>:warn</strong>,
+<strong>:error</strong>, <strong>:success</strong></p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Message to render</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Format options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:color</strong>  Color to use; <strong>:black</strong>,
+<strong>:red</strong>, <strong>:green</strong>, <strong>:yellow</strong>,
+<strong>:blue</strong>, <strong>:purple</strong>, <strong>:cyan</strong>,
+<strong>:grey</strong></p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:prefix</strong>  Render prefix before message</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>:prefix_text</strong>  Text to render within brackets
+[{prefix_text}] (default console resource)</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Formatted string ready for output</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-use_colors">::use_colors</a></p>
+</li><li>
+<p><a href="Console.html#method-c-colorize">::colorize</a></p>
+</li><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-say">say</a></p>
+</li></ul>
             
           </div><!-- format_message-doc -->
 
           
           <div class="method-source-code" id="format_message-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 191</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 507</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">format_message</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
-  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">format_message</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;format_message&#39;</span>)    
+  <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">format_message</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;format_message&#39;</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-string">&#39;&#39;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">message</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">strip</span>.<span class="ruby-identifier">empty?</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:prefix</span>]
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">prefix_text</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:prefix_text</span>]
       <span class="ruby-identifier">prefix</span> = <span class="ruby-node">&quot;[#{prefix_text}]&quot;</span>
-      
+
     <span class="ruby-keyword">elsif</span> <span class="ruby-ivar">@resource</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@resource</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-identifier">prefix</span> = <span class="ruby-node">&quot;[#{@resource}]&quot;</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-identifier">lines</span>         = []
   <span class="ruby-identifier">prev_color</span>    = <span class="ruby-keyword">nil</span>
   <span class="ruby-identifier">escaped_clear</span> = <span class="ruby-constant">Regexp</span>.<span class="ruby-identifier">escape</span>(<span class="ruby-identifier">@@colors</span>[<span class="ruby-value">:clear</span>])
-  
+
   <span class="ruby-identifier">message</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;\n&quot;</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">line</span> = <span class="ruby-identifier">prev_color</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">line</span> <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">use_colors</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@color</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">prev_color</span>
-    
+
     <span class="ruby-identifier">lines</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{prefix} #{line}&quot;</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp">/^ /</span>, <span class="ruby-string">&#39;&#39;</span>)
-    
+
     <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">use_colors</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@color</span>
       <span class="ruby-comment"># Set next previous color</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">line</span> <span class="ruby-operator">=~</span> <span class="ruby-node">/#{escaped_clear}$/</span>
-        <span class="ruby-identifier">prev_color</span> = <span class="ruby-keyword">nil</span>  
+        <span class="ruby-identifier">prev_color</span> = <span class="ruby-keyword">nil</span>
       <span class="ruby-keyword">else</span>
         <span class="ruby-identifier">line_section</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-node">/#{escaped_clear}/</span>).<span class="ruby-identifier">pop</span>
-        
+
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">line_section</span>
           <span class="ruby-identifier">prev_colors</span> = <span class="ruby-identifier">line_section</span>.<span class="ruby-identifier">scan</span>(<span class="ruby-regexp">/\e\[[0-9][0-9]?m/</span>)
           <span class="ruby-identifier">prev_color</span>  = <span class="ruby-identifier">prev_colors</span>.<span class="ruby-identifier">pop</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">prev_colors</span>.<span class="ruby-identifier">empty?</span>
@@ -1080,12 +1677,12 @@
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-     
+
   <span class="ruby-identifier">message</span> = <span class="ruby-identifier">lines</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">use_colors</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@color</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:color</span>)
-      <span class="ruby-identifier">message</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>[<span class="ruby-value">:color</span>]) 
+      <span class="ruby-identifier">message</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>[<span class="ruby-value">:color</span>])
     <span class="ruby-keyword">else</span>
       <span class="ruby-identifier">message</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">@@color_map</span>[<span class="ruby-identifier">type</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@color_map</span>[<span class="ruby-identifier">type</span>]
     <span class="ruby-keyword">end</span>
@@ -1114,13 +1711,44 @@
         <div class="method-description">
           <div class="method-doc" id="info-doc">
             
-            
+            <p>Output information to an output channel unless quiet specified</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Message to render to output channel</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Output options</p>
+</dd></dl>
+<ul><li>
+<p><a href="Console.html#method-i-say">say</a> options</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-say">say</a></p>
+</li></ul>
             
           </div><!-- info-doc -->
 
           
           <div class="method-source-code" id="info-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 162</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 410</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">info</span>(<span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">info</span>(<span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;info&#39;</span>)
   <span class="ruby-identifier">say</span>(<span class="ruby-value">:info</span>, <span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>)
@@ -1147,13 +1775,25 @@
         <div class="method-description">
           <div class="method-doc" id="inspect-doc">
             
-            
+            <p>Return a string reference that identifies this console object</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Identification string</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- inspect-doc -->
 
           
           <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 58</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 124</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
   <span class="ruby-node">&quot;#&lt;#{self.class}: #{@resource}&gt;&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1179,24 +1819,56 @@
         <div class="method-description">
           <div class="method-doc" id="password-doc">
             
-            
+            <p>Ask terminal user for a password</p>
+
+<p>Keeps requesting until two password inputs match or user cancels the input.</p>
+
+<p>TODO: Needs I18n treatment.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>type</strong>  Type of password being requested (in prompt)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Input options</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Returns password with whitespace stripped</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-ask">ask</a></p>
+</li></ul>
             
           </div><!-- password-doc -->
 
           
           <div class="method-source-code" id="password-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 138</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 370</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">password</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">password</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;password&#39;</span>)
-  
+
   <span class="ruby-identifier">try_again</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-identifier">password</span>  = <span class="ruby-keyword">nil</span>
-    
+
   <span class="ruby-keyword">while</span> <span class="ruby-identifier">try_again</span>
     <span class="ruby-comment"># Get and check a password from the keyboard</span>
     <span class="ruby-identifier">password</span>              = <span class="ruby-identifier">ask</span>(<span class="ruby-node">&quot;Enter #{type} password: &quot;</span>, { <span class="ruby-value">:echo</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span> })
     <span class="ruby-identifier">confirmation_password</span> = <span class="ruby-identifier">ask</span>(<span class="ruby-node">&quot;Confirm #{type} password: &quot;</span>, { <span class="ruby-value">:echo</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span> })
-  
+
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">password</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">confirmation_password</span>
       <span class="ruby-identifier">choice</span>    = <span class="ruby-identifier">ask</span>(<span class="ruby-string">&#39;Passwords do not match!  Try again? (Y|N): &#39;</span>)
       <span class="ruby-identifier">try_again</span> = <span class="ruby-identifier">choice</span>.<span class="ruby-identifier">upcase</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;Y&quot;</span>
@@ -1229,16 +1901,58 @@
         <div class="method-description">
           <div class="method-doc" id="safe_puts-doc">
             
-            
+            <p>Safely output via a printer method to an output channel unless quiet
+specified</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Message to render to output channel</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Output options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>:channel</strong>  IO channel to send output to (don&#39;t touch)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>:printer</strong>  Printer method to use; <strong>:puts</strong>,
+<strong>:print</strong></p>
+</dd></dl>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Errno::EPIPE
+<dd>
+<p>Error if sending of output to communication channel fails</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li></ul>
             
           </div><!-- safe_puts-doc -->
 
           
           <div class="method-source-code" id="safe_puts-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 242</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 573</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">safe_puts</span>(<span class="ruby-identifier">message</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">safe_puts</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;safe_puts&#39;</span>)
-  
+
   <span class="ruby-identifier">message</span> <span class="ruby-operator">||=</span> <span class="ruby-string">&quot;&quot;</span>
   <span class="ruby-identifier">options</span> = {
     <span class="ruby-value">:channel</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@output</span>,
@@ -1273,24 +1987,79 @@
         <div class="method-description">
           <div class="method-doc" id="say-doc">
             
-            
+            <p>Output via a printer method to an output channel unless quiet specified</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>type</strong>  Message type; <strong>:warn</strong>,
+<strong>:error</strong>, <strong>:success</strong></p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Message to render to output channel</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Output options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:quiet_override</strong>  Whether or not to override global quiet
+flag</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:new_line</strong>  Append new line to end of message</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:prefix</strong>  Render prefix before message (console resource)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>:channel</strong>  IO channel to send output to (don&#39;t touch)</p>
+</dd></dl>
+</li><li>
+<p><a href="Console.html#method-i-format_message">format_message</a> options</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-format_message">format_message</a></p>
+</li><li>
+<p><a href="Console.html#method-i-safe_puts">safe_puts</a></p>
+</li></ul>
             
           </div><!-- say-doc -->
 
           
           <div class="method-source-code" id="say-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 90</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 266</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">say</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@quiet</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:quiet_override</span>]
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">say</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;say&#39;</span>)
-  
+
   <span class="ruby-identifier">defaults</span> = { <span class="ruby-value">:new_line</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:prefix</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }
   <span class="ruby-identifier">options</span>  = <span class="ruby-identifier">defaults</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">printer</span>  = <span class="ruby-identifier">options</span>[<span class="ruby-value">:new_line</span>] <span class="ruby-operator">?</span> <span class="ruby-value">:puts</span> <span class="ruby-operator">:</span> <span class="ruby-value">:print</span>
-  
+
   <span class="ruby-identifier">puts_options</span>           = { <span class="ruby-value">:printer</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">printer</span> }
   <span class="ruby-identifier">puts_options</span>[<span class="ruby-value">:channel</span>] = <span class="ruby-identifier">options</span>[<span class="ruby-value">:channel</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:channel</span>)
-  
+
   <span class="ruby-identifier">safe_puts</span>(<span class="ruby-identifier">format_message</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>), <span class="ruby-identifier">puts_options</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- say-source -->
@@ -1315,13 +2084,44 @@
         <div class="method-description">
           <div class="method-doc" id="success-doc">
             
-            
+            <p>Output success message to an output channel unless quiet specified</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Message to render to output channel</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Output options</p>
+</dd></dl>
+<ul><li>
+<p><a href="Console.html#method-i-say">say</a> options</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-say">say</a></p>
+</li></ul>
             
           </div><!-- success-doc -->
 
           
           <div class="method-source-code" id="success-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 183</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 473</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">success</span>(<span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">success</span>(<span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;success&#39;</span>)
   <span class="ruby-identifier">say</span>(<span class="ruby-value">:success</span>, <span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>)
@@ -1348,13 +2148,44 @@
         <div class="method-description">
           <div class="method-doc" id="warn-doc">
             
-            
+            <p>Output warning to an output channel unless quiet specified</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Message to render to output channel</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Output options</p>
+</dd></dl>
+<ul><li>
+<p><a href="Console.html#method-i-say">say</a> options</p>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-i-check_delegate">check_delegate</a></p>
+</li><li>
+<p><a href="Console.html#method-i-say">say</a></p>
+</li></ul>
             
           </div><!-- warn-doc -->
 
           
           <div class="method-source-code" id="warn-source">
-            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 169</span>
+            <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 431</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">warn</span>(<span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-string">&#39;warn&#39;</span>)
   <span class="ruby-identifier">say</span>(<span class="ruby-value">:warn</span>, <span class="ruby-identifier">message</span>, *<span class="ruby-identifier">args</span>)
