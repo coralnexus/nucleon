@@ -272,6 +272,10 @@
 
   <div id="description" class="description">
     
+<p><a href="Hash.html">Hash</a> class additions</p>
+
+<p>Over time these may get depreciated in favor of other solutions.</p>
+
   </div><!-- description -->
 
   
@@ -304,29 +308,70 @@
         <div class="method-description">
           <div class="method-doc" id="search-doc">
             
-            
+            <p>Search for a key (potentially recursively) in a given hash.</p>
+
+<p>This method uses strict matching between string and symbol key types.  They
+must be the same type or they will not match.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>search_key</strong>  Key to search for in hash</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="Hash.html">Hash</a>&lt;String, Symbol|ANY&gt;
+<dd>
+<p><strong>options</strong>  Search options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>:recurse</strong>  Whether to recurse through sub hashes to find
+key value</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Integer
+<dd>
+<p><strong>:recurse_level</strong>  Maximum level to recurse into nested
+hashes or -1 for all</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>ANY
+<dd>
+<p>Return value for search key if value found, nil otherwise</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Errors</strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a
+href="Nucleon/Util/Data.html#method-c-interpolate">Nucleon::Util::Data.interpolate</a></p>
+</li></ul>
             
           </div><!-- search-doc -->
 
           
           <div class="method-source-code" id="search-source">
-            <pre><span class="ruby-comment"># File lib/core/mod/hash.rb, line 6</span>
+            <pre><span class="ruby-comment"># File lib/core/mod/hash.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">search</span>(<span class="ruby-identifier">search_key</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">value</span>  = <span class="ruby-keyword">nil</span>
-  
+
   <span class="ruby-identifier">recurse</span>       = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:recurse</span>, <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">recurse_level</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:recurse_level</span>, <span class="ruby-value">-1</span>)
-      
+
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">key</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">search_key</span>
       <span class="ruby-identifier">value</span> = <span class="ruby-identifier">data</span>
-      
-    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span> 
+
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">&amp;&amp;</span>
       <span class="ruby-identifier">recurse</span> <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">recurse_level</span> <span class="ruby-operator">==</span> <span class="ruby-value">-1</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">recurse_level</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)
-      
+
       <span class="ruby-identifier">recurse_level</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">recurse_level</span> <span class="ruby-operator">==</span> <span class="ruby-value">-1</span>
-      <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">search</span>(<span class="ruby-identifier">search_key</span>, 
+      <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">search</span>(<span class="ruby-identifier">search_key</span>,
         <span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">config</span>).<span class="ruby-identifier">set</span>(<span class="ruby-value">:recurse_level</span>, <span class="ruby-identifier">recurse_level</span>)
       )
     <span class="ruby-keyword">end</span>

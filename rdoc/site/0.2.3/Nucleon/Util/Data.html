@@ -705,7 +705,7 @@ configurations from text formats, such as JSON.</p>
 
           
           <div class="method-source-code" id="ensure-source">
-            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 883</span>
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 886</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-keyword">ensure</span>(<span class="ruby-identifier">test</span>, <span class="ruby-identifier">success_value</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">failure_value</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">success_value</span> = (<span class="ruby-identifier">success_value</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">success_value</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">test</span>)
   <span class="ruby-identifier">failure_value</span> = (<span class="ruby-identifier">failure_value</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">failure_value</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
@@ -771,7 +771,7 @@ configurations from text formats, such as JSON.</p>
 
           
           <div class="method-source-code" id="ensure_value-source">
-            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 909</span>
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 912</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ensure_value</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">failure_value</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">value</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">failure_value</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1165,12 +1165,17 @@ against</p>
 </li><li>
 <p><strong><a href="../Errors.html">Errors</a></strong></p>
 </li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="../../Hash.html#method-i-search">Hash#search</a></p>
+</li></ul>
             
           </div><!-- interpolate-doc -->
 
           
           <div class="method-source-code" id="interpolate-source">
-            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 721</span>
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 724</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">interpolate</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">scope</span>, <span class="ruby-identifier">options</span> = {})
 
   <span class="ruby-identifier">pattern</span> = ( <span class="ruby-identifier">options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:pattern</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:pattern</span>] <span class="ruby-operator">:</span> <span class="ruby-string">&#39;\$(\{)?([a-zA-Z0-9\_\-]+)(\})?&#39;</span> )
@@ -1501,7 +1506,7 @@ selection</p>
 
           
           <div class="method-source-code" id="prefix-source">
-            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 842</span>
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 845</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">prefix</span>(<span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">pad</span> = <span class="ruby-string">&#39;_&#39;</span>)
   <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
 
@@ -1591,7 +1596,7 @@ removal</p>
 
           
           <div class="method-source-code" id="rm_keys-source">
-            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 775</span>
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 778</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">rm_keys</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">symbolize</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">keys</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>)
@@ -1817,7 +1822,7 @@ selection</p>
 
           
           <div class="method-source-code" id="subset-source">
-            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 806</span>
+            <pre><span class="ruby-comment"># File lib/core/util/data.rb, line 809</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">subset</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">symbolize</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">keys</span>     = [ <span class="ruby-identifier">keys</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
   <span class="ruby-identifier">data</span>     = <span class="ruby-identifier">hash</span>(<span class="ruby-identifier">data</span>)
