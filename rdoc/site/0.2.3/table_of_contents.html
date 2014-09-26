@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>Table of Contents - nucleon 0.2.3</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body class="indexpage">
+<h1>Table of Contents - nucleon 0.2.3</h1>
+
+<h2>Pages</h2>
+<ul>
+  <li class="file">
+    <a href="ARCHITECTURE_rdoc.html">ARCHITECTURE</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="ARCHITECTURE_rdoc.html#label-Nucleon+architecture+guide">Nucleon architecture guide</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Persistent+and+mergeable+objects">Persistent and mergeable objects</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Important+concept%3A++Objects+%3D%3D+Property+trees">Important concept:  Objects == Property trees</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Extremely+pluggable+and+extensible">Extremely pluggable and extensible</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Plugin+%2F+providers+architecture">Plugin / providers architecture</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Method+block+extension">Method block extension</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Event+based+plugin+extensions">Event based plugin extensions</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Middleware+sequences+%28NOT+YET+IMPLEMENTED%29">Middleware sequences (NOT YET IMPLEMENTED)</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Execution+plans+%28NOT+YET+MIGRATED%29">Execution plans (NOT YET MIGRATED)</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Easily+parallel">Easily parallel</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Automatable+project+workflows">Automatable project workflows</a>
+      <li><a href="ARCHITECTURE_rdoc.html#label-Flexible+action+execution+model">Flexible action execution model</a>
+    </ul>
+  </li>
+    <li class="file">
+    <a href="README_rdoc.html">README</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="README_rdoc.html#label-Nucleon">Nucleon</a>
+      <li><a href="README_rdoc.html#label-Description">Description</a>
+      <li><a href="README_rdoc.html#label-Installation+%2F+Dependencies">Installation / Dependencies</a>
+      <li><a href="README_rdoc.html#label-Usage">Usage</a>
+      <li><a href="README_rdoc.html#label-Links">Links</a>
+      <li><a href="README_rdoc.html#label-Contributing+to+Nucleon">Contributing to Nucleon</a>
+      <li><a href="README_rdoc.html#label-Copyright">Copyright</a>
+    </ul>
+  </li>
+    <li class="file">
+    <a href="TODO_rdoc.html">TODO</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="TODO_rdoc.html#label-Nucleon+tasks+to+complete+before+1.0+release">Nucleon tasks to complete before 1.0 release</a>
+    </ul>
+  </li>
+  
+</ul>
+
+<h2 id="classes">Classes/Modules</h2>
+<ul>
+  <li class="module">
+    <a href="Nucleon.html">Nucleon</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Action.html">Nucleon::Action</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Action/Extract.html">Nucleon::Action::Extract</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Action/Project.html">Nucleon::Action::Project</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Action/Project/Add.html">Nucleon::Action::Project::Add</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Action/Project/Create.html">Nucleon::Action::Project::Create</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Action/Project/Remove.html">Nucleon::Action::Project::Remove</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Action/Project/Save.html">Nucleon::Action::Project::Save</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Action/Project/Update.html">Nucleon::Action::Project::Update</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Codes.html">Nucleon::Codes</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Command.html">Nucleon::Command</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Command/Bash.html">Nucleon::Command::Bash</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Config.html">Nucleon::Config</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Config/Collection.html">Nucleon::Config::Collection</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="Nucleon/Config/Collection.html#label-Configuration+collection">Configuration collection</a>
+    </ul>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Config/Options.html">Nucleon::Config::Options</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="Nucleon/Config/Options.html#label-Contextualized+option+collection">Contextualized option collection</a>
+    </ul>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Core.html">Nucleon::Core</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Environment.html">Nucleon::Environment</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Errors.html">Nucleon::Errors</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Errors/BatchError.html">Nucleon::Errors::BatchError</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Errors/NucleonError.html">Nucleon::Errors::NucleonError</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Errors/SSHUnavailable.html">Nucleon::Errors::SSHUnavailable</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Event.html">Nucleon::Event</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Event/Regex.html">Nucleon::Event::Regex</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Extension.html">Nucleon::Extension</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Extension/Project.html">Nucleon::Extension::Project</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Facade.html">Nucleon::Facade</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Gems.html">Nucleon::Gems</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Manager.html">Nucleon::Manager</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin.html">Nucleon::Mixin</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Action.html">Nucleon::Mixin::Action</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Action/Commit.html">Nucleon::Mixin::Action::Commit</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Action/Registration.html">Nucleon::Mixin::Action::Registration</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="Nucleon/Mixin/ConfigCollection.html#label-Configuration+collection">Configuration collection</a>
+    </ul>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="Nucleon/Mixin/ConfigOptions.html#label-Contextualized+option+collection">Contextualized option collection</a>
+    </ul>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Macro.html">Nucleon::Mixin::Macro</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Macro/ObjectInterface.html">Nucleon::Mixin::Macro::ObjectInterface</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Macro/PluginInterface.html">Nucleon::Mixin::Macro::PluginInterface</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/Settings.html">Nucleon::Mixin::Settings</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Mixin/SubConfig.html">Nucleon::Mixin::SubConfig</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Parallel.html">Nucleon::Parallel</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Parallel/ClassMethods.html">Nucleon::Parallel::ClassMethods</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Parallel/InstanceMethods.html">Nucleon::Parallel::InstanceMethods</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Plugin.html">Nucleon::Plugin</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Action.html">Nucleon::Plugin::Action</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Event.html">Nucleon::Plugin::Event</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Extension.html">Nucleon::Plugin::Extension</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Project.html">Nucleon::Plugin::Project</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Template.html">Nucleon::Plugin::Template</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Plugin/Translator.html">Nucleon::Plugin::Translator</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Project.html">Nucleon::Project</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Project/Git.html">Nucleon::Project::Git</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Project/Github.html">Nucleon::Project::Github</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Template.html">Nucleon::Template</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Template/JSON.html">Nucleon::Template::JSON</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Template/Wrapper.html">Nucleon::Template::Wrapper</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Template/YAML.html">Nucleon::Template::YAML</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Translator.html">Nucleon::Translator</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Translator/JSON.html">Nucleon::Translator::JSON</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Translator/YAML.html">Nucleon::Translator::YAML</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Util.html">Nucleon::Util</a>
+  </li>
+    <li class="module">
+    <a href="Nucleon/Util/CLI.html">Nucleon::Util::CLI</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/CLI/Parser.html">Nucleon::Util::CLI::Parser</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Cache.html">Nucleon::Util::Cache</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Console.html">Nucleon::Util::Console</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Data.html">Nucleon::Util::Data</a>
+
+    <img class="toc-toggle" src="images/transparent.png" alt="" title="toggle headings">
+    <ul class="initially-hidden">
+      <li><a href="Nucleon/Util/Data.html#label-Data+utilities">Data utilities</a>
+    </ul>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Disk.html">Nucleon::Util::Disk</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Git.html">Nucleon::Util::Git</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Liquid.html">Nucleon::Util::Liquid</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Logger.html">Nucleon::Util::Logger</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Package.html">Nucleon::Util::Package</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/SSH.html">Nucleon::Util::SSH</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/SSH/Keypair.html">Nucleon::Util::SSH::Keypair</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Shell.html">Nucleon::Util::Shell</a>
+  </li>
+    <li class="class">
+    <a href="Nucleon/Util/Shell/Result.html">Nucleon::Util::Shell::Result</a>
+  </li>
+    <li class="class">
+    <a href="Hash.html">Hash</a>
+  </li>
+    <li class="module">
+    <a href="Kernel.html">Kernel</a>
+  </li>
+  
+</ul>
+
+<h2 id="methods">Methods</h2>
+<ul>
+  
+    <li class="method"><a href="Nucleon.html#method-c-VERSION">::VERSION &mdash; Nucleon</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-action_help">::action_help &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-action_index">::action_index &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-c-add_logger">::add_logger &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Config/Collection.html#method-c-all">::all &mdash; Nucleon::Config::Collection</a>
+  
+    <li class="method"><a href="Nucleon/Config/Options.html#method-c-all">::all &mdash; Nucleon::Config::Options</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-array">::array &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-array">::array &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-black">::black &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-blue">::blue &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-build_info">::build_info &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-c-build_info">::build_info &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Event.html#method-c-build_info">::build_info &mdash; Nucleon::Plugin::Event</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-clean">::clean &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config/Collection.html#method-c-clear">::clear &mdash; Nucleon::Config::Collection</a>
+  
+    <li class="method"><a href="Nucleon/Config/Options.html#method-c-clear">::clear &mdash; Nucleon::Config::Options</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-clear_provider">::clear_provider &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-close">::close &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-close_session">::close_session &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-c-code">::code &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-c-codes">::codes &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-collection">::collection &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-colorize">::colorize &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-components">::components &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-c-connection">::connection &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell.html#method-c-connection">::connection &mdash; Nucleon::Util::Shell</a>
+  
+    <li class="method"><a href="Nucleon.html#method-c-console_lock">::console_lock &mdash; Nucleon</a>
+  
+    <li class="method"><a href="Nucleon/Config/Options.html#method-c-contexts">::contexts &mdash; Nucleon::Config::Options</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-core">::core &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-cyan">::cyan &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon.html#method-c-debug_break">::debug_break &mdash; Nucleon</a>
+  
+    <li class="method"><a href="Nucleon.html#method-c-debugging-3F">::debugging? &mdash; Nucleon</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI.html#method-c-decode">::decode &mdash; Nucleon::Util::CLI</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-deep_clean">::deep_clean &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config/Collection.html#method-c-delete">::delete &mdash; Nucleon::Config::Collection</a>
+  
+    <li class="method"><a href="Nucleon/Util/Disk.html#method-c-delete">::delete &mdash; Nucleon::Util::Disk</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Create.html#method-c-describe">::describe &mdash; Nucleon::Action::Project::Create</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-describe">::describe &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Action/Extract.html#method-c-describe">::describe &mdash; Nucleon::Action::Extract</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Add.html#method-c-describe">::describe &mdash; Nucleon::Action::Project::Add</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Update.html#method-c-describe">::describe &mdash; Nucleon::Action::Project::Update</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Save.html#method-c-describe">::describe &mdash; Nucleon::Action::Project::Save</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Remove.html#method-c-describe">::describe &mdash; Nucleon::Action::Project::Remove</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-describe_base">::describe_base &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-download">::download &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon.html#method-c-dump_enabled">::dump_enabled &mdash; Nucleon</a>
+  
+    <li class="method"><a href="Nucleon.html#method-c-dump_enabled-3D">::dump_enabled= &mdash; Nucleon</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-each_gem">::each_gem &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-empty-3F">::empty? &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI.html#method-c-encode">::encode &mdash; Nucleon::Util::CLI</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-ensure">::ensure &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-ensure">::ensure &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-ensure_value">::ensure_value &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-c-error_key">::error_key &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-c-error_message">::error_message &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-c-error_namespace">::error_namespace &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-exec">::exec &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-exec">::exec &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-exec_cli">::exec_cli &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-exec_safe">::exec_safe &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-exist-3F">::exist? &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-exists-3F">::exists? &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Disk.html#method-c-exists-3F">::exists? &mdash; Nucleon::Util::Disk</a>
+  
+    <li class="method"><a href="Nucleon/Project/Github.html#method-c-expand_url">::expand_url &mdash; Nucleon::Project::Github</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-false-3F">::false? &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Disk.html#method-c-filename">::filename &mdash; Nucleon::Util::Disk</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-filter">::filter &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-filter">::filter &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-gateway">::gateway &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-generate">::generate &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Config/Collection.html#method-c-get">::get &mdash; Nucleon::Config::Collection</a>
+  
+    <li class="method"><a href="Nucleon/Config/Options.html#method-c-get">::get &mdash; Nucleon::Config::Options</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-green">::green &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-grey">::grey &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-hash">::hash &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-hash">::hash &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Parallel.html#method-c-included">::included &mdash; Nucleon::Parallel</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-c-index">::index &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-init">::init &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-init_flat">::init_flat &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-c-init_plugin_collection">::init_plugin_collection &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-init_session">::init_session &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-interpolate">::interpolate &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-key_path">::key_path &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-c-level">::level &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-c-level-3D">::level= &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Util/Git.html#method-c-load">::load &mdash; Nucleon::Util::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-load_provider">::load_provider &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/Disk.html#method-c-log">::log &mdash; Nucleon::Util::Disk</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-c-logger">::logger &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-logger">::logger &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-c-loggers">::loggers &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-merge">::merge &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI.html#method-c-message">::message &mdash; Nucleon::Util::CLI</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-namespace">::namespace &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/Package.html#method-c-new">::new &mdash; Nucleon::Util::Package</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH/Keypair.html#method-c-new">::new &mdash; Nucleon::Util::SSH::Keypair</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-c-new">::new &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-c-new">::new &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-c-new">::new &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-new">::new &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-c-new">::new &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-c-new">::new &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell/Result.html#method-c-new">::new &mdash; Nucleon::Util::Shell::Result</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-c-new">::new &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-new">::new &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-c-new">::new &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Util/Liquid.html#method-c-new">::new &mdash; Nucleon::Util::Liquid</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-c-new">::new &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action/Option.html#method-c-new">::new &mdash; Nucleon::Plugin::Action::Option</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-open">::open &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon.html#method-c-parallel-3F">::parallel? &mdash; Nucleon</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-parse_json">::parse_json &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-parse_yaml">::parse_yaml &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-prefix">::prefix &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-purple">::purple &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-quiet">::quiet &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-quiet-3D">::quiet= &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Disk.html#method-c-read">::read &mdash; Nucleon::Util::Disk</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-red">::red &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-register">::register &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-register_gem">::register_gem &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-register_ids">::register_ids &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-c-register_ids">::register_ids &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-c-register_ids">::register_ids &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-registered">::registered &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-c-registry">::registry &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH/Keypair.html#method-c-render">::render &mdash; Nucleon::Util::SSH::Keypair</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-render_colorized">::render_colorized &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-c-render_index">::render_index &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-rm_keys">::rm_keys &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config/Collection.html#method-c-save">::save &mdash; Nucleon::Config::Collection</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-c-search_actions">::search_actions &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-session">::session &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-session_id">::session_id &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Config/Collection.html#method-c-set">::set &mdash; Nucleon::Config::Collection</a>
+  
+    <li class="method"><a href="Nucleon/Config/Options.html#method-c-set">::set &mdash; Nucleon::Config::Options</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-c-set_level">::set_level &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-c-set_levels">::set_levels &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-spec">::spec &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Gems.html#method-c-specs">::specs &mdash; Nucleon::Gems</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-c-split">::split &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-state_file">::state_file &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-c-status_code">::status_code &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-c-status_index">::status_index &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-store_provider">::store_provider &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-string">::string &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-string">::string &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-string_map">::string_map &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-string_map">::string_map &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-subset">::subset &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-symbol">::symbol &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-symbol">::symbol &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-symbol_map">::symbol_map &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-symbol_map">::symbol_map &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-terminal">::terminal &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-test">::test &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-c-test">::test &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-to_json">::to_json &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-to_yaml">::to_yaml &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Template.html#method-c-translate">::translate &mdash; Nucleon::Plugin::Template</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Event.html#method-c-translate">::translate &mdash; Nucleon::Plugin::Event</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-translate">::translate &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-c-translate">::translate &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-c-translate_reference">::translate_reference &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-c-translate_reference">::translate_reference &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-true-3F">::true? &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-c-ui">::ui &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-c-ui_group">::ui_group &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-undef-3F">::undef? &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-unlock_private_key">::unlock_private_key &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-upload">::upload &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-use_colors">::use_colors &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-use_colors-3D">::use_colors= &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH.html#method-c-valid-3F">::valid? &mdash; Nucleon::Util::SSH</a>
+  
+    <li class="method"><a href="Nucleon/Util/Data.html#method-c-value">::value &mdash; Nucleon::Util::Data</a>
+  
+    <li class="method"><a href="Nucleon/Util/Disk.html#method-c-write">::write &mdash; Nucleon::Util::Disk</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-c-yellow">::yellow &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-i-5B-5D">#[] &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-5B-5D">#[] &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-5B-5D-3D">#[]= &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_clear">#_clear &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_defaults">#_defaults &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_delete">#_delete &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_export">#_export &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_get">#_get &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_import">#_import &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_init">#_init &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-_set">#_set &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-action">#action &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-action_cli">#action_cli &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-action_config">#action_config &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-action_help">#action_help &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-action_run">#action_run &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-actions">#actions &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-active_plugins">#active_plugins &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-active_plugins">#active_plugins &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-active_plugins">#active_plugins &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Util/Package.html#method-i-add_file">#add_file &mdash; Nucleon::Util::Package</a>
+  
+    <li class="method"><a href="Nucleon/Util/Package.html#method-i-add_files">#add_files &mdash; Nucleon::Util::Package</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-add_remote_url">#add_remote_url &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-add_remote_url">#add_remote_url &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-add_subproject">#add_subproject &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-add_subproject">#add_subproject &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-admin-3F">#admin? &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-admin_exec">#admin_exec &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigOptions.html#method-i-all_options">#all_options &mdash; Nucleon::Mixin::ConfigOptions</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigCollection.html#method-i-all_properties">#all_properties &mdash; Nucleon::Mixin::ConfigCollection</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell/Result.html#method-i-append_errors">#append_errors &mdash; Nucleon::Util::Shell::Result</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell/Result.html#method-i-append_output">#append_output &mdash; Nucleon::Util::Shell::Result</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-arg">#arg &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-arg_array">#arg_array &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-arg_bool">#arg_bool &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-arg_float">#arg_float &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-arg_int">#arg_int &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-arg_str">#arg_str &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-args">#args &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-args-3D">#args= &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Remove.html#method-i-arguments">#arguments &mdash; Nucleon::Action::Project::Remove</a>
+  
+    <li class="method"><a href="Nucleon/Action/Extract.html#method-i-arguments">#arguments &mdash; Nucleon::Action::Extract</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Save.html#method-i-arguments">#arguments &mdash; Nucleon::Action::Project::Save</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Add.html#method-i-arguments">#arguments &mdash; Nucleon::Action::Project::Add</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Create.html#method-i-arguments">#arguments &mdash; Nucleon::Action::Project::Create</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-arguments">#arguments &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-array">#array &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-ask">#ask &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-ask">#ask &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-autoload">#autoload &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-banner-3D">#banner= &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-base_path">#base_path &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-black">#black &mdash; Nucleon::Mixin::Colors</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-blue">#blue &mdash; Nucleon::Mixin::Colors</a>
+  
+    <li class="method"><a href="Nucleon/Command/Bash.html#method-i-build">#build &mdash; Nucleon::Command::Bash</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-build">#build &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-cache">#cache &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-can_persist-3F">#can_persist? &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-can_persist-3F">#can_persist? &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-check">#check &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-check">#check &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Event.html#method-i-check">#check &mdash; Nucleon::Plugin::Event</a>
+  
+    <li class="method"><a href="Nucleon/Event/Regex.html#method-i-check">#check &mdash; Nucleon::Event::Regex</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell.html#method-i-check_conditions">#check_conditions &mdash; Nucleon::Util::Shell</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-check_delegate">#check_delegate &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-checkout">#checkout &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-checkout">#checkout &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-class_const">#class_const &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-class_const">#class_const &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-class_const">#class_const &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-class_name">#class_name &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-class_name">#class_name &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-class_name">#class_name &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-cleanup">#cleanup &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-clear">#clear &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-clear">#clear &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-clear">#clear &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigOptions.html#method-i-clear_options">#clear_options &mdash; Nucleon::Mixin::ConfigOptions</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigCollection.html#method-i-clear_properties">#clear_properties &mdash; Nucleon::Mixin::ConfigCollection</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-cli">#cli &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-cli_run">#cli_run &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Project/Github.html#method-i-client">#client &mdash; Nucleon::Project::Github</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell.html#method-i-close_exec_pipe">#close_exec_pipe &mdash; Nucleon::Util::Shell</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-code">#code &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-code">#code &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-codes">#codes &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-codes">#codes &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-collect">#collect &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-collect">#collect &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-command">#command &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-command">#command &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-command-3D">#command= &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-commands">#commands &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Commit.html#method-i-commit">#commit &mdash; Nucleon::Mixin::Action::Commit</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-commit">#commit &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-commit">#commit &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Commit.html#method-i-commit_config">#commit_config &mdash; Nucleon::Mixin::Action::Commit</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Commit.html#method-i-commit_ignore">#commit_ignore &mdash; Nucleon::Mixin::Action::Commit</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-config">#config &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-config">#config &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-config">#config &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-config">#config &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-config">#config &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-config">#config &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-config-3D">#config= &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-config_subset">#config_subset &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Save.html#method-i-configure">#configure &mdash; Nucleon::Action::Project::Save</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Add.html#method-i-configure">#configure &mdash; Nucleon::Action::Project::Add</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Update.html#method-i-configure">#configure &mdash; Nucleon::Action::Project::Update</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Remove.html#method-i-configure">#configure &mdash; Nucleon::Action::Project::Remove</a>
+  
+    <li class="method"><a href="Nucleon/Action/Extract.html#method-i-configure">#configure &mdash; Nucleon::Action::Extract</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-configure">#configure &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Create.html#method-i-configure">#configure &mdash; Nucleon::Action::Project::Create</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigOptions.html#method-i-contexts">#contexts &mdash; Nucleon::Mixin::ConfigOptions</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-create">#create &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-create_plugin">#create_plugin &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-create_plugin">#create_plugin &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-cyan">#cyan &mdash; Nucleon::Mixin::Colors</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-data">#data &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-data-3D">#data= &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Kernel.html#method-i-dbg">#dbg &mdash; Kernel</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-i-debug">#debug &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Util/Package.html#method-i-decode">#decode &mdash; Nucleon::Util::Package</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-defaults">#defaults &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-defaults">#defaults &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-define_plugin">#define_plugin &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-define_plugin">#define_plugin &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-define_plugin_type">#define_plugin_type &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-define_plugin_types">#define_plugin_types &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-define_type">#define_type &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-define_types">#define_types &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-define_types">#define_types &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-delete">#delete &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-delete">#delete &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-delete">#delete &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-delete_config">#delete_config &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-delete_config">#delete_config &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigCollection.html#method-i-delete_property">#delete_property &mdash; Nucleon::Mixin::ConfigCollection</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-delete_remote">#delete_remote &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-delete_remote">#delete_remote &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Settings.html#method-i-delete_setting">#delete_setting &mdash; Nucleon::Mixin::Settings</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Settings.html#method-i-delete_settings">#delete_settings &mdash; Nucleon::Mixin::Settings</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-delete_subproject">#delete_subproject &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-delete_subproject">#delete_subproject &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-directory">#directory &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-directory_name">#directory_name &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-dump">#dump &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-each">#each &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-edit_url">#edit_url &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-empty-3F">#empty? &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Package.html#method-i-encode">#encode &mdash; Nucleon::Util::Package</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-ensure_git">#ensure_git &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-ensure_in_gitignore">#ensure_in_gitignore &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-i-error">#error &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-error">#error &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-i-error_key">#error_key &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-i-error_message">#error_message &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-i-error_namespace">#error_namespace &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell/Result.html#method-i-errors">#errors &mdash; Nucleon::Util::Shell::Result</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-event">#event &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-events">#events &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-exec">#exec &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Command/Bash.html#method-i-exec">#exec &mdash; Nucleon::Command::Bash</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell.html#method-i-exec">#exec &mdash; Nucleon::Util::Shell</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-exec">#exec &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-exec">#exec &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-executable">#executable &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Command/Bash.html#method-i-executable">#executable &mdash; Nucleon::Command::Bash</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Add.html#method-i-execute">#execute &mdash; Nucleon::Action::Project::Add</a>
+  
+    <li class="method"><a href="Nucleon/Action/Extract.html#method-i-execute">#execute &mdash; Nucleon::Action::Extract</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-execute">#execute &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Create.html#method-i-execute">#execute &mdash; Nucleon::Action::Project::Create</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Update.html#method-i-execute">#execute &mdash; Nucleon::Action::Project::Update</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Save.html#method-i-execute">#execute &mdash; Nucleon::Action::Project::Save</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Remove.html#method-i-execute">#execute &mdash; Nucleon::Action::Project::Remove</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-export">#export &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-export">#export &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-extended_config">#extended_config &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-extension">#extension &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-extension">#extension &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-extension_check">#extension_check &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-extension_collect">#extension_collect &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-extension_set">#extension_set &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Parallel/ClassMethods.html#method-i-external_block_exec">#external_block_exec &mdash; Nucleon::Parallel::ClassMethods</a>
+  
+    <li class="method"><a href="Nucleon/Util/Package.html#method-i-extract">#extract &mdash; Nucleon::Util::Package</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-fetch">#fetch &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-file">#file &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-filter">#filter &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-flags">#flags &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-flags-3D">#flags= &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-format_message">#format_message &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-full_path">#full_path &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Translator/JSON.html#method-i-generate">#generate &mdash; Nucleon::Translator::JSON</a>
+  
+    <li class="method"><a href="Nucleon/Translator/YAML.html#method-i-generate">#generate &mdash; Nucleon::Translator::YAML</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Translator.html#method-i-generate">#generate &mdash; Nucleon::Plugin::Translator</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-get">#get &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-get">#get &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-get">#get &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-get">#get &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-get_array">#get_array &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-get_hash">#get_hash &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigOptions.html#method-i-get_options">#get_options &mdash; Nucleon::Mixin::ConfigOptions</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-get_plugin">#get_plugin &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-get_plugin">#get_plugin &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigCollection.html#method-i-get_property">#get_property &mdash; Nucleon::Mixin::ConfigCollection</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-git_exec">#git_exec &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-git_fetch">#git_fetch &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-green">#green &mdash; Nucleon::Mixin::Colors</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-grey">#grey &mdash; Nucleon::Mixin::Colors</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-handle">#handle &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-has_key-3F">#has_key? &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-hash">#hash &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-help">#help &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-help">#help &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-help-3D">#help= &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-i-hook">#hook &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-hook_method">#hook_method &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-id">#id &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-ignore">#ignore &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-ignore">#ignore &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Action/Project/Remove.html#method-i-ignore">#ignore &mdash; Nucleon::Action::Project::Remove</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-ignore">#ignore &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-import">#import &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-import">#import &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-import_base">#import_base &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-import_base">#import_base &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-index_config">#index_config &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-info">#info &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-info">#info &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-i-info">#info &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-init">#init &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Project/Github.html#method-i-init_auth">#init_auth &mdash; Nucleon::Project::Github</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-init_auth">#init_auth &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-init_cache">#init_cache &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-init_cache">#init_cache &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-init_parent">#init_parent &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-init_project">#init_project &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-init_remotes">#init_remotes &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-init_remotes">#init_remotes &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-init_subconfig">#init_subconfig &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-i-initialized-3F">#initialized? &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-i-inspect">#inspect &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-inspect">#inspect &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-ip_address">#ip_address &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-keys">#keys &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-load">#load &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-load">#load &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-load_base">#load_base &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-load_multiple">#load_multiple &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-load_plugins">#load_plugins &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-load_plugins">#load_plugins &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-load_revision">#load_revision &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-load_revision">#load_revision &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-load_subprojects">#load_subprojects &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-load_subprojects">#load_subprojects &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-loaded_plugin">#loaded_plugin &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-loaded_plugin">#loaded_plugin &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-loaded_plugins">#loaded_plugins &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-loaded_plugins">#loaded_plugins &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-loaded_plugins">#loaded_plugins &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-local_path">#local_path &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-localize">#localize &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-log_level">#log_level &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-log_level-3D">#log_level= &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-logger">#logger &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-i-logger-3D">#logger= &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-i-logger-3D">#logger= &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-manage_ignore-3D">#manage_ignore= &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-manage_ignore-3F">#manage_ignore? &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-manager">#manager &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Extension/Project.html#method-i-manager_plugin_provider">#manager_plugin_provider &mdash; Nucleon::Extension::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-me">#me &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-meta">#meta &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/Liquid.html#method-i-method_missing">#method_missing &mdash; Nucleon::Util::Liquid</a>
+  
+    <li class="method"><a href="Nucleon/Codes.html#method-i-method_missing">#method_missing &mdash; Nucleon::Codes</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-method_missing">#method_missing &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-modify">#modify &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-myself">#myself &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-myself">#myself &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-namespace">#namespace &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-namespaces">#namespaces &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-namespaces">#namespaces &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-namespaces">#namespaces &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-new-3F">#new? &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-normalize">#normalize &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Project/Github.html#method-i-normalize">#normalize &mdash; Nucleon::Project::Github</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-normalize">#normalize &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Command/Bash.html#method-i-normalize">#normalize &mdash; Nucleon::Command::Bash</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-normalize">#normalize &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Event/Regex.html#method-i-normalize">#normalize &mdash; Nucleon::Event::Regex</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-normalize">#normalize &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-normalize">#normalize &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-normalize_extra_options">#normalize_extra_options &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Project/Github.html#method-i-normalize_reference">#normalize_reference &mdash; Nucleon::Project::Github</a>
+  
+    <li class="method"><a href="Kernel.html#method-i-nucleon_locate">#nucleon_locate &mdash; Kernel</a>
+  
+    <li class="method"><a href="Kernel.html#method-i-nucleon_require">#nucleon_require &mdash; Kernel</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Macro/ObjectInterface.html#method-i-object_collection">#object_collection &mdash; Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Macro/ObjectInterface.html#method-i-object_utilities">#object_utilities &mdash; Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-option">#option &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-option_array">#option_array &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-option_bool">#option_bool &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-option_float">#option_float &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-option_int">#option_int &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-option_str">#option_str &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-options">#options &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell/Result.html#method-i-output">#output &mdash; Nucleon::Util::Shell::Result</a>
+  
+    <li class="method"><a href="Nucleon/Parallel/InstanceMethods.html#method-i-parallel">#parallel &mdash; Nucleon::Parallel::InstanceMethods</a>
+  
+    <li class="method"><a href="Nucleon/Parallel/InstanceMethods.html#method-i-parallel_array">#parallel_array &mdash; Nucleon::Parallel::InstanceMethods</a>
+  
+    <li class="method"><a href="Nucleon/Parallel/InstanceMethods.html#method-i-parallel_finalize">#parallel_finalize &mdash; Nucleon::Parallel::InstanceMethods</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-parallel_finalize">#parallel_finalize &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-parallel_finalize">#parallel_finalize &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Parallel/InstanceMethods.html#method-i-parallel_hash">#parallel_hash &mdash; Nucleon::Parallel::InstanceMethods</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-parent">#parent &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-parse">#parse &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Translator/YAML.html#method-i-parse">#parse &mdash; Nucleon::Translator::YAML</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Translator.html#method-i-parse">#parse &mdash; Nucleon::Plugin::Translator</a>
+  
+    <li class="method"><a href="Nucleon/Translator/JSON.html#method-i-parse">#parse &mdash; Nucleon::Translator::JSON</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-parse_base">#parse_base &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-parse_command">#parse_command &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-parse_encoded">#parse_encoded &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-parse_known_args">#parse_known_args &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-parse_plugin_info">#parse_plugin_info &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-parse_types">#parse_types &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-password">#password &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-password">#password &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-path">#path &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Event/Regex.html#method-i-pattern">#pattern &mdash; Nucleon::Event::Regex</a>
+  
+    <li class="method"><a href="Nucleon/Event/Regex.html#method-i-pattern-3D">#pattern= &mdash; Nucleon::Event::Regex</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell.html#method-i-pipe_exec_stream">#pipe_exec_stream &mdash; Nucleon::Util::Shell</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-plugin">#plugin &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-plugin_class">#plugin_class &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-plugin_class">#plugin_class &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-plugin_class">#plugin_class &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Macro/PluginInterface.html#method-i-plugin_collection">#plugin_collection &mdash; Nucleon::Mixin::Macro::PluginInterface</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_directory">#plugin_directory &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_file">#plugin_file &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-plugin_has_provider-3F">#plugin_has_provider? &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-plugin_has_provider-3F">#plugin_has_provider? &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-plugin_has_type-3F">#plugin_has_type? &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_instance_name">#plugin_instance_name &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_name">#plugin_name &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_name-3D">#plugin_name= &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_namespace">#plugin_namespace &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_parent">#plugin_parent &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_parent-3D">#plugin_parent= &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_provider">#plugin_provider &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-plugin_type">#plugin_type &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-plugin_type_default">#plugin_type_default &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-plugin_type_defined-3F">#plugin_type_defined? &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-plugin_types">#plugin_types &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-plugins">#plugins &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-prefixed_message">#prefixed_message &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-private_key">#private_key &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH/Keypair.html#method-i-private_key_file">#private_key_file &mdash; Nucleon::Util::SSH::Keypair</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-private_key_str">#private_key_str &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Template.html#method-i-process">#process &mdash; Nucleon::Plugin::Template</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell.html#method-i-process_stream">#process_stream &mdash; Nucleon::Util::Shell</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-processed-3F">#processed? &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-project">#project &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Project.html#method-i-project_config">#project_config &mdash; Nucleon::Mixin::Action::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-project_directory-3F">#project_directory? &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-project_directory-3F">#project_directory? &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Project.html#method-i-project_ignore">#project_ignore &mdash; Nucleon::Mixin::Action::Project</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Project.html#method-i-project_load">#project_load &mdash; Nucleon::Mixin::Action::Project</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-projects">#projects &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-public_key">#public_key &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH/Keypair.html#method-i-public_key_file">#public_key_file &mdash; Nucleon::Util::SSH::Keypair</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-public_key_str">#public_key_str &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-pull">#pull &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-pull">#pull &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-purple">#purple &mdash; Nucleon::Mixin::Colors</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Push.html#method-i-push">#push &mdash; Nucleon::Mixin::Action::Push</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-push">#push &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-push">#push &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Push.html#method-i-push_config">#push_config &mdash; Nucleon::Mixin::Action::Push</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Push.html#method-i-push_ignore">#push_ignore &mdash; Nucleon::Mixin::Action::Push</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-quiet-3D">#quiet= &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-quiet-3D">#quiet= &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-quiet-3F">#quiet? &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-red">#red &mdash; Nucleon::Mixin::Colors</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-reference">#reference &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-register">#register &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-register">#register &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-register">#register &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-register">#register &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_array">#register_array &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_bool">#register_bool &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_directories">#register_directories &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_directory">#register_directory &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_file">#register_file &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_files">#register_files &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_float">#register_float &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_int">#register_int &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-register_namespace">#register_namespace &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_plugin">#register_plugin &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_plugin_provider">#register_plugin_provider &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_plugin_providers">#register_plugin_providers &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_plugin_type">#register_plugin_type &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_plugin_types">#register_plugin_types &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_plugins">#register_plugins &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_project">#register_project &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_project_provider">#register_project_provider &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_project_providers">#register_project_providers &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_projects">#register_projects &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_str">#register_str &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_translator">#register_translator &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_translator_provider">#register_translator_provider &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_translator_providers">#register_translator_providers &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-register_translators">#register_translators &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-register_type">#register_type &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-reload">#reload &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-reload">#reload &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-remote">#remote &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-remote">#remote &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-remove">#remove &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-remove">#remove &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-remove_by_name">#remove_by_name &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-remove_plugin">#remove_plugin &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-remove_plugin">#remove_plugin &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-remove_plugin">#remove_plugin &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-remove_plugin_by_name">#remove_plugin_by_name &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Event.html#method-i-render">#render &mdash; Nucleon::Plugin::Event</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-render">#render &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH/Keypair.html#method-i-render">#render &mdash; Nucleon::Util::SSH::Keypair</a>
+  
+    <li class="method"><a href="Nucleon/Event/Regex.html#method-i-render">#render &mdash; Nucleon::Event::Regex</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Template.html#method-i-render">#render &mdash; Nucleon::Plugin::Template</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-render_message">#render_message &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-render_object">#render_object &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-render_options">#render_options &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-render_options">#render_options &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Template/JSON.html#method-i-render_processed">#render_processed &mdash; Nucleon::Template::JSON</a>
+  
+    <li class="method"><a href="Nucleon/Template/Wrapper.html#method-i-render_processed">#render_processed &mdash; Nucleon::Template::Wrapper</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Template.html#method-i-render_processed">#render_processed &mdash; Nucleon::Plugin::Template</a>
+  
+    <li class="method"><a href="Nucleon/Template/YAML.html#method-i-render_processed">#render_processed &mdash; Nucleon::Template::YAML</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-render_provider">#render_provider &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-render_tree">#render_tree &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-repo">#repo &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-result">#result &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-result-3D">#result= &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-revision">#revision &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-run">#run &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-run">#run &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-safe_exec">#safe_exec &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-safe_puts">#safe_puts &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-sanitize_class">#sanitize_class &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Environment.html#method-i-sanitize_id">#sanitize_id &mdash; Nucleon::Environment</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-save">#save &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigCollection.html#method-i-save_properties">#save_properties &mdash; Nucleon::Mixin::ConfigCollection</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-say">#say &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Hash.html#method-i-search">#search &mdash; Hash</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-search_actions">#search_actions &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-set">#set &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-set">#set &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/SubConfig.html#method-i-set">#set &mdash; Nucleon::Mixin::SubConfig</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-set_config">#set_config &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-set_config">#set_config &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Github.html#method-i-set_connection">#set_connection &mdash; Nucleon::Project::Github</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-set_directory">#set_directory &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-set_edit_url">#set_edit_url &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-set_host_remote">#set_host_remote &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-set_location">#set_location &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-set_location">#set_location &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-set_meta">#set_meta &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigOptions.html#method-i-set_options">#set_options &mdash; Nucleon::Mixin::ConfigOptions</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/ConfigCollection.html#method-i-set_property">#set_property &mdash; Nucleon::Mixin::ConfigCollection</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-set_remote">#set_remote &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-set_remote">#set_remote &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Settings.html#method-i-set_setting">#set_setting &mdash; Nucleon::Mixin::Settings</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Settings.html#method-i-set_settings">#set_settings &mdash; Nucleon::Mixin::Settings</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-set_url">#set_url &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Settings.html#method-i-setting">#setting &mdash; Nucleon::Mixin::Settings</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Settings.html#method-i-settings">#settings &mdash; Nucleon::Mixin::Settings</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-settings">#settings &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-sha1">#sha1 &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-silence">#silence &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-split_locales">#split_locales &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-status">#status &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-status">#status &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-status-3D">#status= &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-i-status_code">#status_code &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Util/SSH/Keypair.html#method-i-store">#store &mdash; Nucleon::Util::SSH::Keypair</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-strict-3F">#strict? &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-string">#string &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-string_map">#string_map &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-subcommand-3D">#subcommand= &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-subproject-3F">#subproject? &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-subproject-3F">#subproject? &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-subproject_config">#subproject_config &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-subproject_config">#subproject_config &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-subprojects">#subprojects &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-success">#success &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-success">#success &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-symbol">#symbol &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-symbol_map">#symbol_map &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-synchronize">#synchronize &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-template">#template &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-templates">#templates &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Config.html#method-i-test">#test &mdash; Nucleon::Config</a>
+  
+    <li class="method"><a href="Nucleon/Util/Shell.html#method-i-test_connection">#test_connection &mdash; Nucleon::Util::Shell</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-test_connection">#test_connection &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-test_connection">#test_connection &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Command.html#method-i-to_s">#to_s &mdash; Nucleon::Plugin::Command</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-top-3F">#top? &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-top-3F">#top? &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-translate">#translate &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-translate_edit_url">#translate_edit_url &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-translate_edit_url">#translate_edit_url &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Errors/NucleonError.html#method-i-translate_error">#translate_error &mdash; Nucleon::Errors::NucleonError</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-translate_reference">#translate_reference &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-translate_reference">#translate_reference &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-translate_type">#translate_type &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-translate_url">#translate_url &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-translate_url">#translate_url &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Util/Cache.html#method-i-translator">#translator &mdash; Nucleon::Util::Cache</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-translator">#translator &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-translators">#translators &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-type_default">#type_default &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-type_default">#type_default &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-type_defined-3F">#type_defined? &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-types">#types &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-types">#types &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-ui">#ui &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-i-ui-3D">#ui= &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-ui_group">#ui_group &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Core.html#method-i-ui_group">#ui_group &mdash; Nucleon::Core</a>
+  
+    <li class="method"><a href="Nucleon/Project/Git.html#method-i-update_subprojects">#update_subprojects &mdash; Nucleon::Project::Git</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-update_subprojects">#update_subprojects &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Project.html#method-i-url">#url &mdash; Nucleon::Plugin::Project</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-usage">#usage &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-usage-3D">#usage= &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action.html#method-i-validate">#validate &mdash; Nucleon::Plugin::Action</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Action/Option.html#method-i-validate">#validate &mdash; Nucleon::Plugin::Action::Option</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-validate_directories">#validate_directories &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-validate_directory">#validate_directory &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-validate_file">#validate_file &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-validate_files">#validate_files &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-validate_plugin_providers">#validate_plugin_providers &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-validate_plugin_types">#validate_plugin_types &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Action/Registration.html#method-i-validate_plugins">#validate_plugins &mdash; Nucleon::Mixin::Action::Registration</a>
+  
+    <li class="method"><a href="Nucleon/Facade.html#method-i-value">#value &mdash; Nucleon::Facade</a>
+  
+    <li class="method"><a href="Nucleon/Manager.html#method-i-value">#value &mdash; Nucleon::Manager</a>
+  
+    <li class="method"><a href="Nucleon/Project/Github.html#method-i-verify_key">#verify_key &mdash; Nucleon::Project::Github</a>
+  
+    <li class="method"><a href="Nucleon/Util/CLI/Parser.html#method-i-version">#version &mdash; Nucleon::Util::CLI::Parser</a>
+  
+    <li class="method"><a href="Nucleon/Util/Console.html#method-i-warn">#warn &mdash; Nucleon::Util::Console</a>
+  
+    <li class="method"><a href="Nucleon/Util/Logger.html#method-i-warn">#warn &mdash; Nucleon::Util::Logger</a>
+  
+    <li class="method"><a href="Nucleon/Plugin/Base.html#method-i-warn">#warn &mdash; Nucleon::Plugin::Base</a>
+  
+    <li class="method"><a href="Nucleon/Mixin/Colors.html#method-i-yellow">#yellow &mdash; Nucleon::Mixin::Colors</a>
+  
+</ul>
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

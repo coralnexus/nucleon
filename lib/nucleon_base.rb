@@ -1,18 +1,17 @@
-#*******************************************************************************
-# Nucleon
 #
-# Framework that provides a simple foundation for building distributively 
-# configured, extremely pluggable and extendable, and easily parallel 
-# applications.
+# == Nucleon
+#
+# Framework that provides a simple foundation for building distributed,
+# pluggable, and integrated applications.
 #
 # Author::    Adrian Webb (mailto:adrian.webb@coralnexus.com)
-# License::   GPLv3
+# License::   Apache License, version 2
 
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # Global namespace
 
 module Kernel
-    
+
   def nucleon_locate(command)
     command = command.to_s
     exts    = ENV['PATHEXT'] ? ENV['PATHEXT'].split(';') : ['']
@@ -24,27 +23,27 @@ module Kernel
     end
     return nil
   end
-    
+
   #---
-  
+
   def nucleon_require(base_dir, name)
     name = name.to_s
     top_level_file = File.join(base_dir, "#{name}.rb")
-    
-    require top_level_file if File.exists?(top_level_file) 
-     
+
+    require top_level_file if File.exists?(top_level_file)
+
     directory = File.join(base_dir, name)
-      
+
     if File.directory?(directory)
       Dir.glob(File.join(directory, '**', '*.rb')).each do |sub_file|
         require sub_file
       end
-    end  
+    end
   end
 end
 
-#-------------------------------------------------------------------------------
-# Load paths 
+#*******************************************************************************
+# Load paths
 
 lib_dir          = File.dirname(__FILE__)
 core_dir         = File.join(lib_dir, 'core')
@@ -56,38 +55,38 @@ util_dir         = File.join(core_dir, 'util')
 mod_dir          = File.join(core_dir, 'mod')
 plugin_dir       = File.join(core_dir, 'plugin')
 
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # Environment checks and debugging
 
 module Nucleon
-  
+
   def self.VERSION
-    File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))  
+    File.read(File.join(File.dirname(__FILE__), '..', 'VERSION'))
   end
-  
-  #-----------------------------------------------------------------------------
-  
+
+  #*****************************************************************************
+
   @@dump_enabled = false
-  
+
   def self.dump_enabled=dump
     @@dump_enabled = dump
   end
-  
+
   def self.dump_enabled
     @@dump_enabled
   end
- 
-  #-----------------------------------------------------------------------------
-  
+
+  #*****************************************************************************
+
   def self.debugging?
-    ENV["NUCLEON_DEBUG"] ? true : false  
+    ENV["NUCLEON_DEBUG"] ? true : false
   end
-  
+
   #---
-  
+
   def self.debug_break(condition = true)
     if debugging?
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # Nucleon Pry powered development console
 #
 # Usage:
@@ -97,15 +96,15 @@ module Nucleon
 #
 #   :> [ sudo ] NUCLEON_DEBUG=1 nucleon <args>...
 #
-# * Call the debug_break method anywhere in the code to start a debugging 
+# * Call the debug_break method anywhere in the code to start a debugging
 #   session.
 #
 #   :> Nucleon.debug_break   or    :> Nucleon.debug_break <test?>
 #
-# * Since the debugging tools don't work in parallel, parallel operations are 
+# * Since the debugging tools don't work in parallel, parallel operations are
 #   serialized when NUCLEON_DEBUG environment variable is found.
 #
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # General information
 #
 # For more information on Pry: http://pryrepl.org
@@ -117,14 +116,14 @@ module Nucleon
 # For available commands and help information: [ help ]
 # For command specific help:                   [ <command> --help ]
 #
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # General commands:
 #
 # :> cd <Class>                Change to inspect class (class constant)
 # :> show-method <method>      Show source for class method
 # :> .<CLI command> <args>...  Execute a CLI command (always starts with dot)
 #
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # Breakpoints
 #
 # :> breakpoints                             List all defined breakpoints
@@ -143,7 +142,7 @@ module Nucleon
 #
 # :> break --show <breakpoint>               Show details about breakpoint.
 #
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # Stack inspection / traversal
 #
 # :> show-stack      Show all accessible frames in the call stack.
@@ -151,7 +150,7 @@ module Nucleon
 # :> up              Move up one frame in the call stack.
 # :> down            Move down one frame in the call stack.
 #
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 # Debugging execution flow:
 #
 # :> s = [ step | step <times> ]  Step execution into the next line or method.
@@ -160,28 +159,28 @@ module Nucleon
 # :> c = [ continue ]             Continue program execution (end Pry session).
 #
       binding.pry if condition
-    end  
+    end
   end
-  
-  #-----------------------------------------------------------------------------
-  
+
+  #*****************************************************************************
+
   def self.parallel?
     debugging? || ENV['NUCLEON_NO_PARALLEL'] ? false : true
   end
-  
+
   #---
-  
+
   @@console_lock = Mutex.new
-  
+
   def self.console_lock
     @@console_lock
-  end  
+  end
 end
 
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 
 module Kernel
-  
+
   def dbg(data, label = '', override_enabled = false)
     # Invocations of this function should NOT be committed to the project
     if Nucleon.dump_enabled || override_enabled
@@ -196,8 +195,8 @@ module Kernel
     end
   end
 end
-  
-#-------------------------------------------------------------------------------
+
+#*******************************************************************************
 # Coral requirements
 
 $:.unshift(lib_dir) unless $:.include?(lib_dir) || $:.include?(File.expand_path(lib_dir))
@@ -214,7 +213,7 @@ if Nucleon.debugging?
     Pry.commands.alias_command 's', 'step'
     Pry.commands.alias_command 'n', 'next'
     Pry.commands.alias_command 'f', 'finish'
-  end 
+  end
 end
 
 #---
@@ -244,7 +243,7 @@ require 'thread'
 
 if Nucleon.parallel?
   require 'celluloid'
-  require 'celluloid/autostart'  
+  require 'celluloid/autostart'
 end
 
 #---
@@ -297,20 +296,20 @@ nucleon_require(core_dir, :errors)
 nucleon_require(core_dir, :codes)
 nucleon_require(util_dir, :data)
 nucleon_require(core_dir, :config)
-nucleon_require(util_dir, :console) 
-nucleon_require(core_dir, :core) 
+nucleon_require(util_dir, :console)
+nucleon_require(core_dir, :core)
 
 #---
 
 # Include core utilities
-[ :liquid, 
-  :cli, 
-  :disk, 
+[ :liquid,
+  :cli,
+  :disk,
   :package,
-  :cache, 
+  :cache,
   :shell,
   :ssh
-].each do |name| 
+].each do |name|
   nucleon_require(util_dir, name)
 end
 

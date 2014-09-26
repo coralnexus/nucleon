@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Nucleon::Core - nucleon 0.2.3</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/core/core.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="Config.html">Nucleon::Config</a>
+  
+</nav>
+
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-logger">::logger</a>
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-c-ui">::ui</a>
+    
+    <li><a href="#method-c-ui_group">::ui_group</a>
+    
+    <li><a href="#method-i-initialized-3F">#initialized?</a>
+    
+    <li><a href="#method-i-logger-3D">#logger=</a>
+    
+    <li><a href="#method-i-ui-3D">#ui=</a>
+    
+    <li><a href="#method-i-ui_group">#ui_group</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../ARCHITECTURE_rdoc.html">ARCHITECTURE</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../TODO_rdoc.html">TODO</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Nucleon.html">Nucleon</a>
+  
+    <li><a href="../Nucleon/Action.html">Nucleon::Action</a>
+  
+    <li><a href="../Nucleon/Action/Extract.html">Nucleon::Action::Extract</a>
+  
+    <li><a href="../Nucleon/Action/Project.html">Nucleon::Action::Project</a>
+  
+    <li><a href="../Nucleon/Action/Project/Add.html">Nucleon::Action::Project::Add</a>
+  
+    <li><a href="../Nucleon/Action/Project/Create.html">Nucleon::Action::Project::Create</a>
+  
+    <li><a href="../Nucleon/Action/Project/Remove.html">Nucleon::Action::Project::Remove</a>
+  
+    <li><a href="../Nucleon/Action/Project/Save.html">Nucleon::Action::Project::Save</a>
+  
+    <li><a href="../Nucleon/Action/Project/Update.html">Nucleon::Action::Project::Update</a>
+  
+    <li><a href="../Nucleon/Codes.html">Nucleon::Codes</a>
+  
+    <li><a href="../Nucleon/Command.html">Nucleon::Command</a>
+  
+    <li><a href="../Nucleon/Command/Bash.html">Nucleon::Command::Bash</a>
+  
+    <li><a href="../Nucleon/Config.html">Nucleon::Config</a>
+  
+    <li><a href="../Nucleon/Config/Collection.html">Nucleon::Config::Collection</a>
+  
+    <li><a href="../Nucleon/Config/Options.html">Nucleon::Config::Options</a>
+  
+    <li><a href="../Nucleon/Core.html">Nucleon::Core</a>
+  
+    <li><a href="../Nucleon/Environment.html">Nucleon::Environment</a>
+  
+    <li><a href="../Nucleon/Errors.html">Nucleon::Errors</a>
+  
+    <li><a href="../Nucleon/Errors/BatchError.html">Nucleon::Errors::BatchError</a>
+  
+    <li><a href="../Nucleon/Errors/NucleonError.html">Nucleon::Errors::NucleonError</a>
+  
+    <li><a href="../Nucleon/Errors/SSHUnavailable.html">Nucleon::Errors::SSHUnavailable</a>
+  
+    <li><a href="../Nucleon/Event.html">Nucleon::Event</a>
+  
+    <li><a href="../Nucleon/Event/Regex.html">Nucleon::Event::Regex</a>
+  
+    <li><a href="../Nucleon/Extension.html">Nucleon::Extension</a>
+  
+    <li><a href="../Nucleon/Extension/Project.html">Nucleon::Extension::Project</a>
+  
+    <li><a href="../Nucleon/Facade.html">Nucleon::Facade</a>
+  
+    <li><a href="../Nucleon/Gems.html">Nucleon::Gems</a>
+  
+    <li><a href="../Nucleon/Manager.html">Nucleon::Manager</a>
+  
+    <li><a href="../Nucleon/Mixin.html">Nucleon::Mixin</a>
+  
+    <li><a href="../Nucleon/Mixin/Action.html">Nucleon::Mixin::Action</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Commit.html">Nucleon::Mixin::Action::Commit</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Registration.html">Nucleon::Mixin::Action::Registration</a>
+  
+    <li><a href="../Nucleon/Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+    <li><a href="../Nucleon/Mixin/ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+  
+    <li><a href="../Nucleon/Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro.html">Nucleon::Mixin::Macro</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro/ObjectInterface.html">Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro/PluginInterface.html">Nucleon::Mixin::Macro::PluginInterface</a>
+  
+    <li><a href="../Nucleon/Mixin/Settings.html">Nucleon::Mixin::Settings</a>
+  
+    <li><a href="../Nucleon/Mixin/SubConfig.html">Nucleon::Mixin::SubConfig</a>
+  
+    <li><a href="../Nucleon/Parallel.html">Nucleon::Parallel</a>
+  
+    <li><a href="../Nucleon/Parallel/ClassMethods.html">Nucleon::Parallel::ClassMethods</a>
+  
+    <li><a href="../Nucleon/Parallel/InstanceMethods.html">Nucleon::Parallel::InstanceMethods</a>
+  
+    <li><a href="../Nucleon/Plugin.html">Nucleon::Plugin</a>
+  
+    <li><a href="../Nucleon/Plugin/Action.html">Nucleon::Plugin::Action</a>
+  
+    <li><a href="../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
+  
+    <li><a href="../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
+  
+    <li><a href="../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
+  
+    <li><a href="../Nucleon/Plugin/Event.html">Nucleon::Plugin::Event</a>
+  
+    <li><a href="../Nucleon/Plugin/Extension.html">Nucleon::Plugin::Extension</a>
+  
+    <li><a href="../Nucleon/Plugin/Project.html">Nucleon::Plugin::Project</a>
+  
+    <li><a href="../Nucleon/Plugin/Template.html">Nucleon::Plugin::Template</a>
+  
+    <li><a href="../Nucleon/Plugin/Translator.html">Nucleon::Plugin::Translator</a>
+  
+    <li><a href="../Nucleon/Project.html">Nucleon::Project</a>
+  
+    <li><a href="../Nucleon/Project/Git.html">Nucleon::Project::Git</a>
+  
+    <li><a href="../Nucleon/Project/Github.html">Nucleon::Project::Github</a>
+  
+    <li><a href="../Nucleon/Template.html">Nucleon::Template</a>
+  
+    <li><a href="../Nucleon/Template/JSON.html">Nucleon::Template::JSON</a>
+  
+    <li><a href="../Nucleon/Template/Wrapper.html">Nucleon::Template::Wrapper</a>
+  
+    <li><a href="../Nucleon/Template/YAML.html">Nucleon::Template::YAML</a>
+  
+    <li><a href="../Nucleon/Translator.html">Nucleon::Translator</a>
+  
+    <li><a href="../Nucleon/Translator/JSON.html">Nucleon::Translator::JSON</a>
+  
+    <li><a href="../Nucleon/Translator/YAML.html">Nucleon::Translator::YAML</a>
+  
+    <li><a href="../Nucleon/Util.html">Nucleon::Util</a>
+  
+    <li><a href="../Nucleon/Util/CLI.html">Nucleon::Util::CLI</a>
+  
+    <li><a href="../Nucleon/Util/CLI/Parser.html">Nucleon::Util::CLI::Parser</a>
+  
+    <li><a href="../Nucleon/Util/Cache.html">Nucleon::Util::Cache</a>
+  
+    <li><a href="../Nucleon/Util/Console.html">Nucleon::Util::Console</a>
+  
+    <li><a href="../Nucleon/Util/Data.html">Nucleon::Util::Data</a>
+  
+    <li><a href="../Nucleon/Util/Disk.html">Nucleon::Util::Disk</a>
+  
+    <li><a href="../Nucleon/Util/Git.html">Nucleon::Util::Git</a>
+  
+    <li><a href="../Nucleon/Util/Liquid.html">Nucleon::Util::Liquid</a>
+  
+    <li><a href="../Nucleon/Util/Logger.html">Nucleon::Util::Logger</a>
+  
+    <li><a href="../Nucleon/Util/Package.html">Nucleon::Util::Package</a>
+  
+    <li><a href="../Nucleon/Util/SSH.html">Nucleon::Util::SSH</a>
+  
+    <li><a href="../Nucleon/Util/SSH/Keypair.html">Nucleon::Util::SSH::Keypair</a>
+  
+    <li><a href="../Nucleon/Util/Shell.html">Nucleon::Util::Shell</a>
+  
+    <li><a href="../Nucleon/Util/Shell/Result.html">Nucleon::Util::Shell::Result</a>
+  
+    <li><a href="../Hash.html">Hash</a>
+  
+    <li><a href="../Kernel.html">Kernel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Nucleon::Core</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-logger" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">logger</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-ui" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">ui</span><span
+            class="attribute-access-type">[R]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-logger" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">logger</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="logger-doc">
+            
+            
+            
+          </div><!-- logger-doc -->
+
+          
+          <div class="method-source-code" id="logger-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 44</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">@@logger</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- logger-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- logger-method -->
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(data = {}, defaults = {}, force = true, set_initialized = true, basic_merge = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="new-doc">
+            
+            
+            
+          </div><!-- new-doc -->
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 17</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">data</span> = {}, <span class="ruby-identifier">defaults</span> = {}, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">set_initialized</span> = <span class="ruby-keyword">true</span>, <span class="ruby-identifier">basic_merge</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">defaults</span>, <span class="ruby-identifier">force</span>, <span class="ruby-identifier">basic_merge</span>)   
+  
+  <span class="ruby-ivar">@class_color</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">ensure_value</span>(<span class="ruby-identifier">delete</span>(<span class="ruby-value">:class_color</span>, <span class="ruby-value">:cyan</span>), <span class="ruby-value">:cyan</span>)
+  <span class="ruby-ivar">@class_label</span> = <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/^nucleon::/</span>, <span class="ruby-string">&#39;&#39;</span>)
+  
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-identifier">delete</span>(<span class="ruby-value">:logger</span>, <span class="ruby-ivar">@class_label</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ui</span>     = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">export</span>).<span class="ruby-identifier">defaults</span>({ <span class="ruby-value">:resource</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-ivar">@class_label</span>, <span class="ruby-ivar">@class_color</span>) })
+  
+  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&#39;Initialized instance logger and interface&#39;</span>)
+  <span class="ruby-ivar">@initialized</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">set_initialized</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-ui" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ui</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="ui-doc">
+            
+            
+            
+          </div><!-- ui-doc -->
+
+          
+          <div class="method-source-code" id="ui-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 60</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ui</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">@@ui</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ui-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ui-method -->
+
+    
+      <div id="method-c-ui_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ui_group</span><span
+            class="method-args">(resource, color = :cyan) { |ui| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="ui_group-doc">
+            
+            
+            
+          </div><!-- ui_group-doc -->
+
+          
+          <div class="method-source-code" id="ui_group-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 75</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span> = <span class="ruby-value">:cyan</span>)
+  <span class="ruby-identifier">@@ui_lock</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-identifier">ui_resource</span> = <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span>
+      <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span>)
+      <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">ui</span>)
+  
+    <span class="ruby-keyword">ensure</span>
+      <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">ui_resource</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ui_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ui_group-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-initialized-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">initialized?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="initialized-3F-doc">
+            
+            
+            
+          </div><!-- initialized-3F-doc -->
+
+          
+          <div class="method-source-code" id="initialized-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialized?</span>
+  <span class="ruby-ivar">@initialized</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- initialized-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- initialized-3F-method -->
+
+    
+      <div id="method-i-logger-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">logger=</span><span
+            class="method-args">(logger)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="logger-3D-doc">
+            
+            
+            
+          </div><!-- logger-3D-doc -->
+
+          
+          <div class="method-source-code" id="logger-3D-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 48</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">logger=</span><span class="ruby-identifier">logger</span>
+  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>.<span class="ruby-identifier">loggers</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span>.<span class="ruby-identifier">resource</span>) <span class="ruby-keyword">if</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span>
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>)
+    <span class="ruby-ivar">@logger</span> = <span class="ruby-identifier">logger</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@logger</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">logger</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- logger-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- logger-3D-method -->
+
+    
+      <div id="method-i-ui-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ui=</span><span
+            class="method-args">(ui)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="ui-3D-doc">
+            
+            
+            
+          </div><!-- ui-3D-doc -->
+
+          
+          <div class="method-source-code" id="ui-3D-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ui=</span><span class="ruby-identifier">ui</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>)
+    <span class="ruby-ivar">@ui</span> = <span class="ruby-identifier">ui</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@ui</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">ui</span>)
+  <span class="ruby-keyword">end</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ui-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ui-3D-method -->
+
+    
+      <div id="method-i-ui_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ui_group</span><span
+            class="method-args">(resource, color = :cyan) { |ui| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="ui_group-doc">
+            
+            
+            
+          </div><!-- ui_group-doc -->
+
+          
+          <div class="method-source-code" id="ui_group-source">
+            <pre><span class="ruby-comment"># File lib/core/core.rb, line 90</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span> = <span class="ruby-value">:cyan</span>)
+  <span class="ruby-identifier">ui_resource</span> = <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span>
+  <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">colorize</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span>)
+  <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">ui</span>)
+  
+<span class="ruby-keyword">ensure</span>
+  <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">resource</span> = <span class="ruby-identifier">ui_resource</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ui_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ui_group-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
