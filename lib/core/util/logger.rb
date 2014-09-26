@@ -16,6 +16,9 @@ module Util
 # *Note*:  This is the first Nucleon library loaded so it can *NOT* depend on
 # any other library or core object.
 #
+# See also:
+# - Nucleon::Core (base logging capable object)
+#
 class Logger
 
   #*****************************************************************************
@@ -42,7 +45,7 @@ class Logger
   # * *Parameters*
   #
   # * *Returns*
-  #   - [Symbol]  Global log level; :debug, :info, :warn, :error
+  #   - [Symbol]  Global log level; *:debug*, *:info*, *:warn*, *:error*
   #
   # * *Errors*
   #
@@ -56,7 +59,7 @@ class Logger
   # Set current global log level
   #
   # * *Parameters*
-  #   - [Symbol] *level*  Global log level; :debug, :info, :warn, :error
+  #   - [Symbol] *level*  Global log level; *:debug*, *:info*, *:warn*, *:error*
   #
   # * *Returns*
   #   - [Void]  This method does not return a value
@@ -109,7 +112,7 @@ class Logger
   # Set the logging level for either all instantiated loggers or a specified logger.
   #
   # * *Parameters*
-  #   - [Symbol, String] *level*  Global log level; :debug, :info, :warn, :error
+  #   - [Symbol, String] *level*  Global log level; *:debug*, *:info*, *:warn*, *:error*
   #   - [Log4r] *logger*  Log4r instance to set log level or all if none provided
   #
   # * *Returns*
@@ -187,7 +190,7 @@ class Logger
   #
   # * *Parameters*
   #   - [Hash] *options*  Logger options
-  #     - [String] *resource*  Logger resource identifier (also serves as prefix)
+  #     - [String] *:resource*  Logger resource identifier (also serves as prefix)
   #     - [nil, Log4r] *:logger*  Log4r logger of nil if new one created
   #
   # * *Returns*
