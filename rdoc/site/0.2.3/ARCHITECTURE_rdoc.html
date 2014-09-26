@@ -237,14 +237,14 @@
   
 <h2 id="label-Nucleon+architecture+guide"><a href="Nucleon.html">Nucleon</a> architecture guide</h2>
 
-<p><a href="Nucleon.html">Nucleon</a> is built to provide an easy and minimal,
-yet extremely powerful,  framework for building applications that are
-highly distributable in nature.</p>
+<p><a href="Nucleon.html">Nucleon</a> is a framework that provides a simple
+foundation for building distributed, pluggable, and integrated
+applications.  It is both minimal, yet powerful.</p>
 
-<p>This project should be applicable to any Ruby application that needs to be 
-built in a pluggable, concurrent, and configurable fashion.  It is capable
-of  being used as pieces in existing programming models and it provides an 
-extremely simple core programming model that you can build on.</p>
+<p>This framework should be applicable to any Ruby application that needs to
+be  built in a pluggable, concurrent, and/or configurable fashion.  It can
+be used  as pieces in existing programming models and it provides an
+extremely simple  core programming model that you can build on.</p>
 
 <p>There are five major architectural goals of the project:</p>
 
@@ -253,9 +253,9 @@ extremely simple core programming model that you can build on.</p>
 <h4 id="label-Important+concept%3A++Objects+%3D%3D+Property+trees">Important concept:  Objects == Property trees</h4>
 
 <p>At the core of the <a href="Nucleon.html">Nucleon</a> framework is the
-configuration.  The configuration  is used for allowing us to store,
-lookup, and perform other operations (such  as merge) on our class data by
-treating a subset of class properties as a tree  based data structure.</p>
+configuration.  The configuration  is used to store, lookup, and perform
+other operations (such  as merge) on our class data by treating a subset of
+class properties as a tree  based data structure.</p>
 
 <p>Examples of <a href="Nucleon.html">Nucleon</a> configurations:</p>
 
@@ -436,7 +436,7 @@ easily localized and separated.</p>
 <span class="ruby-comment"># This would be defined within a namespaced load path.</span>
 <span class="ruby-comment"># More on that in the usage section.</span>
 <span class="ruby-comment"># </span>
-<span class="ruby-keyword">class</span> <span class="ruby-constant">MyExtension</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin_class</span>(:<span class="ruby-identifier">extension</span>)
+<span class="ruby-keyword">class</span> <span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Extension</span><span class="ruby-operator">::</span><span class="ruby-constant">MyExtension</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin_class</span>(:<span class="ruby-identifier">nucleon</span>, :<span class="ruby-identifier">extension</span>)
 
   <span class="ruby-ivar">@objs</span> = []
 
@@ -461,13 +461,14 @@ easily localized and separated.</p>
 <span class="ruby-comment">#---</span>
 
 <span class="ruby-comment"># Extension would normally be loaded via Nucleon.register(load_path)</span>
-<span class="ruby-comment"># No one overruled me, Whew!</span>
 
 <span class="ruby-identifier">myobj</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">config</span>(:<span class="ruby-identifier">myobj</span>, { :<span class="ruby-identifier">nucleon</span> =<span class="ruby-operator">&gt;</span> :<span class="ruby-identifier">is</span> })
 <span class="ruby-comment"># myobj = {</span>
 <span class="ruby-comment">#   :nucleon =&gt; :is,</span>
 <span class="ruby-comment">#   :awesome =&gt; true</span>
 <span class="ruby-comment"># }</span>
+
+<span class="ruby-comment"># No one overruled me, Whew!</span>
 
 <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">exec</span>(:<span class="ruby-identifier">record_object</span>, <span class="ruby-identifier">myobj</span>)
 </pre>
@@ -511,7 +512,7 @@ above.</p>
 href="Nucleon.html">Nucleon</a> we seek to create a system that can utilize
 the whole of the resources available to us in the most flexible way
 possible.  We should be able to write parallel capable objects without even
-thinking about it (ok, maybe a litle).  It should also be capable of
+thinking about it (ok, maybe a little).  It should also be capable of
 completely disabling the parallel execution and library inclusion to make
 it easier to troubleshoot and debug.</p>
 
