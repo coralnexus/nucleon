@@ -13,9 +13,6 @@ module Util
 # 3. Data transformations
 # 4. Other utilities
 #
-# *Note*:  This is the first Nucleon library loaded so it can *NOT* depend on
-# any other library or core object.
-#
 class Data
 
   #*****************************************************************************

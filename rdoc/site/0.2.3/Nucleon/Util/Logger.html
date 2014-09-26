@@ -88,8 +88,6 @@
     
     <li><a href="#method-i-error">#error</a>
     
-    <li><a href="#method-i-hook">#hook</a>
-    
     <li><a href="#method-i-info">#info</a>
     
     <li><a href="#method-i-inspect">#inspect</a>
@@ -298,6 +296,27 @@
 
   <div id="description" class="description">
     
+<h2 id="label-Logger"><a href="Logger.html">Logger</a></h2>
+
+<p>The <a href="Logger.html">Nucleon::Util::Logger</a> class defines a logging
+interface that wraps the Log4r gem interface to provide all <a
+href="../../Nucleon.html">Nucleon</a> classes with logging capabilities.</p>
+
+<p>Logging methods exposed:</p>
+<ol><li>
+<p><strong>error</strong>  Display all serious errors</p>
+</li><li>
+<p><strong>warn</strong>  Warnings that do not trigger an error</p>
+</li><li>
+<p><strong>info</strong>  Concise runtime information</p>
+</li><li>
+<p><strong>debug</strong>  Potentially verbose debug information</p>
+</li></ol>
+
+<p><strong>Note</strong>:  This is the first <a
+href="../../Nucleon.html">Nucleon</a> library loaded so it can
+<strong>NOT</strong> depend on any other library or core object.</p>
+
   </div><!-- description -->
 
   
@@ -324,7 +343,12 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><a href="Logger.html">Logger</a> resource name</p>
+</dd></dl>
+
+<p>This is the string identifier and logger prefix used when logging.</p>
         
         </div>
       </div>
@@ -350,20 +374,48 @@
         <div class="method-description">
           <div class="method-doc" id="add_logger-doc">
             
-            
+            <p>Add a instantiated logger to the global logger registry.</p>
+
+<p>TODO: Is there a better way to handle the outputter for more flexibility?</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol, String
+<dd>
+<p><strong>name</strong>  <a href="Logger.html">Logger</a> name</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Log4r
+<dd>
+<p><strong>logger</strong>  Log4r instance to register</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Logger.html#method-c-set_level">::set_level</a></p>
+</li></ul>
             
           </div><!-- add_logger-doc -->
 
           
           <div class="method-source-code" id="add_logger-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 57</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 155</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">add_logger</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">logger</span>)
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">outputters</span> = <span class="ruby-constant">Log4r</span><span class="ruby-operator">::</span><span class="ruby-constant">StdoutOutputter</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;console&#39;</span>)
-  
+
   <span class="ruby-identifier">level</span> = <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">level</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;off&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">level</span>
-  <span class="ruby-identifier">set_level</span>(<span class="ruby-identifier">level</span>, <span class="ruby-identifier">logger</span>)  
-      
-  <span class="ruby-identifier">@@loggers</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">logger</span>
+  <span class="ruby-identifier">set_level</span>(<span class="ruby-identifier">level</span>, <span class="ruby-identifier">logger</span>)
+
+  <span class="ruby-identifier">@@loggers</span>[<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">logger</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- add_logger-source -->
           
@@ -387,15 +439,32 @@
         <div class="method-description">
           <div class="method-doc" id="level-doc">
             
-            
+            <p>Check current global log level</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p>Global log level; :debug, :info, :warn, :error</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Logger.html#method-c-level-3D">::level=</a></p>
+</li></ul>
             
           </div><!-- level-doc -->
 
           
           <div class="method-source-code" id="level-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 14</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 52</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">level</span>
-  <span class="ruby-identifier">@@level</span>  
+  <span class="ruby-identifier">@@level</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- level-source -->
           
@@ -419,13 +488,37 @@
         <div class="method-description">
           <div class="method-doc" id="level-3D-doc">
             
-            
+            <p>Set current global log level</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><strong>level</strong>  Global log level; :debug, :info, :warn, :error</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Logger.html#method-c-level">::level</a></p>
+</li><li>
+<p><a href="Logger.html#method-c-set_level">::set_level</a></p>
+</li></ul>
             
           </div><!-- level-3D-doc -->
 
           
           <div class="method-source-code" id="level-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">level=</span><span class="ruby-identifier">level</span>
   <span class="ruby-identifier">@@level</span> = <span class="ruby-identifier">set_level</span>(<span class="ruby-identifier">level</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -451,13 +544,25 @@
         <div class="method-description">
           <div class="method-doc" id="loggers-doc">
             
-            
+            <p>Return a reference to all globally instantiated loggers</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>&lt;Symbol|Log4r&gt;
+<dd>
+<p>Collection of globally accessible loggers</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- loggers-doc -->
 
           
           <div class="method-source-code" id="loggers-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 24</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">loggers</span>
   <span class="ruby-identifier">@@loggers</span>
 <span class="ruby-keyword">end</span></pre>
@@ -483,21 +588,57 @@
         <div class="method-description">
           <div class="method-doc" id="new-doc">
             
-            
+            <p>Initialize a new logging object</p>
+
+<p>TODO: Figure out some way to make the logger system pluggable?</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="../../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  <a href="Logger.html">Logger</a> options</p>
+</dd></dl>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>resource</strong>  <a href="Logger.html">Logger</a> resource
+identifier (also serves as prefix)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, Log4r
+<dd>
+<p><strong>:logger</strong>  Log4r logger of nil if new one created</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Logger.html#method-i-logger-3D">logger=</a></p>
+</li><li>
+<p><a href="../Config.html#method-c-ensure">Nucleon::Config.ensure</a></p>
+</li></ul>
             
           </div><!-- new-doc -->
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 77</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 202</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
     <span class="ruby-identifier">options</span> = { <span class="ruby-value">:logger</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span> }
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
-  
+
   <span class="ruby-ivar">@resource</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:resource</span>, <span class="ruby-string">&#39;&#39;</span>)
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:logger</span>, <span class="ruby-keyword">false</span>)
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span> = <span class="ruby-identifier">config</span>[<span class="ruby-value">:logger</span>]
   <span class="ruby-keyword">else</span>
@@ -526,17 +667,45 @@
         <div class="method-description">
           <div class="method-doc" id="set_level-doc">
             
-            
+            <p>Set the logging level for either all instantiated loggers or a specified
+logger.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol, String
+<dd>
+<p><strong>level</strong>  Global log level; :debug, :info, :warn, :error</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Log4r
+<dd>
+<p><strong>logger</strong>  Log4r instance to set log level or all if none
+provided</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p>Return the current global log level</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Logger.html#method-c-level-3D">::level=</a></p>
+</li></ul>
             
           </div><!-- set_level-doc -->
 
           
           <div class="method-source-code" id="set_level-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 39</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 123</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_level</span>(<span class="ruby-identifier">level</span>, <span class="ruby-identifier">logger</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">level_sym</span> = <span class="ruby-identifier">level</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">level_id</span>  = <span class="ruby-identifier">level</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">upcase</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-identifier">loggers</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">registered_logger</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">@@loggers</span>[<span class="ruby-identifier">name</span>].<span class="ruby-identifier">level</span> = <span class="ruby-constant">Log4r</span>.<span class="ruby-identifier">const_get</span>(<span class="ruby-identifier">level_id</span>)
@@ -570,15 +739,37 @@
         <div class="method-description">
           <div class="method-doc" id="set_levels-doc">
             
-            
+            <p>Define a list of Log4r levels</p>
+
+<p>Due to how Log4r is built this can only happen at the very beginning of our
+execution run before any loggers are instantiated.</p>
+
+<p>This should never be called directly outside of this class.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol, String, Array&lt;Symbol, String&gt;
+<dd>
+<p><strong>levels</strong>  Available log levels</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- set_levels-doc -->
 
           
           <div class="method-source-code" id="set_levels-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 30</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 102</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set_levels</span>(*<span class="ruby-identifier">levels</span>)
-  <span class="ruby-identifier">levels</span> = <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">level</span><span class="ruby-operator">|</span> 
+  <span class="ruby-identifier">levels</span> = <span class="ruby-identifier">levels</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">level</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">level</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">upcase</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-constant">Log4r</span><span class="ruby-operator">::</span><span class="ruby-constant">Configurator</span>.<span class="ruby-identifier">custom_levels</span>(*<span class="ruby-identifier">levels</span>)
@@ -611,13 +802,35 @@
         <div class="method-description">
           <div class="method-doc" id="debug-doc">
             
-            
+            <p>Log a debug message</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Debug related message</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-quiet">Nucleon::Util::Console.quiet</a></p>
+</li></ul>
             
           </div><!-- debug-doc -->
 
           
           <div class="method-source-code" id="debug-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 118</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 279</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">debug</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">quiet</span>
     <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-identifier">message</span>)
@@ -645,13 +858,35 @@
         <div class="method-description">
           <div class="method-doc" id="error-doc">
             
-            
+            <p>Log an error message</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Error message</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-quiet">Nucleon::Util::Console.quiet</a></p>
+</li></ul>
             
           </div><!-- error-doc -->
 
           
           <div class="method-source-code" id="error-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 142</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 336</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">error</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">quiet</span>
     <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">message</span>)
@@ -667,40 +902,6 @@
       </div><!-- error-method -->
 
     
-      <div id="method-i-hook" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">hook</span><span
-            class="method-args">(message)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          <div class="method-doc" id="hook-doc">
-            
-            
-            
-          </div><!-- hook-doc -->
-
-          
-          <div class="method-source-code" id="hook-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 150</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">hook</span>(<span class="ruby-identifier">message</span>)
-  <span class="ruby-keyword">unless</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">quiet</span>
-    <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">hook</span>(<span class="ruby-identifier">message</span>)
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- hook-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- hook-method -->
-
-    
       <div id="method-i-info" class="method-detail ">
         
         <div class="method-heading">
@@ -713,13 +914,35 @@
         <div class="method-description">
           <div class="method-doc" id="info-doc">
             
-            
+            <p>Log an info message</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Concise informational message</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-quiet">Nucleon::Util::Console.quiet</a></p>
+</li></ul>
             
           </div><!-- info-doc -->
 
           
           <div class="method-source-code" id="info-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 126</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 298</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">info</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">quiet</span>
     <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-identifier">message</span>)
@@ -747,13 +970,25 @@
         <div class="method-description">
           <div class="method-doc" id="inspect-doc">
             
-            
+            <p>Return a string reference that identifies this logger</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Identification string</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- inspect-doc -->
 
           
           <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 94</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 226</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
   <span class="ruby-node">&quot;#&lt;#{self.class}: #{@resource}&gt;&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -779,13 +1014,35 @@
         <div class="method-description">
           <div class="method-doc" id="logger-3D-doc">
             
-            
+            <p>Set current logger object</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Log4r
+<dd>
+<p><strong>logger</strong>  Log4r object or string resource name</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Logger.html#method-c-add_logger">::add_logger</a></p>
+</li></ul>
             
           </div><!-- logger-3D-doc -->
 
           
           <div class="method-source-code" id="logger-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 105</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 253</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">logger=</span><span class="ruby-identifier">logger</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
     <span class="ruby-ivar">@resource</span> = <span class="ruby-identifier">logger</span>
@@ -793,7 +1050,7 @@
   <span class="ruby-keyword">else</span>
     <span class="ruby-ivar">@logger</span> = <span class="ruby-identifier">logger</span>
   <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">add_logger</span>(<span class="ruby-ivar">@resource</span>, <span class="ruby-ivar">@logger</span>) <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">loggers</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-ivar">@resource</span>)  
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">add_logger</span>(<span class="ruby-ivar">@resource</span>, <span class="ruby-ivar">@logger</span>) <span class="ruby-keyword">unless</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">loggers</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-ivar">@resource</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- logger-3D-source -->
           
@@ -817,13 +1074,35 @@
         <div class="method-description">
           <div class="method-doc" id="warn-doc">
             
-            
+            <p>Log a warning message (non error)</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>message</strong>  Warning message</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="../Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Console.html#method-c-quiet">Nucleon::Util::Console.quiet</a></p>
+</li></ul>
             
           </div><!-- warn-doc -->
 
           
           <div class="method-source-code" id="warn-source">
-            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 134</span>
+            <pre><span class="ruby-comment"># File lib/core/util/logger.rb, line 317</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">warn</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">quiet</span>
     <span class="ruby-ivar">@logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-identifier">message</span>)
