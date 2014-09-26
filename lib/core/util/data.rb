@@ -718,6 +718,9 @@ class Data
   #
   # * *Errors*
   #
+  # See also:
+  # - Hash#search
+  #
   def self.interpolate(value, scope, options = {})
 
     pattern = ( options.has_key?(:pattern) ? options[:pattern] : '\$(\{)?([a-zA-Z0-9\_\-]+)(\})?' )
