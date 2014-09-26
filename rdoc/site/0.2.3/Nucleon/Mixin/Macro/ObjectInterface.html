@@ -306,67 +306,67 @@
 
           
           <div class="method-source-code" id="object_collection-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/macro/object_interface.rb, line 22</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/macro/object_interface.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">object_collection</span>(<span class="ruby-identifier">_type</span>, <span class="ruby-identifier">_method_options</span> = {})
   <span class="ruby-identifier">_method_config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">_method_options</span>)
-  
+
   <span class="ruby-identifier">_plural</span>      = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:plural</span>, <span class="ruby-node">&quot;#{_type}s&quot;</span>).<span class="ruby-identifier">get</span>(<span class="ruby-value">:plural</span>)
-  
+
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">_ensure_proc</span> = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:ensure_proc</span>, <span class="ruby-keyword">false</span>)
     <span class="ruby-identifier">_ensure_proc</span> = <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span> = {}<span class="ruby-operator">|</span> <span class="ruby-identifier">options</span> }
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">_delete_proc</span> = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:delete_proc</span>)
   <span class="ruby-identifier">_search_proc</span> = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:search_proc</span>)
-  
+
   <span class="ruby-identifier">@@object_types</span>[<span class="ruby-identifier">_type</span>] = <span class="ruby-identifier">_method_config</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Creating new object collection #{_type} with: #{_method_config.inspect}&quot;</span>)
-  
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
-  
+
   <span class="ruby-identifier">object_utilities</span>
-   
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: #{_type}_config&quot;</span>)
-  
+
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}_config&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>( <span class="ruby-identifier">name</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], {}) <span class="ruby-operator">:</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">_plural</span>, {}) )
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: #{_type}_setting&quot;</span>)
-  
+
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span> ], <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>)
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: #{_plural}&quot;</span>)
-  
+
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_plural}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;init_#{_plural}&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>(<span class="ruby-identifier">_plural</span>, {}).<span class="ruby-identifier">empty?</span>
     <span class="ruby-identifier">_get</span>(<span class="ruby-identifier">_plural</span>, {})
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: init_#{_plural}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;init_#{_plural}&quot;</span> <span class="ruby-keyword">do</span>
     <span class="ruby-identifier">data</span> = <span class="ruby-identifier">hash</span>(<span class="ruby-identifier">_search_proc</span>.<span class="ruby-identifier">call</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">_search_proc</span>
     <span class="ruby-identifier">data</span> = <span class="ruby-identifier">get_hash</span>(<span class="ruby-identifier">_plural</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">data</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing object data: #{data.inspect}&quot;</span>)
-    
+
     <span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">!=</span> <span class="ruby-value">:settings</span>
         <span class="ruby-identifier">options</span>[<span class="ruby-value">:object_container</span>] = <span class="ruby-identifier">myself</span>
-        
+
         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing object: #{name}&quot;</span>)
-        
+
         <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">_ensure_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
         <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">obj</span>)
       <span class="ruby-keyword">end</span>
@@ -374,112 +374,112 @@
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: set_#{_plural}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_plural}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span> = {}<span class="ruby-operator">|</span>
     <span class="ruby-identifier">data</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">data</span>).<span class="ruby-identifier">export</span>
-  
+
     <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;clear_#{_plural}&quot;</span>)
     <span class="ruby-identifier">set</span>(<span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">data</span>)
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{_plural}&quot;</span>)
-  
+
     <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">options</span>[<span class="ruby-value">:object_container</span>] = <span class="ruby-identifier">myself</span>
-      
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{_type} #{name}: #{options.inspect}&quot;</span>)
-      
+
       <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">_ensure_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
       <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">obj</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: #{_type}&quot;</span>)
-  
+
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-keyword">nil</span>).<span class="ruby-identifier">nil?</span>        
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-keyword">nil</span>).<span class="ruby-identifier">nil?</span>
       <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-keyword">nil</span>)
-       
+
       <span class="ruby-keyword">unless</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">nil?</span>
         <span class="ruby-identifier">options</span>[<span class="ruby-value">:object_container</span>] = <span class="ruby-identifier">myself</span>
-        
+
         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing object: #{name}&quot;</span>)
-        
+
         <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">_ensure_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
         <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">obj</span>)
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ])
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: set_#{_type}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span> = {}<span class="ruby-operator">|</span>
     <span class="ruby-identifier">options</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">export</span>
-    
+
     <span class="ruby-identifier">set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">options</span>)
-  
+
     <span class="ruby-identifier">options</span>[<span class="ruby-value">:object_container</span>] = <span class="ruby-identifier">myself</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{_type} #{_name}: #{options.inspect}&quot;</span>)
-    
-    <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">_ensure_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>) 
+
+    <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">_ensure_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>)
     <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">obj</span>)
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: set_#{_type}_setting&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span>, <span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{name} property #{property} to #{value.inspect}&quot;</span>)
     <span class="ruby-identifier">set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span> ], <span class="ruby-identifier">value</span>)
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: delete_#{_type}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;delete_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">obj</span> = <span class="ruby-identifier">send</span>(<span class="ruby-identifier">_type</span>, <span class="ruby-identifier">name</span>)
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Deleting #{_type} #{name}&quot;</span>)
-  
+
     <span class="ruby-identifier">delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ])
     <span class="ruby-identifier">_delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span> ])
-  
+
     <span class="ruby-identifier">_delete_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">obj</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">_delete_proc</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: delete_#{_type}_setting&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;delete_#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Deleting #{name} property: #{property}&quot;</span>)
-    
+
     <span class="ruby-identifier">delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span> ])
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: clear_#{_plural}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;clear_#{_plural}&quot;</span> <span class="ruby-keyword">do</span>
     <span class="ruby-identifier">get</span>(<span class="ruby-identifier">_plural</span>).<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Clearing #{_type} #{name}&quot;</span>)
-      
+
       <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;delete_#{_type}&quot;</span>, <span class="ruby-identifier">name</span>)
     <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>    
-      
+  <span class="ruby-keyword">end</span>
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining object interface method: search_#{_type}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;search_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">extra_groups</span> = []<span class="ruby-operator">|</span>
@@ -515,87 +515,87 @@
 
           
           <div class="method-source-code" id="object_utilities-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/macro/object_interface.rb, line 206</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/macro/object_interface.rb, line 200</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">object_utilities</span>
-  
+
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:each_object_type</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: each_object_type&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-value">:each_object_type</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">object_types</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">filter_proc</span> = <span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">code</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">object_types</span> = <span class="ruby-identifier">@@object_types</span>.<span class="ruby-identifier">keys</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">object_types</span>
       <span class="ruby-identifier">object_types</span> = [ <span class="ruby-identifier">object_types</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">object_types</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
-    
+
       <span class="ruby-identifier">object_types</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing object type: #{type}&quot;</span>)
-        
+
         <span class="ruby-keyword">unless</span> <span class="ruby-identifier">filter_proc</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">filter_proc</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">@@object_types</span>[<span class="ruby-identifier">type</span>])
           <span class="ruby-identifier">plural</span> = <span class="ruby-identifier">@@object_types</span>[<span class="ruby-identifier">type</span>][<span class="ruby-value">:plural</span>]
-          
+
           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Passing: #{@@object_types[type].inspect}&quot;</span>)
           <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">@@object_types</span>[<span class="ruby-identifier">type</span>])
         <span class="ruby-keyword">end</span>
-      <span class="ruby-keyword">end</span>  
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-  
-  <span class="ruby-comment">#---</span>
-  
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:each_object</span>
-    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: each_object&quot;</span>)
-    
-    <span class="ruby-identifier">define_method</span> <span class="ruby-value">:each_object</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">object_types</span> = <span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">code</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">each_object_type</span>(<span class="ruby-identifier">object_types</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing object type #{type}/#{plural} with: #{options.inspect}&quot;</span>)
-        
-        <span class="ruby-identifier">send</span>(<span class="ruby-identifier">plural</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">obj</span><span class="ruby-operator">|</span>
-          <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing object: #{name}&quot;</span>)
-          <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">obj</span>)  
-        <span class="ruby-keyword">end</span> 
-      <span class="ruby-keyword">end</span>  
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-         
-  <span class="ruby-comment">#---</span>
-  
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:init_objects</span>
-    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: init_objects&quot;</span>)
-    
-    <span class="ruby-identifier">define_method</span> <span class="ruby-value">:init_objects</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">object_types</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">filter_proc</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Initializing object collection&quot;</span>)
-      
-      <span class="ruby-identifier">each_object_type</span>(<span class="ruby-identifier">object_types</span>, <span class="ruby-identifier">filter_proc</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;init_#{plural}&quot;</span>)  
-      <span class="ruby-keyword">end</span>   
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-  
-  <span class="ruby-comment">#---</span>
-  
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:clear_objects</span>
-    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: clear_objects&quot;</span>)
-    
-    <span class="ruby-identifier">define_method</span> <span class="ruby-value">:clear_objects</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">object_types</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">filter_proc</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Clearing object collection&quot;</span>)
-      
-      <span class="ruby-identifier">each_object_type</span>(<span class="ruby-identifier">object_types</span>, <span class="ruby-identifier">filter_proc</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;clear_#{plural}&quot;</span>)  
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
+  <span class="ruby-comment">#---</span>
+
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:each_object</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: each_object&quot;</span>)
+
+    <span class="ruby-identifier">define_method</span> <span class="ruby-value">:each_object</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">object_types</span> = <span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">code</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">each_object_type</span>(<span class="ruby-identifier">object_types</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing object type #{type}/#{plural} with: #{options.inspect}&quot;</span>)
+
+        <span class="ruby-identifier">send</span>(<span class="ruby-identifier">plural</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">obj</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing object: #{name}&quot;</span>)
+          <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">obj</span>)
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#---</span>
+
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:init_objects</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: init_objects&quot;</span>)
+
+    <span class="ruby-identifier">define_method</span> <span class="ruby-value">:init_objects</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">object_types</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">filter_proc</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Initializing object collection&quot;</span>)
+
+      <span class="ruby-identifier">each_object_type</span>(<span class="ruby-identifier">object_types</span>, <span class="ruby-identifier">filter_proc</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;init_#{plural}&quot;</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-comment">#---</span>
+
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:clear_objects</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: clear_objects&quot;</span>)
+
+    <span class="ruby-identifier">define_method</span> <span class="ruby-value">:clear_objects</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">object_types</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">filter_proc</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Clearing object collection&quot;</span>)
+
+      <span class="ruby-identifier">each_object_type</span>(<span class="ruby-identifier">object_types</span>, <span class="ruby-identifier">filter_proc</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;clear_#{plural}&quot;</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
 
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:search_object</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: search_object&quot;</span>)
-      
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-value">:search_object</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">obj_config</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">extra_groups</span> = []<span class="ruby-operator">|</span>
       <span class="ruby-identifier">obj_config</span> = <span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">load</span>(<span class="ruby-constant">Marshal</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">obj_config</span>))
-              
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Searching object properties: #{obj_config.inspect}&quot;</span>)
-      
+
       <span class="ruby-comment"># TODO: Figure out a way to effectively cache this search operation</span>
       <span class="ruby-comment">#------------------------------------------------------------------</span>
-      
+
       <span class="ruby-identifier">add_settings</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">final_options</span>, <span class="ruby-identifier">groups</span><span class="ruby-operator">|</span>
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">groups</span>
           <span class="ruby-identifier">local_options</span> = {}
@@ -604,85 +604,85 @@
               <span class="ruby-keyword">if</span> <span class="ruby-identifier">group_options</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:settings</span>)
                 <span class="ruby-identifier">group_options</span> = <span class="ruby-identifier">add_settings</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">group_options</span>, <span class="ruby-identifier">group_options</span>[<span class="ruby-value">:settings</span>])
               <span class="ruby-keyword">end</span>
-              <span class="ruby-identifier">local_options</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">merge</span>([ <span class="ruby-identifier">local_options</span>, <span class="ruby-identifier">group_options</span> ], <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>)  
+              <span class="ruby-identifier">local_options</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">merge</span>([ <span class="ruby-identifier">local_options</span>, <span class="ruby-identifier">group_options</span> ], <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>)
             <span class="ruby-keyword">end</span>
           <span class="ruby-keyword">end</span>
           <span class="ruby-keyword">unless</span> <span class="ruby-identifier">local_options</span>.<span class="ruby-identifier">empty?</span>
-            <span class="ruby-identifier">final_options</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">merge</span>([ <span class="ruby-identifier">local_options</span>, <span class="ruby-identifier">final_options</span> ], <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>)   
+            <span class="ruby-identifier">final_options</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">merge</span>([ <span class="ruby-identifier">local_options</span>, <span class="ruby-identifier">final_options</span> ], <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>)
           <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span>
         <span class="ruby-identifier">final_options</span>
       <span class="ruby-keyword">end</span>
-      
+
       <span class="ruby-comment">#---</span>
-      
+
       <span class="ruby-identifier">settings</span> = {}
-  
+
       <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">keys</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
       <span class="ruby-identifier">temp</span> = <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">dup</span>
-       
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Searching object keys: #{keys.inspect}&quot;</span>)
-        
-      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Searching specialized settings&quot;</span>)      
+
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Searching specialized settings&quot;</span>)
       <span class="ruby-keyword">until</span> <span class="ruby-identifier">temp</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-keyword">do</span>
         <span class="ruby-identifier">settings</span> = <span class="ruby-identifier">add_settings</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">settings</span>, <span class="ruby-identifier">obj_config</span>.<span class="ruby-identifier">get</span>([ <span class="ruby-identifier">temp</span>, <span class="ruby-value">:settings</span> ]))
         <span class="ruby-identifier">temp</span>.<span class="ruby-identifier">pop</span>
       <span class="ruby-keyword">end</span>
-        
-      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Specialized settings found: #{settings.inspect}&quot;</span>) 
-      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Searching general settings&quot;</span>) 
-      
+
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Specialized settings found: #{settings.inspect}&quot;</span>)
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Searching general settings&quot;</span>)
+
       <span class="ruby-identifier">settings</span> = <span class="ruby-identifier">add_settings</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">settings</span>, [ <span class="ruby-identifier">obj_config</span>.<span class="ruby-identifier">get_array</span>(<span class="ruby-value">:settings</span>), <span class="ruby-identifier">extra_groups</span> ].<span class="ruby-identifier">flatten</span>)
-      
+
       <span class="ruby-comment">#------------------------------------------------------------------</span>
-      <span class="ruby-comment"># TODO: Cache the above!!! </span>
-        
+      <span class="ruby-comment"># TODO: Cache the above!!!</span>
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Final settings found: #{settings.inspect}&quot;</span>)
-      
+
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">settings</span>.<span class="ruby-identifier">empty?</span>
-        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">obj_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>)  
+        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">obj_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>)
       <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">final_config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">merge</span>([ 
-          <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">clean</span>(<span class="ruby-identifier">settings</span>), 
-          <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">clean</span>(<span class="ruby-identifier">obj_config</span>.<span class="ruby-identifier">export</span>) 
+        <span class="ruby-identifier">final_config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">merge</span>([
+          <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">clean</span>(<span class="ruby-identifier">settings</span>),
+          <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">clean</span>(<span class="ruby-identifier">obj_config</span>.<span class="ruby-identifier">export</span>)
         ], <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>))
         <span class="ruby-identifier">value</span> = <span class="ruby-identifier">final_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>)
-         
+
         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Final configuration: #{final_config.export.inspect}&quot;</span>)
       <span class="ruby-keyword">end</span>
-        
+
       <span class="ruby-identifier">value</span> = <span class="ruby-identifier">default</span> <span class="ruby-keyword">if</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">undef?</span>(<span class="ruby-identifier">value</span>)
-      
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Final value found (format: #{format.inspect}): #{value.inspect}&quot;</span>)
       <span class="ruby-identifier">filter</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">format</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
   <span class="ruby-comment"># Configuration loading saving</span>
-  
+
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:load</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: load&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-value">:load</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">options</span> = {}<span class="ruby-operator">|</span>
-      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Loading configuration if possible&quot;</span>) 
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Loading configuration if possible&quot;</span>)
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:load</span>)
-        <span class="ruby-identifier">clear_objects</span>  
+        <span class="ruby-identifier">clear_objects</span>
         <span class="ruby-identifier">config</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">options</span>)
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:save</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining object utility method: save&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-value">:save</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">options</span> = {}<span class="ruby-operator">|</span>
-      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Saving configuration if possible&quot;</span>) 
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Saving configuration if possible&quot;</span>)
       <span class="ruby-identifier">config</span>.<span class="ruby-identifier">save</span>(<span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:save</span>)
     <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>    
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- object_utilities-source -->
           

@@ -316,104 +316,104 @@
 
           
           <div class="method-source-code" id="plugin_collection-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/macro/plugin_interface.rb, line 21</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/macro/plugin_interface.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_collection</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_type</span>, <span class="ruby-identifier">_method_options</span> = {})
   <span class="ruby-identifier">_method_config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">_method_options</span>)
   <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">set</span>(<span class="ruby-value">:plugin</span>, <span class="ruby-keyword">true</span>)
-  
+
   <span class="ruby-identifier">_plural</span>          = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:plural</span>, <span class="ruby-node">&quot;#{_type}s&quot;</span>).<span class="ruby-identifier">get</span>(<span class="ruby-value">:plural</span>)
   <span class="ruby-identifier">_search_proc</span>     = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:search_proc</span>)
   <span class="ruby-identifier">_single_instance</span> = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:single_instance</span>, <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">_plugin_type</span>     = <span class="ruby-identifier">_method_config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:plugin_type</span>, <span class="ruby-identifier">_type</span>)
-  
+
   <span class="ruby-identifier">@@object_types</span>[<span class="ruby-identifier">_type</span>] = <span class="ruby-identifier">_method_config</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Creating new plugin collection #{_namespace} #{_type}&quot;</span>)
-  
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
-  
+
   <span class="ruby-identifier">object_utilities</span>
-    
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">respond_to?</span> <span class="ruby-value">:each_plugin</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Defining plugin interface method: each_plugin&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-value">:each_plugin</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">plugin_types</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">providers</span> = <span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">code</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">providers</span> = [ <span class="ruby-identifier">providers</span> ] <span class="ruby-keyword">if</span> <span class="ruby-identifier">providers</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">providers</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
-      
+
       <span class="ruby-identifier">filter_proc</span> = <span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">config</span><span class="ruby-operator">|</span> <span class="ruby-identifier">config</span>[<span class="ruby-value">:plugin</span>] }
       <span class="ruby-identifier">each_object_type</span>(<span class="ruby-identifier">plugin_types</span>, <span class="ruby-identifier">filter_proc</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">plural</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing plugin type #{type}/#{plural} with: #{options.inspect}&quot;</span>)
-        
+
         <span class="ruby-identifier">send</span>(<span class="ruby-identifier">plural</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">plugins</span><span class="ruby-operator">|</span>
           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing plugin provider: #{provider}&quot;</span>)
-          
+
           <span class="ruby-keyword">unless</span> <span class="ruby-identifier">providers</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">providers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">provider</span>)
             <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugins</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
               <span class="ruby-identifier">plugins</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">|</span>
                 <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing plugin: #{name}&quot;</span>)
-                <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">plugin</span>)  
+                <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">plugin</span>)
               <span class="ruby-keyword">end</span>
             <span class="ruby-keyword">else</span>
               <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Processing plugin: #{plugin.plugin_name}&quot;</span>)
               <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">plugin_name</span>, <span class="ruby-identifier">plugin</span>)
             <span class="ruby-keyword">end</span>
           <span class="ruby-keyword">end</span>
-        <span class="ruby-keyword">end</span> 
-      <span class="ruby-keyword">end</span>  
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining plugin interface method: each_#{_type}&quot;</span>)
-  
+
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;each_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">providers</span> = <span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">code</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">each_plugin</span>(<span class="ruby-identifier">_type</span>, <span class="ruby-identifier">providers</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">plugin</span>)    
+      <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">plugin</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining plugin interface method: #{_plural}&quot;</span>)
-  
+
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_plural}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">keys</span> = ( <span class="ruby-identifier">provider</span> <span class="ruby-operator">?</span> [ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ] <span class="ruby-operator">:</span> <span class="ruby-identifier">_plural</span> )
     <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;init_#{_plural}&quot;</span>, <span class="ruby-identifier">provider</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>(<span class="ruby-identifier">keys</span>, {}).<span class="ruby-identifier">empty?</span>
     <span class="ruby-identifier">_get</span>(<span class="ruby-identifier">keys</span>, {})
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining plugin interface method: init_#{_plural}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;init_#{_plural}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">providers</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">data</span> = <span class="ruby-identifier">hash</span>(<span class="ruby-identifier">_search_proc</span>.<span class="ruby-identifier">call</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">_search_proc</span>
     <span class="ruby-identifier">data</span> = <span class="ruby-identifier">get_hash</span>(<span class="ruby-identifier">_plural</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">data</span>
-    
+
     <span class="ruby-identifier">providers</span> = [ <span class="ruby-identifier">providers</span> ] <span class="ruby-keyword">if</span> <span class="ruby-identifier">providers</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">providers</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
     <span class="ruby-identifier">providers</span>.<span class="ruby-identifier">collect!</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">elem</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">to_sym</span> } <span class="ruby-keyword">if</span> <span class="ruby-identifier">providers</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing #{_plugin_type} plugin data: #{data.inspect}&quot;</span>)
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Providers: #{providers.inspect}&quot;</span>)
-          
+
     <span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">instance_settings</span><span class="ruby-operator">|</span>
       <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">providers</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">providers</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">provider</span>)
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">_single_instance</span>
           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing single instance plugin: #{instance_settings.inspect}&quot;</span>)
-          
+
           <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">instance_settings</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
-        
+
           <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-identifier">plugin</span>)
         <span class="ruby-keyword">else</span>
           <span class="ruby-identifier">instance_settings</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
             <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">!=</span> <span class="ruby-value">:settings</span>
               <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing plugin #{_plugin_type} #{name}: #{options.inspect}&quot;</span>)
-              
+
               <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>, <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
-              
+
               <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">plugin</span>)
             <span class="ruby-keyword">end</span>
           <span class="ruby-keyword">end</span>
@@ -423,44 +423,44 @@
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining plugin interface method: set_#{_plural}&quot;</span>)
 
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_plural}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span> = {}<span class="ruby-operator">|</span>
     <span class="ruby-identifier">data</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">data</span>).<span class="ruby-identifier">export</span>
-  
+
     <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;clear_#{_plural}&quot;</span>)
     <span class="ruby-identifier">set</span>(<span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">data</span>)
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{_plural}&quot;</span>)
-  
+
     <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">instance_settings</span><span class="ruby-operator">|</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">_single_instance</span>
         <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting single #{_plugin_type} #{provider}: #{instance_settings.inspect}&quot;</span>)
-        
-        <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">instance_settings</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))              
-        
-        <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-identifier">plugin</span>)  
+
+        <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">instance_settings</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
+
+        <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-identifier">plugin</span>)
       <span class="ruby-keyword">else</span>
         <span class="ruby-identifier">instance_settings</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span><span class="ruby-operator">|</span>
           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{_plugin_type} #{provider} #{name}: #{options.inspect}&quot;</span>)
-          
+
           <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>, <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
-          
-          <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">plugin</span>)  
+
+          <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">plugin</span>)
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment">#---</span>
-  
+
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining plugin interface method: clear_#{_plural}&quot;</span>)
-  
+
   <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;clear_#{_plural}&quot;</span> <span class="ruby-keyword">do</span>
     <span class="ruby-identifier">get</span>(<span class="ruby-identifier">_plural</span>).<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Clearing #{_type} #{provider}&quot;</span>)
-      
+
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">_single_instance</span>
         <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;delete_#{_type}&quot;</span>, <span class="ruby-identifier">provider</span>)
       <span class="ruby-keyword">else</span>
@@ -472,202 +472,202 @@
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">_single_instance</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: #{_type}_config&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}_config&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">_plural</span> ]
       <span class="ruby-identifier">keys</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">provider</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">provider</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>, {}))
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: #{_type}_setting&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">property</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">property</span> ], <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>)
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: #{_type}&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-keyword">nil</span>).<span class="ruby-identifier">nil?</span>        
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-keyword">nil</span>).<span class="ruby-identifier">nil?</span>
         <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-keyword">nil</span>)
-       
+
         <span class="ruby-keyword">unless</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">nil?</span>
           <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
-      
+
           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing plugin #{_plugin_type} #{provider}: #{options.inspect}&quot;</span>)
-      
+
           <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-identifier">plugin</span>)
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
       <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ])
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: set_#{_type}&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {}<span class="ruby-operator">|</span>
       <span class="ruby-identifier">options</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">export</span>
-    
+
       <span class="ruby-identifier">set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-identifier">options</span>)
-  
+
       <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
-      
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting single #{_plugin_type} #{provider}: #{options.inspect}&quot;</span>)
-      
+
       <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ], <span class="ruby-identifier">plugin</span>)
       <span class="ruby-identifier">plugin</span>
     <span class="ruby-keyword">end</span>
-        
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: set_#{_type}_setting&quot;</span>)
 
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">property</span>, <span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting single #{provider} property #{property} to #{value.inspect}&quot;</span>)
       <span class="ruby-identifier">set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">property</span> ], <span class="ruby-identifier">value</span>)
     <span class="ruby-keyword">end</span>
-  
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: delete_#{_type}&quot;</span>)
 
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;delete_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">remove_plugin</span> = <span class="ruby-keyword">true</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">plugin</span> = <span class="ruby-identifier">send</span>(<span class="ruby-identifier">_type</span>, <span class="ruby-identifier">provider</span>)
-      
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Deleting single #{_type} #{provider}&quot;</span>)
-  
+
       <span class="ruby-identifier">delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ])
       <span class="ruby-identifier">_delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span> ])
-  
+
       <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">remove_plugin</span>(<span class="ruby-identifier">plugin</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">remove_plugin</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-keyword">end</span>
 
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: delete_#{_type}_setting&quot;</span>)
 
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;delete_#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">property</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Deleting single #{provider} property: #{property}&quot;</span>)
       <span class="ruby-identifier">delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">property</span> ])
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining single instance plugin interface method: search_#{_type}&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;search_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">extra_groups</span> = []<span class="ruby-operator">|</span>
       <span class="ruby-identifier">plugin_config</span> = <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{_type}_config&quot;</span>, <span class="ruby-identifier">provider</span>)
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Searching single #{_type} #{provider}: #{plugin_config.inspect}&quot;</span>)
-      
-      <span class="ruby-identifier">search_object</span>(<span class="ruby-identifier">plugin_config</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>, <span class="ruby-identifier">extra_groups</span>)      
+
+      <span class="ruby-identifier">search_object</span>(<span class="ruby-identifier">plugin_config</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>, <span class="ruby-identifier">extra_groups</span>)
     <span class="ruby-keyword">end</span>
-    
+
   <span class="ruby-comment">#---------------------------------------------------------------------------</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: #{_type}_config&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}_config&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">name</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">keys</span> = [ <span class="ruby-identifier">_plural</span> ]
       <span class="ruby-identifier">keys</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">provider</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">provider</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-identifier">keys</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">name</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">get</span>(<span class="ruby-identifier">keys</span>, {}))
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: #{_type}_setting&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span>, <span class="ruby-identifier">default</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span> ], <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>)
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: #{_type}&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span><span class="ruby-operator">|</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-keyword">nil</span>).<span class="ruby-identifier">nil?</span>        
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-keyword">nil</span>).<span class="ruby-identifier">nil?</span>
         <span class="ruby-identifier">options</span> = <span class="ruby-identifier">get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-keyword">nil</span>)
-       
+
         <span class="ruby-keyword">unless</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">nil?</span>
           <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>, <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
-      
+
           <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing plugin #{_plugin_type} #{provider}: #{options.inspect}&quot;</span>)
-      
+
           <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">plugin</span>)
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
       <span class="ruby-identifier">_get</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ])
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: set_#{_type}&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span> = {}<span class="ruby-operator">|</span>
       <span class="ruby-identifier">options</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">export</span>
-    
+
       <span class="ruby-identifier">set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">options</span>)
       <span class="ruby-identifier">plugin</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">_namespace</span>, <span class="ruby-identifier">_plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>, <span class="ruby-value">:meta</span> =<span class="ruby-operator">&gt;</span> { <span class="ruby-value">:parent</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }, <span class="ruby-value">:new</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }))
-      
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{_plugin_type} #{provider} #{name}: #{options.inspect}&quot;</span>)
-      
+
       <span class="ruby-identifier">_set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">plugin</span>)
       <span class="ruby-identifier">plugin</span>
     <span class="ruby-keyword">end</span>
-        
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: set_#{_type}_setting&quot;</span>)
 
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;set_#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span>, <span class="ruby-identifier">value</span> = <span class="ruby-keyword">nil</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Setting #{provider} #{name} property #{property} to #{value.inspect}&quot;</span>)
       <span class="ruby-identifier">set</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span> ], <span class="ruby-identifier">value</span>)
     <span class="ruby-keyword">end</span>
-  
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: delete_#{_type}&quot;</span>)
 
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;delete_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">remove_plugin</span> = <span class="ruby-keyword">true</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">plugin</span> = <span class="ruby-identifier">send</span>(<span class="ruby-identifier">_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>)
-      
+
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Deleting #{_type} #{provider} #{name}&quot;</span>)
-  
+
       <span class="ruby-identifier">delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ])
       <span class="ruby-identifier">_delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span> ])
-  
+
       <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">remove_plugin</span>(<span class="ruby-identifier">plugin</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">remove_plugin</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-keyword">end</span>
 
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: delete_#{_type}_setting&quot;</span>)
 
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;delete_#{_type}_setting&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Deleting #{provider} #{name} property: #{property}&quot;</span>)
       <span class="ruby-identifier">delete</span>([ <span class="ruby-identifier">_plural</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">property</span> ])
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-comment">#---</span>
-    
+
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Defining multi instance plugin interface method: search_#{_type}&quot;</span>)
-    
+
     <span class="ruby-identifier">define_method</span> <span class="ruby-node">&quot;search_#{_type}&quot;</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">extra_groups</span> = []<span class="ruby-operator">|</span>
       <span class="ruby-identifier">plugin_config</span> = <span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;#{_type}_config&quot;</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>)
       <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Searching #{_type} #{provider} #{name}: #{plugin_config.inspect}&quot;</span>)
-      
-      <span class="ruby-identifier">search_object</span>(<span class="ruby-identifier">plugin_config</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>, <span class="ruby-identifier">extra_groups</span>)      
+
+      <span class="ruby-identifier">search_object</span>(<span class="ruby-identifier">plugin_config</span>, <span class="ruby-identifier">keys</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>, <span class="ruby-identifier">extra_groups</span>)
     <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>  
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- plugin_collection-source -->
           

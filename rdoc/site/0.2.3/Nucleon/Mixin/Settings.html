@@ -314,7 +314,7 @@
 
           
           <div class="method-source-code" id="delete_setting-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 41</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_setting</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">key</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">delete</span>([ <span class="ruby-value">:settings</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">key</span> ])
 <span class="ruby-keyword">end</span></pre>
@@ -346,7 +346,7 @@
 
           
           <div class="method-source-code" id="delete_settings-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 23</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_settings</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">delete</span>([ <span class="ruby-value">:settings</span>, <span class="ruby-identifier">name</span> ])
 <span class="ruby-keyword">end</span></pre>
@@ -378,7 +378,7 @@
 
           
           <div class="method-source-code" id="set_setting-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_setting</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span> = <span class="ruby-string">&#39;&#39;</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">set</span>([ <span class="ruby-value">:settings</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">key</span> ], <span class="ruby-identifier">value</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -410,7 +410,7 @@
 
           
           <div class="method-source-code" id="set_settings-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 11</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_settings</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">settings</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">set</span>([ <span class="ruby-value">:settings</span>, <span class="ruby-identifier">name</span> ], <span class="ruby-identifier">settings</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -442,7 +442,7 @@
 
           
           <div class="method-source-code" id="setting-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 29</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">setting</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">default</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">format</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get</span>([ <span class="ruby-value">:settings</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">key</span> ], <span class="ruby-identifier">default</span>, <span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -474,7 +474,7 @@
 
           
           <div class="method-source-code" id="settings-source">
-            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 11</span>
+            <pre><span class="ruby-comment"># File lib/core/mixin/settings.rb, line 5</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">settings</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">get_hash</span>([ <span class="ruby-value">:settings</span>, <span class="ruby-identifier">name</span> ])
 <span class="ruby-keyword">end</span></pre>

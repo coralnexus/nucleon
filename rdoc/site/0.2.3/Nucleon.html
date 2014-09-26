@@ -334,26 +334,17 @@
 
   <div id="description" class="description">
     
-<p>Should be included via include</p>
+<p><a href="Nucleon.html">Nucleon</a> top level module</p>
 
-<p>include <a href="Nucleon/Mixin/Colors.html">Mixin::Colors</a></p>
+<p>Any methods contained in this file are purely for enabling early checks or
+operations needed for loading <a href="Nucleon.html">Nucleon</a>
+effectively?</p>
 
-<p>Should be included via extend</p>
+<p>Most methods to the <a href="Nucleon.html">Nucleon</a> module should be
+loaded via the <a href="Nucleon/Facade.html">Nucleon::Facade</a>.</p>
 
-<p>extend <a
-href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a></p>
-
-<p>Should be included via include</p>
-
-<p>include <a href="Nucleon/Mixin/Settings.html">Mixin::Settings</a></p>
-
-<p>Should be included via include</p>
-
-<p>include <a href="Nucleon/Mixin/SubConfig.html">Mixin::SubConfig</a></p>
-
-<p>*******************************************************************************</p>
-
-<pre>Environment checks and debugging</pre>
+<p><a href="Nucleon/Facade.html">Nucleon::Facade</a> extends <a
+href="Nucleon.html">Nucleon</a></p>
 
   </div><!-- description -->
 
@@ -387,13 +378,37 @@ href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a
         <div class="method-description">
           <div class="method-doc" id="VERSION-doc">
             
-            
+            <p>Get currently loaded versioin of <a href="Nucleon.html">Nucleon</a></p>
+
+<p>This method loads from the <a
+href="Nucleon.html#method-c-VERSION">::VERSION</a> file in the top level
+directory.  This file gets automatically updated as we build and release
+new versions.</p>
+
+<p>See the Rakefile and the Coral Toolbox project at:</p>
+
+<p><a
+href="http://github.com/coralnexus/coral-toolbox">github.com/coralnexus/coral-toolbox</a></p>
+
+<p><strong>Note</strong>: This process might change in the near future.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Currently loaded version of <a href="Nucleon.html">Nucleon</a> framework</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Nucleon/Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- VERSION-doc -->
 
           
           <div class="method-source-code" id="VERSION-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 63</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 158</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-constant">VERSION</span>
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword">__FILE__</span>), <span class="ruby-string">&#39;..&#39;</span>, <span class="ruby-string">&#39;VERSION&#39;</span>))
 <span class="ruby-keyword">end</span></pre>
@@ -419,13 +434,25 @@ href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a
         <div class="method-description">
           <div class="method-doc" id="console_lock-doc">
             
-            
+            <p>Get the global console Mutex for synchronized console operations.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Mutex
+<dd>
+<p>Console Mutex object</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Nucleon/Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- console_lock-doc -->
 
           
           <div class="method-source-code" id="console_lock-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 175</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 364</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">console_lock</span>
   <span class="ruby-identifier">@@console_lock</span>
 <span class="ruby-keyword">end</span></pre>
@@ -451,13 +478,41 @@ href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a
         <div class="method-description">
           <div class="method-doc" id="debug_break-doc">
             
-            
+            <p>Set a debug break poing at the line of invocation if debugging is enabled.</p>
+
+<p><a href="Nucleon.html">Nucleon</a> uses Pry to perform stepwise debugging
+through the code.</p>
+
+<p>Note: This is not used very often so it may be buggy in areas.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>condition</strong>  Boolean test to check if the debugging
+breakpoint should be active</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Nucleon/Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Nucleon.html#method-c-debugging-3F">::debugging?</a></p>
+</li></ul>
             
           </div><!-- debug_break-doc -->
 
           
           <div class="method-source-code" id="debug_break-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 87</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 244</span>
   <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">debug_break</span>(<span class="ruby-identifier">condition</span> = <span class="ruby-keyword">true</span>)
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">debugging?</span>
 <span class="ruby-comment">#*******************************************************************************</span>
@@ -557,13 +612,34 @@ href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a
         <div class="method-description">
           <div class="method-doc" id="debugging-3F-doc">
             
-            <p>*****************************************************************************</p>
+            <p>Check if debugging is enabled</p>
+
+<p>This uses the environment variable *“NUCLEON_DEBUG”*</p>
+
+<pre>ENV[&quot;NUCLEON_DEBUG&quot;]</pre>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether or not debugging is enabled</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Nucleon/Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Nucleon.html#method-c-debug_break">::debug_break</a></p>
+</li></ul>
             
           </div><!-- debugging-3F-doc -->
 
           
           <div class="method-source-code" id="debugging-3F-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 81</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 223</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">debugging?</span>
   <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;NUCLEON_DEBUG&quot;</span>] <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
@@ -589,13 +665,30 @@ href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a
         <div class="method-description">
           <div class="method-doc" id="dump_enabled-doc">
             
-            
+            <p>Check whether dumping is enabled or disabled through dbg()</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether or not to enable dumping through dbg()</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Nucleon/Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Nucleon.html#method-c-dump_enabled-3D">::dump_enabled=</a></p>
+</li></ul>
             
           </div><!-- dump_enabled-doc -->
 
           
           <div class="method-source-code" id="dump_enabled-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 75</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 201</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dump_enabled</span>
   <span class="ruby-identifier">@@dump_enabled</span>
 <span class="ruby-keyword">end</span></pre>
@@ -621,13 +714,35 @@ href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a
         <div class="method-description">
           <div class="method-doc" id="dump_enabled-3D-doc">
             
-            
+            <p>Enable or disable variable dumping through dbg()</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>dump</strong>  Whether or not to enable dumping through dbg()</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Nucleon/Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Nucleon.html#method-c-dump_enabled">::dump_enabled</a></p>
+</li></ul>
             
           </div><!-- dump_enabled-3D-doc -->
 
           
           <div class="method-source-code" id="dump_enabled-3D-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 71</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 185</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">dump_enabled=</span><span class="ruby-identifier">dump</span>
   <span class="ruby-identifier">@@dump_enabled</span> = <span class="ruby-identifier">dump</span>
 <span class="ruby-keyword">end</span></pre>
@@ -653,13 +768,38 @@ href="Nucleon/Mixin/Macro/ObjectInterface.html">Mixin::Macro::ObjectInterface</a
         <div class="method-description">
           <div class="method-doc" id="parallel-3F-doc">
             
-            <p>*****************************************************************************</p>
+            <p>Check if parallel execution is enabled</p>
+
+<p>This uses the environment variable *“NUCLEON_NO_PARALLEL”*.  Parallelism is
+enabled by default.</p>
+
+<pre>ENV[&quot;NUCLEON_NO_PARALLEL&quot;]</pre>
+
+<p>Due to the complications with parallel debugging, parallel is suspended
+when debugging is enabled</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Whether or not parallel is enabled</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Nucleon/Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Nucleon.html#method-c-debugging-3F">::debugging?</a></p>
+</li></ul>
             
           </div><!-- parallel-3F-doc -->
 
           
           <div class="method-source-code" id="parallel-3F-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 167</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 344</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">parallel?</span>
   <span class="ruby-identifier">debugging?</span> <span class="ruby-operator">||</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;NUCLEON_NO_PARALLEL&#39;</span>] <span class="ruby-operator">?</span> <span class="ruby-keyword">false</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>

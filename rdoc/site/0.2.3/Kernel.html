@@ -270,11 +270,14 @@
 
   <div id="description" class="description">
     
-<p>*******************************************************************************</p>
+<p><a href="Kernel.html">Kernel</a> module additions</p>
 
-<pre>Global namespace</pre>
+<p>These methods, all of which are prefixed with “nucleon_” are available in
+any class or module within the <a href="Nucleon.html">Nucleon</a> framework
+or derivatives.</p>
 
-<p>*******************************************************************************</p>
+<p>We also define a generic debug dump method that is available in any <a
+href="Nucleon.html">Nucleon</a> derived class or module.</p>
 
   </div><!-- description -->
 
@@ -308,13 +311,42 @@
         <div class="method-description">
           <div class="method-doc" id="dbg-doc">
             
-            
+            <p>Dump data to the console with optional label.</p>
+
+<p>This must be defined under the definition of <a
+href="Nucleon.html#method-c-dump_enabled">Nucleon.dump_enabled</a></p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>ANY
+<dd>
+<p><strong>data</strong>  Data to dump to the console</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>label</strong>  Label to render above data dump</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>override_enabled</strong>  Whether or not to override override <a
+href="Nucleon.html#method-c-dump_enabled">Nucleon.dump_enabled</a></p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not have a return value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Errors</strong></p>
+</li></ul>
             
           </div><!-- dbg-doc -->
 
           
           <div class="method-source-code" id="dbg-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 184</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 391</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">dbg</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">label</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">override_enabled</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-comment"># Invocations of this function should NOT be committed to the project</span>
   <span class="ruby-keyword">if</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">dump_enabled</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">override_enabled</span>
@@ -350,13 +382,33 @@
         <div class="method-description">
           <div class="method-doc" id="nucleon_locate-doc">
             
-            
+            <p>Locate an application command or return nil otherwise.</p>
+
+<p>This is used to check for applications, such as Git, so that we may
+conditionally install packages based upon applications installed.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>command</strong>  Command name to locale on system</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, String
+<dd>
+<p>File path to executable or nil if not found</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Errors</strong></p>
+</li></ul>
             
           </div><!-- nucleon_locate-doc -->
 
           
           <div class="method-source-code" id="nucleon_locate-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 15</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">nucleon_locate</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-identifier">command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">exts</span>    = <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;PATHEXT&#39;</span>] <span class="ruby-operator">?</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;PATHEXT&#39;</span>].<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;;&#39;</span>) <span class="ruby-operator">:</span> [<span class="ruby-string">&#39;&#39;</span>]
@@ -390,15 +442,49 @@
         <div class="method-description">
           <div class="method-doc" id="nucleon_require-doc">
             
-            
+            <p>Require resource files into <a href="Nucleon.html">Nucleon</a> execution
+flow.</p>
+
+<p>This method auto-requires resources in the following order:</p>
+<ol><li>
+<p>*{name}.rb*</p>
+</li><li>
+<p>*{base_dir/name}   /*.rb</p>
+</li></ol>
+
+<p>If resources within the directory depend on each other those requires
+should be present in the resource files doing the requiring so we don&#39;t
+get load order conflicts.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>base_dir</strong>  Command name to locale on system</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>name</strong>  Command name to locale on system</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not have a return value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Errors</strong></p>
+</li></ul>
             
           </div><!-- nucleon_require-doc -->
 
           
           <div class="method-source-code" id="nucleon_require-source">
-            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 29</span>
+            <pre><span class="ruby-comment"># File lib/nucleon_base.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">nucleon_require</span>(<span class="ruby-identifier">base_dir</span>, <span class="ruby-identifier">name</span>)
-  <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">base_dir</span>       = <span class="ruby-identifier">base_dir</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">name</span>           = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">top_level_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">base_dir</span>, <span class="ruby-node">&quot;#{name}.rb&quot;</span>)
 
   <span class="ruby-identifier">require</span> <span class="ruby-identifier">top_level_file</span> <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">top_level_file</span>)
