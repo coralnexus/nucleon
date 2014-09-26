@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Nucleon::Util::SSH - nucleon 0.2.3</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/core/util/ssh.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="../Core.html">Nucleon::Core</a>
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-close">::close</a>
+    
+    <li><a href="#method-c-close_session">::close_session</a>
+    
+    <li><a href="#method-c-download">::download</a>
+    
+    <li><a href="#method-c-exec">::exec</a>
+    
+    <li><a href="#method-c-generate">::generate</a>
+    
+    <li><a href="#method-c-init_session">::init_session</a>
+    
+    <li><a href="#method-c-key_path">::key_path</a>
+    
+    <li><a href="#method-c-session">::session</a>
+    
+    <li><a href="#method-c-session_id">::session_id</a>
+    
+    <li><a href="#method-c-terminal">::terminal</a>
+    
+    <li><a href="#method-c-unlock_private_key">::unlock_private_key</a>
+    
+    <li><a href="#method-c-upload">::upload</a>
+    
+    <li><a href="#method-c-valid-3F">::valid?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../ARCHITECTURE_rdoc.html">ARCHITECTURE</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../TODO_rdoc.html">TODO</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Nucleon.html">Nucleon</a>
+  
+    <li><a href="../../Nucleon/Action.html">Nucleon::Action</a>
+  
+    <li><a href="../../Nucleon/Action/Extract.html">Nucleon::Action::Extract</a>
+  
+    <li><a href="../../Nucleon/Action/Project.html">Nucleon::Action::Project</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Add.html">Nucleon::Action::Project::Add</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Create.html">Nucleon::Action::Project::Create</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Remove.html">Nucleon::Action::Project::Remove</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Save.html">Nucleon::Action::Project::Save</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Update.html">Nucleon::Action::Project::Update</a>
+  
+    <li><a href="../../Nucleon/Codes.html">Nucleon::Codes</a>
+  
+    <li><a href="../../Nucleon/Command.html">Nucleon::Command</a>
+  
+    <li><a href="../../Nucleon/Command/Bash.html">Nucleon::Command::Bash</a>
+  
+    <li><a href="../../Nucleon/Config.html">Nucleon::Config</a>
+  
+    <li><a href="../../Nucleon/Config/Collection.html">Nucleon::Config::Collection</a>
+  
+    <li><a href="../../Nucleon/Config/Options.html">Nucleon::Config::Options</a>
+  
+    <li><a href="../../Nucleon/Core.html">Nucleon::Core</a>
+  
+    <li><a href="../../Nucleon/Environment.html">Nucleon::Environment</a>
+  
+    <li><a href="../../Nucleon/Errors.html">Nucleon::Errors</a>
+  
+    <li><a href="../../Nucleon/Errors/BatchError.html">Nucleon::Errors::BatchError</a>
+  
+    <li><a href="../../Nucleon/Errors/NucleonError.html">Nucleon::Errors::NucleonError</a>
+  
+    <li><a href="../../Nucleon/Errors/SSHUnavailable.html">Nucleon::Errors::SSHUnavailable</a>
+  
+    <li><a href="../../Nucleon/Event.html">Nucleon::Event</a>
+  
+    <li><a href="../../Nucleon/Event/Regex.html">Nucleon::Event::Regex</a>
+  
+    <li><a href="../../Nucleon/Extension.html">Nucleon::Extension</a>
+  
+    <li><a href="../../Nucleon/Extension/Project.html">Nucleon::Extension::Project</a>
+  
+    <li><a href="../../Nucleon/Facade.html">Nucleon::Facade</a>
+  
+    <li><a href="../../Nucleon/Gems.html">Nucleon::Gems</a>
+  
+    <li><a href="../../Nucleon/Manager.html">Nucleon::Manager</a>
+  
+    <li><a href="../../Nucleon/Mixin.html">Nucleon::Mixin</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action.html">Nucleon::Mixin::Action</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Commit.html">Nucleon::Mixin::Action::Commit</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Registration.html">Nucleon::Mixin::Action::Registration</a>
+  
+    <li><a href="../../Nucleon/Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+    <li><a href="../../Nucleon/Mixin/ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+  
+    <li><a href="../../Nucleon/Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro.html">Nucleon::Mixin::Macro</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro/ObjectInterface.html">Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro/PluginInterface.html">Nucleon::Mixin::Macro::PluginInterface</a>
+  
+    <li><a href="../../Nucleon/Mixin/Settings.html">Nucleon::Mixin::Settings</a>
+  
+    <li><a href="../../Nucleon/Mixin/SubConfig.html">Nucleon::Mixin::SubConfig</a>
+  
+    <li><a href="../../Nucleon/Parallel.html">Nucleon::Parallel</a>
+  
+    <li><a href="../../Nucleon/Parallel/ClassMethods.html">Nucleon::Parallel::ClassMethods</a>
+  
+    <li><a href="../../Nucleon/Parallel/InstanceMethods.html">Nucleon::Parallel::InstanceMethods</a>
+  
+    <li><a href="../../Nucleon/Plugin.html">Nucleon::Plugin</a>
+  
+    <li><a href="../../Nucleon/Plugin/Action.html">Nucleon::Plugin::Action</a>
+  
+    <li><a href="../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
+  
+    <li><a href="../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
+  
+    <li><a href="../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
+  
+    <li><a href="../../Nucleon/Plugin/Event.html">Nucleon::Plugin::Event</a>
+  
+    <li><a href="../../Nucleon/Plugin/Extension.html">Nucleon::Plugin::Extension</a>
+  
+    <li><a href="../../Nucleon/Plugin/Project.html">Nucleon::Plugin::Project</a>
+  
+    <li><a href="../../Nucleon/Plugin/Template.html">Nucleon::Plugin::Template</a>
+  
+    <li><a href="../../Nucleon/Plugin/Translator.html">Nucleon::Plugin::Translator</a>
+  
+    <li><a href="../../Nucleon/Project.html">Nucleon::Project</a>
+  
+    <li><a href="../../Nucleon/Project/Git.html">Nucleon::Project::Git</a>
+  
+    <li><a href="../../Nucleon/Project/Github.html">Nucleon::Project::Github</a>
+  
+    <li><a href="../../Nucleon/Template.html">Nucleon::Template</a>
+  
+    <li><a href="../../Nucleon/Template/JSON.html">Nucleon::Template::JSON</a>
+  
+    <li><a href="../../Nucleon/Template/Wrapper.html">Nucleon::Template::Wrapper</a>
+  
+    <li><a href="../../Nucleon/Template/YAML.html">Nucleon::Template::YAML</a>
+  
+    <li><a href="../../Nucleon/Translator.html">Nucleon::Translator</a>
+  
+    <li><a href="../../Nucleon/Translator/JSON.html">Nucleon::Translator::JSON</a>
+  
+    <li><a href="../../Nucleon/Translator/YAML.html">Nucleon::Translator::YAML</a>
+  
+    <li><a href="../../Nucleon/Util.html">Nucleon::Util</a>
+  
+    <li><a href="../../Nucleon/Util/CLI.html">Nucleon::Util::CLI</a>
+  
+    <li><a href="../../Nucleon/Util/CLI/Parser.html">Nucleon::Util::CLI::Parser</a>
+  
+    <li><a href="../../Nucleon/Util/Cache.html">Nucleon::Util::Cache</a>
+  
+    <li><a href="../../Nucleon/Util/Console.html">Nucleon::Util::Console</a>
+  
+    <li><a href="../../Nucleon/Util/Data.html">Nucleon::Util::Data</a>
+  
+    <li><a href="../../Nucleon/Util/Disk.html">Nucleon::Util::Disk</a>
+  
+    <li><a href="../../Nucleon/Util/Git.html">Nucleon::Util::Git</a>
+  
+    <li><a href="../../Nucleon/Util/Liquid.html">Nucleon::Util::Liquid</a>
+  
+    <li><a href="../../Nucleon/Util/Logger.html">Nucleon::Util::Logger</a>
+  
+    <li><a href="../../Nucleon/Util/Package.html">Nucleon::Util::Package</a>
+  
+    <li><a href="../../Nucleon/Util/SSH.html">Nucleon::Util::SSH</a>
+  
+    <li><a href="../../Nucleon/Util/SSH/Keypair.html">Nucleon::Util::SSH::Keypair</a>
+  
+    <li><a href="../../Nucleon/Util/Shell.html">Nucleon::Util::Shell</a>
+  
+    <li><a href="../../Nucleon/Util/Shell/Result.html">Nucleon::Util::Shell::Result</a>
+  
+    <li><a href="../../Hash.html">Hash</a>
+  
+    <li><a href="../../Kernel.html">Kernel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Nucleon::Util::SSH</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-close" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">close</span><span
+            class="method-args">(hostname = nil, user = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="close-doc">
+            
+            
+            
+          </div><!-- close-doc -->
+
+          
+          <div class="method-source-code" id="close-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 214</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">close</span>(<span class="ruby-identifier">hostname</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">user</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">hostname</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-comment"># Assume we entered a session id</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">hostname</span>)
+      <span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">hostname</span>].<span class="ruby-identifier">close</span>
+      <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">hostname</span>)  
+    <span class="ruby-keyword">end</span>
+    
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">hostname</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">user</span> <span class="ruby-comment"># Generate session id from args</span>
+    <span class="ruby-identifier">session_id</span> = <span class="ruby-identifier">session_id</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>)
+    
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">session_id</span>)
+      <span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">session_id</span>].<span class="ruby-identifier">close</span>
+      <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">session_id</span>)  
+    <span class="ruby-keyword">end</span>
+    
+  <span class="ruby-keyword">else</span> <span class="ruby-comment"># Close all connections</span>
+    <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">id</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">id</span>].<span class="ruby-identifier">close</span>
+      <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">id</span>)      
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- close-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- close-method -->
+
+    
+      <div id="method-c-close_session" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">close_session</span><span
+            class="method-args">(hostname, user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="close_session-doc">
+            
+            
+            
+          </div><!-- close_session-doc -->
+
+          
+          <div class="method-source-code" id="close_session-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 200</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">close_session</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>)
+  <span class="ruby-identifier">session_id</span> = <span class="ruby-identifier">session_id</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>)
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">session_id</span>)
+    <span class="ruby-keyword">begin</span> <span class="ruby-comment"># Don&#39;t care about errors here</span>
+      <span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">session_id</span>].<span class="ruby-identifier">close</span>
+    <span class="ruby-keyword">rescue</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">session_id</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- close_session-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- close_session-method -->
+
+    
+      <div id="method-c-download" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">download</span><span
+            class="method-args">(hostname, user, remote_path, local_path, options = {}) { |name, received, total| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="download-doc">
+            
+            
+            
+          </div><!-- download-doc -->
+
+          
+          <div class="method-source-code" id="download-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 293</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">download</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">remote_path</span>, <span class="ruby-identifier">local_path</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
+  
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;net/scp&#39;</span>
+  
+  <span class="ruby-comment"># Accepted options:</span>
+  <span class="ruby-comment"># * :recursive - the +remote+ parameter refers to a remote directory, which</span>
+  <span class="ruby-comment"># should be downloaded to a new directory named +local+ on the local</span>
+  <span class="ruby-comment"># machine.</span>
+  <span class="ruby-comment"># * :preserve - the atime and mtime of the file should be preserved.</span>
+  <span class="ruby-comment"># * :verbose - the process should result in verbose output on the server</span>
+  <span class="ruby-comment"># end (useful for debugging).</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:recursive</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:preserve</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:verbose</span>, <span class="ruby-keyword">true</span>)
+  
+  <span class="ruby-identifier">blocking</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:blocking</span>, <span class="ruby-keyword">true</span>)
+  
+  <span class="ruby-identifier">session</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ssh</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">blocking</span>
+      <span class="ruby-identifier">ssh</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">download!</span>(<span class="ruby-identifier">remote_path</span>, <span class="ruby-identifier">local_path</span>, <span class="ruby-identifier">config</span>.<span class="ruby-identifier">export</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">received</span>, <span class="ruby-identifier">total</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">received</span>, <span class="ruby-identifier">total</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">ssh</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">download</span>(<span class="ruby-identifier">remote_path</span>, <span class="ruby-identifier">local_path</span>, <span class="ruby-identifier">config</span>.<span class="ruby-identifier">export</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- download-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- download-method -->
+
+    
+      <div id="method-c-exec" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">exec</span><span
+            class="method-args">(hostname, user, commands) { |:output, command, data| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="exec-doc">
+            
+            
+            
+          </div><!-- exec-doc -->
+
+          
+          <div class="method-source-code" id="exec-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 239</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">commands</span>)
+  <span class="ruby-identifier">results</span> = []
+      
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">session</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ssh</span><span class="ruby-operator">|</span>
+      <span class="ruby-constant">Data</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">commands</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39; &#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">command</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+        <span class="ruby-identifier">command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_s</span>
+        <span class="ruby-identifier">result</span>  = <span class="ruby-constant">Shell</span><span class="ruby-operator">::</span><span class="ruby-constant">Result</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">command</span>)
+        
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;&gt;&gt; running SSH: #{command}&quot;</span>)
+            
+        <span class="ruby-identifier">ssh</span>.<span class="ruby-identifier">open_channel</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ssh_channel</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">ssh_channel</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">command</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">channel</span>, <span class="ruby-identifier">success</span><span class="ruby-operator">|</span>
+            <span class="ruby-keyword">unless</span> <span class="ruby-identifier">success</span>
+              <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;Could not execute command: #{command.inspect}&quot;</span>
+            <span class="ruby-keyword">end</span>
+
+            <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_data</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">result</span>.<span class="ruby-identifier">append_output</span>(<span class="ruby-identifier">data</span>)
+              <span class="ruby-keyword">yield</span>(<span class="ruby-value">:output</span>, <span class="ruby-identifier">command</span>, <span class="ruby-identifier">data</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+            <span class="ruby-keyword">end</span>
+
+            <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_extended_data</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">result</span>.<span class="ruby-identifier">append_errors</span>(<span class="ruby-identifier">data</span>)
+              <span class="ruby-keyword">yield</span>(<span class="ruby-value">:error</span>, <span class="ruby-identifier">command</span>, <span class="ruby-identifier">data</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+            <span class="ruby-keyword">end</span>
+
+            <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_request</span>(<span class="ruby-string">&#39;exit-status&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">read_long</span>
+            <span class="ruby-keyword">end</span>
+
+            <span class="ruby-identifier">channel</span>.<span class="ruby-identifier">on_request</span>(<span class="ruby-string">&#39;exit-signal&#39;</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span> = <span class="ruby-value">255</span>
+            <span class="ruby-keyword">end</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;`#{command}` messages: #{result.errors}&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">errors</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;`#{command}` status: #{result.status}&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+     
+        <span class="ruby-identifier">results</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">result</span>
+        <span class="ruby-identifier">ssh</span>.<span class="ruby-identifier">loop</span>          
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">HostKeyMismatch</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">error</span>
+    <span class="ruby-identifier">error</span>.<span class="ruby-identifier">remember_host!</span>
+    <span class="ruby-identifier">sleep</span> <span class="ruby-value">0.2</span>
+    <span class="ruby-keyword">retry</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">results</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- exec-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- exec-method -->
+
+    
+      <div id="method-c-generate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">generate</span><span
+            class="method-args">(options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="generate-doc">
+            
+            
+            
+          </div><!-- generate-doc -->
+
+          
+          <div class="method-source-code" id="generate-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">generate</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
+  
+  <span class="ruby-identifier">private_key</span>  = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:private_key</span>, <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">original_key</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">key_comment</span>  = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:comment</span>, <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-identifier">passphrase</span>   = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:passphrase</span>, <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">force</span>        = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:force</span>, <span class="ruby-keyword">false</span>)    
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">private_key</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">key_type</span>    = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:type</span>, <span class="ruby-string">&quot;RSA&quot;</span>)
+    <span class="ruby-identifier">key_bits</span>    = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:bits</span>, <span class="ruby-value">2048</span>)
+    
+    <span class="ruby-identifier">key_data</span> = <span class="ruby-constant">SSHKey</span>.<span class="ruby-identifier">generate</span>({
+      <span class="ruby-value">:type</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key_type</span>, 
+      <span class="ruby-value">:bits</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key_bits</span>, 
+      <span class="ruby-value">:comment</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key_comment</span>, 
+      <span class="ruby-value">:passphrase</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">passphrase</span>
+    })
+    <span class="ruby-identifier">is_new</span> = <span class="ruby-keyword">true</span>
+    
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">private_key</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;PRIVATE KEY&#39;</span>)
+      <span class="ruby-identifier">original_key</span> = <span class="ruby-identifier">private_key</span>   
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">original_key</span> = <span class="ruby-constant">Disk</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">private_key</span>)
+    <span class="ruby-keyword">end</span>
+    
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">original_key</span>
+      <span class="ruby-identifier">encrypted</span> = <span class="ruby-identifier">original_key</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&#39;ENCRYPTED&#39;</span>)
+      <span class="ruby-identifier">key_data</span>  = <span class="ruby-constant">SSHKey</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">original_key</span>, { 
+        <span class="ruby-value">:comment</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key_comment</span>, 
+        <span class="ruby-value">:passphrase</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">passphrase</span> 
+      }) <span class="ruby-keyword">if</span> <span class="ruby-identifier">force</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">encrypted</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">passphrase</span> 
+    <span class="ruby-keyword">end</span>      
+    <span class="ruby-identifier">is_new</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">key_data</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">key_data</span>.<span class="ruby-identifier">ssh_public_key</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-constant">Keypair</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">key_data</span>, <span class="ruby-identifier">is_new</span>, <span class="ruby-identifier">original_key</span>, <span class="ruby-identifier">passphrase</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- generate-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- generate-method -->
+
+    
+      <div id="method-c-init_session" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">init_session</span><span
+            class="method-args">(hostname, user, port = 22, private_key = nil, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="init_session-doc">
+            
+            
+            
+          </div><!-- init_session-doc -->
+
+          
+          <div class="method-source-code" id="init_session-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 194</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">init_session</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">port</span> = <span class="ruby-value">22</span>, <span class="ruby-identifier">private_key</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">session</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">port</span>, <span class="ruby-identifier">private_key</span>, <span class="ruby-keyword">true</span>, <span class="ruby-identifier">options</span>)  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- init_session-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- init_session-method -->
+
+    
+      <div id="method-c-key_path" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">key_path</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="key_path-doc">
+            
+            
+            
+          </div><!-- key_path-doc -->
+
+          
+          <div class="method-source-code" id="key_path-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">key_path</span>
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">@@key_path</span>
+    <span class="ruby-identifier">home_path</span>  = ( <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;USER&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;root&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39;/root&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;HOME&#39;</span>] ) <span class="ruby-comment"># In case we are using sudo</span>
+    <span class="ruby-identifier">@@key_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">home_path</span>, <span class="ruby-string">&#39;.ssh&#39;</span>)
+  
+    <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir</span>(<span class="ruby-identifier">@@key_path</span>) <span class="ruby-keyword">unless</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">@@key_path</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">@@key_path</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- key_path-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- key_path-method -->
+
+    
+      <div id="method-c-session" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">session</span><span
+            class="method-args">(hostname, user, port = 22, private_key = nil, reset = false, options = {}) { |sessions| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="session-doc">
+            
+            
+            
+          </div><!-- session-doc -->
+
+          
+          <div class="method-source-code" id="session-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 153</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">session</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">port</span> = <span class="ruby-value">22</span>, <span class="ruby-identifier">private_key</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;net/ssh&#39;</span>
+  
+  <span class="ruby-identifier">session_id</span>  = <span class="ruby-identifier">session_id</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>)
+  
+  <span class="ruby-identifier">@@session_lock</span>.<span class="ruby-identifier">synchronize</span> <span class="ruby-keyword">do</span>    
+    <span class="ruby-identifier">config</span>      = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
+  
+    <span class="ruby-identifier">ssh_options</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>({
+      <span class="ruby-value">:user_known_hosts_file</span> =<span class="ruby-operator">&gt;</span> [ <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">key_path</span>, <span class="ruby-string">&#39;known_hosts&#39;</span>), <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">key_path</span>, <span class="ruby-string">&#39;known_hosts2&#39;</span>) ],
+      <span class="ruby-value">:auth_methods</span>          =<span class="ruby-operator">&gt;</span> [ <span class="ruby-string">&#39;publickey&#39;</span> ],
+      <span class="ruby-value">:paranoid</span>              =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:very</span>
+    }).<span class="ruby-identifier">import</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">subset</span>(<span class="ruby-identifier">config</span>, <span class="ruby-identifier">config</span>.<span class="ruby-identifier">keys</span> <span class="ruby-operator">-</span> [ <span class="ruby-value">:keypair</span>, <span class="ruby-value">:key_dir</span>, <span class="ruby-value">:key_name</span> ]))
+  
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">private_key</span>
+      <span class="ruby-identifier">auth_id</span> = [ <span class="ruby-identifier">session_id</span>, <span class="ruby-identifier">private_key</span> ].<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;_&#39;</span>)      
+    
+      <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">@@auth</span>[<span class="ruby-identifier">auth_id</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">keypair</span> = <span class="ruby-identifier">unlock_private_key</span>(<span class="ruby-identifier">private_key</span>, <span class="ruby-identifier">config</span>)
+        <span class="ruby-identifier">@@auth</span>[<span class="ruby-identifier">auth_id</span>] = <span class="ruby-identifier">keypair</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">config</span>[<span class="ruby-value">:keypair</span>] = <span class="ruby-identifier">@@auth</span>[<span class="ruby-identifier">auth_id</span>] <span class="ruby-comment"># Reset so caller can access updated keypair      </span>
+    
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@auth</span>[<span class="ruby-identifier">auth_id</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+        <span class="ruby-identifier">ssh_options</span>[<span class="ruby-value">:keys_only</span>] = <span class="ruby-keyword">false</span>
+        <span class="ruby-identifier">ssh_options</span>[<span class="ruby-value">:keys</span>]      = [ <span class="ruby-identifier">@@auth</span>[<span class="ruby-identifier">auth_id</span>] ]  
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">ssh_options</span>[<span class="ruby-value">:keys_only</span>] = <span class="ruby-keyword">true</span>
+        <span class="ruby-identifier">ssh_options</span>[<span class="ruby-value">:key_data</span>]  = [ <span class="ruby-identifier">@@auth</span>[<span class="ruby-identifier">auth_id</span>].<span class="ruby-identifier">private_key</span> ]
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  
+    <span class="ruby-identifier">ssh_options</span>[<span class="ruby-value">:port</span>] = <span class="ruby-identifier">port</span>    
+  
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">@@sessions</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">session_id</span>)
+      <span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">session_id</span>] = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span>.<span class="ruby-identifier">start</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">ssh_options</span>.<span class="ruby-identifier">export</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">session_id</span>]) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">session_id</span>]
+  <span class="ruby-identifier">@@sessions</span>[<span class="ruby-identifier">session_id</span>] 
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- session-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- session-method -->
+
+    
+      <div id="method-c-session_id" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">session_id</span><span
+            class="method-args">(hostname, user)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="session_id-doc">
+            
+            
+            
+          </div><!-- session_id-doc -->
+
+          
+          <div class="method-source-code" id="session_id-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 147</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">session_id</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>)
+  <span class="ruby-node">&quot;#{hostname}-#{user}&quot;</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- session_id-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- session_id-method -->
+
+    
+      <div id="method-c-terminal" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">terminal</span><span
+            class="method-args">(hostname, user, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="terminal-doc">
+            
+            <p>Inspired by vagrant ssh implementation</p>
+
+<p>See: <a
+href="https://github.com/mitchellh/vagrant/blob/master/lib/vagrant/util/ssh.rb">github.com/mitchellh/vagrant/blob/master/lib/vagrant/util/ssh.rb</a></p>
+            
+          </div><!-- terminal-doc -->
+
+          
+          <div class="method-source-code" id="terminal-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 367</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">terminal</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">config</span>   = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
+  <span class="ruby-identifier">ssh_path</span> = <span class="ruby-identifier">nucleon_locate</span>(<span class="ruby-string">&quot;ssh&quot;</span>)
+  
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">SSHUnavailable</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">ssh_path</span>
+  
+  <span class="ruby-identifier">port</span>         = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:port</span>, <span class="ruby-value">22</span>)
+  <span class="ruby-identifier">private_keys</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:private_keys</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;HOME&#39;</span>], <span class="ruby-string">&#39;.ssh&#39;</span>, <span class="ruby-string">&#39;id_rsa&#39;</span>))
+  
+  <span class="ruby-identifier">command_options</span> = [
+    <span class="ruby-node">&quot;#{user}@#{hostname}&quot;</span>,
+    <span class="ruby-string">&quot;-p&quot;</span>, <span class="ruby-identifier">port</span>.<span class="ruby-identifier">to_s</span>,
+    <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;Compression=yes&quot;</span>,
+    <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;DSAAuthentication=yes&quot;</span>,
+    <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;LogLevel=FATAL&quot;</span>,
+    <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;StrictHostKeyChecking=no&quot;</span>,
+    <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;UserKnownHostsFile=/dev/null&quot;</span>,
+    <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;IdentitiesOnly=yes&quot;</span>
+  ]
+
+  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">private_keys</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">command_options</span> <span class="ruby-operator">+=</span> [ <span class="ruby-string">&quot;-i&quot;</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-identifier">path</span>) ]
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:forward_x11</span>, <span class="ruby-keyword">false</span>)
+    <span class="ruby-identifier">command_options</span> <span class="ruby-operator">+=</span> [
+      <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;ForwardX11=yes&quot;</span>,
+      <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;ForwardX11Trusted=yes&quot;</span>
+    ]
+  <span class="ruby-keyword">end</span>
+
+  <span class="ruby-identifier">command_options</span> <span class="ruby-operator">+=</span> [ <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-node">&quot;ProxyCommand=#{config[:proxy_command]}&quot;</span> ] <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:proxy_command</span>, <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">command_options</span> <span class="ruby-operator">+=</span> [ <span class="ruby-string">&quot;-o&quot;</span>, <span class="ruby-string">&quot;ForwardAgent=yes&quot;</span> ] <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:forward_agent</span>, <span class="ruby-keyword">false</span>)
+  
+  <span class="ruby-identifier">command_options</span>.<span class="ruby-identifier">concat</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">config</span>[<span class="ruby-value">:extra_args</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:extra_args</span>, <span class="ruby-keyword">false</span>)
+
+  <span class="ruby-comment">#---</span>
+
+  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Executing SSH in subprocess: #{command_options.inspect}&quot;</span>)
+  
+  <span class="ruby-identifier">process</span> = <span class="ruby-constant">ChildProcess</span>.<span class="ruby-identifier">build</span>(<span class="ruby-string">&#39;ssh&#39;</span>, *<span class="ruby-identifier">command_options</span>)
+  <span class="ruby-identifier">process</span>.<span class="ruby-identifier">io</span>.<span class="ruby-identifier">inherit!</span>
+  
+  <span class="ruby-identifier">process</span>.<span class="ruby-identifier">start</span>
+  <span class="ruby-identifier">process</span>.<span class="ruby-identifier">wait</span>
+  <span class="ruby-identifier">process</span>.<span class="ruby-identifier">exit_code</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- terminal-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- terminal-method -->
+
+    
+      <div id="method-c-unlock_private_key" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">unlock_private_key</span><span
+            class="method-args">(private_key, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="unlock_private_key-doc">
+            
+            
+            
+          </div><!-- unlock_private_key-doc -->
+
+          
+          <div class="method-source-code" id="unlock_private_key-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 418</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">unlock_private_key</span>(<span class="ruby-identifier">private_key</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;net/ssh&#39;</span>
+  
+  <span class="ruby-identifier">config</span>   = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
+  <span class="ruby-identifier">keypair</span>  = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:keypair</span>, <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">key_dir</span>  = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:key_dir</span>, <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">key_name</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:key_name</span>, <span class="ruby-string">&#39;default&#39;</span>)
+  <span class="ruby-identifier">no_file</span>  = <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;NUCLEON_NO_SSH_KEY_SAVE&#39;</span>]
+  
+  <span class="ruby-identifier">password</span>    = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">tmp_key_dir</span> = <span class="ruby-keyword">nil</span>
+  
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">private_key</span>
+    <span class="ruby-identifier">keypair</span> = <span class="ruby-keyword">nil</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">keypair</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">keypair</span>.<span class="ruby-identifier">private_key</span>
+    
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">no_file</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">key_dir</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">key_name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">private_key</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">loaded_private_key</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Disk</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">private_key</span>)
+        <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span>(<span class="ruby-identifier">key_dir</span>)
+    
+        <span class="ruby-identifier">loaded_private_key</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/BEGIN\s+([A-Z]+)\s+/</span>
+      
+        <span class="ruby-identifier">local_key_type</span> = <span class="ruby-node">$1</span>
+        <span class="ruby-identifier">local_key_name</span> = <span class="ruby-constant">Keypair</span>.<span class="ruby-identifier">render</span>(<span class="ruby-identifier">local_key_type</span>, <span class="ruby-identifier">key_name</span>)
+        <span class="ruby-identifier">local_key_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">key_dir</span>, <span class="ruby-identifier">local_key_name</span>)
+      
+        <span class="ruby-identifier">keypair</span> = <span class="ruby-identifier">generate</span>({ <span class="ruby-value">:private_key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">local_key_path</span> }) <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">local_key_path</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">keypair</span>
+      <span class="ruby-identifier">key_manager_logger</span>       = <span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">STDERR</span>)
+      <span class="ruby-identifier">key_manager_logger</span>.<span class="ruby-identifier">level</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Logger</span><span class="ruby-operator">::</span><span class="ruby-constant">FATAL</span>
+      <span class="ruby-identifier">key_manager</span>              = <span class="ruby-constant">Net</span><span class="ruby-operator">::</span><span class="ruby-constant">SSH</span><span class="ruby-operator">::</span><span class="ruby-constant">Authentication</span><span class="ruby-operator">::</span><span class="ruby-constant">KeyManager</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">key_manager_logger</span>)        
+      
+      <span class="ruby-identifier">key_manager</span>.<span class="ruby-identifier">each_identity</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">identity</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">identity</span>.<span class="ruby-identifier">comment</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">private_key</span>
+          <span class="ruby-comment"># Feed the key to the system password manager if it exists</span>
+          <span class="ruby-identifier">keypair</span> = <span class="ruby-identifier">private_key</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">key_manager</span>.<span class="ruby-identifier">finish</span>
+    
+      <span class="ruby-keyword">until</span> <span class="ruby-identifier">keypair</span>
+        <span class="ruby-identifier">keypair</span> = <span class="ruby-identifier">generate</span>({
+          <span class="ruby-value">:private_key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">private_key</span>,
+          <span class="ruby-value">:passphrase</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">password</span>
+        })        
+        <span class="ruby-identifier">password</span> = <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">ask</span>(<span class="ruby-node">&quot;Enter passphrase for #{private_key}: &quot;</span>, { <span class="ruby-value">:echo</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span> }) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">keypair</span>
+      <span class="ruby-keyword">end</span>
+      
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">no_file</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">key_dir</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">key_name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">keypair</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
+          <span class="ruby-identifier">key_files</span> = <span class="ruby-identifier">keypair</span>.<span class="ruby-identifier">store</span>(<span class="ruby-identifier">key_dir</span>, <span class="ruby-identifier">key_name</span>, <span class="ruby-keyword">false</span>)
+        
+          <span class="ruby-keyword">if</span> <span class="ruby-identifier">key_files</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">key_files</span>[<span class="ruby-value">:private_key</span>])
+            <span class="ruby-identifier">keypair</span> = <span class="ruby-identifier">generate</span>({ <span class="ruby-value">:private_key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key_files</span>[<span class="ruby-value">:private_key</span>] })
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">keypair</span>      
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- unlock_private_key-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- unlock_private_key-method -->
+
+    
+      <div id="method-c-upload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">upload</span><span
+            class="method-args">(hostname, user, local_path, remote_path, options = {}) { |name, sent, total| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="upload-doc">
+            
+            
+            
+          </div><!-- upload-doc -->
+
+          
+          <div class="method-source-code" id="upload-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 325</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">upload</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>, <span class="ruby-identifier">local_path</span>, <span class="ruby-identifier">remote_path</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
+  
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;net/scp&#39;</span>
+  
+  <span class="ruby-comment"># Accepted options:</span>
+  <span class="ruby-comment"># * :recursive - the +local+ parameter refers to a local directory, which</span>
+  <span class="ruby-comment"># should be uploaded to a new directory named +remote+ on the remote</span>
+  <span class="ruby-comment"># server.</span>
+  <span class="ruby-comment"># * :preserve - the atime and mtime of the file should be preserved.</span>
+  <span class="ruby-comment"># * :verbose - the process should result in verbose output on the server</span>
+  <span class="ruby-comment"># end (useful for debugging).</span>
+  <span class="ruby-comment"># * :chunk_size - the size of each &quot;chunk&quot; that should be sent. Defaults</span>
+  <span class="ruby-comment"># to 2048. Changing this value may improve throughput at the expense</span>
+  <span class="ruby-comment"># of decreasing interactivity.</span>
+  <span class="ruby-comment">#</span>
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:recursive</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:preserve</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:verbose</span>, <span class="ruby-keyword">true</span>)
+  <span class="ruby-identifier">config</span>.<span class="ruby-identifier">init</span>(<span class="ruby-value">:chunk_size</span>, <span class="ruby-value">2048</span>)
+  
+  <span class="ruby-identifier">blocking</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:blocking</span>, <span class="ruby-keyword">true</span>)
+  
+  <span class="ruby-identifier">session</span>(<span class="ruby-identifier">hostname</span>, <span class="ruby-identifier">user</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ssh</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">blocking</span>
+      <span class="ruby-identifier">ssh</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">upload!</span>(<span class="ruby-identifier">local_path</span>, <span class="ruby-identifier">remote_path</span>, <span class="ruby-identifier">config</span>.<span class="ruby-identifier">export</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">ch</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">sent</span>, <span class="ruby-identifier">total</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">sent</span>, <span class="ruby-identifier">total</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">ssh</span>.<span class="ruby-identifier">scp</span>.<span class="ruby-identifier">upload</span>(<span class="ruby-identifier">local_path</span>, <span class="ruby-identifier">remote_path</span>, <span class="ruby-identifier">config</span>.<span class="ruby-identifier">export</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- upload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- upload-method -->
+
+    
+      <div id="method-c-valid-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">valid?</span><span
+            class="method-args">(public_ssh_key)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="valid-3F-doc">
+            
+            
+            
+          </div><!-- valid-3F-doc -->
+
+          
+          <div class="method-source-code" id="valid-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/util/ssh.rb, line 71</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">valid?</span>(<span class="ruby-identifier">public_ssh_key</span>)
+  <span class="ruby-constant">SSHKey</span>.<span class="ruby-identifier">valid_ssh_public_key?</span>(<span class="ruby-identifier">public_ssh_key</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- valid-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- valid-3F-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

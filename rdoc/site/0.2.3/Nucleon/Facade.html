@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Nucleon::Facade - nucleon 0.2.3</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/core/facade.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-action">#action</a>
+    
+    <li><a href="#method-i-action_cli">#action_cli</a>
+    
+    <li><a href="#method-i-action_config">#action_config</a>
+    
+    <li><a href="#method-i-action_help">#action_help</a>
+    
+    <li><a href="#method-i-action_run">#action_run</a>
+    
+    <li><a href="#method-i-actions">#actions</a>
+    
+    <li><a href="#method-i-active_plugins">#active_plugins</a>
+    
+    <li><a href="#method-i-admin-3F">#admin?</a>
+    
+    <li><a href="#method-i-check">#check</a>
+    
+    <li><a href="#method-i-class_const">#class_const</a>
+    
+    <li><a href="#method-i-class_name">#class_name</a>
+    
+    <li><a href="#method-i-cli_run">#cli_run</a>
+    
+    <li><a href="#method-i-code">#code</a>
+    
+    <li><a href="#method-i-codes">#codes</a>
+    
+    <li><a href="#method-i-collect">#collect</a>
+    
+    <li><a href="#method-i-command">#command</a>
+    
+    <li><a href="#method-i-commands">#commands</a>
+    
+    <li><a href="#method-i-config">#config</a>
+    
+    <li><a href="#method-i-create_plugin">#create_plugin</a>
+    
+    <li><a href="#method-i-define_types">#define_types</a>
+    
+    <li><a href="#method-i-event">#event</a>
+    
+    <li><a href="#method-i-events">#events</a>
+    
+    <li><a href="#method-i-exec">#exec</a>
+    
+    <li><a href="#method-i-executable">#executable</a>
+    
+    <li><a href="#method-i-extension">#extension</a>
+    
+    <li><a href="#method-i-get_plugin">#get_plugin</a>
+    
+    <li><a href="#method-i-handle">#handle</a>
+    
+    <li><a href="#method-i-ip_address">#ip_address</a>
+    
+    <li><a href="#method-i-load_plugins">#load_plugins</a>
+    
+    <li><a href="#method-i-loaded_plugins">#loaded_plugins</a>
+    
+    <li><a href="#method-i-log_level">#log_level</a>
+    
+    <li><a href="#method-i-log_level-3D">#log_level=</a>
+    
+    <li><a href="#method-i-logger">#logger</a>
+    
+    <li><a href="#method-i-manager">#manager</a>
+    
+    <li><a href="#method-i-namespaces">#namespaces</a>
+    
+    <li><a href="#method-i-plugin">#plugin</a>
+    
+    <li><a href="#method-i-plugin_class">#plugin_class</a>
+    
+    <li><a href="#method-i-plugins">#plugins</a>
+    
+    <li><a href="#method-i-project">#project</a>
+    
+    <li><a href="#method-i-projects">#projects</a>
+    
+    <li><a href="#method-i-quiet-3D">#quiet=</a>
+    
+    <li><a href="#method-i-register">#register</a>
+    
+    <li><a href="#method-i-reload">#reload</a>
+    
+    <li><a href="#method-i-remove_plugin">#remove_plugin</a>
+    
+    <li><a href="#method-i-remove_plugin_by_name">#remove_plugin_by_name</a>
+    
+    <li><a href="#method-i-render_object">#render_object</a>
+    
+    <li><a href="#method-i-render_tree">#render_tree</a>
+    
+    <li><a href="#method-i-run">#run</a>
+    
+    <li><a href="#method-i-search_actions">#search_actions</a>
+    
+    <li><a href="#method-i-sha1">#sha1</a>
+    
+    <li><a href="#method-i-silence">#silence</a>
+    
+    <li><a href="#method-i-template">#template</a>
+    
+    <li><a href="#method-i-templates">#templates</a>
+    
+    <li><a href="#method-i-test_connection">#test_connection</a>
+    
+    <li><a href="#method-i-translator">#translator</a>
+    
+    <li><a href="#method-i-translators">#translators</a>
+    
+    <li><a href="#method-i-type_default">#type_default</a>
+    
+    <li><a href="#method-i-types">#types</a>
+    
+    <li><a href="#method-i-ui">#ui</a>
+    
+    <li><a href="#method-i-ui_group">#ui_group</a>
+    
+    <li><a href="#method-i-value">#value</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../ARCHITECTURE_rdoc.html">ARCHITECTURE</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../TODO_rdoc.html">TODO</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Nucleon.html">Nucleon</a>
+  
+    <li><a href="../Nucleon/Action.html">Nucleon::Action</a>
+  
+    <li><a href="../Nucleon/Action/Extract.html">Nucleon::Action::Extract</a>
+  
+    <li><a href="../Nucleon/Action/Project.html">Nucleon::Action::Project</a>
+  
+    <li><a href="../Nucleon/Action/Project/Add.html">Nucleon::Action::Project::Add</a>
+  
+    <li><a href="../Nucleon/Action/Project/Create.html">Nucleon::Action::Project::Create</a>
+  
+    <li><a href="../Nucleon/Action/Project/Remove.html">Nucleon::Action::Project::Remove</a>
+  
+    <li><a href="../Nucleon/Action/Project/Save.html">Nucleon::Action::Project::Save</a>
+  
+    <li><a href="../Nucleon/Action/Project/Update.html">Nucleon::Action::Project::Update</a>
+  
+    <li><a href="../Nucleon/Codes.html">Nucleon::Codes</a>
+  
+    <li><a href="../Nucleon/Command.html">Nucleon::Command</a>
+  
+    <li><a href="../Nucleon/Command/Bash.html">Nucleon::Command::Bash</a>
+  
+    <li><a href="../Nucleon/Config.html">Nucleon::Config</a>
+  
+    <li><a href="../Nucleon/Config/Collection.html">Nucleon::Config::Collection</a>
+  
+    <li><a href="../Nucleon/Config/Options.html">Nucleon::Config::Options</a>
+  
+    <li><a href="../Nucleon/Core.html">Nucleon::Core</a>
+  
+    <li><a href="../Nucleon/Environment.html">Nucleon::Environment</a>
+  
+    <li><a href="../Nucleon/Errors.html">Nucleon::Errors</a>
+  
+    <li><a href="../Nucleon/Errors/BatchError.html">Nucleon::Errors::BatchError</a>
+  
+    <li><a href="../Nucleon/Errors/NucleonError.html">Nucleon::Errors::NucleonError</a>
+  
+    <li><a href="../Nucleon/Errors/SSHUnavailable.html">Nucleon::Errors::SSHUnavailable</a>
+  
+    <li><a href="../Nucleon/Event.html">Nucleon::Event</a>
+  
+    <li><a href="../Nucleon/Event/Regex.html">Nucleon::Event::Regex</a>
+  
+    <li><a href="../Nucleon/Extension.html">Nucleon::Extension</a>
+  
+    <li><a href="../Nucleon/Extension/Project.html">Nucleon::Extension::Project</a>
+  
+    <li><a href="../Nucleon/Facade.html">Nucleon::Facade</a>
+  
+    <li><a href="../Nucleon/Gems.html">Nucleon::Gems</a>
+  
+    <li><a href="../Nucleon/Manager.html">Nucleon::Manager</a>
+  
+    <li><a href="../Nucleon/Mixin.html">Nucleon::Mixin</a>
+  
+    <li><a href="../Nucleon/Mixin/Action.html">Nucleon::Mixin::Action</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Commit.html">Nucleon::Mixin::Action::Commit</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Registration.html">Nucleon::Mixin::Action::Registration</a>
+  
+    <li><a href="../Nucleon/Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+    <li><a href="../Nucleon/Mixin/ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+  
+    <li><a href="../Nucleon/Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro.html">Nucleon::Mixin::Macro</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro/ObjectInterface.html">Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro/PluginInterface.html">Nucleon::Mixin::Macro::PluginInterface</a>
+  
+    <li><a href="../Nucleon/Mixin/Settings.html">Nucleon::Mixin::Settings</a>
+  
+    <li><a href="../Nucleon/Mixin/SubConfig.html">Nucleon::Mixin::SubConfig</a>
+  
+    <li><a href="../Nucleon/Parallel.html">Nucleon::Parallel</a>
+  
+    <li><a href="../Nucleon/Parallel/ClassMethods.html">Nucleon::Parallel::ClassMethods</a>
+  
+    <li><a href="../Nucleon/Parallel/InstanceMethods.html">Nucleon::Parallel::InstanceMethods</a>
+  
+    <li><a href="../Nucleon/Plugin.html">Nucleon::Plugin</a>
+  
+    <li><a href="../Nucleon/Plugin/Action.html">Nucleon::Plugin::Action</a>
+  
+    <li><a href="../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
+  
+    <li><a href="../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
+  
+    <li><a href="../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
+  
+    <li><a href="../Nucleon/Plugin/Event.html">Nucleon::Plugin::Event</a>
+  
+    <li><a href="../Nucleon/Plugin/Extension.html">Nucleon::Plugin::Extension</a>
+  
+    <li><a href="../Nucleon/Plugin/Project.html">Nucleon::Plugin::Project</a>
+  
+    <li><a href="../Nucleon/Plugin/Template.html">Nucleon::Plugin::Template</a>
+  
+    <li><a href="../Nucleon/Plugin/Translator.html">Nucleon::Plugin::Translator</a>
+  
+    <li><a href="../Nucleon/Project.html">Nucleon::Project</a>
+  
+    <li><a href="../Nucleon/Project/Git.html">Nucleon::Project::Git</a>
+  
+    <li><a href="../Nucleon/Project/Github.html">Nucleon::Project::Github</a>
+  
+    <li><a href="../Nucleon/Template.html">Nucleon::Template</a>
+  
+    <li><a href="../Nucleon/Template/JSON.html">Nucleon::Template::JSON</a>
+  
+    <li><a href="../Nucleon/Template/Wrapper.html">Nucleon::Template::Wrapper</a>
+  
+    <li><a href="../Nucleon/Template/YAML.html">Nucleon::Template::YAML</a>
+  
+    <li><a href="../Nucleon/Translator.html">Nucleon::Translator</a>
+  
+    <li><a href="../Nucleon/Translator/JSON.html">Nucleon::Translator::JSON</a>
+  
+    <li><a href="../Nucleon/Translator/YAML.html">Nucleon::Translator::YAML</a>
+  
+    <li><a href="../Nucleon/Util.html">Nucleon::Util</a>
+  
+    <li><a href="../Nucleon/Util/CLI.html">Nucleon::Util::CLI</a>
+  
+    <li><a href="../Nucleon/Util/CLI/Parser.html">Nucleon::Util::CLI::Parser</a>
+  
+    <li><a href="../Nucleon/Util/Cache.html">Nucleon::Util::Cache</a>
+  
+    <li><a href="../Nucleon/Util/Console.html">Nucleon::Util::Console</a>
+  
+    <li><a href="../Nucleon/Util/Data.html">Nucleon::Util::Data</a>
+  
+    <li><a href="../Nucleon/Util/Disk.html">Nucleon::Util::Disk</a>
+  
+    <li><a href="../Nucleon/Util/Git.html">Nucleon::Util::Git</a>
+  
+    <li><a href="../Nucleon/Util/Liquid.html">Nucleon::Util::Liquid</a>
+  
+    <li><a href="../Nucleon/Util/Logger.html">Nucleon::Util::Logger</a>
+  
+    <li><a href="../Nucleon/Util/Package.html">Nucleon::Util::Package</a>
+  
+    <li><a href="../Nucleon/Util/SSH.html">Nucleon::Util::SSH</a>
+  
+    <li><a href="../Nucleon/Util/SSH/Keypair.html">Nucleon::Util::SSH::Keypair</a>
+  
+    <li><a href="../Nucleon/Util/Shell.html">Nucleon::Util::Shell</a>
+  
+    <li><a href="../Nucleon/Util/Shell/Result.html">Nucleon::Util::Shell::Result</a>
+  
+    <li><a href="../Hash.html">Hash</a>
+  
+    <li><a href="../Kernel.html">Kernel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Nucleon::Facade</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-action" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">action</span><span
+            class="method-args">(provider, options)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="action-doc">
+            
+            
+            
+          </div><!-- action-doc -->
+
+          
+          <div class="method-source-code" id="action-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 347</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">action</span>(<span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+  <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:action</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- action-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- action-method -->
+
+    
+      <div id="method-i-action_cli" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">action_cli</span><span
+            class="method-args">(provider, args = [], quiet = false, name = :nucleon)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="action_cli-doc">
+            
+            
+            
+          </div><!-- action_cli-doc -->
+
+          
+          <div class="method-source-code" id="action_cli-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 367</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">action_cli</span>(<span class="ruby-identifier">provider</span>, <span class="ruby-identifier">args</span> = [], <span class="ruby-identifier">quiet</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">name</span> = <span class="ruby-value">:nucleon</span>)
+  <span class="ruby-constant">Plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">Action</span>.<span class="ruby-identifier">exec_cli</span>(<span class="ruby-identifier">provider</span>, <span class="ruby-identifier">args</span>, <span class="ruby-identifier">quiet</span>, <span class="ruby-identifier">name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- action_cli-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- action_cli-method -->
+
+    
+      <div id="method-i-action_config" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">action_config</span><span
+            class="method-args">(provider)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="action_config-doc">
+            
+            
+            
+          </div><!-- action_config-doc -->
+
+          
+          <div class="method-source-code" id="action_config-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 355</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">action_config</span>(<span class="ruby-identifier">provider</span>)
+  <span class="ruby-identifier">action</span> = <span class="ruby-identifier">action</span>(<span class="ruby-identifier">provider</span>, { <span class="ruby-value">:settings</span> =<span class="ruby-operator">&gt;</span> {}, <span class="ruby-value">:quiet</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> })
+  <span class="ruby-keyword">return</span> {} <span class="ruby-keyword">unless</span> <span class="ruby-identifier">action</span>
+  
+  <span class="ruby-identifier">action</span>.<span class="ruby-identifier">configure</span>
+  <span class="ruby-identifier">action</span>.<span class="ruby-identifier">config</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- action_config-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- action_config-method -->
+
+    
+      <div id="method-i-action_help" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">action_help</span><span
+            class="method-args">(action = nil, extended_help = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="action_help-doc">
+            
+            
+            
+          </div><!-- action_help-doc -->
+
+          
+          <div class="method-source-code" id="action_help-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 384</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">action_help</span>(<span class="ruby-identifier">action</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">extended_help</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-constant">Plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">Action</span>.<span class="ruby-identifier">action_help</span>(<span class="ruby-identifier">action</span>, <span class="ruby-identifier">extended_help</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- action_help-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- action_help-method -->
+
+    
+      <div id="method-i-action_run" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">action_run</span><span
+            class="method-args">(provider, options = {}, quiet = true)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="action_run-doc">
+            
+            
+            
+          </div><!-- action_run-doc -->
+
+          
+          <div class="method-source-code" id="action_run-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 363</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">action_run</span>(<span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {}, <span class="ruby-identifier">quiet</span> = <span class="ruby-keyword">true</span>)
+  <span class="ruby-constant">Plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">Action</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">quiet</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- action_run-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- action_run-method -->
+
+    
+      <div id="method-i-actions" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">actions</span><span
+            class="method-args">(data, build_hash = false, keep_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="actions-doc">
+            
+            
+            
+          </div><!-- actions-doc -->
+
+          
+          <div class="method-source-code" id="actions-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 351</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">actions</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">plugins</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:action</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span>, <span class="ruby-identifier">keep_array</span>)  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- actions-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- actions-method -->
+
+    
+      <div id="method-i-active_plugins" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">active_plugins</span><span
+            class="method-args">(namespace = nil, plugin_type = nil, provider = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="active_plugins-doc">
+            
+            
+            
+          </div><!-- active_plugins-doc -->
+
+          
+          <div class="method-source-code" id="active_plugins-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 294</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">active_plugins</span>(<span class="ruby-identifier">namespace</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">plugin_type</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">active_plugins</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- active_plugins-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- active_plugins-method -->
+
+    
+      <div id="method-i-admin-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">admin?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="admin-3F-doc">
+            
+            
+            
+          </div><!-- admin-3F-doc -->
+
+          
+          <div class="method-source-code" id="admin-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 172</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">admin?</span>
+  <span class="ruby-identifier">is_admin</span>  = ( <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;USER&#39;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;root&#39;</span> )
+  <span class="ruby-identifier">ext_admin</span> = <span class="ruby-identifier">exec</span>(<span class="ruby-value">:check_admin</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">op</span>, <span class="ruby-identifier">results</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">op</span> <span class="ruby-operator">==</span> <span class="ruby-value">:reduce</span>
+      <span class="ruby-identifier">results</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-keyword">true</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">results</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">is_admin</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">ext_admin</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- admin-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- admin-3F-method -->
+
+    
+      <div id="method-i-check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check</span><span
+            class="method-args">(method, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="check-doc">
+            
+            
+            
+          </div><!-- check-doc -->
+
+          
+          <div class="method-source-code" id="check-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 454</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">check</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check-method -->
+
+    
+      <div id="method-i-class_const" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">class_const</span><span
+            class="method-args">(name, separator = '::')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="class_const-doc">
+            
+            
+            
+          </div><!-- class_const-doc -->
+
+          
+          <div class="method-source-code" id="class_const-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 566</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">class_const</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-string">&#39;::&#39;</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">class_const</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- class_const-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- class_const-method -->
+
+    
+      <div id="method-i-class_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">class_name</span><span
+            class="method-args">(name, separator = '::', want_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="class_name-doc">
+            
+            
+            
+          </div><!-- class_name-doc -->
+
+          
+          <div class="method-source-code" id="class_name-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 560</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">class_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-string">&#39;::&#39;</span>, <span class="ruby-identifier">want_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">class_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span>, <span class="ruby-identifier">want_array</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- class_name-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- class_name-method -->
+
+    
+      <div id="method-i-cli_run" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cli_run</span><span
+            class="method-args">(command, options = {}, &code)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="cli_run-doc">
+            
+            
+            
+          </div><!-- cli_run-doc -->
+
+          
+          <div class="method-source-code" id="cli_run-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 491</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cli_run</span>(<span class="ruby-identifier">command</span>, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">code</span>)
+  <span class="ruby-identifier">command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39; &#39;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">command</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+  <span class="ruby-identifier">config</span>  = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
+  
+  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Executing command #{command}&quot;</span>)
+      
+  <span class="ruby-identifier">result</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Shell</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">command</span>, <span class="ruby-identifier">config</span>, &amp;<span class="ruby-identifier">code</span>)
+  
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:quiet</span>, <span class="ruby-keyword">false</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">result</span>.<span class="ruby-identifier">status</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">code</span>.<span class="ruby-identifier">success</span>
+    <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">error</span>(<span class="ruby-node">&quot;Command #{command} failed to execute&quot;</span>)
+  <span class="ruby-keyword">end</span>     
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- cli_run-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- cli_run-method -->
+
+    
+      <div id="method-i-code" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">code</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="code-doc">
+            
+            
+            
+          </div><!-- code-doc -->
+
+          
+          <div class="method-source-code" id="code-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 228</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">code</span>
+  <span class="ruby-constant">Codes</span>.<span class="ruby-identifier">new</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- code-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- code-method -->
+
+    
+      <div id="method-i-codes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">codes</span><span
+            class="method-args">(*codes)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="codes-doc">
+            
+            
+            
+          </div><!-- codes-doc -->
+
+          
+          <div class="method-source-code" id="codes-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 232</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
+  <span class="ruby-constant">Codes</span>.<span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- codes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- codes-method -->
+
+    
+      <div id="method-i-collect" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">collect</span><span
+            class="method-args">(method, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="collect-doc">
+            
+            
+            
+          </div><!-- collect-doc -->
+
+          
+          <div class="method-source-code" id="collect-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 466</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">collect</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">collect</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- collect-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- collect-method -->
+
+    
+      <div id="method-i-command" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">command</span><span
+            class="method-args">(options, provider = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="command-doc">
+            
+            
+            
+          </div><!-- command-doc -->
+
+          
+          <div class="method-source-code" id="command-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 401</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">command</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:command</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- command-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- command-method -->
+
+    
+      <div id="method-i-commands" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">commands</span><span
+            class="method-args">(data, build_hash = false, keep_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="commands-doc">
+            
+            
+            
+          </div><!-- commands-doc -->
+
+          
+          <div class="method-source-code" id="commands-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 405</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">commands</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">plugins</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:command</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span>, <span class="ruby-identifier">keep_array</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- commands-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- commands-method -->
+
+    
+      <div id="method-i-config" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">config</span><span
+            class="method-args">(type, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="config-doc">
+            
+            
+            
+          </div><!-- config-doc -->
+
+          
+          <div class="method-source-code" id="config-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 448</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">config</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- config-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- config-method -->
+
+    
+      <div id="method-i-create_plugin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_plugin</span><span
+            class="method-args">(namespace, plugin_type, provider, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="create_plugin-doc">
+            
+            
+            
+          </div><!-- create_plugin-doc -->
+
+          
+          <div class="method-source-code" id="create_plugin-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 312</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">create</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create_plugin-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create_plugin-method -->
+
+    
+      <div id="method-i-define_types" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">define_types</span><span
+            class="method-args">(namespace, type_info)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="define_types-doc">
+            
+            
+            
+          </div><!-- define_types-doc -->
+
+          
+          <div class="method-source-code" id="define_types-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 255</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_types</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">type_info</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">define_types</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">type_info</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- define_types-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- define_types-method -->
+
+    
+      <div id="method-i-event" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">event</span><span
+            class="method-args">(options, provider = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="event-doc">
+            
+            
+            
+          </div><!-- event-doc -->
+
+          
+          <div class="method-source-code" id="event-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 411</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">event</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:event</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- event-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- event-method -->
+
+    
+      <div id="method-i-events" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">events</span><span
+            class="method-args">(data, build_hash = false, keep_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="events-doc">
+            
+            
+            
+          </div><!-- events-doc -->
+
+          
+          <div class="method-source-code" id="events-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 415</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">events</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">plugins</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:event</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span>, <span class="ruby-identifier">keep_array</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- events-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- events-method -->
+
+    
+      <div id="method-i-exec" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">exec</span><span
+            class="method-args">(method, options = {}, &code)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="exec-doc">
+            
+            
+            
+          </div><!-- exec-doc -->
+
+          
+          <div class="method-source-code" id="exec-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 442</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">exec</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">code</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span>, &amp;<span class="ruby-identifier">code</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- exec-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- exec-method -->
+
+    
+      <div id="method-i-executable" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">executable</span><span
+            class="method-args">(args, name = 'nucleon')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="executable-doc">
+            
+            
+            
+          </div><!-- executable-doc -->
+
+          
+          <div class="method-source-code" id="executable-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 507</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">executable</span>(<span class="ruby-identifier">args</span>, <span class="ruby-identifier">name</span> = <span class="ruby-string">&#39;nucleon&#39;</span>) <span class="ruby-comment">#ARGV</span>
+  <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;`#{name}` invoked: #{args.inspect}&quot;</span>)
+
+  <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">sync</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">sync</span> = <span class="ruby-keyword">true</span>
+  
+  <span class="ruby-identifier">exit_status</span> = <span class="ruby-keyword">nil</span>
+  
+  <span class="ruby-comment"># We need to catch this early.</span>
+  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">use_colors</span> = <span class="ruby-operator">!</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&quot;--no-color&quot;</span>)
+  <span class="ruby-identifier">args</span> = <span class="ruby-identifier">args</span> <span class="ruby-operator">-</span> [ <span class="ruby-string">&quot;--no-color&quot;</span>, <span class="ruby-string">&quot;--color&quot;</span> ]
+
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Beginning execution run&quot;</span>)
+    
+    <span class="ruby-identifier">load_plugins</span>
+    
+    <span class="ruby-identifier">arg_components</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">CLI</span><span class="ruby-operator">::</span><span class="ruby-constant">Parser</span>.<span class="ruby-identifier">split</span>(<span class="ruby-identifier">args</span>, <span class="ruby-identifier">cyan</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">yellow</span>(<span class="ruby-string">&quot; &lt;action components&gt; [&lt;arg&gt; ...]&quot;</span>))
+    <span class="ruby-identifier">main_command</span>   = <span class="ruby-identifier">arg_components</span>.<span class="ruby-identifier">shift</span>
+    
+    <span class="ruby-identifier">action</span>, <span class="ruby-identifier">action_components</span>, <span class="ruby-identifier">args</span> = <span class="ruby-identifier">search_actions</span>(<span class="ruby-identifier">args</span>)
+    
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">main_command</span>.<span class="ruby-identifier">processed</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">action</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
+      <span class="ruby-identifier">exit_status</span> = <span class="ruby-identifier">action_cli</span>(<span class="ruby-identifier">action</span>[<span class="ruby-value">:provider</span>], <span class="ruby-identifier">args</span>, <span class="ruby-keyword">false</span>, <span class="ruby-identifier">name</span>)
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;nucleon.core.exec.help.usage&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&#39;: &#39;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">main_command</span>.<span class="ruby-identifier">help</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n&quot;</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;nucleon.core.exec.help.header&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;:\n&quot;</span>
+      
+      <span class="ruby-identifier">action</span> = <span class="ruby-identifier">main_command</span>.<span class="ruby-identifier">processed</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">action</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">puts</span> <span class="ruby-identifier">action_help</span>(<span class="ruby-identifier">action</span>, <span class="ruby-identifier">args</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-string">&quot;--help&quot;</span>))
+      
+      <span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-string">&#39;nucleon.core.exec.help.footer&#39;</span>, { <span class="ruby-value">:command</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">cyan</span>(<span class="ruby-identifier">name</span>) <span class="ruby-operator">+</span> <span class="ruby-identifier">yellow</span>(<span class="ruby-string">&quot; &lt;action&gt; -h&quot;</span>) }) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n\n&quot;</span>   
+      <span class="ruby-identifier">exit_status</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">help_wanted</span>  
+    <span class="ruby-keyword">end</span> 
+
+  <span class="ruby-keyword">rescue</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">error</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-string">&quot;Nucleon executable experienced an error:&quot;</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">inspect</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">message</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">to_yaml</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">backtrace</span>))
+
+    <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">message</span>, { <span class="ruby-value">:prefix</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span> }) <span class="ruby-keyword">if</span> <span class="ruby-identifier">error</span>.<span class="ruby-identifier">message</span>
+
+    <span class="ruby-identifier">exit_status</span> = <span class="ruby-identifier">error</span>.<span class="ruby-identifier">status_code</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">error</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:status_code</span>)
+    <span class="ruby-identifier">exit_status</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">unknown_status</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">exit_status</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-identifier">exit_status</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- executable-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- executable-method -->
+
+    
+      <div id="method-i-extension" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">extension</span><span
+            class="method-args">(provider)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="extension-doc">
+            
+            
+            
+          </div><!-- extension-doc -->
+
+          
+          <div class="method-source-code" id="extension-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 341</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">extension</span>(<span class="ruby-identifier">provider</span>)
+  <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:extension</span>, <span class="ruby-identifier">provider</span>, {})
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- extension-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- extension-method -->
+
+    
+      <div id="method-i-get_plugin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_plugin</span><span
+            class="method-args">(namespace, plugin_type, plugin_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="get_plugin-doc">
+            
+            
+            
+          </div><!-- get_plugin-doc -->
+
+          
+          <div class="method-source-code" id="get_plugin-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 318</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_name</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_plugin-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_plugin-method -->
+
+    
+      <div id="method-i-handle" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">handle</span><span
+            class="method-args">(klass)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="handle-doc">
+            
+            
+            
+          </div><!-- handle-doc -->
+
+          
+          <div class="method-source-code" id="handle-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 128</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">handle</span>(<span class="ruby-identifier">klass</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">parallel?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:current_actor</span>)
+    <span class="ruby-identifier">myself</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">current_actor</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">myself</span> = <span class="ruby-identifier">klass</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">myself</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- handle-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- handle-method -->
+
+    
+      <div id="method-i-ip_address" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ip_address</span><span
+            class="method-args">(reset = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="ip_address-doc">
+            
+            
+            
+          </div><!-- ip_address-doc -->
+
+          
+          <div class="method-source-code" id="ip_address-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 188</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ip_address</span>(<span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">external_ip</span>    = <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">cached_ip_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">Dir</span>.<span class="ruby-identifier">tmpdir</span>(), <span class="ruby-string">&#39;nucleon_ip.json&#39;</span>)
+  
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">@@ip_cache</span>      
+    <span class="ruby-identifier">json_text</span>  = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">ensure_value</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Disk</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">cached_ip_file</span>), <span class="ruby-string">&#39;&#39;</span>)
+    <span class="ruby-identifier">@@ip_cache</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">parse_json</span>(<span class="ruby-identifier">json_text</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">json_text</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">end</span>
+      
+  <span class="ruby-identifier">fetch_ip</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword">do</span>
+    <span class="ruby-identifier">result</span>     = <span class="ruby-identifier">cli_run</span>(<span class="ruby-identifier">value</span>(<span class="ruby-value">:external_address_command</span>, <span class="ruby-string">&#39;curl --silent ifconfig.me&#39;</span>), { <span class="ruby-value">:quiet</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> })
+    <span class="ruby-identifier">ip_address</span> = <span class="ruby-identifier">result</span>.<span class="ruby-identifier">output</span>
+    
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">ip_address</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">@@ip_cache</span> = {
+        <span class="ruby-string">&#39;ip&#39;</span>      =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ip_address</span>,
+        <span class="ruby-string">&#39;updated&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">new</span>.<span class="ruby-identifier">to_s</span>
+      }
+      <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Disk</span>.<span class="ruby-identifier">write</span>(<span class="ruby-identifier">cached_ip_file</span>, <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">to_json</span>(<span class="ruby-identifier">@@ip_cache</span>))
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">ip_address</span>
+  <span class="ruby-keyword">end</span>
+      
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> (<span class="ruby-operator">!</span> <span class="ruby-identifier">@@ip_cache</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">@@ip_cache</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">@@ip_cache</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-string">&#39;ip&#39;</span>))
+    <span class="ruby-identifier">external_ip</span> = <span class="ruby-identifier">fetch_ip</span>.<span class="ruby-identifier">call</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">external_ip</span>    = <span class="ruby-identifier">@@ip_cache</span>[<span class="ruby-string">&#39;ip&#39;</span>]
+    <span class="ruby-identifier">updated_time</span>   = <span class="ruby-constant">Time</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">@@ip_cache</span>[<span class="ruby-string">&#39;updated&#39;</span>])
+    <span class="ruby-identifier">cache_duration</span> = (<span class="ruby-constant">Time</span>.<span class="ruby-identifier">new</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">updated_time</span>) <span class="ruby-operator">/</span> <span class="ruby-value">60</span> <span class="ruby-comment"># Seconds to minutes</span>
+    
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">cache_duration</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">value</span>(<span class="ruby-value">:external_address_lifetime</span>, <span class="ruby-value">60</span>)
+      <span class="ruby-identifier">external_ip</span> = <span class="ruby-identifier">fetch_ip</span>.<span class="ruby-identifier">call</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">external_ip</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ip_address-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ip_address-method -->
+
+    
+      <div id="method-i-load_plugins" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">load_plugins</span><span
+            class="method-args">(base_dir = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="load_plugins-doc">
+            
+            
+            
+          </div><!-- load_plugins-doc -->
+
+          
+          <div class="method-source-code" id="load_plugins-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 265</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">load_plugins</span>(<span class="ruby-identifier">base_dir</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">base_dir</span> = <span class="ruby-identifier">base_dir</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">pwd</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">base_dir</span>
+  
+  <span class="ruby-identifier">search_plugins</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">search_dir</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">lib_dir</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">search_dir</span>, <span class="ruby-string">&#39;lib&#39;</span>)
+    
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">lib_dir</span>)
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Registering plugins at #{lib_dir}&quot;</span>)
+      <span class="ruby-identifier">register</span>(<span class="ruby-identifier">lib_dir</span>)
+    <span class="ruby-keyword">end</span>
+    
+    <span class="ruby-identifier">parent_search_dir</span> = <span class="ruby-identifier">search_dir</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-node">/#{File::SEPARATOR}[^#{File::SEPARATOR}]+$/</span>, <span class="ruby-string">&#39;&#39;</span>)
+    <span class="ruby-identifier">search_plugins</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">parent_search_dir</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">parent_search_dir</span>.<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">SEPARATOR</span>).<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">end</span>
+  
+  <span class="ruby-identifier">search_plugins</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">base_dir</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- load_plugins-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- load_plugins-method -->
+
+    
+      <div id="method-i-loaded_plugins" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">loaded_plugins</span><span
+            class="method-args">(namespace = nil, plugin_type = nil, provider = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="loaded_plugins-doc">
+            
+            
+            
+          </div><!-- loaded_plugins-doc -->
+
+          
+          <div class="method-source-code" id="loaded_plugins-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 288</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">loaded_plugins</span>(<span class="ruby-identifier">namespace</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">plugin_type</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">loaded_plugins</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)    
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- loaded_plugins-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- loaded_plugins-method -->
+
+    
+      <div id="method-i-log_level" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">log_level</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="log_level-doc">
+            
+            
+            
+          </div><!-- log_level-doc -->
+
+          
+          <div class="method-source-code" id="log_level-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 118</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">log_level</span>
+  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>.<span class="ruby-identifier">level</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- log_level-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- log_level-method -->
+
+    
+      <div id="method-i-log_level-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">log_level=</span><span
+            class="method-args">(log_level)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="log_level-3D-doc">
+            
+            
+            
+          </div><!-- log_level-3D-doc -->
+
+          
+          <div class="method-source-code" id="log_level-3D-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 122</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">log_level=</span><span class="ruby-identifier">log_level</span>
+  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Logger</span>.<span class="ruby-identifier">level</span> = <span class="ruby-identifier">log_level</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- log_level-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- log_level-3D-method -->
+
+    
+      <div id="method-i-logger" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">logger</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="logger-doc">
+            
+            
+            
+          </div><!-- logger-doc -->
+
+          
+          <div class="method-source-code" id="logger-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 114</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">logger</span>
+  <span class="ruby-constant">Core</span>.<span class="ruby-identifier">logger</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- logger-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- logger-method -->
+
+    
+      <div id="method-i-manager" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">manager</span><span
+            class="method-args">(collection, name, klass, reset = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="manager-doc">
+            
+            
+            
+          </div><!-- manager-doc -->
+
+          
+          <div class="method-source-code" id="manager-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 139</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">manager</span>(<span class="ruby-identifier">collection</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">klass</span>, <span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">name</span>     = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
+  <span class="ruby-identifier">actor_id</span> = <span class="ruby-node">&quot;#{klass}::#{name}&quot;</span>.<span class="ruby-identifier">to_sym</span>
+      
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">collection</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">actor_id</span>)
+    <span class="ruby-identifier">manager</span> = <span class="ruby-identifier">parallel?</span> <span class="ruby-operator">?</span> <span class="ruby-constant">Celluloid</span><span class="ruby-operator">::</span><span class="ruby-constant">Actor</span>[<span class="ruby-identifier">actor_id</span>] <span class="ruby-operator">:</span> <span class="ruby-identifier">collection</span>[<span class="ruby-identifier">actor_id</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">parallel?</span>
+      <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">supervise_as</span>(<span class="ruby-identifier">actor_id</span>, <span class="ruby-identifier">actor_id</span>, <span class="ruby-identifier">reset</span>)
+      <span class="ruby-identifier">manager</span> = <span class="ruby-constant">Celluloid</span><span class="ruby-operator">::</span><span class="ruby-constant">Actor</span>[<span class="ruby-identifier">actor_id</span>]
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">manager</span> = <span class="ruby-identifier">klass</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">actor_id</span>, <span class="ruby-identifier">reset</span>) <span class="ruby-comment"># Managers should have standardized initialization parameters</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">collection</span>[<span class="ruby-identifier">actor_id</span>] = <span class="ruby-identifier">manager</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">test_connection</span>(<span class="ruby-identifier">actor_id</span>, <span class="ruby-identifier">manager</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- manager-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- manager-method -->
+
+    
+      <div id="method-i-namespaces" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">namespaces</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="namespaces-doc">
+            
+            
+            
+          </div><!-- namespaces-doc -->
+
+          
+          <div class="method-source-code" id="namespaces-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 245</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">namespaces</span>
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">namespaces</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- namespaces-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- namespaces-method -->
+
+    
+      <div id="method-i-plugin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">plugin</span><span
+            class="method-args">(namespace, plugin_type, provider, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="plugin-doc">
+            
+            
+            
+          </div><!-- plugin-doc -->
+
+          
+          <div class="method-source-code" id="plugin-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 300</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">load</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- plugin-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- plugin-method -->
+
+    
+      <div id="method-i-plugin_class" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">plugin_class</span><span
+            class="method-args">(namespace, plugin_type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="plugin_class-doc">
+            
+            
+            
+          </div><!-- plugin_class-doc -->
+
+          
+          <div class="method-source-code" id="plugin_class-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 334</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_class</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">plugin_class</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- plugin_class-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- plugin_class-method -->
+
+    
+      <div id="method-i-plugins" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">plugins</span><span
+            class="method-args">(namespace, plugin_type, data, build_hash = false, keep_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="plugins-doc">
+            
+            
+            
+          </div><!-- plugins-doc -->
+
+          
+          <div class="method-source-code" id="plugins-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 306</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">plugins</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">load_multiple</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span>, <span class="ruby-identifier">keep_array</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- plugins-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- plugins-method -->
+
+    
+      <div id="method-i-project" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">project</span><span
+            class="method-args">(options, provider = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="project-doc">
+            
+            
+            
+          </div><!-- project-doc -->
+
+          
+          <div class="method-source-code" id="project-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 390</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">project</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:project</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- project-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- project-method -->
+
+    
+      <div id="method-i-projects" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">projects</span><span
+            class="method-args">(data, build_hash = false, keep_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="projects-doc">
+            
+            
+            
+          </div><!-- projects-doc -->
+
+          
+          <div class="method-source-code" id="projects-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 394</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">projects</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">plugins</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:project</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span>, <span class="ruby-identifier">keep_array</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- projects-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- projects-method -->
+
+    
+      <div id="method-i-quiet-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">quiet=</span><span
+            class="method-args">(quiet)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="quiet-3D-doc">
+            
+            
+            
+          </div><!-- quiet-3D-doc -->
+
+          
+          <div class="method-source-code" id="quiet-3D-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">quiet=</span><span class="ruby-identifier">quiet</span>
+  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">quiet</span> = <span class="ruby-identifier">quiet</span>  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- quiet-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- quiet-3D-method -->
+
+    
+      <div id="method-i-register" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register</span><span
+            class="method-args">(base_path, &code)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="register-doc">
+            
+            
+            
+          </div><!-- register-doc -->
+
+          
+          <div class="method-source-code" id="register-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 283</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">register</span>(<span class="ruby-identifier">base_path</span>, &amp;<span class="ruby-identifier">code</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">register</span>(<span class="ruby-identifier">base_path</span>, &amp;<span class="ruby-identifier">code</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">autoload</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register-method -->
+
+    
+      <div id="method-i-reload" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">reload</span><span
+            class="method-args">(core = false, loaded = [], &code)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="reload-doc">
+            
+            
+            
+          </div><!-- reload-doc -->
+
+          
+          <div class="method-source-code" id="reload-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 239</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">reload</span>(<span class="ruby-identifier">core</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">loaded</span> = [], &amp;<span class="ruby-identifier">code</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">reload</span>(<span class="ruby-identifier">core</span>, <span class="ruby-identifier">loaded</span>, &amp;<span class="ruby-identifier">code</span>)  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- reload-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- reload-method -->
+
+    
+      <div id="method-i-remove_plugin" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_plugin</span><span
+            class="method-args">(plugin)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="remove_plugin-doc">
+            
+            
+            
+          </div><!-- remove_plugin-doc -->
+
+          
+          <div class="method-source-code" id="remove_plugin-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 328</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_plugin</span>(<span class="ruby-identifier">plugin</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">remove</span>(<span class="ruby-identifier">plugin</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remove_plugin-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remove_plugin-method -->
+
+    
+      <div id="method-i-remove_plugin_by_name" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">remove_plugin_by_name</span><span
+            class="method-args">(namespace, plugin_type, plugin_instance_name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="remove_plugin_by_name-doc">
+            
+            
+            
+          </div><!-- remove_plugin_by_name-doc -->
+
+          
+          <div class="method-source-code" id="remove_plugin_by_name-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 324</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_plugin_by_name</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_instance_name</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">remove_by_name</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_instance_name</span>)  
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- remove_plugin_by_name-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- remove_plugin_by_name-method -->
+
+    
+      <div id="method-i-render_object" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">render_object</span><span
+            class="method-args">(data)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="render_object-doc">
+            
+            
+            
+          </div><!-- render_object-doc -->
+
+          
+          <div class="method-source-code" id="render_object-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 602</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">render_object</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;pp&#39;</span>
+  <span class="ruby-constant">PP</span>.<span class="ruby-identifier">pp</span>(<span class="ruby-identifier">data</span>, <span class="ruby-string">&quot;&quot;</span>).<span class="ruby-identifier">strip</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- render_object-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- render_object-method -->
+
+    
+      <div id="method-i-render_tree" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">render_tree</span><span
+            class="method-args">(data, logger, state = :debug, padding = '')</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="render_tree-doc">
+            
+            
+            
+          </div><!-- render_tree-doc -->
+
+          
+          <div class="method-source-code" id="render_tree-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 609</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">render_tree</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">logger</span>, <span class="ruby-identifier">state</span> = <span class="ruby-value">:debug</span>, <span class="ruby-identifier">padding</span> = <span class="ruby-string">&#39;&#39;</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>)
+    <span class="ruby-identifier">data</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">export</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>)
+    <span class="ruby-identifier">data</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">state</span>, <span class="ruby-node">&quot;#{padding}#{key}&quot;</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>)
+        <span class="ruby-identifier">value</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">export</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Nucleon</span><span class="ruby-operator">::</span><span class="ruby-constant">Config</span>)
+        <span class="ruby-identifier">render_tree</span>(<span class="ruby-identifier">value</span>, <span class="ruby-identifier">logger</span>, <span class="ruby-identifier">state</span>, <span class="ruby-node">&quot;#{padding}  &quot;</span>)   
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- render_tree-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- render_tree-method -->
+
+    
+      <div id="method-i-run" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">run</span><span
+            class="method-args">() { || ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="run-doc">
+            
+            
+            
+          </div><!-- run-doc -->
+
+          
+          <div class="method-source-code" id="run-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 473</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">run</span>
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Running contained process at #{Time.now}&quot;</span>)
+    <span class="ruby-keyword">yield</span>
+    
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">error</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-string">&quot;Nucleon run experienced an error! Details:&quot;</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">inspect</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">message</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">error</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">to_yaml</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">backtrace</span>))
+
+    <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">error</span>(<span class="ruby-identifier">error</span>.<span class="ruby-identifier">message</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">error</span>.<span class="ruby-identifier">message</span>
+    <span class="ruby-identifier">raise</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- run-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- run-method -->
+
+    
+      <div id="method-i-search_actions" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search_actions</span><span
+            class="method-args">(args)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="search_actions-doc">
+            
+            
+            
+          </div><!-- search_actions-doc -->
+
+          
+          <div class="method-source-code" id="search_actions-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 371</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_actions</span>(<span class="ruby-identifier">args</span>)
+  <span class="ruby-identifier">action_info</span> = <span class="ruby-constant">Plugin</span><span class="ruby-operator">::</span><span class="ruby-constant">Action</span>.<span class="ruby-identifier">search_actions</span>(<span class="ruby-identifier">args</span>)
+  
+  <span class="ruby-identifier">action_components</span> = <span class="ruby-identifier">action_info</span>[<span class="ruby-value">:components</span>]
+  <span class="ruby-identifier">action</span>            = <span class="ruby-identifier">action_info</span>[<span class="ruby-value">:actions</span>]
+    
+  <span class="ruby-identifier">action_components</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">component</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">args</span>.<span class="ruby-identifier">shift</span>
+  <span class="ruby-keyword">end</span>
+  
+  [ <span class="ruby-identifier">action</span>, <span class="ruby-identifier">action_components</span>, <span class="ruby-identifier">args</span> ]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- search_actions-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- search_actions-method -->
+
+    
+      <div id="method-i-sha1" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">sha1</span><span
+            class="method-args">(data)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="sha1-doc">
+            
+            
+            
+          </div><!-- sha1-doc -->
+
+          
+          <div class="method-source-code" id="sha1-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 572</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sha1</span>(<span class="ruby-identifier">data</span>)
+  <span class="ruby-constant">Digest</span><span class="ruby-operator">::</span><span class="ruby-constant">SHA1</span>.<span class="ruby-identifier">hexdigest</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">to_json</span>(<span class="ruby-identifier">data</span>, <span class="ruby-keyword">false</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- sha1-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- sha1-method -->
+
+    
+      <div id="method-i-silence" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">silence</span><span
+            class="method-args">() { || ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="silence-doc">
+            
+            
+            
+          </div><!-- silence-doc -->
+
+          
+          <div class="method-source-code" id="silence-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 578</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">silence</span>
+  <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>
+  
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">orig_stderr</span> = <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">clone</span>
+    <span class="ruby-identifier">orig_stdout</span> = <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">clone</span>
+    <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;/dev/null&#39;</span>, <span class="ruby-string">&#39;w&#39;</span>)
+    <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;/dev/null&#39;</span>, <span class="ruby-string">&#39;w&#39;</span>)
+    
+    <span class="ruby-identifier">result</span> = <span class="ruby-keyword">yield</span>
+  
+  <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">error</span>
+    <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-identifier">orig_stdout</span>
+    <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-identifier">orig_stderr</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-identifier">error</span>
+  <span class="ruby-keyword">ensure</span>
+    <span class="ruby-identifier">$stdout</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-identifier">orig_stdout</span>
+    <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">reopen</span> <span class="ruby-identifier">orig_stderr</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- silence-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- silence-method -->
+
+    
+      <div id="method-i-template" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">template</span><span
+            class="method-args">(options, provider = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="template-doc">
+            
+            
+            
+          </div><!-- template-doc -->
+
+          
+          <div class="method-source-code" id="template-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 421</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">template</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:template</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- template-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- template-method -->
+
+    
+      <div id="method-i-templates" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">templates</span><span
+            class="method-args">(data, build_hash = false, keep_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="templates-doc">
+            
+            
+            
+          </div><!-- templates-doc -->
+
+          
+          <div class="method-source-code" id="templates-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 425</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">templates</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">plugins</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:template</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span>, <span class="ruby-identifier">keep_array</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- templates-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- templates-method -->
+
+    
+      <div id="method-i-test_connection" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">test_connection</span><span
+            class="method-args">(actor_id, manager)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="test_connection-doc">
+            
+            
+            
+          </div><!-- test_connection-doc -->
+
+          
+          <div class="method-source-code" id="test_connection-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 157</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">test_connection</span>(<span class="ruby-identifier">actor_id</span>, <span class="ruby-identifier">manager</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">parallel?</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-comment"># Raise error if no test method found but retry for dead actors</span>
+      <span class="ruby-identifier">manager</span>.<span class="ruby-identifier">test_connection</span>
+      
+    <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Celluloid</span><span class="ruby-operator">::</span><span class="ruby-constant">DeadActorError</span>
+      <span class="ruby-keyword">retry</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">manager</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- test_connection-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- test_connection-method -->
+
+    
+      <div id="method-i-translator" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">translator</span><span
+            class="method-args">(options, provider = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="translator-doc">
+            
+            
+            
+          </div><!-- translator-doc -->
+
+          
+          <div class="method-source-code" id="translator-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 431</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">translator</span>(<span class="ruby-identifier">options</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">plugin</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:translator</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- translator-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- translator-method -->
+
+    
+      <div id="method-i-translators" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">translators</span><span
+            class="method-args">(data, build_hash = false, keep_array = false)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="translators-doc">
+            
+            
+            
+          </div><!-- translators-doc -->
+
+          
+          <div class="method-source-code" id="translators-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 435</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">translators</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">plugins</span>(<span class="ruby-value">:nucleon</span>, <span class="ruby-value">:translator</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span>, <span class="ruby-identifier">keep_array</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- translators-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- translators-method -->
+
+    
+      <div id="method-i-type_default" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">type_default</span><span
+            class="method-args">(namespace, plugin_type)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="type_default-doc">
+            
+            
+            
+          </div><!-- type_default-doc -->
+
+          
+          <div class="method-source-code" id="type_default-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 259</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">type_default</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">type_default</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- type_default-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- type_default-method -->
+
+    
+      <div id="method-i-types" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">types</span><span
+            class="method-args">(namespace)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="types-doc">
+            
+            
+            
+          </div><!-- types-doc -->
+
+          
+          <div class="method-source-code" id="types-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 251</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">types</span>(<span class="ruby-identifier">namespace</span>)
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">types</span>(<span class="ruby-identifier">namespace</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- types-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- types-method -->
+
+    
+      <div id="method-i-ui" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ui</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="ui-doc">
+            
+            
+            
+          </div><!-- ui-doc -->
+
+          
+          <div class="method-source-code" id="ui-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 100</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ui</span>
+  <span class="ruby-constant">Core</span>.<span class="ruby-identifier">ui</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ui-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ui-method -->
+
+    
+      <div id="method-i-ui_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">ui_group</span><span
+            class="method-args">(resource, color = :cyan, &code)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="ui_group-doc">
+            
+            
+            
+          </div><!-- ui_group-doc -->
+
+          
+          <div class="method-source-code" id="ui_group-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 104</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span> = <span class="ruby-value">:cyan</span>, &amp;<span class="ruby-identifier">code</span>)
+  <span class="ruby-constant">Core</span>.<span class="ruby-identifier">ui_group</span>(<span class="ruby-identifier">resource</span>, <span class="ruby-identifier">color</span>, &amp;<span class="ruby-identifier">code</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- ui_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- ui_group-method -->
+
+    
+      <div id="method-i-value" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">value</span><span
+            class="method-args">(method, value, options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="value-doc">
+            
+            
+            
+          </div><!-- value-doc -->
+
+          
+          <div class="method-source-code" id="value-source">
+            <pre><span class="ruby-comment"># File lib/core/facade.rb, line 460</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- value-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- value-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

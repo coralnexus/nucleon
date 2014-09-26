@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Nucleon::Mixin::ConfigCollection - nucleon 0.2.3</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/core/mixin/config/collection.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-all_properties">#all_properties</a>
+    
+    <li><a href="#method-i-clear_properties">#clear_properties</a>
+    
+    <li><a href="#method-i-delete_property">#delete_property</a>
+    
+    <li><a href="#method-i-get_property">#get_property</a>
+    
+    <li><a href="#method-i-save_properties">#save_properties</a>
+    
+    <li><a href="#method-i-set_property">#set_property</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../ARCHITECTURE_rdoc.html">ARCHITECTURE</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../../TODO_rdoc.html">TODO</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Nucleon.html">Nucleon</a>
+  
+    <li><a href="../../Nucleon/Action.html">Nucleon::Action</a>
+  
+    <li><a href="../../Nucleon/Action/Extract.html">Nucleon::Action::Extract</a>
+  
+    <li><a href="../../Nucleon/Action/Project.html">Nucleon::Action::Project</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Add.html">Nucleon::Action::Project::Add</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Create.html">Nucleon::Action::Project::Create</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Remove.html">Nucleon::Action::Project::Remove</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Save.html">Nucleon::Action::Project::Save</a>
+  
+    <li><a href="../../Nucleon/Action/Project/Update.html">Nucleon::Action::Project::Update</a>
+  
+    <li><a href="../../Nucleon/Codes.html">Nucleon::Codes</a>
+  
+    <li><a href="../../Nucleon/Command.html">Nucleon::Command</a>
+  
+    <li><a href="../../Nucleon/Command/Bash.html">Nucleon::Command::Bash</a>
+  
+    <li><a href="../../Nucleon/Config.html">Nucleon::Config</a>
+  
+    <li><a href="../../Nucleon/Config/Collection.html">Nucleon::Config::Collection</a>
+  
+    <li><a href="../../Nucleon/Config/Options.html">Nucleon::Config::Options</a>
+  
+    <li><a href="../../Nucleon/Core.html">Nucleon::Core</a>
+  
+    <li><a href="../../Nucleon/Environment.html">Nucleon::Environment</a>
+  
+    <li><a href="../../Nucleon/Errors.html">Nucleon::Errors</a>
+  
+    <li><a href="../../Nucleon/Errors/BatchError.html">Nucleon::Errors::BatchError</a>
+  
+    <li><a href="../../Nucleon/Errors/NucleonError.html">Nucleon::Errors::NucleonError</a>
+  
+    <li><a href="../../Nucleon/Errors/SSHUnavailable.html">Nucleon::Errors::SSHUnavailable</a>
+  
+    <li><a href="../../Nucleon/Event.html">Nucleon::Event</a>
+  
+    <li><a href="../../Nucleon/Event/Regex.html">Nucleon::Event::Regex</a>
+  
+    <li><a href="../../Nucleon/Extension.html">Nucleon::Extension</a>
+  
+    <li><a href="../../Nucleon/Extension/Project.html">Nucleon::Extension::Project</a>
+  
+    <li><a href="../../Nucleon/Facade.html">Nucleon::Facade</a>
+  
+    <li><a href="../../Nucleon/Gems.html">Nucleon::Gems</a>
+  
+    <li><a href="../../Nucleon/Manager.html">Nucleon::Manager</a>
+  
+    <li><a href="../../Nucleon/Mixin.html">Nucleon::Mixin</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action.html">Nucleon::Mixin::Action</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Commit.html">Nucleon::Mixin::Action::Commit</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
+  
+    <li><a href="../../Nucleon/Mixin/Action/Registration.html">Nucleon::Mixin::Action::Registration</a>
+  
+    <li><a href="../../Nucleon/Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+    <li><a href="../../Nucleon/Mixin/ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+  
+    <li><a href="../../Nucleon/Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro.html">Nucleon::Mixin::Macro</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro/ObjectInterface.html">Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li><a href="../../Nucleon/Mixin/Macro/PluginInterface.html">Nucleon::Mixin::Macro::PluginInterface</a>
+  
+    <li><a href="../../Nucleon/Mixin/Settings.html">Nucleon::Mixin::Settings</a>
+  
+    <li><a href="../../Nucleon/Mixin/SubConfig.html">Nucleon::Mixin::SubConfig</a>
+  
+    <li><a href="../../Nucleon/Parallel.html">Nucleon::Parallel</a>
+  
+    <li><a href="../../Nucleon/Parallel/ClassMethods.html">Nucleon::Parallel::ClassMethods</a>
+  
+    <li><a href="../../Nucleon/Parallel/InstanceMethods.html">Nucleon::Parallel::InstanceMethods</a>
+  
+    <li><a href="../../Nucleon/Plugin.html">Nucleon::Plugin</a>
+  
+    <li><a href="../../Nucleon/Plugin/Action.html">Nucleon::Plugin::Action</a>
+  
+    <li><a href="../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
+  
+    <li><a href="../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
+  
+    <li><a href="../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
+  
+    <li><a href="../../Nucleon/Plugin/Event.html">Nucleon::Plugin::Event</a>
+  
+    <li><a href="../../Nucleon/Plugin/Extension.html">Nucleon::Plugin::Extension</a>
+  
+    <li><a href="../../Nucleon/Plugin/Project.html">Nucleon::Plugin::Project</a>
+  
+    <li><a href="../../Nucleon/Plugin/Template.html">Nucleon::Plugin::Template</a>
+  
+    <li><a href="../../Nucleon/Plugin/Translator.html">Nucleon::Plugin::Translator</a>
+  
+    <li><a href="../../Nucleon/Project.html">Nucleon::Project</a>
+  
+    <li><a href="../../Nucleon/Project/Git.html">Nucleon::Project::Git</a>
+  
+    <li><a href="../../Nucleon/Project/Github.html">Nucleon::Project::Github</a>
+  
+    <li><a href="../../Nucleon/Template.html">Nucleon::Template</a>
+  
+    <li><a href="../../Nucleon/Template/JSON.html">Nucleon::Template::JSON</a>
+  
+    <li><a href="../../Nucleon/Template/Wrapper.html">Nucleon::Template::Wrapper</a>
+  
+    <li><a href="../../Nucleon/Template/YAML.html">Nucleon::Template::YAML</a>
+  
+    <li><a href="../../Nucleon/Translator.html">Nucleon::Translator</a>
+  
+    <li><a href="../../Nucleon/Translator/JSON.html">Nucleon::Translator::JSON</a>
+  
+    <li><a href="../../Nucleon/Translator/YAML.html">Nucleon::Translator::YAML</a>
+  
+    <li><a href="../../Nucleon/Util.html">Nucleon::Util</a>
+  
+    <li><a href="../../Nucleon/Util/CLI.html">Nucleon::Util::CLI</a>
+  
+    <li><a href="../../Nucleon/Util/CLI/Parser.html">Nucleon::Util::CLI::Parser</a>
+  
+    <li><a href="../../Nucleon/Util/Cache.html">Nucleon::Util::Cache</a>
+  
+    <li><a href="../../Nucleon/Util/Console.html">Nucleon::Util::Console</a>
+  
+    <li><a href="../../Nucleon/Util/Data.html">Nucleon::Util::Data</a>
+  
+    <li><a href="../../Nucleon/Util/Disk.html">Nucleon::Util::Disk</a>
+  
+    <li><a href="../../Nucleon/Util/Git.html">Nucleon::Util::Git</a>
+  
+    <li><a href="../../Nucleon/Util/Liquid.html">Nucleon::Util::Liquid</a>
+  
+    <li><a href="../../Nucleon/Util/Logger.html">Nucleon::Util::Logger</a>
+  
+    <li><a href="../../Nucleon/Util/Package.html">Nucleon::Util::Package</a>
+  
+    <li><a href="../../Nucleon/Util/SSH.html">Nucleon::Util::SSH</a>
+  
+    <li><a href="../../Nucleon/Util/SSH/Keypair.html">Nucleon::Util::SSH::Keypair</a>
+  
+    <li><a href="../../Nucleon/Util/Shell.html">Nucleon::Util::Shell</a>
+  
+    <li><a href="../../Nucleon/Util/Shell/Result.html">Nucleon::Util::Shell::Result</a>
+  
+    <li><a href="../../Hash.html">Hash</a>
+  
+    <li><a href="../../Kernel.html">Kernel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Nucleon::Mixin::ConfigCollection</h1>
+
+  <div id="description" class="description">
+    
+<h2 id="label-Configuration+collection">Configuration collection</h2>
+
+<p>The <a href="ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+module extends a class to include methods for working with the global
+property collection.</p>
+
+<p>Right now, largely for historical reasons, the <a
+href="../Config/Collection.html">Nucleon::Config::Collection</a> class is
+structured as a global interface and collection for grouping all of the
+defined options.  It was originally contained within <a
+href="../Config.html">Nucleon::Config</a> as part of the global
+configuration interface.  In the future, the class and this mixin will be
+refactored to support multiple property logs and will have more fully
+refined persistence methods.</p>
+
+<p>For usage and definition:</p>
+<ul><li>
+<p>See core configuration object <a href="../Config.html">Nucleon::Config</a></p>
+</li><li>
+<p>See collection <a
+href="../Config/Collection.html">Nucleon::Config::Collection</a></p>
+</li></ul>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-all_properties" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">all_properties</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="all_properties-doc">
+            
+            <p>Return a reference to all of the globally defined properties.</p>
+
+<p>This method generally should not be used in favor of the ::get method.</p>
+
+<p>See:</p>
+<ul><li>
+<p><a
+href="../Config/Collection.html#method-c-all">Nucleon::Config::Collection.all</a></p>
+</li></ul>
+            
+          </div><!-- all_properties-doc -->
+
+          
+          <div class="method-source-code" id="all_properties-source">
+            <pre><span class="ruby-comment"># File lib/core/mixin/config/collection.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">all_properties</span>
+  <span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Collection</span>.<span class="ruby-identifier">all</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- all_properties-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- all_properties-method -->
+
+    
+      <div id="method-i-clear_properties" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear_properties</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="clear_properties-doc">
+            
+            <p>Clear all properties from the collection.</p>
+
+<p>See:</p>
+<ul><li>
+<p><a
+href="../Config/Collection.html#method-c-clear">Nucleon::Config::Collection.clear</a></p>
+</li></ul>
+            
+          </div><!-- clear_properties-doc -->
+
+          
+          <div class="method-source-code" id="clear_properties-source">
+            <pre><span class="ruby-comment"># File lib/core/mixin/config/collection.rb, line 70</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear_properties</span>
+  <span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Collection</span>.<span class="ruby-identifier">clear</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear_properties-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear_properties-method -->
+
+    
+      <div id="method-i-delete_property" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">delete_property</span><span
+            class="method-args">(name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="delete_property-doc">
+            
+            <p>Delete property from collection.</p>
+
+<p>See:</p>
+<ul><li>
+<p><a
+href="../Config/Collection.html#method-c-delete">Nucleon::Config::Collection.delete</a></p>
+</li></ul>
+            
+          </div><!-- delete_property-doc -->
+
+          
+          <div class="method-source-code" id="delete_property-source">
+            <pre><span class="ruby-comment"># File lib/core/mixin/config/collection.rb, line 61</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">delete_property</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Collection</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- delete_property-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- delete_property-method -->
+
+    
+      <div id="method-i-get_property" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">get_property</span><span
+            class="method-args">(name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="get_property-doc">
+            
+            <p>Return specified property value.</p>
+
+<p>See:</p>
+<ul><li>
+<p><a
+href="../Config/Collection.html#method-c-get">Nucleon::Config::Collection.get</a></p>
+</li></ul>
+            
+          </div><!-- get_property-doc -->
+
+          
+          <div class="method-source-code" id="get_property-source">
+            <pre><span class="ruby-comment"># File lib/core/mixin/config/collection.rb, line 43</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_property</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Collection</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">name</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- get_property-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- get_property-method -->
+
+    
+      <div id="method-i-save_properties" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">save_properties</span><span
+            class="method-args">(options = {})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="save_properties-doc">
+            
+            <p>Dump properties to disk.</p>
+
+<p>See:</p>
+<ul><li>
+<p><a
+href="../Config/Collection.html#method-c-save">Nucleon::Config::Collection.save</a></p>
+</li></ul>
+            
+          </div><!-- save_properties-doc -->
+
+          
+          <div class="method-source-code" id="save_properties-source">
+            <pre><span class="ruby-comment"># File lib/core/mixin/config/collection.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">save_properties</span>(<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Collection</span>.<span class="ruby-identifier">save</span>(<span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- save_properties-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- save_properties-method -->
+
+    
+      <div id="method-i-set_property" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_property</span><span
+            class="method-args">(name, value)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="set_property-doc">
+            
+            <p>Set property value.</p>
+
+<p>See:</p>
+<ul><li>
+<p><a
+href="../Config/Collection.html#method-c-set">Nucleon::Config::Collection.set</a></p>
+</li></ul>
+            
+          </div><!-- set_property-doc -->
+
+          
+          <div class="method-source-code" id="set_property-source">
+            <pre><span class="ruby-comment"># File lib/core/mixin/config/collection.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_property</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
+  <span class="ruby-constant">Config</span><span class="ruby-operator">::</span><span class="ruby-constant">Collection</span>.<span class="ruby-identifier">set</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_property-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_property-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
