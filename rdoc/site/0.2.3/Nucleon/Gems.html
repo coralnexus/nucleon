@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Nucleon::Gems - nucleon 0.2.3</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/core/gems.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-core">::core</a>
+    
+    <li><a href="#method-c-each_gem">::each_gem</a>
+    
+    <li><a href="#method-c-exist-3F">::exist?</a>
+    
+    <li><a href="#method-c-gateway">::gateway</a>
+    
+    <li><a href="#method-c-logger">::logger</a>
+    
+    <li><a href="#method-c-register">::register</a>
+    
+    <li><a href="#method-c-register_gem">::register_gem</a>
+    
+    <li><a href="#method-c-registered">::registered</a>
+    
+    <li><a href="#method-c-spec">::spec</a>
+    
+    <li><a href="#method-c-specs">::specs</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../ARCHITECTURE_rdoc.html">ARCHITECTURE</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+    <li class="file"><a href="../TODO_rdoc.html">TODO</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Nucleon.html">Nucleon</a>
+  
+    <li><a href="../Nucleon/Action.html">Nucleon::Action</a>
+  
+    <li><a href="../Nucleon/Action/Extract.html">Nucleon::Action::Extract</a>
+  
+    <li><a href="../Nucleon/Action/Project.html">Nucleon::Action::Project</a>
+  
+    <li><a href="../Nucleon/Action/Project/Add.html">Nucleon::Action::Project::Add</a>
+  
+    <li><a href="../Nucleon/Action/Project/Create.html">Nucleon::Action::Project::Create</a>
+  
+    <li><a href="../Nucleon/Action/Project/Remove.html">Nucleon::Action::Project::Remove</a>
+  
+    <li><a href="../Nucleon/Action/Project/Save.html">Nucleon::Action::Project::Save</a>
+  
+    <li><a href="../Nucleon/Action/Project/Update.html">Nucleon::Action::Project::Update</a>
+  
+    <li><a href="../Nucleon/Codes.html">Nucleon::Codes</a>
+  
+    <li><a href="../Nucleon/Command.html">Nucleon::Command</a>
+  
+    <li><a href="../Nucleon/Command/Bash.html">Nucleon::Command::Bash</a>
+  
+    <li><a href="../Nucleon/Config.html">Nucleon::Config</a>
+  
+    <li><a href="../Nucleon/Config/Collection.html">Nucleon::Config::Collection</a>
+  
+    <li><a href="../Nucleon/Config/Options.html">Nucleon::Config::Options</a>
+  
+    <li><a href="../Nucleon/Core.html">Nucleon::Core</a>
+  
+    <li><a href="../Nucleon/Environment.html">Nucleon::Environment</a>
+  
+    <li><a href="../Nucleon/Errors.html">Nucleon::Errors</a>
+  
+    <li><a href="../Nucleon/Errors/BatchError.html">Nucleon::Errors::BatchError</a>
+  
+    <li><a href="../Nucleon/Errors/NucleonError.html">Nucleon::Errors::NucleonError</a>
+  
+    <li><a href="../Nucleon/Errors/SSHUnavailable.html">Nucleon::Errors::SSHUnavailable</a>
+  
+    <li><a href="../Nucleon/Event.html">Nucleon::Event</a>
+  
+    <li><a href="../Nucleon/Event/Regex.html">Nucleon::Event::Regex</a>
+  
+    <li><a href="../Nucleon/Extension.html">Nucleon::Extension</a>
+  
+    <li><a href="../Nucleon/Extension/Project.html">Nucleon::Extension::Project</a>
+  
+    <li><a href="../Nucleon/Facade.html">Nucleon::Facade</a>
+  
+    <li><a href="../Nucleon/Gems.html">Nucleon::Gems</a>
+  
+    <li><a href="../Nucleon/Manager.html">Nucleon::Manager</a>
+  
+    <li><a href="../Nucleon/Mixin.html">Nucleon::Mixin</a>
+  
+    <li><a href="../Nucleon/Mixin/Action.html">Nucleon::Mixin::Action</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Commit.html">Nucleon::Mixin::Action::Commit</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
+  
+    <li><a href="../Nucleon/Mixin/Action/Registration.html">Nucleon::Mixin::Action::Registration</a>
+  
+    <li><a href="../Nucleon/Mixin/Colors.html">Nucleon::Mixin::Colors</a>
+  
+    <li><a href="../Nucleon/Mixin/ConfigCollection.html">Nucleon::Mixin::ConfigCollection</a>
+  
+    <li><a href="../Nucleon/Mixin/ConfigOptions.html">Nucleon::Mixin::ConfigOptions</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro.html">Nucleon::Mixin::Macro</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro/ObjectInterface.html">Nucleon::Mixin::Macro::ObjectInterface</a>
+  
+    <li><a href="../Nucleon/Mixin/Macro/PluginInterface.html">Nucleon::Mixin::Macro::PluginInterface</a>
+  
+    <li><a href="../Nucleon/Mixin/Settings.html">Nucleon::Mixin::Settings</a>
+  
+    <li><a href="../Nucleon/Mixin/SubConfig.html">Nucleon::Mixin::SubConfig</a>
+  
+    <li><a href="../Nucleon/Parallel.html">Nucleon::Parallel</a>
+  
+    <li><a href="../Nucleon/Parallel/ClassMethods.html">Nucleon::Parallel::ClassMethods</a>
+  
+    <li><a href="../Nucleon/Parallel/InstanceMethods.html">Nucleon::Parallel::InstanceMethods</a>
+  
+    <li><a href="../Nucleon/Plugin.html">Nucleon::Plugin</a>
+  
+    <li><a href="../Nucleon/Plugin/Action.html">Nucleon::Plugin::Action</a>
+  
+    <li><a href="../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
+  
+    <li><a href="../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
+  
+    <li><a href="../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
+  
+    <li><a href="../Nucleon/Plugin/Event.html">Nucleon::Plugin::Event</a>
+  
+    <li><a href="../Nucleon/Plugin/Extension.html">Nucleon::Plugin::Extension</a>
+  
+    <li><a href="../Nucleon/Plugin/Project.html">Nucleon::Plugin::Project</a>
+  
+    <li><a href="../Nucleon/Plugin/Template.html">Nucleon::Plugin::Template</a>
+  
+    <li><a href="../Nucleon/Plugin/Translator.html">Nucleon::Plugin::Translator</a>
+  
+    <li><a href="../Nucleon/Project.html">Nucleon::Project</a>
+  
+    <li><a href="../Nucleon/Project/Git.html">Nucleon::Project::Git</a>
+  
+    <li><a href="../Nucleon/Project/Github.html">Nucleon::Project::Github</a>
+  
+    <li><a href="../Nucleon/Template.html">Nucleon::Template</a>
+  
+    <li><a href="../Nucleon/Template/JSON.html">Nucleon::Template::JSON</a>
+  
+    <li><a href="../Nucleon/Template/Wrapper.html">Nucleon::Template::Wrapper</a>
+  
+    <li><a href="../Nucleon/Template/YAML.html">Nucleon::Template::YAML</a>
+  
+    <li><a href="../Nucleon/Translator.html">Nucleon::Translator</a>
+  
+    <li><a href="../Nucleon/Translator/JSON.html">Nucleon::Translator::JSON</a>
+  
+    <li><a href="../Nucleon/Translator/YAML.html">Nucleon::Translator::YAML</a>
+  
+    <li><a href="../Nucleon/Util.html">Nucleon::Util</a>
+  
+    <li><a href="../Nucleon/Util/CLI.html">Nucleon::Util::CLI</a>
+  
+    <li><a href="../Nucleon/Util/CLI/Parser.html">Nucleon::Util::CLI::Parser</a>
+  
+    <li><a href="../Nucleon/Util/Cache.html">Nucleon::Util::Cache</a>
+  
+    <li><a href="../Nucleon/Util/Console.html">Nucleon::Util::Console</a>
+  
+    <li><a href="../Nucleon/Util/Data.html">Nucleon::Util::Data</a>
+  
+    <li><a href="../Nucleon/Util/Disk.html">Nucleon::Util::Disk</a>
+  
+    <li><a href="../Nucleon/Util/Git.html">Nucleon::Util::Git</a>
+  
+    <li><a href="../Nucleon/Util/Liquid.html">Nucleon::Util::Liquid</a>
+  
+    <li><a href="../Nucleon/Util/Logger.html">Nucleon::Util::Logger</a>
+  
+    <li><a href="../Nucleon/Util/Package.html">Nucleon::Util::Package</a>
+  
+    <li><a href="../Nucleon/Util/SSH.html">Nucleon::Util::SSH</a>
+  
+    <li><a href="../Nucleon/Util/SSH/Keypair.html">Nucleon::Util::SSH::Keypair</a>
+  
+    <li><a href="../Nucleon/Util/Shell.html">Nucleon::Util::Shell</a>
+  
+    <li><a href="../Nucleon/Util/Shell/Result.html">Nucleon::Util::Shell::Result</a>
+  
+    <li><a href="../Hash.html">Hash</a>
+  
+    <li><a href="../Kernel.html">Kernel</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Nucleon::Gems</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-core" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">core</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="core-doc">
+            
+            
+            
+          </div><!-- core-doc -->
+
+          
+          <div class="method-source-code" id="core-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 20</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">core</span>
+  <span class="ruby-identifier">@@core</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- core-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- core-method -->
+
+    
+      <div id="method-c-each_gem" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">each_gem</span><span
+            class="method-args">(&block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="each_gem-doc">
+            
+            
+            
+          </div><!-- each_gem-doc -->
+
+          
+          <div class="method-source-code" id="each_gem-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 99</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">each_gem</span>(&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">Gem</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-constant">Bundler</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">Gem</span><span class="ruby-operator">::</span><span class="ruby-constant">Specification</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:latest_specs</span>)
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Not using bundler&quot;</span>)
+      <span class="ruby-constant">Gem</span><span class="ruby-operator">::</span><span class="ruby-constant">Specification</span>.<span class="ruby-identifier">latest_specs</span>(<span class="ruby-keyword">true</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">spec</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">spec</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Using bundler or Gem specification without latest_specs&quot;</span>)
+      <span class="ruby-constant">Gem</span>.<span class="ruby-identifier">loaded_specs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">spec</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">block</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">spec</span>)
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- each_gem-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- each_gem-method -->
+
+    
+      <div id="method-c-exist-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">exist?</span><span
+            class="method-args">(*names)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="exist-3F-doc">
+            
+            
+            
+          </div><!-- exist-3F-doc -->
+
+          
+          <div class="method-source-code" id="exist-3F-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">exist?</span>(*<span class="ruby-identifier">names</span>)
+  <span class="ruby-identifier">checks</span> = <span class="ruby-constant">Hash</span>[<span class="ruby-identifier">names</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> [ <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-keyword">true</span> ] }]
+  <span class="ruby-identifier">each_gem</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">spec</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">checks</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">spec</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">checks</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">true</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- exist-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- exist-3F-method -->
+
+    
+      <div id="method-c-gateway" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">gateway</span><span
+            class="method-args">(name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="gateway-doc">
+            
+            
+            
+          </div><!-- gateway-doc -->
+
+          
+          <div class="method-source-code" id="gateway-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 26</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">gateway</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">@@gateways</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>)
+    <span class="ruby-identifier">@@gateways</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- gateway-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- gateway-method -->
+
+    
+      <div id="method-c-logger" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">logger</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="logger-doc">
+            
+            
+            
+          </div><!-- logger-doc -->
+
+          
+          <div class="method-source-code" id="logger-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 14</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">logger</span>
+  <span class="ruby-constant">Core</span>.<span class="ruby-identifier">logger</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- logger-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- logger-method -->
+
+    
+      <div id="method-c-register" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register</span><span
+            class="method-args">(reset = false, loaded = [])</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="register-doc">
+            
+            
+            
+          </div><!-- register-doc -->
+
+          
+          <div class="method-source-code" id="register-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">register</span>(<span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">loaded</span> = [])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">@@gems</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Registering external gem defined Nucleon plugins at #{Time.now}&quot;</span>)
+
+    <span class="ruby-identifier">each_gem</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">spec</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">register_gem</span>(<span class="ruby-identifier">spec</span>, <span class="ruby-identifier">loaded</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">@@gems</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register-method -->
+
+    
+      <div id="method-c-register_gem" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">register_gem</span><span
+            class="method-args">(spec, loaded = [])</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="register_gem-doc">
+            
+            
+            
+          </div><!-- register_gem-doc -->
+
+          
+          <div class="method-source-code" id="register_gem-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 53</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">register_gem</span>(<span class="ruby-identifier">spec</span>, <span class="ruby-identifier">loaded</span> = [])
+  <span class="ruby-identifier">name</span>      = <span class="ruby-identifier">spec</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
+  <span class="ruby-identifier">base_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">spec</span>.<span class="ruby-identifier">full_gem_path</span>, <span class="ruby-string">&#39;lib&#39;</span>)
+  <span class="ruby-identifier">loaded</span>    = <span class="ruby-identifier">loaded</span>.<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">item</span><span class="ruby-operator">|</span> <span class="ruby-identifier">item</span>.<span class="ruby-identifier">to_sym</span> }
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-value">:nucleon</span>
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Setting Nucleon core gemspec&quot;</span>)
+    <span class="ruby-identifier">@@core</span>       = <span class="ruby-identifier">spec</span>
+    <span class="ruby-identifier">@@gems</span>[<span class="ruby-identifier">name</span>] = {
+      <span class="ruby-value">:spec</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">spec</span>,
+      <span class="ruby-value">:base_path</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">base_path</span>,
+      <span class="ruby-value">:namespaces</span> =<span class="ruby-operator">&gt;</span> [ <span class="ruby-value">:nucleon</span> ]
+    }
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-constant">Manager</span>.<span class="ruby-identifier">connection</span>.<span class="ruby-identifier">register</span>(<span class="ruby-identifier">base_path</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">data</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">data</span>[<span class="ruby-value">:namespace</span>]
+      <span class="ruby-identifier">plugin_path</span> = <span class="ruby-identifier">data</span>[<span class="ruby-value">:directory</span>]
+
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">@@gems</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">name</span>)
+        <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Registering gem #{name} at #{plugin_path} at #{Time.now}&quot;</span>)
+
+        <span class="ruby-keyword">unless</span> <span class="ruby-identifier">@@gateways</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">loaded</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">name</span>)
+          <span class="ruby-identifier">base_loader</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">base_path</span>, <span class="ruby-node">&quot;#{name}_base.rb&quot;</span>)
+          <span class="ruby-identifier">loader</span>      = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">base_path</span>, <span class="ruby-node">&quot;#{name}.rb&quot;</span>)
+
+          <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">base_loader</span>)
+            <span class="ruby-identifier">require</span> <span class="ruby-identifier">base_loader</span>
+          <span class="ruby-keyword">elsif</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">loader</span>)
+            <span class="ruby-identifier">require</span> <span class="ruby-identifier">loader</span>
+          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+
+      <span class="ruby-identifier">@@gems</span>[<span class="ruby-identifier">name</span>] = {
+        <span class="ruby-value">:spec</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">spec</span>,
+        <span class="ruby-value">:base_path</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">base_path</span>,
+        <span class="ruby-value">:namespaces</span> =<span class="ruby-operator">&gt;</span> []
+      }
+      <span class="ruby-identifier">@@gems</span>[<span class="ruby-identifier">name</span>][<span class="ruby-value">:namespaces</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">namespace</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">@@gems</span>[<span class="ruby-identifier">name</span>][<span class="ruby-value">:namespaces</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">namespace</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- register_gem-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- register_gem-method -->
+
+    
+      <div id="method-c-registered" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">registered</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="registered-doc">
+            
+            
+            
+          </div><!-- registered-doc -->
+
+          
+          <div class="method-source-code" id="registered-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">registered</span>
+  <span class="ruby-identifier">@@gems</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- registered-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- registered-method -->
+
+    
+      <div id="method-c-spec" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">spec</span><span
+            class="method-args">(name)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="spec-doc">
+            
+            
+            
+          </div><!-- spec-doc -->
+
+          
+          <div class="method-source-code" id="spec-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 141</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">spec</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-identifier">results</span> = <span class="ruby-identifier">specs</span>(<span class="ruby-identifier">name</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">results</span>[<span class="ruby-value">0</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">results</span>.<span class="ruby-identifier">empty?</span>
+  <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- spec-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- spec-method -->
+
+    
+      <div id="method-c-specs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">specs</span><span
+            class="method-args">(*names)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="specs-doc">
+            
+            
+            
+          </div><!-- specs-doc -->
+
+          
+          <div class="method-source-code" id="specs-source">
+            <pre><span class="ruby-comment"># File lib/core/gems.rb, line 127</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">specs</span>(*<span class="ruby-identifier">names</span>)
+  <span class="ruby-identifier">checks</span> = <span class="ruby-constant">Hash</span>[<span class="ruby-identifier">names</span>.<span class="ruby-identifier">map</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> [ <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-keyword">true</span> ] }]
+  <span class="ruby-identifier">specs</span>  = []
+
+  <span class="ruby-identifier">each_gem</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">spec</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">checks</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">spec</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>)
+      <span class="ruby-identifier">specs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">spec</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">specs</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- specs-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- specs-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.2.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

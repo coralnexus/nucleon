@@ -181,6 +181,8 @@ class Environment
         type_info[:instance_name] = instance_name
         
         options = code.call(type_info, options) if code
+        options.delete(:new)
+        
         plugin  = type_info[:class].new(namespace, plugin_type, provider, options)
         
         @active_info[namespace][plugin_type][instance_name] = plugin 
