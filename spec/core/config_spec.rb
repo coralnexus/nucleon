@@ -26,6 +26,9 @@ module Nucleon
     let(:test_array_sym_1) { [:abc, :def] }
     let(:test_array_sym_2) { [:uvw, :xyz] }
     let(:test_array_sym_3) { [:symbol1,:symbol2] }
+    
+    
+    let(:testobj) { Config.new() }
            
     #*****************************************************************************
     # Instance generators
@@ -72,19 +75,20 @@ module Nucleon
       
       it "tests return value as configuration object on passing Nucleon::Config config param to ensure" do
         
-        expect(Config.ensure(Nucleon::Config, testhash1, false, true)).to be_kind_of(Nucleon::Config)
-        expect(Config.ensure(Nucleon::Config, testhash1, true, false)).to be_kind_of(Nucleon::Config)
-        expect(Config.ensure(Nucleon::Config, testhash1, false, true)).to be_kind_of(Nucleon::Config)
-        expect(Config.ensure(Nucleon::Config, testhash1, false, false)).to be_kind_of(Nucleon::Config)
+        
+        expect(Config.ensure(testobj, testhash1, false, true)).to be_kind_of(Nucleon::Config)
+        expect(Config.ensure(testobj, testhash1, true, false)).to be_kind_of(Nucleon::Config)
+        expect(Config.ensure(testobj, testhash1, false, true)).to be_kind_of(Nucleon::Config)
+        expect(Config.ensure(testobj, testhash1, false, false)).to be_kind_of(Nucleon::Config)
         
       end
       
       it "tests return value as configuration object on passing Nucleon::Config config param to ensure" do
          
-        expect(Config.ensure(Nucleon::Config, testhash1, false, true).export).to eq(test_output_hash1)
-        expect(Config.ensure(Nucleon::Config, testhash1, true, false).export).to eq(test_output_hash1)
-        expect(Config.ensure(Nucleon::Config, testhash1, false, true).export).to eq(test_output_hash1)
-        expect(Config.ensure(Nucleon::Config, testhash1, false, false).export).to eq(test_output_hash1)
+        expect(Config.ensure(testobj, testhash1, false, true).export).to eq(test_output_hash1)
+        expect(Config.ensure(testobj, testhash1, true, false).export).to eq(test_output_hash1)
+        expect(Config.ensure(testobj, testhash1, false, true).export).to eq(test_output_hash1)
+        expect(Config.ensure(testobj, testhash1, false, false).export).to eq(test_output_hash1)
         
       end              
     end
@@ -98,7 +102,7 @@ module Nucleon
         
         expect(Config.init(nil, test_array_1, test_array_2, testhash3, true, true)).to be_kind_of(Nucleon::Config)
         expect(Config.init({:xyz => 5}, test_array_1, test_array_2, testhash3, true, false)).to be_kind_of(Nucleon::Config)
-        expect(Config.init(Nucleon::Config, test_array_1, test_array_2, testhash3, false, false)).to be_kind_of(Nucleon::Config)
+        expect(Config.init(testobj, test_array_1, test_array_2, testhash3, false, false)).to be_kind_of(Nucleon::Config)
         
       end
       
@@ -108,7 +112,7 @@ module Nucleon
       it "tests params as array of string and symbols for contexts with init" do
         
         expect(Config.init(nil, test_array_1, test_array_2, testhash3, true, true)).to be_kind_of(Nucleon::Config)
-        expect(Config.init(Nucleon::Config, test_array_sym_1, test_array_2, testhash3, true, false)).to be_kind_of(Nucleon::Config)
+        expect(Config.init(testobj, test_array_sym_1, test_array_2, testhash3, true, false)).to be_kind_of(Nucleon::Config)
         expect(Config.init(nil, "abc", test_array_2, testhash3, true, true)).to be_kind_of(Nucleon::Config)
         
       end
@@ -119,7 +123,7 @@ module Nucleon
       it "tests params as array of string and symbols for hierarchy with init" do
         
         expect(Config.init(nil, test_array_1, test_array_2, testhash3, true, true).instance_of? Nucleon::Config).to eq true
-        expect(Config.init(Nucleon::Config, test_array_sym_1, test_array_sym_2, testhash3, true, false).instance_of? Nucleon::Config).to eq true
+        expect(Config.init(testobj, test_array_sym_1, test_array_sym_2, testhash3, true, false).instance_of? Nucleon::Config).to eq true
         
       end
       
@@ -136,7 +140,7 @@ module Nucleon
         
         expect(Config.init_flat(nil, test_array_3, testhash4, true, true)).to be_kind_of(Nucleon::Config)
         expect(Config.init_flat({:xyz => '1'}, test_array_3, testhash4, true, false)).to be_kind_of(Nucleon::Config)
-        expect(Config.init_flat(Nucleon::Config, test_array_3, testhash4, false, true)).to be_kind_of(Nucleon::Config)
+        expect(Config.init_flat(testobj, test_array_3, testhash4, false, true)).to be_kind_of(Nucleon::Config)
         
       end
       
@@ -144,7 +148,7 @@ module Nucleon
         
         expect(Config.init_flat(nil, test_array_3, testhash4, true, true).export).to eq testhash4
         expect(Config.init_flat({:xyz => '1'}, test_array_3, testhash4, true, false).export).to eq({:abc=>1, :def=>2, :xyz=>"1"})
-        expect(Config.init_flat(Nucleon::Config, test_array_3, testhash4, false, true).export).to eq testhash4
+        expect(Config.init_flat(testobj, test_array_3, testhash4, false, true).export).to eq testhash4
         
       end
       
@@ -173,7 +177,7 @@ module Nucleon
         
         expect(Config.new(nil, testhash5, true, true)).to be_kind_of(Nucleon::Config)
         expect(Config.new(testhash6,testhash5, true, false)).to be_kind_of(Nucleon::Config)
-        expect(Config.new(Nucleon::Config,testhash5, false, false)).to be_kind_of(Nucleon::Config)
+        expect(Config.new(testobj,testhash5, false, false)).to be_kind_of(Nucleon::Config)
         
       end
       
