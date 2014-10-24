@@ -63,6 +63,24 @@ RSpec.shared_context "config" do
     }
   end
 
+  let(:config_flat_contexts1) { [ :context1, "context2" ] }
+
+  let(:config_flat_context_options1) do {
+      :greeting  => "hello world",
+      :nestedkey => {
+        :a => {
+          :test1 => [ 23, 55 ],
+          :test2 => [ 'please' ]
+        },
+        :x => 'goodbye',
+        :b => 'oddball'
+      },
+      :other => "Something else",
+      :array => [ 128, 1024 ],
+      :something => "test"
+    }
+  end
+
   let(:config_contexts2) { [ "context1", :context2, :context3 ] }
   let(:config_context_hierarchy2) { [ :prefix1, "prefix2" ] }
 
@@ -98,6 +116,21 @@ RSpec.shared_context "config" do
       :other => "Something else",
       :array => [ 128 ],
       :something => "test5"
+    }
+  end
+
+  let(:config_flat_contexts2) { "context2" }
+
+  let(:config_flat_context_options2) do {
+      :greeting  => "hello world",
+      :something => "test",
+      :nestedkey => {
+        :a => {
+          :test1 => [ 23, 55 ]
+        },
+        :b => 'oddball'
+      },
+      :array => [ 128, 1024 ]
     }
   end
 
