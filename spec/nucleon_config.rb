@@ -177,6 +177,38 @@ RSpec.shared_context "config" do
     }
   end
 
+  #*****************************************************************************
+  # Data hashes (symbolization and stingification)
+
+  let(:config_mixed_hash) do {
+      "stringkey" => true,
+      :symbolkey  => true,
+      "inner" => {
+        :good => "almost",
+        "bad" => "maybe sometimes"
+      }
+    }
+  end
+
+  let(:config_symbolized_hash) do {
+      :stringkey => true,
+      :symbolkey => true,
+      :inner => {
+        :good => "almost",
+        :bad  => "maybe sometimes"
+      }
+    }
+  end
+
+  let(:config_stringified_hash) do {
+      "stringkey" => true,
+      "symbolkey" => true,
+      "inner" => {
+        "good" => "almost",
+        "bad"  => "maybe sometimes"
+      }
+    }
+  end
 
   #*****************************************************************************
   # Merge results (hash1 overrides context options)
