@@ -1,4 +1,3 @@
-
 require 'spec_helper'
 
 module Nucleon
@@ -7,9 +6,11 @@ module Nucleon
 
     include_context "config"
 
+
     #***************************************************************************
 
     let(:core_object) { Core.new(config_hash2) }
+
 
     #***************************************************************************
     # Constructor / Destructor
@@ -47,7 +48,6 @@ module Nucleon
         expect(Core.new(config_hash2, config_hash1, false, false, false).export).to eq(config_hash_no_force_deep_merge)
       end
 
-
       it "creates via a basic merge of Config object with forced overwrites" do
         expect(Core.new(core_object, config_hash1, true, true, true).export).to eq(config_hash_force_basic_merge)
         expect(Core.new(core_object, config_hash1, true, false, true).export).to eq(config_hash_force_basic_merge)
@@ -65,6 +65,7 @@ module Nucleon
         expect(Core.new(core_object, config_hash1, false, false, false).export).to eq(config_hash_no_force_deep_merge)
       end
     end
+
 
     #***************************************************************************
     # Checks
@@ -87,6 +88,7 @@ module Nucleon
         expect(Core.new(config_hash2, config_hash1, false, false, false).initialized?).to eq false
       end
     end
+
 
     #***************************************************************************
     # Accessor / Modifiers
@@ -151,6 +153,7 @@ module Nucleon
         expect(object.ui.resource == "test2").to eq true
       end
     end
+
 
     #***************************************************************************
     # General utilities
