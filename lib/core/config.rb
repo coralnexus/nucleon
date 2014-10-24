@@ -373,6 +373,10 @@ class Config
   #
   # * *Errors*
   #
+  # See:
+  # - #symbol_map
+  # - Nucleon::Util::Data::symbol_map
+  #
   def modify(data, keys, value = nil, delete_nil = false)
     if keys.is_a?(String) || keys.is_a?(Symbol)
       keys = [ keys ]
@@ -392,6 +396,7 @@ class Config
       if value.nil? && delete_nil
         data.delete(key) if has_key
       else
+        value     = symbol_map(value) if value.is_a?(Hash)
         data[key] = value
       end
     else
