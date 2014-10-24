@@ -250,6 +250,8 @@ class Config
       if data.is_a?(Hash)
         @properties = Util::Data.merge([ defaults, symbol_map(data.clone) ], force, basic_merge)
       end
+    else
+      @properties = defaults if defaults.is_a?(Hash)
     end
   end
 
