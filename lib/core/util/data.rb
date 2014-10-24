@@ -842,9 +842,10 @@ class Data
   def self.prefix(prefix, data, pad = '_')
     result = nil
 
-    unless prefix.is_a?(String) && ! empty?(prefix)
+    unless prefix.is_a?(Symbol) || ( prefix.is_a?(String) && ! empty?(prefix) )
       prefix = ''
     end
+    prefix = prefix.to_s
 
     case data
     when String, Symbol
