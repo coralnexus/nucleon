@@ -3,10 +3,9 @@ require 'rspec'
 require 'stringio'
 require 'nucleon'
 
-require 'coral_test_kernel'
-require 'coral_mock_input'
+require 'nucleon_config'
 
-#-------------------------------------------------------------------------------
+#*******************************************************************************
 
 RSpec.configure do |config|
   config.mock_framework = :rspec
