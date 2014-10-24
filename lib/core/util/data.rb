@@ -534,6 +534,8 @@ class Data
     result = default
     if data
       case data
+      when TrueClass, FalseClass
+        result = data ? :true : :false
       when Symbol
         result = data
       when String
