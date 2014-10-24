@@ -92,12 +92,11 @@ Gem::Specification.new do |s|
     "lib/nucleon_base.rb",
     "locales/en.yml",
     "nucleon.gemspec",
-    "spec/coral_mock_input.rb",
-    "spec/coral_test_kernel.rb",
     "spec/core/codes_spec.rb",
     "spec/core/config_spec.rb",
     "spec/core/core_spec.rb",
     "spec/core/util/console_spec.rb",
+    "spec/nucleon_config.rb",
     "spec/spec_helper.rb"
   ]
   s.homepage = "http://github.com/coralnexus/nucleon"
