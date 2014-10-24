@@ -67,6 +67,7 @@ class Options
   #
   def self.contexts(contexts = [], hierarchy = [])
     contexts = [ 'all', contexts ].flatten
+    results  = contexts
 
     unless hierarchy.is_a?(Array)
       hierarchy = ( ! Util::Data.empty?(hierarchy) ? [ hierarchy ].flatten : [] )
@@ -74,10 +75,10 @@ class Options
 
     hierarchy.each do |group|
       group_contexts = Util::Data.prefix(group, contexts)
-      contexts       = [ contexts, group_contexts ].flatten
+      results        = [ results, group_contexts ].flatten
     end
 
-    return contexts
+    return results
   end
 
   # Return a reference to all of the globally defined context properties.
@@ -171,22 +172,27 @@ class Options
 
   # Clear all properties for specified contexts.
   #
-  # Contexts are entirely removed, even the name itself.
+  # Contexts are entirely removed, even the name itself.  If nil is given (default)
+  # then all data is removed and options are reinitialized.
   #
   # * *Parameters*
-  #   - [Array<String, Symbol>, String, Symbol] *contexts*  Context names to remove
+  #   - [nil, Array<String, Symbol>, String, Symbol] *contexts*  Context names to remove
   #
   # * *Returns*
   #   - [Void]  This method does not currently have a return value
   #
   # * *Errors*
   #
-  def self.clear(contexts)
-    unless contexts.is_a?(Array)
-      contexts = [ contexts ]
-    end
-    contexts.each do |name|
-      @@options.delete(name.to_sym)
+  def self.clear(contexts = nil)
+    if contexts.nil?
+      @@options = {}
+    else
+      unless contexts.is_a?(Array)
+        contexts = [ contexts ]
+      end
+      contexts.each do |name|
+        @@options.delete(name.to_sym)
+      end
     end
   end
 end

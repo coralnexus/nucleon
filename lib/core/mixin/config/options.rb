@@ -78,7 +78,7 @@ module ConfigOptions
   # See:
   # - Nucleon::Config::Options::clear
   #
-  def clear_options(contexts)
+  def clear_options(contexts = nil)
     Config::Options.clear(contexts)
   end
 end
