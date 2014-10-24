@@ -1,7 +1,10 @@
 
 RSpec.shared_context "config" do
 
-  let(:test_hash1) do {
+  #*****************************************************************************
+  # Source hashes
+
+  let(:config_hash1) do {
       :testkey => 'testval',
       :nestedkey => {
         :a => {
@@ -17,7 +20,7 @@ RSpec.shared_context "config" do
     }
   end
 
-  let(:test_hash2) do {
+  let(:config_hash2) do {
       :testkey1 => 'testval1',
       :nestedkey => {
         :a => {
@@ -32,7 +35,10 @@ RSpec.shared_context "config" do
     }
   end
 
-  let(:merge_hash_no_force_basic_merge) do {
+  #*****************************************************************************
+  # Merge results
+
+  let(:config_hash_no_force_basic_merge) do {
       :testkey => 'testval',
       :nestedkey => {
         :a => {
@@ -48,7 +54,7 @@ RSpec.shared_context "config" do
     }
   end
 
-  let(:merge_hash_force_basic_merge) do {
+  let(:config_hash_force_basic_merge) do {
       :testkey => 'testval',
       :nestedkey => {
         :a => {
@@ -64,7 +70,7 @@ RSpec.shared_context "config" do
     }
   end
 
-  let(:merge_hash_no_force_deep_merge) do {
+  let(:config_hash_no_force_deep_merge) do {
       :testkey => 'testval',
       :nestedkey => {
         :a => {
@@ -82,7 +88,7 @@ RSpec.shared_context "config" do
     }
   end
 
-  let(:merge_hash_force_deep_merge) do {
+  let(:config_hash_force_deep_merge) do {
       :testkey => 'testval',
       :nestedkey => {
         :a => {
