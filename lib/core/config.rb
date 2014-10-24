@@ -93,7 +93,7 @@ class Config
   def self.ensure(config, defaults = {}, force = true, basic_merge = true)
     case config
     when Nucleon::Config
-      return config.defaults(defaults)
+      return config.defaults(defaults, { :force => force, :basic => basic_merge })
     when Hash
       return new(config, defaults, force, basic_merge)
     end
