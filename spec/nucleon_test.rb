@@ -20,12 +20,7 @@ RSpec.shared_context "test" do
 
   def test_output(message, printer = :puts)
     handle = double('output')
-
-    if message.is_a?(Regexp)
-      expect(handle).to receive(printer).with(message)
-    else
-      expect(handle).to receive(printer).with(message)
-    end
+    expect(handle).to receive(printer).with(message)
     handle
   end
 end
