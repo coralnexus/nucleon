@@ -198,33 +198,33 @@ module Nucleon
     describe "#has_key?" do
 
       it "is true if a top level key exists in the configuration object" do
-        config = Config.new(config_hash1, {}, true, true)
-
-        test_eq config.has_key?("testkey"), true
-        test_eq config.has_key?(:testkey), true
+        test_object(Config, config_hash1, {}, true, true) do |config|
+          test_eq config.has_key?("testkey"), true
+          test_eq config.has_key?(:testkey), true
+        end
       end
       it "is true if a nested key exists in the configuration object" do
-        config = Config.new(config_hash1, {}, true, true)
-
-        test_eq config.has_key?([ "nestedkey", "a", "test1" ]), true
-        test_eq config.has_key?([ :nestedkey, :a, :test1 ]), true
-        test_eq config.has_key?([ "nestedkey", "a", :test1 ]), true
-        test_eq config.has_key?([ :nestedkey, nil, :a, nil, :test1, nil ]), true
+        test_object(Config, config_hash1, {}, true, true) do |config|
+          test_eq config.has_key?([ "nestedkey", "a", "test1" ]), true
+          test_eq config.has_key?([ :nestedkey, :a, :test1 ]), true
+          test_eq config.has_key?([ "nestedkey", "a", :test1 ]), true
+          test_eq config.has_key?([ :nestedkey, nil, :a, nil, :test1, nil ]), true
+        end
       end
 
       it "is false if a top level key does not exist in the configuration object" do
-        config = Config.new(config_hash1, {}, true, true)
-
-        test_eq config.has_key?("some_non_existent_key"), false
-        test_eq config.has_key?(:some_non_existent_key), false
+        test_object(Config, config_hash1, {}, true, true) do |config|
+          test_eq config.has_key?("some_non_existent_key"), false
+          test_eq config.has_key?(:some_non_existent_key), false
+        end
       end
       it "is false if a nested key does not exist in the configuration object" do
-        config = Config.new(config_hash1, {}, true, true)
-
-        test_eq config.has_key?([ "nestedkey", "test5" ]), false
-        test_eq config.has_key?([ :nestedkey, :test5 ]), false
-        test_eq config.has_key?([ "nestedkey", :test5 ]), false
-        test_eq config.has_key?([ :nestedkey, nil, :test5, nil ]), false
+        test_object(Config, config_hash1, {}, true, true) do |config|
+          test_eq config.has_key?([ "nestedkey", "test5" ]), false
+          test_eq config.has_key?([ :nestedkey, :test5 ]), false
+          test_eq config.has_key?([ "nestedkey", :test5 ]), false
+          test_eq config.has_key?([ :nestedkey, nil, :test5, nil ]), false
+        end
       end
     end
 
@@ -435,25 +435,27 @@ module Nucleon
     describe "#[]=" do
 
       it "creates a configuration property with a specified value" do
-        config1 = Config.new(config_hash1, {}, true, true)
-        config1["other_property"] = "onething"
+        test_object(Config, config_hash1, {}, true, true) do |config|
+          config["other_property"] = "onething"
+          test_eq config.get(:other_property), 'onething'
+        end
 
-        config2 = Config.new(config_hash2, {}, true, true)
-        config2[:other_property] = { "a" => :b }
-
-        test_eq config1.get(:other_property), 'onething'
-        test_eq config2.get([ :other_property, :a ]), :b
+        test_object(Config, config_hash2, {}, true, true) do |config|
+          config[:other_property] = { "a" => :b }
+          test_eq config.get([ :other_property, :a ]), :b
+        end
       end
 
       it "updates a configuration property with a specified value" do
-        config1 = Config.new(config_hash1, {}, true, true)
-        config1["other"] = "onething"
+        test_object(Config, config_hash1, {}, true, true) do |config|
+          config["other"] = "onething"
+          test_eq config.get(:other), 'onething'
+        end
 
-        config2 = Config.new(config_hash2, {}, true, true)
-        config2[:nestedkey] = { "a" => :b }
-
-        test_eq config1.get(:other), 'onething'
-        test_eq config2.get([ :nestedkey, :a ]), :b
+        test_object(Config, config_hash2, {}, true, true) do |config|
+          config[:nestedkey] = { "a" => :b }
+          test_eq config.get([ :nestedkey, :a ]), :b
+        end
       end
     end
 
@@ -462,14 +464,15 @@ module Nucleon
     describe "#delete" do
 
       it "removes a configuration property and returns existing value" do
-        config1 = Config.new(config_hash1, {}, true, true)
-        config2 = Config.new(config_hash2, {}, true, true)
+        test_object(Config, config_hash1, {}, true, true) do |config|
+          test_eq config.delete(:other, nil), [ 1, 2, 3, 4 ]
+          test_eq config.keys, [ :testkey, :nestedkey, :array ]
+        end
 
-        test_eq config1.delete(:other, nil), [ 1, 2, 3, 4 ]
-        test_eq config1.keys, [ :testkey, :nestedkey, :array ]
-
-        test_eq config2.delete(:array, nil), [ 12 ]
-        test_eq config2.keys, [ :testkey1, :nestedkey, :other ]
+        test_object(Config, config_hash2, {}, true, true) do |config|
+          test_eq config.delete(:array, nil), [ 12 ]
+          test_eq config.keys, [ :testkey1, :nestedkey, :other ]
+        end
       end
 
       it "returns a default value if configuration property doesn't exist" do

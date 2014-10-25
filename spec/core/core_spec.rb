@@ -109,19 +109,20 @@ module Nucleon
     describe "#logger=" do
 
       it "assigns instance logger from existing logger instance" do
-        logger        = Util::Logger.new("test1")
-        object        = Core.new(config_hash1, {}, true, true, true)
-        object.logger = logger
+        test_object(Core, config_hash1, {}, true, true, true) do |object|
+          logger        = Util::Logger.new("test1")
+          object.logger = logger
 
-        test_eq logger == object.logger, true
-        test_eq object.logger.resource == "test1", true
+          test_eq logger == object.logger, true
+          test_eq object.logger.resource == "test1", true
+        end
       end
 
       it "assigns instance logger from new logger instance with specific name" do
-        object        = Core.new(config_hash2, {}, true, true, true)
-        object.logger = "test2"
-
-        test_eq object.logger.resource == "test2", true
+        test_object(Core, config_hash2, {}, true, true, true) do |object|
+          object.logger = "test2"
+          test_eq object.logger.resource == "test2", true
+        end
       end
     end
 
@@ -139,20 +140,20 @@ module Nucleon
     describe "#ui=" do
 
       it "assigns instance console from existing console instance" do
-        console = Util::Console.new("test1")
+        test_object(Core, config_hash1, {}, true, true, true) do |object|
+          console   = Util::Console.new("test1")
+          object.ui = console
 
-        object    = Core.new(config_hash1, {}, true, true, true)
-        object.ui = console
-
-        test_eq console == object.ui, true
-        test_eq object.ui.resource == "test1", true
+          test_eq console == object.ui, true
+          test_eq object.ui.resource == "test1", true
+        end
       end
 
       it "assigns instance console from new console instance with specific name" do
-        object    = Core.new(config_hash2, {}, true, true, true)
-        object.ui = "test2"
-
-        test_eq object.ui.resource == "test2", true
+        test_object(Core, config_hash2, {}, true, true, true) do |object|
+          object.ui = "test2"
+          test_eq object.ui.resource == "test2", true
+        end
       end
     end
 
@@ -165,11 +166,11 @@ module Nucleon
     describe "#ui_group" do
 
       it "prints a colored message with a set prefix to the console" do
-        output = test_output("[\e\[36mtest string\e\[0m] -----------------------------------------------------")
-
-        Core.ui_group("test string", :cyan) do |ui|
-          ui.output = output
-          ui.info("-----------------------------------------------------")
+        test_output("[\e\[36mtest string\e\[0m] -----------------------------------------------------") do |output|
+          Core.ui_group("test string", :cyan) do |ui|
+            ui.output = output
+            ui.info("-----------------------------------------------------")
+          end
         end
       end
     end

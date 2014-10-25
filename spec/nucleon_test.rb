@@ -21,6 +21,14 @@ RSpec.shared_context "test" do
   def test_output(message, printer = :puts)
     handle = double('output')
     expect(handle).to receive(printer).with(message)
+    yield(handle) if block_given?
     handle
+  end
+
+
+  def test_object(klass, *args)
+    object = klass.new(*args)
+    yield(object) if block_given?
+    object
   end
 end
