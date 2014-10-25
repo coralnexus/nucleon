@@ -100,7 +100,7 @@ module Nucleon
     describe "#logger" do
 
       it "returns the global logger instance" do
-        expect(Core.logger).to be_kind_of(Nucleon::Util::Logger)
+        test_type Core.logger, Nucleon::Util::Logger
       end
     end
 
@@ -130,7 +130,7 @@ module Nucleon
     describe "#ui" do
 
       it "returns the global console instance" do
-        expect(Core.ui).to be_kind_of(Nucleon::Util::Console)
+        test_type Core.ui, Nucleon::Util::Console
       end
     end
 
@@ -165,8 +165,7 @@ module Nucleon
     describe "#ui_group" do
 
       it "prints a colored message with a set prefix to the console" do
-        output = double('output')
-        expect(output).to receive(:puts).with(/^\[\e\[36mtest string\e\[0m\] -----------------------------------------------------$/)
+        output = test_output("[\e\[36mtest string\e\[0m] -----------------------------------------------------")
 
         Core.ui_group("test string", :cyan) do |ui|
           ui.output = output
