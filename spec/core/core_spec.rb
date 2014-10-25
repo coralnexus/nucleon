@@ -1,9 +1,11 @@
+
 require 'spec_helper'
 
 module Nucleon
 
   describe Core do
 
+    include_context "test"
     include_context "config"
 
 
@@ -20,49 +22,49 @@ module Nucleon
     describe "#initialize" do
 
       it "creates via the default values if nil given as the primary data source" do
-        expect(Core.new(nil, config_hash1, true, true, true).export).to eq(config_hash1)
-        expect(Core.new(nil, config_hash1, true, true, false).export).to eq(config_hash1)
-        expect(Core.new(nil, config_hash1, true, false, true).export).to eq(config_hash1)
-        expect(Core.new(nil, config_hash1, true, false, false).export).to eq(config_hash1)
+        test_config Core.new(nil, config_hash1, true, true, true), config_hash1
+        test_config Core.new(nil, config_hash1, true, true, false), config_hash1
+        test_config Core.new(nil, config_hash1, true, false, true), config_hash1
+        test_config Core.new(nil, config_hash1, true, false, false), config_hash1
 
-        expect(Core.new(nil, config_hash1, false, true, true).export).to eq(config_hash1)
-        expect(Core.new(nil, config_hash1, false, true, false).export).to eq(config_hash1)
-        expect(Core.new(nil, config_hash1, false, false, true).export).to eq(config_hash1)
-        expect(Core.new(nil, config_hash1, false, false, false).export).to eq(config_hash1)
+        test_config Core.new(nil, config_hash1, false, true, true), config_hash1
+        test_config Core.new(nil, config_hash1, false, true, false), config_hash1
+        test_config Core.new(nil, config_hash1, false, false, true), config_hash1
+        test_config Core.new(nil, config_hash1, false, false, false), config_hash1
       end
 
       it "creates via a basic merge of hash with forced overwrites" do
-        expect(Core.new(config_hash2, config_hash1, true, true, true).export).to eq(config_hash_force_basic_merge)
-        expect(Core.new(config_hash2, config_hash1, true, false, true).export).to eq(config_hash_force_basic_merge)
+        test_config Core.new(config_hash2, config_hash1, true, true, true), config_hash_force_basic_merge
+        test_config Core.new(config_hash2, config_hash1, true, false, true), config_hash_force_basic_merge
       end
       it "creates via a deep merge of hash with forced overwrites" do
-        expect(Core.new(config_hash2, config_hash1, true, true, false).export).to eq(config_hash_force_deep_merge)
-        expect(Core.new(config_hash2, config_hash1, true, false, false).export).to eq(config_hash_force_deep_merge)
+        test_config Core.new(config_hash2, config_hash1, true, true, false), config_hash_force_deep_merge
+        test_config Core.new(config_hash2, config_hash1, true, false, false), config_hash_force_deep_merge
       end
       it "creates via a basic merge of hash with no forced overwrites" do
-        expect(Core.new(config_hash2, config_hash1, false, true, true).export).to eq(config_hash_no_force_basic_merge)
-        expect(Core.new(config_hash2, config_hash1, false, false, true).export).to eq(config_hash_no_force_basic_merge)
+        test_config Core.new(config_hash2, config_hash1, false, true, true), config_hash_no_force_basic_merge
+        test_config Core.new(config_hash2, config_hash1, false, false, true), config_hash_no_force_basic_merge
       end
       it "creates via a deep merge of hash with no forced overwrites" do
-        expect(Core.new(config_hash2, config_hash1, false, true, false).export).to eq(config_hash_no_force_deep_merge)
-        expect(Core.new(config_hash2, config_hash1, false, false, false).export).to eq(config_hash_no_force_deep_merge)
+        test_config Core.new(config_hash2, config_hash1, false, true, false), config_hash_no_force_deep_merge
+        test_config Core.new(config_hash2, config_hash1, false, false, false), config_hash_no_force_deep_merge
       end
 
       it "creates via a basic merge of Config object with forced overwrites" do
-        expect(Core.new(core_object, config_hash1, true, true, true).export).to eq(config_hash_force_basic_merge)
-        expect(Core.new(core_object, config_hash1, true, false, true).export).to eq(config_hash_force_basic_merge)
+        test_config Core.new(core_object, config_hash1, true, true, true), config_hash_force_basic_merge
+        test_config Core.new(core_object, config_hash1, true, false, true), config_hash_force_basic_merge
       end
       it "creates via a deep merge of Config object with forced overwrites" do
-        expect(Core.new(core_object, config_hash1, true, true, false).export).to eq(config_hash_force_deep_merge)
-        expect(Core.new(core_object, config_hash1, true, false, false).export).to eq(config_hash_force_deep_merge)
+        test_config Core.new(core_object, config_hash1, true, true, false), config_hash_force_deep_merge
+        test_config Core.new(core_object, config_hash1, true, false, false), config_hash_force_deep_merge
       end
       it "creates via a basic merge of Config object with no forced overwrites" do
-        expect(Core.new(core_object, config_hash1, false, true, true).export).to eq(config_hash_no_force_basic_merge)
-        expect(Core.new(core_object, config_hash1, false, false, true).export).to eq(config_hash_no_force_basic_merge)
+        test_config Core.new(core_object, config_hash1, false, true, true), config_hash_no_force_basic_merge
+        test_config Core.new(core_object, config_hash1, false, false, true), config_hash_no_force_basic_merge
       end
       it "creates via a deep merge of Config object with no forced overwrites" do
-        expect(Core.new(core_object, config_hash1, false, true, false).export).to eq(config_hash_no_force_deep_merge)
-        expect(Core.new(core_object, config_hash1, false, false, false).export).to eq(config_hash_no_force_deep_merge)
+        test_config Core.new(core_object, config_hash1, false, true, false), config_hash_no_force_deep_merge
+        test_config Core.new(core_object, config_hash1, false, false, false), config_hash_no_force_deep_merge
       end
     end
 
@@ -75,17 +77,17 @@ module Nucleon
     describe "#initialized?" do
 
       it "is true after initialization if set_initialized flag given" do
-        expect(Core.new(config_hash2, config_hash1, true, true, true).initialized?).to eq true
-        expect(Core.new(config_hash2, config_hash1, true, true, false).initialized?).to eq true
-        expect(Core.new(config_hash2, config_hash1, false, true, true).initialized?).to eq true
-        expect(Core.new(config_hash2, config_hash1, false, true, false).initialized?).to eq true
+        test_eq Core.new(config_hash2, config_hash1, true, true, true).initialized?, true
+        test_eq Core.new(config_hash2, config_hash1, true, true, false).initialized?, true
+        test_eq Core.new(config_hash2, config_hash1, false, true, true).initialized?, true
+        test_eq Core.new(config_hash2, config_hash1, false, true, false).initialized?, true
       end
 
       it "is false after initialization if set_initialized flag not given" do
-        expect(Core.new(config_hash2, config_hash1, true, false, true).initialized?).to eq false
-        expect(Core.new(config_hash2, config_hash1, true, false, false).initialized?).to eq false
-        expect(Core.new(config_hash2, config_hash1, false, false, true).initialized?).to eq false
-        expect(Core.new(config_hash2, config_hash1, false, false, false).initialized?).to eq false
+        test_eq Core.new(config_hash2, config_hash1, true, false, true).initialized?, false
+        test_eq Core.new(config_hash2, config_hash1, true, false, false).initialized?, false
+        test_eq Core.new(config_hash2, config_hash1, false, false, true).initialized?, false
+        test_eq Core.new(config_hash2, config_hash1, false, false, false).initialized?, false
       end
     end
 
@@ -111,15 +113,15 @@ module Nucleon
         object        = Core.new(config_hash1, {}, true, true, true)
         object.logger = logger
 
-        expect(logger == object.logger).to eq true
-        expect(object.logger.resource == "test1").to eq true
+        test_eq logger == object.logger, true
+        test_eq object.logger.resource == "test1", true
       end
 
       it "assigns instance logger from new logger instance with specific name" do
         object        = Core.new(config_hash2, {}, true, true, true)
         object.logger = "test2"
 
-        expect(object.logger.resource == "test2").to eq true
+        test_eq object.logger.resource == "test2", true
       end
     end
 
@@ -142,15 +144,15 @@ module Nucleon
         object    = Core.new(config_hash1, {}, true, true, true)
         object.ui = console
 
-        expect(console == object.ui).to eq true
-        expect(object.ui.resource == "test1").to eq true
+        test_eq console == object.ui, true
+        test_eq object.ui.resource == "test1", true
       end
 
       it "assigns instance console from new console instance with specific name" do
         object    = Core.new(config_hash2, {}, true, true, true)
         object.ui = "test2"
 
-        expect(object.ui.resource == "test2").to eq true
+        test_eq object.ui.resource == "test2", true
       end
     end
 

@@ -3,6 +3,7 @@ require 'rspec'
 require 'stringio'
 require 'nucleon'
 
+require 'nucleon_test'
 require 'nucleon_config'
 
 #*******************************************************************************
