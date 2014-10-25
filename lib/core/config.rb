@@ -93,7 +93,7 @@ class Config
   def self.ensure(config, defaults = {}, force = true, basic_merge = true)
     case config
     when Nucleon::Config
-      return config.defaults(defaults)
+      return config.defaults(defaults, { :force => force, :basic => basic_merge })
     when Hash
       return new(config, defaults, force, basic_merge)
     end
@@ -250,6 +250,8 @@ class Config
       if data.is_a?(Hash)
         @properties = Util::Data.merge([ defaults, symbol_map(data.clone) ], force, basic_merge)
       end
+    else
+      @properties = defaults if defaults.is_a?(Hash)
     end
   end
 
@@ -371,6 +373,10 @@ class Config
   #
   # * *Errors*
   #
+  # See:
+  # - #symbol_map
+  # - Nucleon::Util::Data::symbol_map
+  #
   def modify(data, keys, value = nil, delete_nil = false)
     if keys.is_a?(String) || keys.is_a?(Symbol)
       keys = [ keys ]
@@ -390,6 +396,7 @@ class Config
       if value.nil? && delete_nil
         data.delete(key) if has_key
       else
+        value     = symbol_map(value) if value.is_a?(Hash)
         data[key] = value
       end
     else

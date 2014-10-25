@@ -534,6 +534,8 @@ class Data
     result = default
     if data
       case data
+      when TrueClass, FalseClass
+        result = data ? :true : :false
       when Symbol
         result = data
       when String
@@ -842,9 +844,10 @@ class Data
   def self.prefix(prefix, data, pad = '_')
     result = nil
 
-    unless prefix.is_a?(String) && ! empty?(prefix)
+    unless prefix.is_a?(Symbol) || ( prefix.is_a?(String) && ! empty?(prefix) )
       prefix = ''
     end
+    prefix = prefix.to_s
 
     case data
     when String, Symbol
