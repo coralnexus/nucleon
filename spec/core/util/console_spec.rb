@@ -10,6 +10,10 @@ module Nucleon
 
     #***************************************************************************
 
+    def console(*args, &code)
+      test_object(Util::Console, *args, &code)
+    end
+
 
     #***************************************************************************
     # Core IO
@@ -20,19 +24,19 @@ module Nucleon
 
       it "can delegate to another class that contains this method" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output }) do |console|
-            test_object(Util::Console, { :console_delegate => console }).say(:info, 'message')
+          console({ :output => output }) do |console|
+            console({ :console_delegate => console }).say(:info, 'message')
           end
         end
       end
 
       it "prints a message with default options" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output }).say(:info, 'message')
+          console({ :output => output }).say(:info, 'message')
         end
 
         test_output('[component] message', :puts) do |output|
-          test_object(Util::Console, {
+          console({
             :resource => 'component',
             :output   => output,
           }).say(:info, 'message')
@@ -41,18 +45,18 @@ module Nucleon
 
       it "prints a message with and without newlines included" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output }).say(:info, 'message', { :new_line => true })
+          console({ :output => output }).say(:info, 'message', { :new_line => true })
         end
 
         test_output('message', :print) do |output|
-          test_object(Util::Console, { :output => output }).say(:info, 'message', { :new_line => false })
+          console({ :output => output }).say(:info, 'message', { :new_line => false })
         end
       end
 
       it "routes message of different types" do
         [:info, :warn, :success, :error].each do |type|
           test_output('message', :puts) do |output|
-            test_object(Util::Console, { :output => output, :color => false }).say(type, 'message')
+            console({ :output => output, :color => false }).say(type, 'message')
           end
         end
       end
@@ -60,7 +64,7 @@ module Nucleon
       it "routes message to output and error channels based on channel given" do
         [:info, :warn, :success].each do |type|
           test_output(type.to_s, :puts) do |output|
-            test_object(Util::Console, { :color => false }).say(type, type.to_s, { :channel => output })
+            console({ :color => false }).say(type, type.to_s, { :channel => output })
           end
         end
       end
@@ -72,15 +76,15 @@ module Nucleon
 
       it "can delegate to another class that contains this method" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :error => output }) do |console|
-            test_object(Util::Console, { :console_delegate => console }).dump('message')
+          console({ :error => output }) do |console|
+            console({ :console_delegate => console }).dump('message')
           end
         end
       end
 
       it "dumps data to stderr output channel" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :error => output }).dump('message')
+          console({ :error => output }).dump('message')
         end
       end
     end
@@ -113,15 +117,15 @@ module Nucleon
 
       it "can delegate to another class that contains this method" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output }) do |console|
-            test_object(Util::Console, { :console_delegate => console }).info('message')
+          console({ :output => output }) do |console|
+            console({ :console_delegate => console }).info('message')
           end
         end
       end
 
       it "prints an uncolored information message" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output }).info('message')
+          console({ :output => output }).info('message')
         end
       end
     end
@@ -132,21 +136,21 @@ module Nucleon
 
       it "can delegate to another class that contains this method" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output, :color => false }) do |ui|
-            test_object(Util::Console, { :console_delegate => ui }).warn('message')
+          console({ :output => output, :color => false }) do |console|
+            console({ :console_delegate => console }).warn('message')
           end
         end
       end
 
       it "prints an uncolored warning message" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output, :color => false }).warn('message')
+          console({ :output => output, :color => false }).warn('message')
         end
       end
 
       it "prints a colored warning message" do
         test_output("\e\[33mmessage\e\[0m", :print) do |output|
-          test_object(Util::Console, { :output => output, :color => true }).warn('message', { :new_line => false })
+          console({ :output => output, :color => true }).warn('message', { :new_line => false })
         end
       end
     end
@@ -157,21 +161,21 @@ module Nucleon
 
       it "can delegate to another class that contains this method" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output, :color => false }) do |console|
-            test_object(Util::Console, { :console_delegate => console }).error('message')
+          console({ :output => output, :color => false }) do |console|
+            console({ :console_delegate => console }).error('message')
           end
         end
       end
 
       it "prints an uncolored error message" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output, :color => false }).error('message')
+          console({ :output => output, :color => false }).error('message')
         end
       end
 
       it "prints a colored error message" do
         test_output("\e\[31mmessage\e\[0m", :print) do |output|
-          test_object(Util::Console, { :output => output, :color => true }).error('message', { :new_line => false })
+          console({ :output => output, :color => true }).error('message', { :new_line => false })
         end
       end
     end
@@ -182,21 +186,21 @@ module Nucleon
 
       it "can delegate to another class that contains this method" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output, :color => false }) do |console|
-            test_object(Util::Console, { :console_delegate => console }).success('message')
+          console({ :output => output, :color => false }) do |console|
+            console({ :console_delegate => console }).success('message')
           end
         end
       end
 
       it "prints an uncolored success message" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output, :color => false }).success('message')
+          console({ :output => output, :color => false }).success('message')
         end
       end
 
       it "prints a colored success message" do
         test_output("\e\[32mmessage\e\[0m", :print) do |output|
-          test_object(Util::Console, { :output => output, :color => true }).success('message', { :new_line => false })
+          console({ :output => output, :color => true }).success('message', { :new_line => false })
         end
       end
     end
@@ -210,37 +214,37 @@ module Nucleon
     describe "#format_message" do
 
       it "can delegate to another class that contains this method" do
-        test_object(Util::Console, { :console_delegate => test_object(Util::Console, 'delegate') }) do |console|
+        console({ :console_delegate => console('delegate') }) do |console|
           test_eq console.format_message(:info, 'message', { :prefix => true }), '[delegate] message'
         end
       end
 
       it "returns without a prefix because no resource" do
-        test_eq test_object(Util::Console).format_message(:info, 'message', { :prefix => true }), 'message'
+        test_eq console.format_message(:info, 'message', { :prefix => true }), 'message'
       end
 
       it "returns without a prefix because prefix is false" do
-        test_eq test_object(Util::Console, 'component').format_message(:info, 'message', { :prefix => false }), 'message'
+        test_eq console('component').format_message(:info, 'message', { :prefix => false }), 'message'
       end
 
       it "returns without a prefix because no prefix option given" do
-        test_eq test_object(Util::Console, 'component').format_message(:info, 'message'), 'message'
+        test_eq console('component').format_message(:info, 'message'), 'message'
       end
 
       it "returns with a prefix if resource and prefix option given" do
-        test_eq test_object(Util::Console, 'component').format_message(:info, 'message', { :prefix => true }), '[component] message'
+        test_eq console('component').format_message(:info, 'message', { :prefix => true }), '[component] message'
       end
 
       it "formats a error message in red if color enabled" do
-        test_eq test_object(Util::Console, { :resource => 'component', :color => true }).format_message(:error, 'message'), "\e\[31mmessage\e\[0m"
+        test_eq console({ :resource => 'component', :color => true }).format_message(:error, 'message'), "\e\[31mmessage\e\[0m"
       end
 
       it "formats a warning message in yellow if color enabled" do
-        test_eq test_object(Util::Console, { :resource => 'component', :color => true }).format_message(:warn, 'message'), "\e\[33mmessage\e\[0m"
+        test_eq console({ :resource => 'component', :color => true }).format_message(:warn, 'message'), "\e\[33mmessage\e\[0m"
       end
 
       it "formats a success message in green if color enabled" do
-        test_eq test_object(Util::Console, { :resource => 'component', :color => true }).format_message(:success, 'message'), "\e\[32mmessage\e\[0m"
+        test_eq console({ :resource => 'component', :color => true }).format_message(:success, 'message'), "\e\[32mmessage\e\[0m"
       end
     end
 
@@ -250,46 +254,46 @@ module Nucleon
 
       it "can delegate to another class that contains this method" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output }) do |console|
-            test_object(Util::Console, { :console_delegate => console }).safe_puts('message')
+          console({ :output => output }) do |console|
+            console({ :console_delegate => console }).safe_puts('message')
           end
         end
       end
 
       it "prints an empty string unless message given" do
         test_output('', :puts) do |output|
-          test_object(Util::Console, { :output => output }).safe_puts()
+          console({ :output => output }).safe_puts()
         end
       end
 
       it "prints to different output channels if they are given" do
-        console = test_object(Util::Console)
-
-        test_output('message1', :puts) do |output|
-          console.output = output
-          console.safe_puts('message1')
-        end
-        test_output('message2', :puts) do |output|
-          console.output = output
-          console.safe_puts('message2')
+        console do |console|
+          test_output('message1', :puts) do |output|
+            console.output = output
+            console.safe_puts('message1')
+          end
+          test_output('message2', :puts) do |output|
+            console.output = output
+            console.safe_puts('message2')
+          end
         end
       end
 
       it "prints with puts if puts printer option given" do
         test_output('message', :puts) do |output|
-          test_object(Util::Console, { :output => output, :printer => :puts }).safe_puts('message')
+          console({ :output => output, :printer => :puts }).safe_puts('message')
         end
       end
 
       it "prints with print if print printer option given" do
         test_output('message', :print) do |output|
-          test_object(Util::Console, { :output => output, :printer => :print }).safe_puts('message')
+          console({ :output => output, :printer => :print }).safe_puts('message')
         end
       end
 
       it "can override the instance output channel" do
         test_output('message1', :puts) do |output|
-          test_object(Util::Console, { :output => output }) do |console|
+          console({ :output => output }) do |console|
             console.safe_puts('message1')
             console.safe_puts('message2', { :channel => test_output('message2', :puts) })
           end
@@ -298,7 +302,7 @@ module Nucleon
 
       it "can override the instance printer handler" do
         test_output('message1', :puts) do |output|
-          test_object(Util::Console, { :output => output, :printer => :puts }) do |console|
+          console({ :output => output, :printer => :puts }) do |console|
             console.safe_puts('message1')
             console.safe_puts('message2', { :channel => test_output('message2', :print), :printer => :print })
           end
@@ -311,11 +315,11 @@ module Nucleon
     describe "#check_delegate" do
 
       it "returns false if no delegate exists" do
-        test_eq test_object(Util::Console).check_delegate('safe_puts'), false
+        test_eq console.check_delegate('safe_puts'), false
       end
 
       it "returns true if a delegate exists and it implements given method" do
-        test_object(Util::Console, { :console_delegate => test_object(Util::Console) }) do |console|
+        console({ :console_delegate => console }) do |console|
           test_eq console.check_delegate('safe_puts'), true
           test_eq console.check_delegate('nonexistent'), false
         end
