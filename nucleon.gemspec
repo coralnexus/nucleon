@@ -20,8 +20,6 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
-    ".document",
-    ".gitmodules",
     "ARCHITECTURE.rdoc",
     "Gemfile",
     "Gemfile.lock",
@@ -106,7 +104,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = Gem::Requirement.new(">= 1.8.1")
   s.rubyforge_project = "nucleon"
   s.rubygems_version = "2.2.2"
-  s.summary = "Framework that provides a simple foundation for building distributively configured, extremely pluggable and extendable, and easily parallel Ruby applications"
+  s.summary = "Easy and minimal framework for building extensible distributed applications"
 
   if s.respond_to? :specification_version then
     s.specification_version = 4
