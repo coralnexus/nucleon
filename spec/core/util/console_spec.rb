@@ -5,7 +5,7 @@ module Nucleon
 
   describe Util::Console do
 
-    include_context "test"
+    include_context "nucleon_test"
 
 
     #***************************************************************************

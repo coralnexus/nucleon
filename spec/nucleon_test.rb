@@ -1,5 +1,5 @@
 
-RSpec.shared_context "test" do
+RSpec.shared_context "nucleon_test" do
 
   #*****************************************************************************
   # Reusable Nucleon tests

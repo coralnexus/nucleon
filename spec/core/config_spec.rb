@@ -5,8 +5,8 @@ module Nucleon
 
   describe Config do
 
-    include_context "test"
-    include_context "config"
+    include_context "nucleon_test"
+    include_context "nucleon_config"
 
 
     #***************************************************************************
