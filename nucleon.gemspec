@@ -20,6 +20,8 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
+    ".gitignore",
+    ".gitmodules",
     "ARCHITECTURE.rdoc",
     "Gemfile",
     "Gemfile.lock",
