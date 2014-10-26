@@ -1477,7 +1477,7 @@ string.</p>
           <div class="method-source-code" id="check_delegate-source">
             <pre><span class="ruby-comment"># File lib/core/util/console.rb, line 601</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check_delegate</span>(<span class="ruby-identifier">method</span>)
-  <span class="ruby-keyword">return</span> ( <span class="ruby-ivar">@delegate</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">method</span>.<span class="ruby-identifier">to_s</span>) )
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">test</span>(<span class="ruby-ivar">@delegate</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@delegate</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-identifier">method</span>.<span class="ruby-identifier">to_s</span>))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- check_delegate-source -->
           

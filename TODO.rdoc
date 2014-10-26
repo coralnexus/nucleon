@@ -3,7 +3,7 @@
 * Execution plans
 * Error handling improvements
 * Full code documentation
-* Full coverage unit tests (starting with core Nucleon unit testing library)
+* Full coverage unit tests
 * Performance improvements
 * Deeper GitHub API integration in project provider
 * UI console color profiles

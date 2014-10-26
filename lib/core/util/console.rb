@@ -599,7 +599,7 @@ class Console
   # * *Errors*
   #
   def check_delegate(method)
-    return ( @delegate && @delegate.respond_to?(method.to_s) )
+    return Util::Data.test(@delegate && @delegate.respond_to?(method.to_s))
   end
 
   #*****************************************************************************

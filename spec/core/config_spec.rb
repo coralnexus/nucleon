@@ -5,13 +5,20 @@ module Nucleon
 
   describe Config do
 
-    include_context "test"
-    include_context "config"
+    include_context "nucleon_test"
+    include_context "nucleon_config"
 
 
     #***************************************************************************
 
-    let(:config_object) { Config.new(config_hash2) }
+    def config(*args, &code)
+      test_object(Config, *args, &code)
+    end
+
+
+    #***************************************************************************
+
+    let(:config_object) { config(config_hash2) }
 
 
     #***************************************************************************
@@ -143,36 +150,36 @@ module Nucleon
     describe "#initialize" do
 
       it "creates with default values if nil given as the primary data source" do
-        test_config Config.new(nil, config_hash1, true, true), config_hash1
-        test_config Config.new(nil, config_hash1, true, false), config_hash1
-        test_config Config.new(nil, config_hash1, false, true), config_hash1
-        test_config Config.new(nil, config_hash1, false, false), config_hash1
+        test_config config(nil, config_hash1, true, true), config_hash1
+        test_config config(nil, config_hash1, true, false), config_hash1
+        test_config config(nil, config_hash1, false, true), config_hash1
+        test_config config(nil, config_hash1, false, false), config_hash1
       end
 
       it "creates via a basic merge of hash with forced overwrites" do
-        test_config Config.new(config_hash2, config_hash1, true, true), config_hash_force_basic_merge
+        test_config config(config_hash2, config_hash1, true, true), config_hash_force_basic_merge
       end
       it "creates via a deep merge of hash with forced overwrites" do
-        test_config Config.new(config_hash2, config_hash1, true, false), config_hash_force_deep_merge
+        test_config config(config_hash2, config_hash1, true, false), config_hash_force_deep_merge
       end
       it "creates via a basic merge of hash with no forced overwrites" do
-        test_config Config.new(config_hash2, config_hash1, false, true), config_hash_no_force_basic_merge
+        test_config config(config_hash2, config_hash1, false, true), config_hash_no_force_basic_merge
       end
       it "creates via a deep merge of hash with no forced overwrites" do
-        test_config Config.new(config_hash2, config_hash1, false, false), config_hash_no_force_deep_merge
+        test_config config(config_hash2, config_hash1, false, false), config_hash_no_force_deep_merge
       end
 
       it "creates via a basic merge of Config object with forced overwrites" do
-        test_config Config.new(config_object, config_hash1, true, true), config_hash_force_basic_merge
+        test_config config(config_object, config_hash1, true, true), config_hash_force_basic_merge
       end
       it "creates via a deep merge of Config object with forced overwrites" do
-        test_config Config.new(config_object, config_hash1, true, false), config_hash_force_deep_merge
+        test_config config(config_object, config_hash1, true, false), config_hash_force_deep_merge
       end
       it "creates via a basic merge of Config object with no forced overwrites" do
-        test_config Config.new(config_object, config_hash1, false, true), config_hash_no_force_basic_merge
+        test_config config(config_object, config_hash1, false, true), config_hash_no_force_basic_merge
       end
       it "creates via a deep merge of Config object with no forced overwrites" do
-        test_config Config.new(config_object, config_hash1, false, false), config_hash_no_force_deep_merge
+        test_config config(config_object, config_hash1, false, false), config_hash_no_force_deep_merge
       end
     end
 
@@ -185,11 +192,11 @@ module Nucleon
     describe "#empty?" do
 
       it "returns false if properties are in the configuration object" do
-        test_eq Config.new(config_hash1, {}, true, true).empty?, false
+        test_eq config(config_hash1, {}, true, true).empty?, false
       end
 
       it "returns true if the configuration object is empty" do
-        test_eq Config.new(nil, {}, true, true).empty?, true
+        test_eq config(nil, {}, true, true).empty?, true
       end
     end
 
@@ -198,13 +205,13 @@ module Nucleon
     describe "#has_key?" do
 
       it "is true if a top level key exists in the configuration object" do
-        test_object(Config, config_hash1, {}, true, true) do |config|
+        config(config_hash1, {}, true, true) do |config|
           test_eq config.has_key?("testkey"), true
           test_eq config.has_key?(:testkey), true
         end
       end
       it "is true if a nested key exists in the configuration object" do
-        test_object(Config, config_hash1, {}, true, true) do |config|
+        config(config_hash1, {}, true, true) do |config|
           test_eq config.has_key?([ "nestedkey", "a", "test1" ]), true
           test_eq config.has_key?([ :nestedkey, :a, :test1 ]), true
           test_eq config.has_key?([ "nestedkey", "a", :test1 ]), true
@@ -213,13 +220,13 @@ module Nucleon
       end
 
       it "is false if a top level key does not exist in the configuration object" do
-        test_object(Config, config_hash1, {}, true, true) do |config|
+        config(config_hash1, {}, true, true) do |config|
           test_eq config.has_key?("some_non_existent_key"), false
           test_eq config.has_key?(:some_non_existent_key), false
         end
       end
       it "is false if a nested key does not exist in the configuration object" do
-        test_object(Config, config_hash1, {}, true, true) do |config|
+        config(config_hash1, {}, true, true) do |config|
           test_eq config.has_key?([ "nestedkey", "test5" ]), false
           test_eq config.has_key?([ :nestedkey, :test5 ]), false
           test_eq config.has_key?([ "nestedkey", :test5 ]), false
@@ -237,8 +244,8 @@ module Nucleon
     describe "#keys" do
 
       it "returns the top level property keys in the configuration object" do
-        test_eq Config.new(config_hash1, {}, true, true).keys, [ :testkey, :nestedkey, :other, :array ]
-        test_eq Config.new(config_hash2, {}, true, true).keys, [ :testkey1, :nestedkey, :other, :array ]
+        test_eq config(config_hash1, {}, true, true).keys, [ :testkey, :nestedkey, :other, :array ]
+        test_eq config(config_hash2, {}, true, true).keys, [ :testkey1, :nestedkey, :other, :array ]
       end
     end
 
@@ -247,49 +254,49 @@ module Nucleon
     describe "#get" do
 
       it "returns an existing value for a top level property from the configuration object if it exists" do
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey, nil, false), 'testval'
-        test_eq Config.new(config_hash2, {}, true, true).get(:testkey1, nil, false), 'testval1'
+        test_eq config(config_hash1, {}, true, true).get(:testkey, nil, false), 'testval'
+        test_eq config(config_hash2, {}, true, true).get(:testkey1, nil, false), 'testval1'
       end
       it "returns an existing value for a nested property from the configuration object if it exists" do
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, :test2 ], nil, false), [ 'no' ]
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, nil, :y, nil ], nil, false), 'again'
-        test_eq Config.new(config_hash2, {}, true, true).get([ :nestedkey, :a, :test1 ], nil, false), 'oh'
-        test_eq Config.new(config_hash2, {}, true, true).get([ :nestedkey, :a, nil, :test3, nil ], nil, false), true
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, :test2 ], nil, false), [ 'no' ]
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, nil, :y, nil ], nil, false), 'again'
+        test_eq config(config_hash2, {}, true, true).get([ :nestedkey, :a, :test1 ], nil, false), 'oh'
+        test_eq config(config_hash2, {}, true, true).get([ :nestedkey, :a, nil, :test3, nil ], nil, false), true
       end
 
       it "returns a default value for a top level property from the configuration object if it does not exist" do
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, false, false), false
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, 'string', false), 'string'
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, :symbol, false), :symbol
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, [ :a, :b, :c ], false), [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, { :a => :b }, false), { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, false, :test), false
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, '42', :test), true
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, 'string', :string), 'string'
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, :string, :string), 'string'
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, :symbol, :symbol), :symbol
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, 'symbol', :symbol), :symbol
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, [ :a, :b, :c ], :array), [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, :a, :array), [ :a ]
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, { :a => :b }, :hash), { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true).get(:testkey15, nil, :hash), {}
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, false, false), false
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, 'string', false), 'string'
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, :symbol, false), :symbol
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, [ :a, :b, :c ], false), [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, { :a => :b }, false), { :a => :b }
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, false, :test), false
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, '42', :test), true
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, 'string', :string), 'string'
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, :string, :string), 'string'
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, :symbol, :symbol), :symbol
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, 'symbol', :symbol), :symbol
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, [ :a, :b, :c ], :array), [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, :a, :array), [ :a ]
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, { :a => :b }, :hash), { :a => :b }
+        test_eq config(config_hash1, {}, true, true).get(:testkey15, nil, :hash), {}
       end
       it "returns a default value for a nested property from the configuration object if it does not exist" do
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], false, false), false
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], 'string', false), 'string'
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :symbol, false), :symbol
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], [ :a, :b, :c ], false), [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], { :a => :b }, false), { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], false, :test), false
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], '42', :test), true
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], 'string', :string), 'string'
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :string, :string), 'string'
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :symbol, :symbol), :symbol
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], 'symbol', :symbol), :symbol
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], [ :a, :b, :c ], :array), [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :a, :array), [ :a ]
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], { :a => :b }, :hash), { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], nil, :hash), {}
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], false, false), false
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], 'string', false), 'string'
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :symbol, false), :symbol
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], [ :a, :b, :c ], false), [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], { :a => :b }, false), { :a => :b }
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], false, :test), false
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], '42', :test), true
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], 'string', :string), 'string'
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :string, :string), 'string'
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :symbol, :symbol), :symbol
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], 'symbol', :symbol), :symbol
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], [ :a, :b, :c ], :array), [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], :a, :array), [ :a ]
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], { :a => :b }, :hash), { :a => :b }
+        test_eq config(config_hash1, {}, true, true).get([ :nestedkey, :a, nil, :unknown ], nil, :hash), {}
       end
     end
 
@@ -298,26 +305,26 @@ module Nucleon
     describe "#[]" do
 
       it "returns an existing value for a top level property from the configuration object if it exists" do
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey, nil, false], 'testval'
-        test_eq Config.new(config_hash2, {}, true, true)[:testkey1, nil, false], 'testval1'
+        test_eq config(config_hash1, {}, true, true)[:testkey, nil, false], 'testval'
+        test_eq config(config_hash2, {}, true, true)[:testkey1, nil, false], 'testval1'
       end
 
       it "returns a default value for a top level property from the configuration object if it does not exist" do
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, false, false], false
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, 'string', false], 'string'
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, :symbol, false], :symbol
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, [ :a, :b, :c ], false], [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, { :a => :b }, false], { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, false, :test], false
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, '42', :test], true
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, 'string', :string], 'string'
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, :string, :string], 'string'
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, :symbol, :symbol], :symbol
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, 'symbol', :symbol], :symbol
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, [ :a, :b, :c ], :array], [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, :a, :array], [ :a ]
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, { :a => :b }, :hash], { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true)[:testkey15, nil, :hash], {}
+        test_eq config(config_hash1, {}, true, true)[:testkey15, false, false], false
+        test_eq config(config_hash1, {}, true, true)[:testkey15, 'string', false], 'string'
+        test_eq config(config_hash1, {}, true, true)[:testkey15, :symbol, false], :symbol
+        test_eq config(config_hash1, {}, true, true)[:testkey15, [ :a, :b, :c ], false], [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true)[:testkey15, { :a => :b }, false], { :a => :b }
+        test_eq config(config_hash1, {}, true, true)[:testkey15, false, :test], false
+        test_eq config(config_hash1, {}, true, true)[:testkey15, '42', :test], true
+        test_eq config(config_hash1, {}, true, true)[:testkey15, 'string', :string], 'string'
+        test_eq config(config_hash1, {}, true, true)[:testkey15, :string, :string], 'string'
+        test_eq config(config_hash1, {}, true, true)[:testkey15, :symbol, :symbol], :symbol
+        test_eq config(config_hash1, {}, true, true)[:testkey15, 'symbol', :symbol], :symbol
+        test_eq config(config_hash1, {}, true, true)[:testkey15, [ :a, :b, :c ], :array], [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true)[:testkey15, :a, :array], [ :a ]
+        test_eq config(config_hash1, {}, true, true)[:testkey15, { :a => :b }, :hash], { :a => :b }
+        test_eq config(config_hash1, {}, true, true)[:testkey15, nil, :hash], {}
       end
     end
 
@@ -326,23 +333,23 @@ module Nucleon
     describe "#get_array" do
 
       it "returns an existing array for a top level property from the configuration object if it exists" do
-        test_eq Config.new(config_hash1, {}, true, true).get_array(:testkey, []), [ 'testval' ]
-        test_eq Config.new(config_hash2, {}, true, true).get_array(:testkey1, []), [ 'testval1' ]
+        test_eq config(config_hash1, {}, true, true).get_array(:testkey, []), [ 'testval' ]
+        test_eq config(config_hash2, {}, true, true).get_array(:testkey1, []), [ 'testval1' ]
       end
       it "returns an existing array for a nested property from the configuration object if it exists" do
-        test_eq Config.new(config_hash1, {}, true, true).get_array([ :nestedkey, :a, :test2 ], []), [ 'no' ]
-        test_eq Config.new(config_hash1, {}, true, true).get_array([ :nestedkey, nil, :y, nil ], []), [ 'again' ]
-        test_eq Config.new(config_hash2, {}, true, true).get_array([ :nestedkey, :a, :test1 ], []), [ 'oh' ]
-        test_eq Config.new(config_hash2, {}, true, true).get_array([ :nestedkey, :a, nil, :test3, nil ], []), [ true ]
+        test_eq config(config_hash1, {}, true, true).get_array([ :nestedkey, :a, :test2 ], []), [ 'no' ]
+        test_eq config(config_hash1, {}, true, true).get_array([ :nestedkey, nil, :y, nil ], []), [ 'again' ]
+        test_eq config(config_hash2, {}, true, true).get_array([ :nestedkey, :a, :test1 ], []), [ 'oh' ]
+        test_eq config(config_hash2, {}, true, true).get_array([ :nestedkey, :a, nil, :test3, nil ], []), [ true ]
       end
 
       it "returns a default array for a top level property from the configuration object if it does not exist" do
-        test_eq Config.new(config_hash1, {}, true, true).get_array(:testkey15, [ :a, :b, :c ]), [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true).get_array(:testkey15, :a), [ :a ]
+        test_eq config(config_hash1, {}, true, true).get_array(:testkey15, [ :a, :b, :c ]), [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true).get_array(:testkey15, :a), [ :a ]
       end
       it "returns a default array for a nested property from the configuration object if it does not exist" do
-        test_eq Config.new(config_hash1, {}, true, true).get_array([ :nestedkey, :a, nil, :unknown ], [ :a, :b, :c ]), [ :a, :b, :c ]
-        test_eq Config.new(config_hash1, {}, true, true).get_array([ :nestedkey, :a, nil, :unknown ], :a), [ :a ]
+        test_eq config(config_hash1, {}, true, true).get_array([ :nestedkey, :a, nil, :unknown ], [ :a, :b, :c ]), [ :a, :b, :c ]
+        test_eq config(config_hash1, {}, true, true).get_array([ :nestedkey, :a, nil, :unknown ], :a), [ :a ]
       end
     end
 
@@ -351,7 +358,7 @@ module Nucleon
     describe "#get_hash" do
 
       it "returns an existing hash for a top level property from the configuration object if it exists" do
-        test_eq Config.new(config_hash1, {}, true, true).get_hash(:nestedkey, {}), {
+        test_eq config(config_hash1, {}, true, true).get_hash(:nestedkey, {}), {
           :a => {
             :test1 => 'oh',
             :test2 => [ 'no' ]
@@ -360,7 +367,7 @@ module Nucleon
           :y => 'again',
           :z => 'im done now'
         }
-        test_eq Config.new(config_hash2, {}, true, true).get_hash(:nestedkey, {}), {
+        test_eq config(config_hash2, {}, true, true).get_hash(:nestedkey, {}), {
           :a => {
             :test1 => 'oh',
             :test2 => [ 'yes' ],
@@ -370,19 +377,19 @@ module Nucleon
         }
       end
       it "returns an existing hash for a nested property from the configuration object if it exists" do
-        test_eq Config.new(config_hash1, {}, true, true).get_hash([ :nestedkey, :a ], {}), { :test1 => 'oh', :test2 => [ 'no' ]  }
-        test_eq Config.new(config_hash1, {}, true, true).get_hash([ :nestedkey, nil, :y, nil ], {}), {}
-        test_eq Config.new(config_hash2, {}, true, true).get_hash([ :nestedkey, :a ], {}), { :test1 => 'oh', :test2 => [ 'yes' ], :test3 => true }
-        test_eq Config.new(config_hash2, {}, true, true).get_hash([ :nestedkey, :a, nil, :test3, nil ], {}), {}
+        test_eq config(config_hash1, {}, true, true).get_hash([ :nestedkey, :a ], {}), { :test1 => 'oh', :test2 => [ 'no' ]  }
+        test_eq config(config_hash1, {}, true, true).get_hash([ :nestedkey, nil, :y, nil ], {}), {}
+        test_eq config(config_hash2, {}, true, true).get_hash([ :nestedkey, :a ], {}), { :test1 => 'oh', :test2 => [ 'yes' ], :test3 => true }
+        test_eq config(config_hash2, {}, true, true).get_hash([ :nestedkey, :a, nil, :test3, nil ], {}), {}
       end
 
       it "returns a default hash for a top level property from the configuration object if it does not exist" do
-        test_eq Config.new(config_hash1, {}, true, true).get_hash(:testkey15, { :a => :b }), { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true).get_hash(:testkey15, nil), {}
+        test_eq config(config_hash1, {}, true, true).get_hash(:testkey15, { :a => :b }), { :a => :b }
+        test_eq config(config_hash1, {}, true, true).get_hash(:testkey15, nil), {}
       end
       it "returns a default hash for a nested property from the configuration object if it does not exist" do
-        test_eq Config.new(config_hash1, {}, true, true).get_hash([ :nestedkey, :a, nil, :unknown ], { :a => :b }), { :a => :b }
-        test_eq Config.new(config_hash1, {}, true, true).get_hash([ :nestedkey, :a, nil, :unknown ], nil), {}
+        test_eq config(config_hash1, {}, true, true).get_hash([ :nestedkey, :a, nil, :unknown ], { :a => :b }), { :a => :b }
+        test_eq config(config_hash1, {}, true, true).get_hash([ :nestedkey, :a, nil, :unknown ], nil), {}
       end
     end
 
@@ -392,21 +399,21 @@ module Nucleon
     describe "#init" do
 
       it "sets a top level configuration property that does not exist yet" do
-        test_eq Config.new(config_hash1, {}, true, true).init(:other_property, 'testing').get(:other_property), 'testing'
-        test_eq Config.new(config_hash2, {}, true, true).init(:new_property, 'testing2').get(:new_property), 'testing2'
+        test_eq config(config_hash1, {}, true, true).init(:other_property, 'testing').get(:other_property), 'testing'
+        test_eq config(config_hash2, {}, true, true).init(:new_property, 'testing2').get(:new_property), 'testing2'
       end
       it "sets a nested configuration property that does not exist yet" do
-        test_eq Config.new(config_hash1, {}, true, true).init([ :nested_property, :abc ], [ 1, 2, 3 ]).get([ :nested_property, :abc ]), [ 1, 2, 3 ]
-        test_eq Config.new(config_hash2, {}, true, true).init([ :nested_property, :abc ], [ 1, 2, 3 ]).get([ :nested_property, :abc ]), [ 1, 2, 3 ]
+        test_eq config(config_hash1, {}, true, true).init([ :nested_property, :abc ], [ 1, 2, 3 ]).get([ :nested_property, :abc ]), [ 1, 2, 3 ]
+        test_eq config(config_hash2, {}, true, true).init([ :nested_property, :abc ], [ 1, 2, 3 ]).get([ :nested_property, :abc ]), [ 1, 2, 3 ]
       end
 
       it "leaves a top level configuration property untouched if it already exists" do
-        test_eq Config.new(config_hash1, {}, true, true).init(:other, 'testing').get(:other), [ 1, 2, 3, 4 ]
-        test_eq Config.new(config_hash2, {}, true, true).init(:other, 'testing').get(:other), 56
+        test_eq config(config_hash1, {}, true, true).init(:other, 'testing').get(:other), [ 1, 2, 3, 4 ]
+        test_eq config(config_hash2, {}, true, true).init(:other, 'testing').get(:other), 56
       end
       it "leaves a nested configuration property untouched if it already exists" do
-        test_eq Config.new(config_hash1, {}, true, true).init([ :nestedkey, :a ], { :a => :b }).get([ :nestedkey, :a ]), { :test1 => 'oh', :test2 => [ 'no' ] }
-        test_eq Config.new(config_hash2, {}, true, true).init([ :nestedkey, :a ], { :a => :b }).get([ :nestedkey, :a ]), { :test1 => 'oh', :test2 => [ 'yes' ], :test3 => true }
+        test_eq config(config_hash1, {}, true, true).init([ :nestedkey, :a ], { :a => :b }).get([ :nestedkey, :a ]), { :test1 => 'oh', :test2 => [ 'no' ] }
+        test_eq config(config_hash2, {}, true, true).init([ :nestedkey, :a ], { :a => :b }).get([ :nestedkey, :a ]), { :test1 => 'oh', :test2 => [ 'yes' ], :test3 => true }
       end
     end
 
@@ -415,18 +422,18 @@ module Nucleon
     describe "#set" do
 
       it "creates a configuration property with a specified value" do
-        test_eq Config.new(config_hash1, {}, true, true).set("other_property", "onething", false).get(:other_property), 'onething'
-        test_eq Config.new(config_hash2, {}, true, true).set(:other_property, { "a" => :b }, false).get([ :other_property, :a ]), :b
+        test_eq config(config_hash1, {}, true, true).set("other_property", "onething", false).get(:other_property), 'onething'
+        test_eq config(config_hash2, {}, true, true).set(:other_property, { "a" => :b }, false).get([ :other_property, :a ]), :b
       end
 
       it "updates a configuration property with a specified value" do
-        test_eq Config.new(config_hash1, {}, true, true).set("other", "onething", false).get(:other), 'onething'
-        test_eq Config.new(config_hash2, {}, true, true).set(:nestedkey, { "a" => :b }, false).get([ :nestedkey, :a ]), :b
+        test_eq config(config_hash1, {}, true, true).set("other", "onething", false).get(:other), 'onething'
+        test_eq config(config_hash2, {}, true, true).set(:nestedkey, { "a" => :b }, false).get([ :nestedkey, :a ]), :b
       end
 
       it "removes a configuration property containing a nil value" do
-        test_eq Config.new(config_hash1, {}, true, true).set(:array, nil, true).keys, [ :testkey, :nestedkey, :other ]
-        test_eq Config.new(config_hash2, {}, true, true).set(:array, nil, true).keys, [ :testkey1, :nestedkey, :other ]
+        test_eq config(config_hash1, {}, true, true).set(:array, nil, true).keys, [ :testkey, :nestedkey, :other ]
+        test_eq config(config_hash2, {}, true, true).set(:array, nil, true).keys, [ :testkey1, :nestedkey, :other ]
       end
     end
 
@@ -435,24 +442,24 @@ module Nucleon
     describe "#[]=" do
 
       it "creates a configuration property with a specified value" do
-        test_object(Config, config_hash1, {}, true, true) do |config|
+        config(config_hash1, {}, true, true) do |config|
           config["other_property"] = "onething"
           test_eq config.get(:other_property), 'onething'
         end
 
-        test_object(Config, config_hash2, {}, true, true) do |config|
+        config(config_hash2, {}, true, true) do |config|
           config[:other_property] = { "a" => :b }
           test_eq config.get([ :other_property, :a ]), :b
         end
       end
 
       it "updates a configuration property with a specified value" do
-        test_object(Config, config_hash1, {}, true, true) do |config|
+        config(config_hash1, {}, true, true) do |config|
           config["other"] = "onething"
           test_eq config.get(:other), 'onething'
         end
 
-        test_object(Config, config_hash2, {}, true, true) do |config|
+        config(config_hash2, {}, true, true) do |config|
           config[:nestedkey] = { "a" => :b }
           test_eq config.get([ :nestedkey, :a ]), :b
         end
@@ -464,20 +471,20 @@ module Nucleon
     describe "#delete" do
 
       it "removes a configuration property and returns existing value" do
-        test_object(Config, config_hash1, {}, true, true) do |config|
+        config(config_hash1, {}, true, true) do |config|
           test_eq config.delete(:other, nil), [ 1, 2, 3, 4 ]
           test_eq config.keys, [ :testkey, :nestedkey, :array ]
         end
 
-        test_object(Config, config_hash2, {}, true, true) do |config|
+        config(config_hash2, {}, true, true) do |config|
           test_eq config.delete(:array, nil), [ 12 ]
           test_eq config.keys, [ :testkey1, :nestedkey, :other ]
         end
       end
 
       it "returns a default value if configuration property doesn't exist" do
-        test_eq Config.new(config_hash1, {}, true, true).delete(:test57, :yummy), :yummy
-        test_eq Config.new(config_hash2, {}, true, true).delete(:test57, [ 1, 2, 3 ]), [ 1, 2, 3 ]
+        test_eq config(config_hash1, {}, true, true).delete(:test57, :yummy), :yummy
+        test_eq config(config_hash2, {}, true, true).delete(:test57, [ 1, 2, 3 ]), [ 1, 2, 3 ]
       end
     end
 
@@ -486,8 +493,8 @@ module Nucleon
     describe "#clear" do
 
       it "removes all the configuration properties from the object" do
-        test_config Config.new(config_hash1, {}, true, true).clear, {}
-        test_config Config.new(config_hash2, {}, true, true).clear, {}
+        test_config config(config_hash1, {}, true, true).clear, {}
+        test_config config(config_hash2, {}, true, true).clear, {}
       end
     end
 
@@ -502,45 +509,45 @@ module Nucleon
     # TODO: String and symbol lookup conditions (used in CORL)
 
       it "imports properties via a basic merge of hash with forced overwrites" do
-        test_config Config.new({}, {}, true, true).import([ config_hash1, config_hash2 ]), config_hash_force_basic_merge
-        test_config Config.new(config_hash1, {}, true, true).import(config_hash2), config_hash_force_basic_merge
-        test_config Config.new(config_hash1, {}, false, false).import(config_hash2, { :force => true, :basic => true }), config_hash_force_basic_merge
+        test_config config({}, {}, true, true).import([ config_hash1, config_hash2 ]), config_hash_force_basic_merge
+        test_config config(config_hash1, {}, true, true).import(config_hash2), config_hash_force_basic_merge
+        test_config config(config_hash1, {}, false, false).import(config_hash2, { :force => true, :basic => true }), config_hash_force_basic_merge
       end
       it "imports properties via a deep merge of hash with forced overwrites" do
-        test_config Config.new({}, {}, true, false).import([ config_hash1, config_hash2 ]), config_hash_force_deep_merge
-        test_config Config.new(config_hash1, {}, true, false).import(config_hash2), config_hash_force_deep_merge
-        test_config Config.new(config_hash1, {}, false, true).import(config_hash2, { :force => true, :basic => false }), config_hash_force_deep_merge
+        test_config config({}, {}, true, false).import([ config_hash1, config_hash2 ]), config_hash_force_deep_merge
+        test_config config(config_hash1, {}, true, false).import(config_hash2), config_hash_force_deep_merge
+        test_config config(config_hash1, {}, false, true).import(config_hash2, { :force => true, :basic => false }), config_hash_force_deep_merge
       end
       it "imports properties via a basic merge of hash with no forced overwrites" do
-        test_config Config.new({}, {}, false, true).import([ config_hash1, config_hash2 ]), config_hash_no_force_basic_merge
-        test_config Config.new(config_hash1, {}, false, true).import(config_hash2), config_hash_no_force_basic_merge
-        test_config Config.new(config_hash1, {}, true, false).import(config_hash2, { :force => false, :basic => true }), config_hash_no_force_basic_merge
+        test_config config({}, {}, false, true).import([ config_hash1, config_hash2 ]), config_hash_no_force_basic_merge
+        test_config config(config_hash1, {}, false, true).import(config_hash2), config_hash_no_force_basic_merge
+        test_config config(config_hash1, {}, true, false).import(config_hash2, { :force => false, :basic => true }), config_hash_no_force_basic_merge
       end
       it "imports properties via a deep merge of hash with no forced overwrites" do
-        test_config Config.new({}, {}, false, false).import([ config_hash1, config_hash2 ]), config_hash_no_force_deep_merge
-        test_config Config.new(config_hash1, {}, false, false).import(config_hash2), config_hash_no_force_deep_merge
-        test_config Config.new(config_hash1, {}, true, true).import(config_hash2, { :force => false, :basic => false }), config_hash_no_force_deep_merge
+        test_config config({}, {}, false, false).import([ config_hash1, config_hash2 ]), config_hash_no_force_deep_merge
+        test_config config(config_hash1, {}, false, false).import(config_hash2), config_hash_no_force_deep_merge
+        test_config config(config_hash1, {}, true, true).import(config_hash2, { :force => false, :basic => false }), config_hash_no_force_deep_merge
       end
 
       it "imports properties via a basic merge of Config object with forced overwrites" do
-        test_config Config.new({}, {}, true, true).import([ config_hash1, config_object ]), config_hash_force_basic_merge
-        test_config Config.new(config_hash1, {}, true, true).import(config_object), config_hash_force_basic_merge
-        test_config Config.new(config_hash1, {}, false, false).import(config_object, { :force => true, :basic => true }), config_hash_force_basic_merge
+        test_config config({}, {}, true, true).import([ config_hash1, config_object ]), config_hash_force_basic_merge
+        test_config config(config_hash1, {}, true, true).import(config_object), config_hash_force_basic_merge
+        test_config config(config_hash1, {}, false, false).import(config_object, { :force => true, :basic => true }), config_hash_force_basic_merge
       end
       it "imports properties via a deep merge of Config object with forced overwrites" do
-        test_config Config.new({}, {}, true, false).import([ config_hash1, config_object ]), config_hash_force_deep_merge
-        test_config Config.new(config_hash1, {}, true, false).import(config_object), config_hash_force_deep_merge
-        test_config Config.new(config_hash1, {}, false, true).import(config_object, { :force => true, :basic => false }), config_hash_force_deep_merge
+        test_config config({}, {}, true, false).import([ config_hash1, config_object ]), config_hash_force_deep_merge
+        test_config config(config_hash1, {}, true, false).import(config_object), config_hash_force_deep_merge
+        test_config config(config_hash1, {}, false, true).import(config_object, { :force => true, :basic => false }), config_hash_force_deep_merge
       end
       it "imports properties via a basic merge of Config object with no forced overwrites" do
-        test_config Config.new({}, {}, false, true).import([ config_hash1, config_object ]), config_hash_no_force_basic_merge
-        test_config Config.new(config_hash1, {}, false, true).import(config_object), config_hash_no_force_basic_merge
-        test_config Config.new(config_hash1, {}, true, false).import(config_object, { :force => false, :basic => true }), config_hash_no_force_basic_merge
+        test_config config({}, {}, false, true).import([ config_hash1, config_object ]), config_hash_no_force_basic_merge
+        test_config config(config_hash1, {}, false, true).import(config_object), config_hash_no_force_basic_merge
+        test_config config(config_hash1, {}, true, false).import(config_object, { :force => false, :basic => true }), config_hash_no_force_basic_merge
       end
       it "imports properties via a deep merge of Config object with no forced overwrites" do
-        test_config Config.new({}, {}, false, false).import([ config_hash1, config_object ]), config_hash_no_force_deep_merge
-        test_config Config.new(config_hash1, {}, false, false).import(config_object), config_hash_no_force_deep_merge
-        test_config Config.new(config_hash1, {}, true, true).import(config_object, { :force => false, :basic => false }), config_hash_no_force_deep_merge
+        test_config config({}, {}, false, false).import([ config_hash1, config_object ]), config_hash_no_force_deep_merge
+        test_config config(config_hash1, {}, false, false).import(config_object), config_hash_no_force_deep_merge
+        test_config config(config_hash1, {}, true, true).import(config_object, { :force => false, :basic => false }), config_hash_no_force_deep_merge
       end
     end
 
@@ -551,45 +558,45 @@ module Nucleon
     # TODO: String and symbol lookup conditions (used in CORL)
 
       it "imports default properties via a basic merge of hash with forced overwrites" do
-        test_config Config.new({}, {}, true, true).defaults([ config_hash2, config_hash1 ]), config_hash_force_basic_merge
-        test_config Config.new(config_hash2, {}, true, true).defaults(config_hash1), config_hash_force_basic_merge
-        test_config Config.new(config_hash2, {}, false, false).defaults(config_hash1, { :force => true, :basic => true }), config_hash_force_basic_merge
+        test_config config({}, {}, true, true).defaults([ config_hash2, config_hash1 ]), config_hash_force_basic_merge
+        test_config config(config_hash2, {}, true, true).defaults(config_hash1), config_hash_force_basic_merge
+        test_config config(config_hash2, {}, false, false).defaults(config_hash1, { :force => true, :basic => true }), config_hash_force_basic_merge
       end
       it "imports default properties via a deep merge of hash with forced overwrites" do
-        test_config Config.new({}, {}, true, false).defaults([ config_hash2, config_hash1 ]), config_hash_force_deep_merge
-        test_config Config.new(config_hash2, {}, true, false).defaults(config_hash1), config_hash_force_deep_merge
-        test_config Config.new(config_hash2, {}, false, true).defaults(config_hash1, { :force => true, :basic => false }), config_hash_force_deep_merge
+        test_config config({}, {}, true, false).defaults([ config_hash2, config_hash1 ]), config_hash_force_deep_merge
+        test_config config(config_hash2, {}, true, false).defaults(config_hash1), config_hash_force_deep_merge
+        test_config config(config_hash2, {}, false, true).defaults(config_hash1, { :force => true, :basic => false }), config_hash_force_deep_merge
       end
       it "imports default properties via a basic merge of hash with no forced overwrites" do
-        test_config Config.new({}, {}, false, true).defaults([ config_hash2, config_hash1 ]), config_hash_no_force_basic_merge
-        test_config Config.new(config_hash2, {}, false, true).defaults(config_hash1), config_hash_no_force_basic_merge
-        test_config Config.new(config_hash2, {}, true, false).defaults(config_hash1, { :force => false, :basic => true }), config_hash_no_force_basic_merge
+        test_config config({}, {}, false, true).defaults([ config_hash2, config_hash1 ]), config_hash_no_force_basic_merge
+        test_config config(config_hash2, {}, false, true).defaults(config_hash1), config_hash_no_force_basic_merge
+        test_config config(config_hash2, {}, true, false).defaults(config_hash1, { :force => false, :basic => true }), config_hash_no_force_basic_merge
       end
       it "imports default properties via a deep merge of hash with no forced overwrites" do
-        test_config Config.new({}, {}, false, false).defaults([ config_hash2, config_hash1 ]), config_hash_no_force_deep_merge
-        test_config Config.new(config_hash2, {}, false, false).defaults(config_hash1), config_hash_no_force_deep_merge
-        test_config Config.new(config_hash2, {}, true, true).defaults(config_hash1, { :force => false, :basic => false }), config_hash_no_force_deep_merge
+        test_config config({}, {}, false, false).defaults([ config_hash2, config_hash1 ]), config_hash_no_force_deep_merge
+        test_config config(config_hash2, {}, false, false).defaults(config_hash1), config_hash_no_force_deep_merge
+        test_config config(config_hash2, {}, true, true).defaults(config_hash1, { :force => false, :basic => false }), config_hash_no_force_deep_merge
       end
 
       it "imports default properties via a basic merge of Config object with forced overwrites" do
-        test_config Config.new({}, {}, true, true).defaults([ config_object, config_hash1 ]), config_hash_force_basic_merge
-        test_config Config.new(config_object, {}, true, true).defaults(config_hash1), config_hash_force_basic_merge
-        test_config Config.new(config_object, {}, false, false).defaults(config_hash1, { :force => true, :basic => true }), config_hash_force_basic_merge
+        test_config config({}, {}, true, true).defaults([ config_object, config_hash1 ]), config_hash_force_basic_merge
+        test_config config(config_object, {}, true, true).defaults(config_hash1), config_hash_force_basic_merge
+        test_config config(config_object, {}, false, false).defaults(config_hash1, { :force => true, :basic => true }), config_hash_force_basic_merge
       end
       it "imports default properties via a deep merge of Config object with forced overwrites" do
-        test_config Config.new({}, {}, true, false).defaults([ config_object, config_hash1 ]), config_hash_force_deep_merge
-        test_config Config.new(config_object, {}, true, false).defaults(config_hash1), config_hash_force_deep_merge
-        test_config Config.new(config_object, {}, false, true).defaults(config_hash1, { :force => true, :basic => false }), config_hash_force_deep_merge
+        test_config config({}, {}, true, false).defaults([ config_object, config_hash1 ]), config_hash_force_deep_merge
+        test_config config(config_object, {}, true, false).defaults(config_hash1), config_hash_force_deep_merge
+        test_config config(config_object, {}, false, true).defaults(config_hash1, { :force => true, :basic => false }), config_hash_force_deep_merge
       end
       it "imports default properties via a basic merge of Config object with no forced overwrites" do
-        test_config Config.new({}, {}, false, true).defaults([ config_object, config_hash1 ]), config_hash_no_force_basic_merge
-        test_config Config.new(config_object, {}, false, true).defaults(config_hash1), config_hash_no_force_basic_merge
-        test_config Config.new(config_object, {}, true, false).defaults(config_hash1, { :force => false, :basic => true }), config_hash_no_force_basic_merge
+        test_config config({}, {}, false, true).defaults([ config_object, config_hash1 ]), config_hash_no_force_basic_merge
+        test_config config(config_object, {}, false, true).defaults(config_hash1), config_hash_no_force_basic_merge
+        test_config config(config_object, {}, true, false).defaults(config_hash1, { :force => false, :basic => true }), config_hash_no_force_basic_merge
       end
       it "imports default properties via a deep merge of Config object with no forced overwrites" do
-        test_config Config.new({}, {}, false, false).defaults([ config_object, config_hash1 ]), config_hash_no_force_deep_merge
-        test_config Config.new(config_object, {}, false, false).defaults(config_hash1), config_hash_no_force_deep_merge
-        test_config Config.new(config_object, {}, true, true).defaults(config_hash1, { :force => false, :basic => false }), config_hash_no_force_deep_merge
+        test_config config({}, {}, false, false).defaults([ config_object, config_hash1 ]), config_hash_no_force_deep_merge
+        test_config config(config_object, {}, false, false).defaults(config_hash1), config_hash_no_force_deep_merge
+        test_config config(config_object, {}, true, true).defaults(config_hash1, { :force => false, :basic => false }), config_hash_no_force_deep_merge
       end
     end
 
@@ -598,8 +605,8 @@ module Nucleon
     describe "#export" do
 
       it "returns all configuration properties as a symbolized hash" do
-        test_config Config.new(config_hash1, {}, true, true), config_hash1
-        test_config Config.new(config_hash2, {}, true, true), config_hash2
+        test_config config(config_hash1, {}, true, true), config_hash1
+        test_config config(config_hash2, {}, true, true), config_hash2
       end
     end
 

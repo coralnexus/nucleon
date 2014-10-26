@@ -5,517 +5,325 @@ module Nucleon
 
   describe Util::Console do
 
-    #---------------------------------------------------------------------------
-    # UI functionality
-    
+    include_context "nucleon_test"
+
+
+    #***************************************************************************
+
+    def console(*args, &code)
+      test_object(Util::Console, *args, &code)
+    end
+
+
+    #***************************************************************************
+    # Core IO
+
+    # Output via a printer method to an output channel unless quiet specified
+    #
     describe "#say" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method" do
-        output  = double('output')
-        output.should_receive(:puts).with('message')
-        
-        ui = Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-        })        
-        Util::Console.new({ :console_delegate => ui }).say(:info, 'message')
+        test_output('message', :puts) do |output|
+          console({ :output => output }) do |console|
+            console({ :console_delegate => console }).say(:info, 'message')
+          end
+        end
       end
-      
-      #-------------------------------------------------------------------------
-      # Output formats
 
       it "prints a message with default options" do
-        output1 = double('output1')
-        output1.should_receive(:puts).with('message')
-        
-        Util::Console.new({ :output => output1 }).say(:info, 'message')
-        
-        output2 = double('output2')
-        output2.should_receive(:puts).with('[component] message')
-        
-        Util::Console.new({
-          :resource => 'component', 
-          :output   => output2, 
-        }).say(:info, 'message')      
-      end
-      
-      #---
-      
-      it "prints a message with and without newlines included" do
-        output1 = double('output1')
-        output1.should_receive(:puts).with('message')
-        
-        test = Util::Console.new({ :output => output1 })
-        test.say(:info, 'message', { :new_line => true })
-        
-        output2 = double('output2')
-        output2.should_receive(:print).with('message')
-        
-        test = Util::Console.new({ :output => output2 })
-        test.say(:info, 'message', { :new_line => false })      
-      end
-      
-      #---
-      
-      it "routes message to output and error channels based on type given" do       
-        [:info, :warn, :success, :error].each do |type|
-          output = double('output')
-          output.should_receive(:puts).with('message')
-        
-          Util::Console.new({
-            :output  => output,
-            :printer => :puts,
-            :color   => false,
-          }).say(type, 'message')
+        test_output('message', :puts) do |output|
+          console({ :output => output }).say(:info, 'message')
         end
-        
-        error = double('error')
-        error.should_receive(:puts).with('message')
-        
-        Util::Console.new({
-          :error   => error,
-          :printer => :puts,
-          :color   => false,
-        }).dump('message')   
+
+        test_output('[component] message', :puts) do |output|
+          console({
+            :resource => 'component',
+            :output   => output,
+          }).say(:info, 'message')
+        end
       end
-      
-      #---
-      
+
+      it "prints a message with and without newlines included" do
+        test_output('message', :puts) do |output|
+          console({ :output => output }).say(:info, 'message', { :new_line => true })
+        end
+
+        test_output('message', :print) do |output|
+          console({ :output => output }).say(:info, 'message', { :new_line => false })
+        end
+      end
+
+      it "routes message of different types" do
+        [:info, :warn, :success, :error].each do |type|
+          test_output('message', :puts) do |output|
+            console({ :output => output, :color => false }).say(type, 'message')
+          end
+        end
+      end
+
       it "routes message to output and error channels based on channel given" do
         [:info, :warn, :success].each do |type|
-          output = double('output')
-          output.should_receive(:puts).with('message1')
-        
-          Util::Console.new({
-            :printer => :puts,
-          }).say(:info, 'message1', { :channel => output })        
+          test_output(type.to_s, :puts) do |output|
+            console({ :color => false }).say(type, type.to_s, { :channel => output })
+          end
         end
-        
-        error = double('error')
-        error.should_receive(:puts).with('message2')
-        
-        Util::Console.new({
-          :printer => :puts,
-          :color   => false,
-        }).say(:info, 'message2', { :channel => error })
-      end  
+      end
     end
-    
-    #---
-    
+
+    # Dump an object to an output channel even if quiet specified
+    #
+    describe "#dump" do
+
+      it "can delegate to another class that contains this method" do
+        test_output('message', :puts) do |output|
+          console({ :error => output }) do |console|
+            console({ :console_delegate => console }).dump('message')
+          end
+        end
+      end
+
+      it "dumps data to stderr output channel" do
+        test_output('message', :puts) do |output|
+          console({ :error => output }).dump('message')
+        end
+      end
+    end
+
+    # Ask terminal user for an input value
+    #
     describe "#ask" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method"
-      
-      #-------------------------------------------------------------------------
-      # Input
-      
+
       it "displays a prompt and returns user feedback"
     end
-    
-    #---
-    
+
+    # Ask terminal user for an input value
+    #
+    describe "#password" do
+
+      it "can delegate to another class that contains this method"
+
+      it "displays a prompt and returns user feedback with user typing hidden"
+    end
+
+
+    #***************************************************************************
+    # Specialized output
+
+    # Output information to an output channel unless quiet specified
+    #
     describe "#info" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method" do
-        output  = double('output')
-        output.should_receive(:puts).with('message')
-        
-        ui = Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-        })        
-        Util::Console.new({ :console_delegate => ui }).info('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output }) do |console|
+            console({ :console_delegate => console }).info('message')
+          end
+        end
       end
-      
-      #-------------------------------------------------------------------------
-      # Printing
-      
+
       it "prints an uncolored information message" do
-        output = double('output')
-        output.should_receive(:puts).with('message')
-        
-        Util::Console.new({ 
-          :output  => output,
-          :printer => :puts, 
-        }).info('message')
-      end    
+        test_output('message', :puts) do |output|
+          console({ :output => output }).info('message')
+        end
+      end
     end
-    
-    #---
-    
+
+    # Output warning to an output channel unless quiet specified
+    #
     describe "#warn" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method" do
-        output  = double('output')
-        output.should_receive(:puts).with('message')
-        
-        ui = Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-          :color   => false,
-        })        
-        Util::Console.new({ :console_delegate => ui }).warn('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output, :color => false }) do |console|
+            console({ :console_delegate => console }).warn('message')
+          end
+        end
       end
-      
-      #-------------------------------------------------------------------------
-      # Printing
-      
+
       it "prints an uncolored warning message" do
-        output = double('output')
-        output.should_receive(:puts).with('message')
-        
-        Util::Console.new({ 
-          :output  => output,
-          :printer => :puts,
-          :color   => false, 
-        }).warn('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output, :color => false }).warn('message')
+        end
       end
-      
-      #---
-      
+
       it "prints a colored warning message" do
-        output = double('output')
-        output.should_receive(:print).with(/^\e\[33mmessage\e\[0m$/)
-        
-        Util::Console.new({ 
-          :output => output,
-          :color  => true, 
-        }).warn('message', { :new_line => false })
-      end    
+        test_output("\e\[33mmessage\e\[0m", :print) do |output|
+          console({ :output => output, :color => true }).warn('message', { :new_line => false })
+        end
+      end
     end
-    
-    #---
-    
+
+    # Output error to an output channel unless quiet specified
+    #
     describe "#error" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method" do
-        output = double('output')
-        output.should_receive(:puts).with('message')
-        
-        ui = Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-          :color   => false,
-        })        
-        Util::Console.new({ :console_delegate => ui }).error('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output, :color => false }) do |console|
+            console({ :console_delegate => console }).error('message')
+          end
+        end
       end
-      
-      #-------------------------------------------------------------------------
-      # Printing
-      
+
       it "prints an uncolored error message" do
-        output = double('output')
-        output.should_receive(:puts).with('message')
-        
-        Util::Console.new({ 
-          :output  => output,
-          :printer => :puts,
-          :color   => false, 
-        }).error('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output, :color => false }).error('message')
+        end
       end
-      
-      #---
-      
+
       it "prints a colored error message" do
-        output = double('output')
-        output.should_receive(:print).with(/^\e\[31mmessage\e\[0m$/)
-        
-        Util::Console.new({ 
-          :output => output,
-          :color  => true, 
-        }).error('message', { :new_line => false })
-      end 
+        test_output("\e\[31mmessage\e\[0m", :print) do |output|
+          console({ :output => output, :color => true }).error('message', { :new_line => false })
+        end
+      end
     end
-    
-    #---
-    
+
+    # Output success message to an output channel unless quiet specified
+    #
     describe "#success" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method" do
-        output  = double('output')
-        output.should_receive(:puts).with('message')
-        
-        ui = Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-          :color   => false,
-        })        
-        Util::Console.new({ :console_delegate => ui }).success('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output, :color => false }) do |console|
+            console({ :console_delegate => console }).success('message')
+          end
+        end
       end
-      
-      #-------------------------------------------------------------------------
-      # Printing
-      
+
       it "prints an uncolored success message" do
-        output = double('output')
-        output.should_receive(:puts).with('message')
-        
-        Util::Console.new({ 
-          :output  => output,
-          :printer => :puts,
-          :color   => false, 
-        }).success('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output, :color => false }).success('message')
+        end
       end
-      
-      #---
-      
+
       it "prints a colored success message" do
-        output = double('output')
-        output.should_receive(:print).with(/^\e\[32mmessage\e\[0m$/)
-        
-        Util::Console.new({ 
-          :output => output,
-          :color  => true, 
-        }).success('message', { :new_line => false })
-      end  
-    end
-  
-    #---
-    
-    describe "#dump" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
-      it "can delegate to another class that contains this method" do
-        error  = double('error')
-        error.should_receive(:puts).with('message')
-        
-        ui = Util::Console.new({
-          :error   => error,
-          :printer => :puts,
-          :color   => false,
-        })        
-        Util::Console.new({ :console_delegate => ui }).dump('message')
-      end
-      
-      #-------------------------------------------------------------------------
-      # Printing
-      
-      it "dumps data to stderr output channel" do
-        error  = double('error')
-        error.should_receive(:puts).with('message')
-        
-        Util::Console.new({ 
-          :error   => error,
-          :printer => :puts,
-          :color   => false, 
-        }).dump('message')
+        test_output("\e\[32mmessage\e\[0m", :print) do |output|
+          console({ :output => output, :color => true }).success('message', { :new_line => false })
+        end
       end
     end
-    
-    #---------------------------------------------------------------------------
+
+
+    #***************************************************************************
     # Utilities
-    
+
+    # Format a message for display
+    #
     describe "#format_message" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method" do
-        message = Util::Console.new({ 
-          :console_delegate => Util::Console.new('delegate')
-        }).format_message(:info, 'message', { :prefix => true })
-        
-        message.should == '[delegate] message'
+        console({ :console_delegate => console('delegate') }) do |console|
+          test_eq console.format_message(:info, 'message', { :prefix => true }), '[delegate] message'
+        end
       end
-    
-      #-------------------------------------------------------------------------
-      # Prefix specifications
-      
+
       it "returns without a prefix because no resource" do
-        message = Util::Console.new.format_message(:info, 'message', { :prefix => true })
-        message.should == 'message'
+        test_eq console.format_message(:info, 'message', { :prefix => true }), 'message'
       end
-      
-      #---
-      
+
       it "returns without a prefix because prefix is false" do
-        message = Util::Console.new('component').format_message(:info, 'message', { :prefix => false })
-        message.should == 'message'
+        test_eq console('component').format_message(:info, 'message', { :prefix => false }), 'message'
       end
-      
-      #---
-            
+
       it "returns without a prefix because no prefix option given" do
-        message = Util::Console.new('component').format_message(:info, 'message')
-        message.should == 'message'
+        test_eq console('component').format_message(:info, 'message'), 'message'
       end
-      
-      #---
-            
+
       it "returns with a prefix if resource and prefix option given" do
-        message = Util::Console.new('component').format_message(:info, 'message', { :prefix => true })
-        message.should == '[component] message'
+        test_eq console('component').format_message(:info, 'message', { :prefix => true }), '[component] message'
       end
-      
-      #-------------------------------------------------------------------------
-      # Color specifications
-      
+
       it "formats a error message in red if color enabled" do
-        message = Util::Console.new({
-          :resource => 'component',
-          :color    => true,
-        }).format_message(:error, 'message')
-        message.should match(/^\e\[31mmessage\e\[0m$/)
+        test_eq console({ :resource => 'component', :color => true }).format_message(:error, 'message'), "\e\[31mmessage\e\[0m"
       end
-      
-      #---
-      
+
       it "formats a warning message in yellow if color enabled" do
-        message = Util::Console.new({
-          :resource => 'component',
-          :color    => true,
-        }).format_message(:warn, 'message')
-        message.should match(/^\e\[33mmessage\e\[0m$/)
+        test_eq console({ :resource => 'component', :color => true }).format_message(:warn, 'message'), "\e\[33mmessage\e\[0m"
       end
-      
-      #---
-      
+
       it "formats a success message in green if color enabled" do
-        message = Util::Console.new({
-          :resource => 'component',
-          :color    => true,
-        }).format_message(:success, 'message')
-        message.should match(/^\e\[32mmessage\e\[0m$/)
+        test_eq console({ :resource => 'component', :color => true }).format_message(:success, 'message'), "\e\[32mmessage\e\[0m"
       end
     end
-    
-    #---------------------------------------------------------------------------
-    
+
+    # Safely output via a printer method to an output channel unless quiet specified
+    #
     describe "#safe_puts" do
-    
-      #-------------------------------------------------------------------------
-      # Delegation
-      
+
       it "can delegate to another class that contains this method" do
-        output  = double('output')
-        output.should_receive(:puts).with('message')
-        
-        ui = Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-        })        
-        Util::Console.new({ :console_delegate => ui }).safe_puts('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output }) do |console|
+            console({ :console_delegate => console }).safe_puts('message')
+          end
+        end
       end
-      
-      #-------------------------------------------------------------------------
-      # Instance configuration
-      
+
       it "prints an empty string unless message given" do
-        output  = double('output')
-        output.should_receive(:puts).with('')
-        
-        Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-        }).safe_puts()
+        test_output('', :puts) do |output|
+          console({ :output => output }).safe_puts()
+        end
       end
-      
-      #---
-      
+
       it "prints to different output channels if they are given" do
-        output1 = double('output1')
-        output1.should_receive(:puts).with('message')
-        
-        test = Util::Console.new({
-          :output  => output1,
-          :printer => :puts,
-        })
-        test.safe_puts('message')
-        
-        output2 = double('output2')
-        output2.should_receive(:puts).with('message')
-        
-        test.output = output2
-        test.safe_puts('message')
+        console do |console|
+          test_output('message1', :puts) do |output|
+            console.output = output
+            console.safe_puts('message1')
+          end
+          test_output('message2', :puts) do |output|
+            console.output = output
+            console.safe_puts('message2')
+          end
+        end
       end
-      
-      #---
-      
+
       it "prints with puts if puts printer option given" do
-        output = double('output')
-        output.should_receive(:puts).with('message')
-        
-        Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-        }).safe_puts('message')
+        test_output('message', :puts) do |output|
+          console({ :output => output, :printer => :puts }).safe_puts('message')
+        end
       end
-      
-      #---
-      
+
       it "prints with print if print printer option given" do
-        output = double('output')
-        output.should_receive(:print).with('message')
-        
-        Util::Console.new({
-          :output  => output,
-          :printer => :print,
-        }).safe_puts('message')
+        test_output('message', :print) do |output|
+          console({ :output => output, :printer => :print }).safe_puts('message')
+        end
       end
-      
-      #-------------------------------------------------------------------------
-      # Method configuration
-      
+
       it "can override the instance output channel" do
-        output1 = double('output1')
-        output1.should_not_receive(:puts).with('message')
-        
-        output2 = double('output2')
-        output2.should_receive(:puts).with('message')
-        
-        Util::Console.new({
-          :output  => output1,
-          :printer => :puts,
-        }).safe_puts('message', { :channel => output2 })  
+        test_output('message1', :puts) do |output|
+          console({ :output => output }) do |console|
+            console.safe_puts('message1')
+            console.safe_puts('message2', { :channel => test_output('message2', :puts) })
+          end
+        end
       end
-      
-      #---
-      
+
       it "can override the instance printer handler" do
-        output = double('output')
-        output.should_not_receive(:puts).with('message')
-        output.should_receive(:print).with('message')
-        
-        Util::Console.new({
-          :output  => output,
-          :printer => :puts,
-        }).safe_puts('message', { :printer => :print })
+        test_output('message1', :puts) do |output|
+          console({ :output => output, :printer => :puts }) do |console|
+            console.safe_puts('message1')
+            console.safe_puts('message2', { :channel => test_output('message2', :print), :printer => :print })
+          end
+        end
       end
     end
-    
-    #---------------------------------------------------------------------------
-    
+
+    # Check if a registered delegate exists and responds to a specified method.
+    #
     describe "#check_delegate" do
-      
+
       it "returns false if no delegate exists" do
-        Util::Console.new.check_delegate('safe_puts').should be_falsey
+        test_eq console.check_delegate('safe_puts'), false
       end
+
       it "returns true if a delegate exists and it implements given method" do
-        test = Util::Console.new({ :console_delegate => Util::Console.new })
-        test.check_delegate('safe_puts').should be_truthy
-        test.check_delegate('nonexistent').should be_falsey
+        console({ :console_delegate => console }) do |console|
+          test_eq console.check_delegate('safe_puts'), true
+          test_eq console.check_delegate('nonexistent'), false
+        end
       end
-    end  
+    end
   end
 end

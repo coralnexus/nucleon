@@ -1,5 +1,5 @@
 
-RSpec.shared_context "config" do
+RSpec.shared_context "nucleon_config" do
 
   #*****************************************************************************
   # Context test data
