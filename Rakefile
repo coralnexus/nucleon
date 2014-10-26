@@ -57,6 +57,7 @@ Note: This framework is still very early in development!
     Dir.glob('**/*.txt'),
     Dir.glob('Gemfile*'),
     Dir.glob('*.gemspec'),
+    Dir.glob('.git*'),
     'VERSION',
     'Rakefile'
   ]
