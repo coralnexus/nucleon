@@ -364,7 +364,7 @@ href="Options.html#method-c-get">::get</a> method.</p>
 
           
           <div class="method-source-code" id="all-source">
-            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 94</span>
+            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 95</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">all</span>
   <span class="ruby-identifier">@@options</span>
 <span class="ruby-keyword">end</span></pre>
@@ -382,7 +382,7 @@ href="Options.html#method-c-get">::get</a> method.</p>
         
         <div class="method-heading">
           <span class="method-name">clear</span><span
-            class="method-args">(contexts)</span>
+            class="method-args">(contexts = nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -392,10 +392,11 @@ href="Options.html#method-c-get">::get</a> method.</p>
             
             <p>Clear all properties for specified contexts.</p>
 
-<p>Contexts are entirely removed, even the name itself.</p>
+<p>Contexts are entirely removed, even the name itself.  If nil is given
+(default) then all data is removed and options are reinitialized.</p>
 <ul><li>
 <p><strong>Parameters</strong></p>
-<ul><li><dl class="rdoc-list label-list"><dt>Array&lt;String, Symbol&gt;, String, Symbol
+<ul><li><dl class="rdoc-list label-list"><dt>nil, Array&lt;String, Symbol&gt;, String, Symbol
 <dd>
 <p><strong>contexts</strong>  Context names to remove</p>
 </dd></dl>
@@ -415,13 +416,17 @@ href="Options.html#method-c-get">::get</a> method.</p>
 
           
           <div class="method-source-code" id="clear-source">
-            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 184</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">clear</span>(<span class="ruby-identifier">contexts</span>)
-  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">contexts</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
-    <span class="ruby-identifier">contexts</span> = [ <span class="ruby-identifier">contexts</span> ]
-  <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">contexts</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">@@options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>)
+            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 186</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">clear</span>(<span class="ruby-identifier">contexts</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">contexts</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">@@options</span> = {}
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">contexts</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
+      <span class="ruby-identifier">contexts</span> = [ <span class="ruby-identifier">contexts</span> ]
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">contexts</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">@@options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>)
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- clear-source -->
@@ -502,6 +507,7 @@ href="../Util/Data.html#method-c-empty-3F">Nucleon::Util::Data.empty?</a></p>
             <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">contexts</span>(<span class="ruby-identifier">contexts</span> = [], <span class="ruby-identifier">hierarchy</span> = [])
   <span class="ruby-identifier">contexts</span> = [ <span class="ruby-string">&#39;all&#39;</span>, <span class="ruby-identifier">contexts</span> ].<span class="ruby-identifier">flatten</span>
+  <span class="ruby-identifier">results</span>  = <span class="ruby-identifier">contexts</span>
 
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">hierarchy</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
     <span class="ruby-identifier">hierarchy</span> = ( <span class="ruby-operator">!</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">hierarchy</span>) <span class="ruby-operator">?</span> [ <span class="ruby-identifier">hierarchy</span> ].<span class="ruby-identifier">flatten</span> <span class="ruby-operator">:</span> [] )
@@ -509,10 +515,10 @@ href="../Util/Data.html#method-c-empty-3F">Nucleon::Util::Data.empty?</a></p>
 
   <span class="ruby-identifier">hierarchy</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">group</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">group_contexts</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">prefix</span>(<span class="ruby-identifier">group</span>, <span class="ruby-identifier">contexts</span>)
-    <span class="ruby-identifier">contexts</span>       = [ <span class="ruby-identifier">contexts</span>, <span class="ruby-identifier">group_contexts</span> ].<span class="ruby-identifier">flatten</span>
+    <span class="ruby-identifier">results</span>        = [ <span class="ruby-identifier">results</span>, <span class="ruby-identifier">group_contexts</span> ].<span class="ruby-identifier">flatten</span>
   <span class="ruby-keyword">end</span>
 
-  <span class="ruby-keyword">return</span> <span class="ruby-identifier">contexts</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">results</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- contexts-source -->
           
@@ -586,7 +592,7 @@ href="../Util/Data.html#method-c-empty-3F">Nucleon::Util::Data.empty?</a></p>
 
           
           <div class="method-source-code" id="get-source">
-            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 126</span>
+            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 127</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">contexts</span>, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-identifier">options</span> = {}
 
@@ -668,7 +674,7 @@ href="../Util/Data.html#method-c-empty-3F">Nucleon::Util::Data.empty?</a></p>
 
           
           <div class="method-source-code" id="set-source">
-            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 161</span>
+            <pre><span class="ruby-comment"># File lib/core/config/options.rb, line 162</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">set</span>(<span class="ruby-identifier">contexts</span>, <span class="ruby-identifier">options</span>, <span class="ruby-identifier">force</span> = <span class="ruby-keyword">true</span>)
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">contexts</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
     <span class="ruby-identifier">contexts</span> = ( <span class="ruby-operator">!</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">empty?</span>(<span class="ruby-identifier">contexts</span>) <span class="ruby-operator">?</span> [ <span class="ruby-identifier">contexts</span> ].<span class="ruby-identifier">flatten</span> <span class="ruby-operator">:</span> [] )
