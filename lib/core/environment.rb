@@ -41,44 +41,47 @@ module Nucleon
 # See also:
 # - Nucleon::Manager
 #
-class Environment
+class Environment < Core
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Constructor / Destructor
 
+  # Initialize a new Nucleon environment
+  #
+  # IMORTANT:  The environment constructor should accept no parameters!
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Void]  This method does not return a value
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - Nucleon::Manager
+  #
   def initialize
-    @plugin_types = {}
-
-    @load_info    = {}
-    @active_info  = {}
+    super({
+      :plugin_types => {},
+      :load_info    => {},
+      :active_info  => {}
+    }, {}, true, true, false)
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Plugin type accessor / modifiers
 
   def namespaces
-    @plugin_types.keys
+    get_hash(:plugin_types).keys
   end
-
-  #---
 
   def plugin_types(namespace)
-    namespace = namespace.to_sym
-
-    return [] unless @plugin_types.has_key?(namespace)
-    @plugin_types[namespace].keys
+    get_hash([ :plugin_types, namespace ]).keys
   end
-
-  #---
 
   def define_plugin_type(namespace, plugin_type, default_provider = nil)
-    namespace = namespace.to_sym
-
-    @plugin_types[namespace] = {} unless @plugin_types.has_key?(namespace)
-    @plugin_types[namespace][sanitize_id(plugin_type)] = default_provider
+    set([ :plugin_types, namespace, sanitize_id(plugin_type) ], default_provider)
   end
-
-  #---
 
   def define_plugin_types(namespace, type_info)
     if type_info.is_a?(Hash)
@@ -88,37 +91,24 @@ class Environment
     end
   end
 
-  #---
-
   def plugin_type_defined?(namespace, plugin_type)
-    namespace = namespace.to_sym
-
-    return false unless @plugin_types.has_key?(namespace)
-    @plugin_types[namespace].has_key?(sanitize_id(plugin_type))
+    get_hash([ :plugin_types, namespace ]).has_key?(sanitize_id(plugin_type))
   end
-
-  #---
 
   def plugin_type_default(namespace, plugin_type)
-    namespace = namespace.to_sym
-
-    return nil unless @plugin_types.has_key?(namespace)
-    @plugin_types[namespace][sanitize_id(plugin_type)]
+    get([ :plugin_types, namespace, sanitize_id(plugin_type) ])
   end
 
-  #-----------------------------------------------------------------------------
+
+  #*****************************************************************************
   # Loaded plugin accessor / modifiers
 
   def define_plugin(namespace, plugin_type, base_path, file, &code)
     namespace   = namespace.to_sym
     plugin_type = sanitize_id(plugin_type)
-
-    @load_info[namespace]              = {} unless @load_info.has_key?(namespace)
-    @load_info[namespace][plugin_type] = {} unless @load_info[namespace].has_key?(plugin_type)
-
     plugin_info = parse_plugin_info(namespace, plugin_type, base_path, file)
 
-    unless @load_info[namespace][plugin_type].has_key?(plugin_info[:provider])
+    unless get_hash([ :load_info, namespace, plugin_type ]).has_key?(plugin_info[:provider])
       data = {
         :namespace        => namespace,
         :type             => plugin_type,
@@ -130,166 +120,127 @@ class Environment
       }
       code.call(data) if code
 
-      @load_info[namespace][plugin_type][plugin_info[:provider]] = data
+      set([ :load_info, namespace, plugin_type, plugin_info[:provider] ], data)
     end
   end
-
-  #---
 
   def loaded_plugin(namespace, plugin_type, provider)
-    namespace   = namespace.to_sym
-    plugin_type = sanitize_id(plugin_type)
-    provider    = sanitize_id(provider)
-    info        = nil
-
-    if @load_info.has_key?(namespace) &&
-      @load_info[namespace].has_key?(plugin_type) &&
-      @load_info[namespace][plugin_type].has_key?(provider)
-
-      info = @load_info[namespace][plugin_type][provider]
-    end
-    info
+    get([ :load_info, namespace, sanitize_id(plugin_type), sanitize_id(provider) ], nil)
   end
 
-  #---
-
   def loaded_plugins(namespace = nil, plugin_type = nil, provider = nil, default = {})
+    load_info   = get_hash(:load_info)
+
     namespace   = namespace.to_sym if namespace
     plugin_type = sanitize_id(plugin_type) if plugin_type
     provider    = sanitize_id(provider) if provider
     results     = default
 
-    if namespace && @load_info.has_key?(namespace)
-      if plugin_type && @load_info[namespace].has_key?(plugin_type)
-        if provider && @load_info[namespace][plugin_type].has_key?(provider)
-          results = @load_info[namespace][plugin_type][provider]
+    if namespace && load_info.has_key?(namespace)
+      if plugin_type && load_info[namespace].has_key?(plugin_type)
+        if provider && load_info[namespace][plugin_type].has_key?(provider)
+          results = load_info[namespace][plugin_type][provider]
         elsif ! provider
-          results = @load_info[namespace][plugin_type]
+          results = load_info[namespace][plugin_type]
         end
       elsif ! plugin_type
-        results = @load_info[namespace]
+        results = load_info[namespace]
       end
     elsif ! namespace
-      results = @load_info
+      results = load_info
     end
     results
   end
 
-  #---
-
   def plugin_has_type?(namespace, plugin_type)
-    namespace = namespace.to_sym
-
-    return false unless @load_info.has_key?(namespace)
-    @load_info[namespace].has_key?(sanitize_id(plugin_type))
+    get_hash([ :load_info, namespace ]).has_key?(sanitize_id(plugin_type))
   end
-
-  #---
 
   def plugin_has_provider?(namespace, plugin_type, provider)
-    namespace   = namespace.to_sym
-    plugin_type = sanitize_id(plugin_type)
-    provider    = sanitize_id(provider)
-
-    return false unless @load_info.has_key?(namespace) && @load_info[namespace].has_key?(plugin_type)
-    @load_info[namespace][plugin_type].has_key?(provider)
+    get_hash([ :load_info, namespace, sanitize_id(plugin_type) ]).has_key?(sanitize_id(provider))
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Active plugin accessor / modifiers
 
   def create_plugin(namespace, plugin_type, provider, options = {}, &code)
     namespace   = namespace.to_sym
     plugin_type = sanitize_id(plugin_type)
     provider    = sanitize_id(provider)
+    plugin      = nil
 
     unless plugin_type_defined?(namespace, plugin_type)
-      return nil
+      return plugin
     end
 
     if type_info = loaded_plugin(namespace, plugin_type, provider)
-      ids             = Util::Data.array(type_info[:class].register_ids).flatten
+      ids             = array(type_info[:class].register_ids).flatten
       instance_config = Config.new(options)
       ensure_new      = instance_config.delete(:new, false)
 
       instance_options = Util::Data.subset(instance_config.export, ids, true)
       instance_name    = "#{provider}_" + Nucleon.sha1(instance_options)
+      plugin           = get([ :active_info, namespace, plugin_type, instance_name ])
 
-      @active_info[namespace] = {} unless @active_info.has_key?(namespace)
-      @active_info[namespace][plugin_type] = {} unless @active_info[namespace].has_key?(plugin_type)
-
-      if ensure_new || ! ( instance_name && @active_info[namespace][plugin_type].has_key?(instance_name) )
+      if ensure_new || ! ( instance_name && plugin )
         type_info[:instance_name] = instance_name
 
         options = code.call(type_info, options) if code
         options.delete(:new)
 
-        plugin  = type_info[:class].new(namespace, plugin_type, provider, options)
-
-        @active_info[namespace][plugin_type][instance_name] = plugin
+        plugin = type_info[:class].new(namespace, plugin_type, provider, options)
+        set([ :active_info, namespace, plugin_type, instance_name ], plugin)
       end
-      return @active_info[namespace][plugin_type][instance_name]
     end
-    nil
+    plugin
   end
-
-  #---
 
   def get_plugin(namespace, plugin_type, plugin_name)
     namespace   = namespace.to_sym
     plugin_type = sanitize_id(plugin_type)
 
-    if @active_info.has_key?(namespace) && @active_info[namespace].has_key?(plugin_type)
-      @active_info[namespace][plugin_type].each do |instance_name, plugin|
-        if plugin.plugin_name.to_s == plugin_name.to_s
-          return plugin
-        end
+    get_hash([ :active_info, namespace, plugin_type ]).each do |instance_name, plugin|
+      if plugin.plugin_name.to_s == plugin_name.to_s
+        return plugin
       end
     end
     nil
   end
 
-  #---
-
   def remove_plugin(namespace, plugin_type, instance_name, &code)
-    namespace   = namespace.to_sym
-    plugin_type = sanitize_id(plugin_type)
-
-    if @active_info.has_key?(namespace) && @active_info[namespace].has_key?(plugin_type)
-      plugin = @active_info[namespace][plugin_type]
-      @active_info[namespace][plugin_type].delete(instance_name)
-      code.call(plugin) if code
-    end
+    plugin = delete([ :active_info, namespace, sanitize_id(plugin_type), instance_name ])
+    code.call(plugin) if code && plugin
+    plugin
   end
 
-  #---
-
   def active_plugins(namespace = nil, plugin_type = nil, provider = nil)
+    active_info = get_hash(:active_info)
+
     namespace   = namespace.to_sym if namespace
     plugin_type = sanitize_id(plugin_type) if plugin_type
     provider    = sanitize_id(provider) if provider
     results     = {}
 
-    if namespace && @active_info.has_key?(namespace)
-      if plugin_type && @active_info[namespace].has_key?(plugin_type)
-        if provider && ! @active_info[namespace][plugin_type].keys.empty?
-          @active_info[namespace][plugin_type].each do |instance_name, plugin|
-            plugin                 = @active_info[namespace][plugin_type][instance_name]
+    if namespace && active_info.has_key?(namespace)
+      if plugin_type && active_info[namespace].has_key?(plugin_type)
+        if provider && ! active_info[namespace][plugin_type].keys.empty?
+          active_info[namespace][plugin_type].each do |instance_name, plugin|
+            plugin                 = active_info[namespace][plugin_type][instance_name]
             results[instance_name] = plugin if plugin.plugin_provider == provider
           end
         elsif ! provider
-          results = @active_info[namespace][plugin_type]
+          results = active_info[namespace][plugin_type]
         end
       elsif ! plugin_type
-        results = @active_info[namespace]
+        results = active_info[namespace]
       end
     elsif ! namespace
-      results = @active_info
+      results = active_info
     end
     results
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Utilities
 
   def class_name(name, separator = '::', want_array = FALSE)
