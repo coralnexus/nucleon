@@ -126,7 +126,7 @@ module Nucleon
       end
     end
 
-    # Add multiple status code names to the global collection to receive unique status codes
+    # Reset all status codes back to default in the global collection
     #
     describe "#reset" do
 
@@ -185,7 +185,7 @@ module Nucleon
         test_eq codes.whew, 11
       end
 
-      it"returns the unknown status code for non existing identifier methods" do
+      it "returns the unknown status code for non existing identifier methods" do
         test_eq codes.doesnt_exist, 2
         test_eq codes.so_sorry, 2
       end
