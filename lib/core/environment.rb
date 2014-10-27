@@ -40,6 +40,7 @@ module Nucleon
 #
 # See also:
 # - Nucleon::Manager
+# - Nucleon::Plugin::Base
 #
 class Environment < Core
 

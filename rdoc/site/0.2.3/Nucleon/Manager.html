@@ -364,6 +364,30 @@
 
   <div id="description" class="description">
     
+<h2 id="label-Plugin+manager"><a href="Plugin.html">Plugin</a> manager</h2>
+
+<p>The <a href="Manager.html">Nucleon::Manager</a> class defines a manager for
+defined plugin types, loaded, metadata, and active instances.</p>
+
+<p>One of the primary functions of the <a href="../Nucleon.html">Nucleon</a>
+library is to provide a very flexible extensible architectural base for
+Ruby applications needing ready made modularity.  To fulfill our
+objectives, the <a href="../Nucleon.html">Nucleon</a> library defines
+plugin managers managed as a global multition.</p>
+
+<p>These managers should be able to fail gracefully and recover to the state
+they left off if a plugin provider crashes.  To accomplish this, each
+manager is a Celluloid actor that manages a globally defined environment
+(also within a multition).  This environment contains all of the plugins
+and providers that they manager has registered and loaded.</p>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html">Nucleon::Environment</a></p>
+</li><li>
+<p><a href="Plugin/Base.html">Nucleon::Plugin::Base</a></p>
+</li></ul>
+
   </div><!-- description -->
 
   
@@ -390,7 +414,10 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p><a href="Plugin.html">Plugin</a> manager identifier</p>
+</dd></dl>
         
         </div>
       </div>
@@ -403,7 +430,10 @@
 
         <div class="method-description">
         
-        
+        <dl class="rdoc-list label-list"><dt><a href="Util/Logger.html">Nucleon::Util::Logger</a>
+<dd>
+<p>Instance logger</p>
+</dd></dl>
         
         </div>
       </div>
@@ -429,15 +459,39 @@
         <div class="method-description">
           <div class="method-doc" id="connection-doc">
             
-            <p>*****************************************************************************</p>
+            <p>Return a specified plugin manager instance</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>name</strong>  Name of the plugin manager (actor id)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>reset</strong>  Whether or not to reinitialize the manager</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Actor
+<dd>
+<p>Returns an interface to manage plugins</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
 
-<pre>Plugin manager interface</pre>
+<p>See:</p>
+<ul><li>
+<p><a href="Facade.html#method-i-manager">Nucleon::Facade#manager</a></p>
+</li></ul>
             
           </div><!-- connection-doc -->
 
           
           <div class="method-source-code" id="connection-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 24</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">connection</span>(<span class="ruby-identifier">name</span> = <span class="ruby-value">:core</span>, <span class="ruby-identifier">reset</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">manager</span>(<span class="ruby-identifier">@@supervisors</span>, <span class="ruby-identifier">name</span>, <span class="ruby-keyword">self</span>, <span class="ruby-identifier">reset</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -463,13 +517,14 @@
         <div class="method-description">
           <div class="method-doc" id="environments-doc">
             
-            
+            <p>Accessor for the global plugin manager environments (mostly for testing
+purposes)</p>
             
           </div><!-- environments-doc -->
 
           
           <div class="method-source-code" id="environments-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 17</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">environments</span>
   <span class="ruby-identifier">@@environments</span>
 <span class="ruby-keyword">end</span></pre>
@@ -495,16 +550,47 @@
         <div class="method-description">
           <div class="method-doc" id="new-doc">
             
-            
+            <p>Initialize a new <a href="../Nucleon.html">Nucleon</a> environment</p>
+
+<p>IMORTANT:  The environment constructor should accept no parameters!</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong><a href="Manager.html#attribute-i-actor_id">#actor_id</a></strong> 
+Name of the plugin manager</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>reset</strong>  Whether or not to reinitialize the manager</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Facade.html#method-i-logger">Nucleon::Facade#logger</a></p>
+</li><li>
+<p><a href="Environment.html">Nucleon::Environment</a></p>
+</li></ul>
             
           </div><!-- new-doc -->
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 99</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">actor_id</span>, <span class="ruby-identifier">reset</span>)
   <span class="ruby-ivar">@logger</span>   = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">logger</span>
-  <span class="ruby-ivar">@actor_id</span> = <span class="ruby-identifier">actor_id</span>
+  <span class="ruby-ivar">@actor_id</span> = <span class="ruby-identifier">actor_id</span>.<span class="ruby-identifier">to_sym</span>
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">reset</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>]
     <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>] = <span class="ruby-constant">Environment</span>.<span class="ruby-identifier">new</span>
@@ -532,13 +618,13 @@
         <div class="method-description">
           <div class="method-doc" id="supervisors-doc">
             
-            
+            <p>Accessor for the global supervisors (mostly for testing purposes)</p>
             
           </div><!-- supervisors-doc -->
 
           
           <div class="method-source-code" id="supervisors-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 11</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">supervisors</span>
   <span class="ruby-identifier">@@supervisors</span>
 <span class="ruby-keyword">end</span></pre>
@@ -623,7 +709,7 @@ href="Environment.html#method-i-active_plugins">Nucleon::Environment#active_plug
 
           
           <div class="method-source-code" id="active_plugins-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 271</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 398</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">active_plugins</span>(<span class="ruby-identifier">namespace</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">plugin_type</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">active_plugins</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -655,7 +741,7 @@ href="Environment.html#method-i-active_plugins">Nucleon::Environment#active_plug
 
           
           <div class="method-source-code" id="autoload-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 362</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 489</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">autoload</span>
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Autoloading registered plugins at #{Time.now}&quot;</span>)
 
@@ -710,7 +796,7 @@ href="Environment.html#method-i-active_plugins">Nucleon::Environment#active_plug
 
           
           <div class="method-source-code" id="check-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 576</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 703</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
 
@@ -785,7 +871,7 @@ href="Environment.html#method-i-class_const">Nucleon::Environment#class_const</a
 
           
           <div class="method-source-code" id="class_const-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 685</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 812</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">class_const</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-string">&#39;::&#39;</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">class_const</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -854,7 +940,7 @@ href="Environment.html#method-i-class_name">Nucleon::Environment#class_name</a><
 
           
           <div class="method-source-code" id="class_name-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 667</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 794</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">class_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-string">&#39;::&#39;</span>, <span class="ruby-identifier">want_array</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">class_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span>, <span class="ruby-identifier">want_array</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -886,7 +972,7 @@ href="Environment.html#method-i-class_name">Nucleon::Environment#class_name</a><
 
           
           <div class="method-source-code" id="collect-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 610</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 737</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">collect</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">values</span> = []
@@ -931,7 +1017,7 @@ href="Environment.html#method-i-class_name">Nucleon::Environment#class_name</a><
 
           
           <div class="method-source-code" id="config-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 557</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 684</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">config</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
 
@@ -978,7 +1064,7 @@ href="Environment.html#method-i-class_name">Nucleon::Environment#class_name</a><
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 459</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 586</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">create_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">type_info</span>, <span class="ruby-identifier">plugin_options</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Creating new plugin #{provider} #{plugin_type}&quot;</span>)
@@ -1033,7 +1119,7 @@ fetch default provider</p>
 </li></ul>
 </li><li>
 <p><strong>Returns</strong></p>
-<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Proxy
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Actor
 <dd>
 <p>Returns reference to self for compound operations</p>
 </dd></dl>
@@ -1059,7 +1145,7 @@ href="Environment.html#method-i-define_plugin">Nucleon::Environment#define_plugi
 
           
           <div class="method-source-code" id="define_plugin-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 228</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 355</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">define_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">file</span>, &amp;<span class="ruby-identifier">code</span>) <span class="ruby-comment"># :yields: data</span>
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">define_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">file</span>, &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-identifier">myself</span>
@@ -1105,7 +1191,7 @@ within namespace</p>
 </li></ul>
 </li><li>
 <p><strong>Returns</strong></p>
-<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Proxy
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Actor
 <dd>
 <p>Returns reference to self for compound operations</p>
 </dd></dl>
@@ -1124,7 +1210,7 @@ href="Environment.html#method-i-define_plugin_type">Nucleon::Environment#define_
 
           
           <div class="method-source-code" id="define_type-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 108</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 235</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">define_type</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">default_provider</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">define_plugin_type</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">default_provider</span>)
   <span class="ruby-identifier">myself</span>
@@ -1166,7 +1252,7 @@ provider pairs</p>
 </li></ul>
 </li><li>
 <p><strong>Returns</strong></p>
-<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Proxy
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Actor
 <dd>
 <p>Returns reference to self for compound operations</p>
 </dd></dl>
@@ -1185,7 +1271,7 @@ href="Environment.html#method-i-define_plugin_types">Nucleon::Environment#define
 
           
           <div class="method-source-code" id="define_types-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 127</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 254</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">define_types</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">type_info</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">define_plugin_types</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">type_info</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1219,7 +1305,7 @@ href="Environment.html#method-i-define_plugin_types">Nucleon::Environment#define
 
           
           <div class="method-source-code" id="exec-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 517</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 644</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">exec</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">results</span> = <span class="ruby-keyword">nil</span>
 
@@ -1321,7 +1407,7 @@ href="Environment.html#method-i-get_plugin">Nucleon::Environment#get_plugin</a><
 
           
           <div class="method-source-code" id="get-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 485</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 612</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_name</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">get_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1353,7 +1439,7 @@ href="Environment.html#method-i-get_plugin">Nucleon::Environment#get_plugin</a><
 
           
           <div class="method-source-code" id="load-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 423</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 550</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">default_provider</span> = <span class="ruby-identifier">type_default</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
 
@@ -1399,7 +1485,7 @@ href="Environment.html#method-i-get_plugin">Nucleon::Environment#get_plugin</a><
 
           
           <div class="method-source-code" id="load_base-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 392</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 519</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_base</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Fetching plugin #{namespace} #{plugin_type} provider #{provider} at #{Time.now}&quot;</span>)
 
@@ -1458,7 +1544,7 @@ href="Environment.html#method-i-get_plugin">Nucleon::Environment#get_plugin</a><
 
           
           <div class="method-source-code" id="load_multiple-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 439</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 566</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_multiple</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">data</span>, <span class="ruby-identifier">build_hash</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">keep_array</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Fetching multiple plugins of #{plugin_type} at #{Time.now}&quot;</span>)
 
@@ -1539,7 +1625,7 @@ href="Environment.html#method-i-loaded_plugin">Nucleon::Environment#loaded_plugi
 
           
           <div class="method-source-code" id="loaded_plugin-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 182</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 309</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">loaded_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">loaded_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1618,7 +1704,7 @@ href="Environment.html#method-i-loaded_plugins">Nucleon::Environment#loaded_plug
 
           
           <div class="method-source-code" id="loaded_plugins-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 204</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 331</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">loaded_plugins</span>(<span class="ruby-identifier">namespace</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">plugin_type</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">loaded_plugins</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1644,13 +1730,36 @@ href="Environment.html#method-i-loaded_plugins">Nucleon::Environment#loaded_plug
         <div class="method-description">
           <div class="method-doc" id="myself-doc">
             
-            
+            <p>Return a reference to self</p>
+
+<p>This is needed so we can wrap instances in Celluloid actor proxies. Using
+self directly causes a lot of headaches.</p>
+
+<p><a
+href="https://github.com/celluloid/celluloid/wiki/Gotchas#never-return-self-or-pass-self-as-an-argument-to-other-actors">github.com/celluloid/celluloid/wiki/Gotchas#never-return-self-or-pass-self-as-an-argument-to-other-actors</a></p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Actor
+<dd>
+<p>Returns a reference to this manager instance</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Facade.html#method-i-handle">Nucleon::Facade#handle</a></p>
+</li></ul>
             
           </div><!-- myself-doc -->
 
           
           <div class="method-source-code" id="myself-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 49</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 160</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">myself</span>
   <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">handle</span>(<span class="ruby-keyword">self</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1700,7 +1809,7 @@ href="Environment.html#method-i-namespaces">Nucleon::Environment#namespaces</a><
 
           
           <div class="method-source-code" id="namespaces-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 72</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 199</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">namespaces</span>
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">namespaces</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1726,13 +1835,34 @@ href="Environment.html#method-i-namespaces">Nucleon::Environment#namespaces</a><
         <div class="method-description">
           <div class="method-doc" id="parallel_finalize-doc">
             
-            
+            <p>Perform any cleanup operations during manager shutdown</p>
+
+<p>This only runs when in parallel mode.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Manager.html#method-i-active_plugins">active_plugins</a></p>
+</li><li>
+<p><a href="Manager.html#method-i-remove">remove</a></p>
+</li></ul>
             
           </div><!-- parallel_finalize-doc -->
 
           
           <div class="method-source-code" id="parallel_finalize-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 37</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 123</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parallel_finalize</span>
   <span class="ruby-identifier">active_plugins</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">namespace_plugins</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">namespace_plugins</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">type_plugins</span><span class="ruby-operator">|</span>
@@ -1800,7 +1930,7 @@ href="Environment.html#method-i-plugin_class">Nucleon::Environment#plugin_class<
 
           
           <div class="method-source-code" id="plugin_class-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 703</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 830</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_class</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">plugin_class</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1865,7 +1995,7 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
 
           
           <div class="method-source-code" id="plugin_has_provider-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 248</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 375</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_has_provider?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">plugin_has_provider?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1897,7 +2027,7 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
 
           
           <div class="method-source-code" id="register-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 323</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 450</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register</span>(<span class="ruby-identifier">base_path</span>, &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-identifier">namespaces</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">namespace</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">namespace_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_s</span>)
@@ -1934,7 +2064,7 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
 
           
           <div class="method-source-code" id="reload-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 278</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 405</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">reload</span>(<span class="ruby-identifier">core</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">loaded</span> = [], &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Loading Nucleon plugins at #{Time.now}&quot;</span>)
 
@@ -1986,7 +2116,7 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
 
           
           <div class="method-source-code" id="remove-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 505</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 632</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove</span>(<span class="ruby-identifier">plugin</span>)
   <span class="ruby-keyword">begin</span> <span class="ruby-comment"># TODO: Figure out what do do about the plugin proxy being terminated before respond_to? method called.</span>
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:plugin_type</span>)
@@ -2023,7 +2153,7 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
 
           
           <div class="method-source-code" id="remove_by_name-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 489</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 616</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_by_name</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_instance_name</span>)
   <span class="ruby-identifier">active_instances</span> = <span class="ruby-identifier">active_plugins</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
 
@@ -2061,13 +2191,36 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
         <div class="method-description">
           <div class="method-doc" id="test_connection-doc">
             
-            
+            <p>Return true as a test method for checking for running manager</p>
+
+<p>This method should always return true and is only really called internally
+to perform a system check when running in parallel mode.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Manager.html">Nucleon::Manager</a>, Celluloid::Actor
+<dd>
+<p>Returns a reference to this manager instance</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Facade.html#method-i-manager">Nucleon::Facade#manager</a></p>
+</li><li>
+<p><a
+href="Facade.html#method-i-test_connection">Nucleon::Facade#test_connection</a></p>
+</li></ul>
             
           </div><!-- test_connection-doc -->
 
           
           <div class="method-source-code" id="test_connection-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 53</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 180</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">test_connection</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2099,7 +2252,7 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
 
           
           <div class="method-source-code" id="translate-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 640</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 767</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">translate</span>(<span class="ruby-identifier">type_info</span>, <span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">type_info</span>
     <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">type_info</span>[<span class="ruby-value">:class</span>]
@@ -2140,7 +2293,7 @@ href="Environment.html#method-i-plugin_has_provider-3F">Nucleon::Environment#plu
 
           
           <div class="method-source-code" id="translate_type-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 630</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 757</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">translate_type</span>(<span class="ruby-identifier">type_info</span>, <span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">type_info</span>
     <span class="ruby-identifier">klass</span> = <span class="ruby-identifier">plugin_class</span>(<span class="ruby-identifier">type_info</span>[<span class="ruby-value">:namespace</span>], <span class="ruby-identifier">type_info</span>[<span class="ruby-value">:type</span>])
@@ -2206,7 +2359,7 @@ href="Environment.html#method-i-plugin_type_default">Nucleon::Environment#plugin
 
           
           <div class="method-source-code" id="type_default-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 163</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 290</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">type_default</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">plugin_type_default</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2265,7 +2418,7 @@ check within namespace</p>
 
           
           <div class="method-source-code" id="type_defined-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 145</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 272</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">type_defined?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">plugin_type_defined?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2320,7 +2473,7 @@ href="Environment.html#method-i-plugin_types">Nucleon::Environment#plugin_types<
 
           
           <div class="method-source-code" id="types-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 89</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 216</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">types</span>(<span class="ruby-identifier">namespace</span>)
   <span class="ruby-identifier">@@environments</span>[<span class="ruby-ivar">@actor_id</span>].<span class="ruby-identifier">plugin_types</span>(<span class="ruby-identifier">namespace</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2352,7 +2505,7 @@ href="Environment.html#method-i-plugin_types">Nucleon::Environment#plugin_types<
 
           
           <div class="method-source-code" id="value-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 595</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 722</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
 
@@ -2401,7 +2554,7 @@ href="Environment.html#method-i-plugin_types">Nucleon::Environment#plugin_types<
 
           
           <div class="method-source-code" id="load_plugins-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 302</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 429</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_plugins</span>(<span class="ruby-identifier">core</span> = <span class="ruby-keyword">false</span>, <span class="ruby-identifier">loaded</span> = [], &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">core</span>
     <span class="ruby-comment"># Register core plugins</span>
@@ -2449,7 +2602,7 @@ href="Environment.html#method-i-plugin_types">Nucleon::Environment#plugin_types<
 
           
           <div class="method-source-code" id="register_namespace-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 330</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 457</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_namespace</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">base_path</span>, &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">base_path</span>)
     <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">info</span>(<span class="ruby-node">&quot;Loading files from #{base_path} at #{Time.now}&quot;</span>)
@@ -2495,7 +2648,7 @@ href="Environment.html#method-i-plugin_types">Nucleon::Environment#plugin_types<
 
           
           <div class="method-source-code" id="register_type-source">
-            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 349</span>
+            <pre><span class="ruby-comment"># File lib/core/manager.rb, line 476</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_type</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">plugin_type</span>, &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-identifier">base_directory</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">plugin_type</span>.<span class="ruby-identifier">to_s</span>)
 

@@ -1,19 +1,59 @@
-
 module Nucleon
+#
+# == Plugin manager
+#
+# The Nucleon::Manager class defines a manager for defined plugin types, loaded,
+# metadata, and active instances.
+#
+# One of the primary functions of the Nucleon library is to provide a very
+# flexible extensible architectural base for Ruby applications needing ready
+# made modularity.  To fulfill our objectives, the Nucleon library defines
+# plugin managers managed as a global multition.
+#
+# These managers should be able to fail gracefully and recover to the state
+# they left off if a plugin provider crashes.  To accomplish this, each manager
+# is a Celluloid actor that manages a globally defined environment (also within
+# a multition).  This environment contains all of the plugins and providers
+# that they manager has registered and loaded.
+#
+#
+# See also:
+# - Nucleon::Environment
+# - Nucleon::Plugin::Base
+#
 class Manager
 
+  #
+  # Make instances of this class parallel capable (through Celluloid actors)
+  #
   include Parallel
 
   #*****************************************************************************
 
+  #
+  # Global collection of plugin manager supervisors or managers.
+  #
+  # If parallel is enabled this will be supervisors, otherwise just the managers.
+  #
   @@supervisors = {}
 
+  #
+  # Accessor for the global supervisors (mostly for testing purposes)
+  #
   def self.supervisors
     @@supervisors
   end
 
+  #
+  # Global collection of plugin manager environments.
+  #
+  # Environments are keyed by an actor id set by the manager
+  #
   @@environments = {}
 
+  #
+  # Accessor for the global plugin manager environments (mostly for testing purposes)
+  #
   def self.environments
     @@environments
   end
@@ -21,19 +61,65 @@ class Manager
   #*****************************************************************************
   # Plugin manager interface
 
+  # Return a specified plugin manager instance
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *name*  Name of the plugin manager (actor id)
+  #   - [Boolean] *reset*  Whether or not to reinitialize the manager
+  #
+  # * *Returns*
+  #   - [Nucleon::Manager, Celluloid::Actor]  Returns an interface to manage plugins
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Facade#manager
+  #
   def self.connection(name = :core, reset = false)
     Nucleon.manager(@@supervisors, name, self, reset)
   end
 
+  # Initialize a new Nucleon environment
+  #
+  # IMORTANT:  The environment constructor should accept no parameters!
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *actor_id*  Name of the plugin manager
+  #   - [Boolean] *reset*  Whether or not to reinitialize the manager
+  #
+  # * *Returns*
+  #   - [Void]  This method does not return a value
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - Nucleon::Facade#logger
+  # - Nucleon::Environment
+  #
   def initialize(actor_id, reset)
     @logger   = Nucleon.logger
-    @actor_id = actor_id
+    @actor_id = actor_id.to_sym
 
     if reset || ! @@environments[@actor_id]
       @@environments[@actor_id] = Environment.new
     end
   end
 
+  # Perform any cleanup operations during manager shutdown
+  #
+  # This only runs when in parallel mode.
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Void]  This method does not return a value
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - #active_plugins
+  # - #remove
+  #
   def parallel_finalize
     active_plugins.each do |namespace, namespace_plugins|
       namespace_plugins.each do |plugin_type, type_plugins|
@@ -44,12 +130,53 @@ class Manager
     end
   end
 
-  attr_reader :logger, :actor_id
+  #
+  # [Nucleon::Util::Logger]  Instance logger
+  #
+  attr_reader :logger
 
+  #
+  # [Symbol]  Plugin manager identifier
+  #
+  attr_reader :actor_id
+
+  # Return a reference to self
+  #
+  # This is needed so we can wrap instances in Celluloid actor proxies.
+  # Using self directly causes a lot of headaches.
+  #
+  # https://github.com/celluloid/celluloid/wiki/Gotchas#never-return-self-or-pass-self-as-an-argument-to-other-actors
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Nucleon::Manager, Celluloid::Actor]  Returns a reference to this manager instance
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - Nucleon::Facade#handle
+  #
   def myself
     Nucleon.handle(self)
   end
 
+  # Return true as a test method for checking for running manager
+  #
+  # This method should always return true and is only really called internally
+  # to perform a system check when running in parallel mode.
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Nucleon::Manager, Celluloid::Actor]  Returns a reference to this manager instance
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - Nucleon::Facade#manager
+  # - Nucleon::Facade#test_connection
+  #
   def test_connection
     true
   end
@@ -98,7 +225,7 @@ class Manager
   #   - [String, Symbol] *default_provider*  Default provider
   #
   # * *Returns*
-  #   - [Nucleon::Manager, Celluloid::Proxy]  Returns reference to self for compound operations
+  #   - [Nucleon::Manager, Celluloid::Actor]  Returns reference to self for compound operations
   #
   # * *Errors*
   #
@@ -117,7 +244,7 @@ class Manager
   #   - [Hash<String, Symbol|String, Symbol>] *type_info*  Plugin type, default provider pairs
   #
   # * *Returns*
-  #   - [Nucleon::Manager, Celluloid::Proxy]  Returns reference to self for compound operations
+  #   - [Nucleon::Manager, Celluloid::Actor]  Returns reference to self for compound operations
   #
   # * *Errors*
   #
@@ -214,7 +341,7 @@ class Manager
   #   - [String] *file*  File that contains the provider definition
   #
   # * *Returns*
-  #   - [Nucleon::Manager, Celluloid::Proxy]  Returns reference to self for compound operations
+  #   - [Nucleon::Manager, Celluloid::Actor]  Returns reference to self for compound operations
   #
   # * *Errors*
   #
