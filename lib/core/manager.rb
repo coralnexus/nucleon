@@ -4,7 +4,7 @@ class Manager
 
   include Parallel
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
 
   @@supervisors = {}
 
@@ -18,14 +18,12 @@ class Manager
     @@environments
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Plugin manager interface
 
   def self.connection(name = :core, reset = false)
     Nucleon.manager(@@supervisors, name, self, reset)
   end
-
-  #---
 
   def initialize(actor_id, reset)
     @logger   = Nucleon.logger
@@ -35,8 +33,6 @@ class Manager
       @@environments[@actor_id] = Environment.new
     end
   end
-
-  #---
 
   def parallel_finalize
     active_plugins.each do |namespace, namespace_plugins|
@@ -48,76 +44,235 @@ class Manager
     end
   end
 
-  #---
-
   attr_reader :logger, :actor_id
-
-  #---
 
   def myself
     Nucleon.handle(self)
   end
 
-  #---
-
   def test_connection
     true
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Plugin model accessors / modifiers
 
+  # Return all of the defined namespaces in the plugin environment.
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Array<Symbol>]  Array of defined plugin namespaces
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#namespaces
+  #
   def namespaces
     @@environments[@actor_id].namespaces
   end
 
-  #---
-
+  # Return all of the defined plugin types in a plugin namespace.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #
+  # * *Returns*
+  #   - [Array<Symbol>]  Array of defined plugin types
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#plugin_types
+  #
   def types(namespace)
     @@environments[@actor_id].plugin_types(namespace)
   end
 
+  # Define a new plugin type in a specified namespace.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #   - [String, Symbol] *plugin_type*  Plugin type name within namespace
+  #   - [String, Symbol] *default_provider*  Default provider
+  #
+  # * *Returns*
+  #   - [Nucleon::Manager, Celluloid::Proxy]  Returns reference to self for compound operations
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#define_plugin_type
+  #
   def define_type(namespace, plugin_type, default_provider)
     @@environments[@actor_id].define_plugin_type(namespace, plugin_type, default_provider)
+    myself
   end
 
+  # Define one or more new plugin types in a specified namespace.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #   - [Hash<String, Symbol|String, Symbol>] *type_info*  Plugin type, default provider pairs
+  #
+  # * *Returns*
+  #   - [Nucleon::Manager, Celluloid::Proxy]  Returns reference to self for compound operations
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#define_plugin_types
+  #
   def define_types(namespace, type_info)
     @@environments[@actor_id].define_plugin_types(namespace, type_info)
   end
 
+  # Check if a specified plugin type has been defined
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #   - [String, Symbol] *plugin_type*  Plugin type name to check within namespace
+  #
+  # * *Returns*
+  #   - [Boolean]  Returns true if plugin type exists, false otherwise
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#plugin_type_defined
+  #
   def type_defined?(namespace, plugin_type)
     @@environments[@actor_id].plugin_type_defined?(namespace, plugin_type)
   end
 
+  # Return the default provider currently registered for a plugin type
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #   - [String, Symbol] *plugin_type*  Plugin type name to fetch default provider
+  #
+  # * *Returns*
+  #   - [nil, Symbol]  Returns default provider if plugin type exists, nil otherwise
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#plugin_type_default
+  #
   def type_default(namespace, plugin_type)
     @@environments[@actor_id].plugin_type_default(namespace, plugin_type)
   end
 
-  #---
-
+  # Return the load information for a specified plugin provider if it exists
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #   - [String, Symbol] *plugin_type*  Plugin type name of provider
+  #   - [String, Symbol] *provider*  Plugin provider to return load information
+  #
+  # * *Returns*
+  #   - [nil, Hash<Symbol|ANY>]  Returns provider load information if provider exists, nil otherwise
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#loaded_plugin
+  #
   def loaded_plugin(namespace, plugin_type, provider)
     @@environments[@actor_id].loaded_plugin(namespace, plugin_type, provider)
   end
 
+  # Return the load information for namespaces, plugin types, providers if it exists
+  #
+  # * *Parameters*
+  #   - [nil, String, Symbol] *namespace*  Namespace to return load information
+  #   - [nil, String, Symbol] *plugin_type*  Plugin type name to return load information
+  #   - [nil, String, Symbol] *provider*  Plugin provider to return load information
+  #
+  # * *Returns*
+  #   - [nil, Hash<Symbol|Symbol|Symbol|Symbol|ANY>]  Returns all load information if no parameters given
+  #   - [nil, Hash<Symbol|Symbol|Symbol|ANY>]  Returns namespace load information if only namespace given
+  #   - [nil, Hash<Symbol|Symbol|ANY>]  Returns plugin type load information if namespace and plugin type given
+  #   - [nil, Hash<Symbol|ANY>]  Returns provider load information if namespace, plugin type, and provider given
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#loaded_plugins
+  #
   def loaded_plugins(namespace = nil, plugin_type = nil, provider = nil)
     @@environments[@actor_id].loaded_plugins(namespace, plugin_type, provider)
   end
 
-  def define_plugin(namespace, plugin_type, base_path, file, &code)
+  # Define a new plugin provider of a specified plugin type.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #   - [String, Symbol] *plugin_type*  Plugin type name to fetch default provider
+  #   - [String] *base_path*  Base load path of the plugin provider
+  #   - [String] *file*  File that contains the provider definition
+  #
+  # * *Returns*
+  #   - [Nucleon::Manager, Celluloid::Proxy]  Returns reference to self for compound operations
+  #
+  # * *Errors*
+  #
+  # * *Yields*
+  #   - [Hash<Symbol|ANY>] *data*  Plugin load information
+  #
+  # See:
+  # - Nucleon::Environment#define_plugin
+  #
+  #
+  def define_plugin(namespace, plugin_type, base_path, file, &code) # :yields: data
     @@environments[@actor_id].define_plugin(namespace, plugin_type, base_path, file, &code)
+    myself
   end
 
+  # Check if a specified plugin provider has been loaded
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains plugin types
+  #   - [String, Symbol] *plugin_type*  Plugin type name to check
+  #   - [String, Symbol] *provider*  Plugin provider name to check
+  #
+  # * *Returns*
+  #   - [Boolean]  Returns true if plugin provider has been loaded, false otherwise
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#plugin_has_provider?
+  #
   def plugin_has_provider?(namespace, plugin_type, provider)
     @@environments[@actor_id].plugin_has_provider?(namespace, plugin_type, provider)
   end
 
-  #---
-
+  # Return active plugins for namespaces, plugin types, providers if specified
+  #
+  # * *Parameters*
+  #   - [nil, String, Symbol] *namespace*  Namespace to return plugin instance
+  #   - [nil, String, Symbol] *plugin_type*  Plugin type name to return plugin instance
+  #   - [nil, String, Symbol] *provider*  Plugin provider to return plugin instance
+  #
+  # * *Returns*
+  #   - [nil, Hash<Symbol|Symbol|Symbol|Symbol|Nucleon::Plugin::Base>]  Returns all plugin instances if no parameters given
+  #   - [nil, Hash<Symbol|Symbol|Symbol|Nucleon::Plugin::Base>]  Returns namespace plugin instances if only namespace given
+  #   - [nil, Hash<Symbol|Symbol|Nucleon::Plugin::Base>]  Returns plugin type instances if namespace and plugin type given
+  #   - [nil, Hash<Symbol|Nucleon::Plugin::Base>]  Returns provider instances if namespace, plugin type, and provider given
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Plugin::Base
+  # - Nucleon::Environment#active_plugins
+  #
   def active_plugins(namespace = nil, plugin_type = nil, provider = nil)
     @@environments[@actor_id].active_plugins(namespace, plugin_type, provider)
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Plugin registration / initialization
 
   def reload(core = false, loaded = [], &code)
@@ -144,8 +299,6 @@ class Manager
     logger.info("Finished loading Nucleon plugins at #{Time.now}")
   end
 
-  #---
-
   def load_plugins(core = false, loaded = [], &code)
     if core
       # Register core plugins
@@ -167,16 +320,12 @@ class Manager
   end
   protected :load_plugins
 
-  #---
-
   def register(base_path, &code)
     namespaces.each do |namespace|
       namespace_path = File.join(base_path, namespace.to_s)
       register_namespace(namespace, namespace_path, &code)
     end
   end
-
-  #---
 
   def register_namespace(namespace, base_path, &code)
     if File.directory?(base_path)
@@ -197,8 +346,6 @@ class Manager
   end
   protected :register_namespace
 
-  #---
-
   def register_type(namespace, base_path, plugin_type, &code)
     base_directory = File.join(base_path, plugin_type.to_s)
 
@@ -211,8 +358,6 @@ class Manager
     end
   end
   protected :register_type
-
-  #---
 
   def autoload
     logger.info("Autoloading registered plugins at #{Time.now}")
@@ -241,7 +386,7 @@ class Manager
     end
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Plugin workflow
 
   def load_base(namespace, plugin_type, provider, options = {})
@@ -275,8 +420,6 @@ class Manager
     create(namespace, plugin_type, provider, config)
   end
 
-  #---
-
   def load(namespace, plugin_type, provider = nil, options = {})
     default_provider = type_default(namespace, plugin_type)
 
@@ -292,8 +435,6 @@ class Manager
 
     load_base(namespace, plugin_type, provider, config)
   end
-
-  #---
 
   def load_multiple(namespace, plugin_type, data, build_hash = false, keep_array = false)
     logger.info("Fetching multiple plugins of #{plugin_type} at #{Time.now}")
@@ -315,8 +456,6 @@ class Manager
     group
   end
 
-  #---
-
   def create(namespace, plugin_type, provider, options = {})
     @@environments[@actor_id].create_plugin(namespace, plugin_type, provider, options) do |type_info, plugin_options|
       logger.info("Creating new plugin #{provider} #{plugin_type}")
@@ -327,13 +466,25 @@ class Manager
     end
   end
 
-  #---
-
+  # Return a plugin instance by name if it exists
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Namespace that contains the plugin
+  #   - [String, Symbol] *plugin_type*  Plugin type name
+  #   - [String, Symbol] *plugin_name*  Plugin name to return
+  #
+  # * *Returns*
+  #   - [nil, Nucleon::Plugin::Base]  Returns a plugin instance of name specified if it exists
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Plugin::Base
+  # - Nucleon::Environment#get_plugin
+  #
   def get(namespace, plugin_type, plugin_name)
     @@environments[@actor_id].get_plugin(namespace, plugin_type, plugin_name)
   end
-
-  #---
 
   def remove_by_name(namespace, plugin_type, plugin_instance_name)
     active_instances = active_plugins(namespace, plugin_type)
@@ -360,7 +511,7 @@ class Manager
     end
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Extension hook execution
 
   def exec(method, options = {})
@@ -403,8 +554,6 @@ class Manager
     results
   end
 
-  #---
-
   def config(type, options = {})
     config = Config.ensure(options)
 
@@ -423,8 +572,6 @@ class Manager
     config.delete(:extension_type)
     config
   end
-
-  #---
 
   def check(method, options = {})
     config = Config.ensure(options)
@@ -445,8 +592,6 @@ class Manager
     success
   end
 
-  #---
-
   def value(method, value, options = {})
     config = Config.ensure(options)
 
@@ -461,8 +606,6 @@ class Manager
     logger.debug("Extension #{method} retrieved value: #{value.inspect}")
     value
   end
-
-  #---
 
   def collect(method, options = {})
     config = Config.ensure(options)
@@ -481,7 +624,7 @@ class Manager
     values
   end
 
-  #-----------------------------------------------------------------------------
+  #*****************************************************************************
   # Utilities
 
   def translate_type(type_info, options)
@@ -494,8 +637,6 @@ class Manager
     options
   end
 
-  #---
-
   def translate(type_info, options)
     if type_info
       klass = type_info[:class]
@@ -507,20 +648,58 @@ class Manager
     options
   end
 
-  #---
-
-  def class_name(name, separator = '::', want_array = FALSE)
+  # Return a fully formed class name as a string
+  #
+  # * *Parameters*
+  #   - [String, Symbol, Array] *name*  Class name components
+  #   - [String, Symbol] *separator*  Class component separator (default '::')
+  #   - [Boolean] *want_array*  Whether or not to return array of final components or string version
+  #
+  # * *Returns*
+  #   - [String]  Returns fully rendered class name as string unless want_array is true
+  #   - [Array]  Returns array of final class components if want_array is true
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#class_name
+  #
+  def class_name(name, separator = '::', want_array = false)
     @@environments[@actor_id].class_name(name, separator, want_array)
   end
 
-  #---
-
+  # Return a fully formed class name as a machine usable constant
+  #
+  # * *Parameters*
+  #   - [String, Symbol, Array] *name*  Class name components
+  #   - [String, Symbol] *separator*  Class component separator (default '::')
+  #
+  # * *Returns*
+  #   - [Class Constant]  Returns class constant for fully formed class name of given components
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#class_const
+  #
   def class_const(name, separator = '::')
     @@environments[@actor_id].class_const(name, separator)
   end
 
-  #---
-
+  # Return a class constant representing a base plugin class generated from namespace and plugin_type.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Plugin namespace to constantize
+  #   - [String, Symbol] *plugin_type*  Plugin type to constantize
+  #
+  # * *Returns*
+  #   - [String]  Returns a class constant representing the plugin namespace and type
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#plugin_class
+  #
   def plugin_class(namespace, plugin_type)
     @@environments[@actor_id].plugin_class(namespace, plugin_type)
   end

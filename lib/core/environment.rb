@@ -109,7 +109,7 @@ class Environment < Core
   # * *Parameters*
   #   - [String, Symbol] *namespace*  Namespace that contains plugin types
   #   - [String, Symbol] *plugin_type*  Plugin type name within namespace
-  #   - [String, Symbol] *default_provider*  Default provider (defaults to none)
+  #   - [nil, String, Symbol] *default_provider*  Default provider (defaults to none)
   #
   # * *Returns*
   #   - [Nucleon::Environment]  Returns reference to self for compound operations
