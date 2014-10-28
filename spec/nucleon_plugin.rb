@@ -1,4 +1,10 @@
 
+#
+# Require test plugin type
+#
+require File.join(File.dirname(__FILE__), 'nucleon', 'test.rb')
+
+
 RSpec.shared_context "nucleon_plugin" do
 
   #*****************************************************************************
