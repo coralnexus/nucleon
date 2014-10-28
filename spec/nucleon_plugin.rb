@@ -4,6 +4,14 @@ RSpec.shared_context "nucleon_plugin" do
   #*****************************************************************************
   # Plugin environment data
 
+  let(:plugin_environment_empty) do {
+      :plugin_types => {},
+      :load_info    => {},
+      :active_info  => {}
+    }
+  end
+
+
   let(:plugin_registry) do {
       :nucleon => {
         :extension  => nil,
@@ -270,5 +278,10 @@ RSpec.shared_context "nucleon_plugin" do
         }
       }
     }
+  end
+
+
+  let(:plugin_active_plugins) do
+
   end
 end
