@@ -1,97 +1,193 @@
+
 require 'spec_helper'
 
 module Nucleon
+
   describe Codes do
-    
-    #-----------------------------------------------------------------------------
-    # Code index
-    
+
+    include_context "nucleon_test"
+    include_context "nucleon_codes"
+
+    #***************************************************************************
+
+    def codes(*args, &code)
+      test_object(Codes, *args, &code)
+    end
+
+
+    #***************************************************************************
+    # Global collections
+
+    # Return the codes registry object
+    #
     describe "#registry" do
-      it "tests return value is hash using registry" do
-        expect(Codes.registry.is_a?(Hash)).to eq true
-      end
-    end
-    
-    #---
-  
-    describe "#index" do
-      it "testing nil parameter with index" do
-         expect(Codes.index(nil).is_a?(Hash)).to eq true
-      end
-      
-      it "testing known status code with index" do
-        expect(Codes.index(0)).to eq "success"
-      end
-      
-      it "testing unknown status code with index" do
-        expect(Codes.index(100)).to eq "unknown_status"
-      end
-    end
-    
-    #---
-  
-    describe "#render_index" do
-      it "testing with known status code parameter with render_index" do
-        for i in 0 .. 6
-          expect(Codes.render_index(i).include? "[   #{i} ]").to eq true
-        end
-      end
-      
-      it "testing with unknown status code parameter with render_index" do
-          expect(Codes.render_index(100).include? "[   100 ]").to eq false
-      end
-    end
-    
-  #-----------------------------------------------------------------------------
-  # Code construction
-  
-    describe "#code" do
-      it "testing nil return value on sending available key to code" do
-        expect(Codes.code("success")).to eq nil
-      end
-      
-      it "testing return value on sending unavailable key to code" do
-        expect(Codes.code("test1")).to eq "test1"
-      end 
-    end
-   
-    #---
-      
-   # describe "#codes" do
-      # it "A small example" do
-        # puts Codes.codes("example")
-      # end
-   # end
-    
-  #-----------------------------------------------------------------------------
-  # Return status codes on demand
-    
-    describe "#[]" do
-      it "testing available key with []" do
-        Codes.code("abc")
-        expect(Codes.new.[]("abc")).to eq 8
-      end
-      
-      it "testing unavailable key with []" do
-        expect(Codes.new.[]("xyz")).to eq 2
-      end
-      
-      it "testing return value sequence with []" do
-        expect(Codes.new.[]("abc")).to eq 8
-        Codes.code("def")
-        expect(Codes.new.[]("def")).to eq 9
+
+      it "returns the global code registry hash" do
+        test_eq Codes.registry, codes_registry_custom
       end
     end
 
-    #---
-      
-    describe "#method_missing" do
-      it "testing known status code with method_missing" do
-        expect(Codes.new.method_missing("success")).to eq 0
+    # Return the codes status index object
+    #
+    describe "#status_index" do
+
+      it "returns the global status index hash" do
+        test_eq Codes.status_index, codes_status_index_custom
       end
-      
-      it"testing unknown status code with method_missing" do
-        expect(Codes.new.method_missing("test2")).to eq 2
+    end
+
+
+    #***************************************************************************
+    # Global collections
+
+    # Return status index information for specified codes
+    #
+    describe "#index" do
+
+      it "returns the global status index if no code requested" do
+         test_eq Codes.index, codes_status_index_custom
+         test_eq Codes.index(nil), codes_status_index_custom
+      end
+
+      it "returns the appropriate code label if it exists" do
+        test_eq Codes.index(0), "success"
+        test_eq Codes.index(1), "help_wanted"
+        test_eq Codes.index(2), "unknown_status"
+        test_eq Codes.index(3), "action_unprocessed"
+        test_eq Codes.index(4), "batch_error"
+        test_eq Codes.index(5), "validation_failed"
+        test_eq Codes.index(6), "access_denied"
+        test_eq Codes.index(7), "good"
+        test_eq Codes.index(8), "bad"
+        test_eq Codes.index(9), "ok"
+        test_eq Codes.index(10), "wow"
+        test_eq Codes.index(11), "whew"
+      end
+
+      it "returns the unknown status label if the code does not exist" do
+        test_eq Codes.index(100), "unknown_status"
+      end
+    end
+
+    # Return status index information for specified codes
+    #
+    describe "#render_index" do
+
+      it "renders known status code information with selected code if specified" do
+        for status_code in 0 .. 11
+          test_eq Codes.render_index(status_code), codes_rendered_index(status_code)
+        end
+      end
+
+      it "renders status index without selected code if unknown status code specified" do
+          test_eq Codes.render_index(100), codes_rendered_index(100)
+      end
+    end
+
+    #***************************************************************************
+    # Code construction
+
+    # Add a status code name to the global collection to receive unique status code
+    #
+    describe "#code" do
+
+      it "adds a non existing status code identifier to the global collection" do
+        Codes.code("my_code")
+
+        test_eq codes["my_code"], 12
+        test_eq codes[:my_code], 12
+      end
+
+      it "leaves an existing status code identifier in the global collection" do
+        Codes.code(:unknown_status)
+
+        test_eq codes["unknown_status"], 2
+        test_eq codes[:unknown_status], 2
+      end
+    end
+
+    # Add multiple status code names to the global collection to receive unique status codes
+    #
+    describe "#codes" do
+
+      it "adds non existing status code identifiers to the global collection" do
+        Codes.codes("my_code1", :batch_error, :my_code2, "success", "yay")
+
+        test_eq codes["my_code1"], 12
+        test_eq codes[:my_code1], 12
+        test_eq codes["batch_error"], 4
+        test_eq codes[:batch_error], 4
+        test_eq codes["my_code2"], 13
+        test_eq codes[:my_code2], 13
+        test_eq codes["success"], 0
+        test_eq codes[:success], 0
+        test_eq codes["yay"], 14
+        test_eq codes[:yay], 14
+      end
+    end
+
+    # Reset all status codes back to default in the global collection
+    #
+    describe "#reset" do
+
+      it "clears all custom codes and reverts registry to default state" do
+        Codes.codes("my_code1", :batch_error, :my_code2, "success", "yay")
+        Codes.reset
+
+        test_eq Codes.registry, codes_registry_clean
+        test_eq Codes.status_index, codes_status_index_clean
+      end
+    end
+
+
+    #***************************************************************************
+    # Code access
+
+    # Return the code for a specified code identifier
+    #
+    describe "#[]" do
+
+      it "returns an status code for an existing identifier" do
+        test_eq codes["ok"], 9
+        test_eq codes[:ok], 9
+        test_eq codes["batch_error"], 4
+        test_eq codes[:batch_error], 4
+        test_eq codes["whew"], 11
+        test_eq codes[:whew], 11
+        test_eq codes["success"], 0
+        test_eq codes[:success], 0
+      end
+
+      it "returns the unknown status code if no existing identifier" do
+        test_eq codes["not_ok"], 2
+        test_eq codes[:not_ok], 2
+        test_eq codes["batchy_error"], 2
+        test_eq codes[:batchy_error], 2
+      end
+    end
+
+    # Return the code for a specified code identifier
+    #
+    describe "#method_missing" do
+
+      it "returns the proper status code for existing identifier methods" do
+        test_eq codes.success, 0
+        test_eq codes.help_wanted, 1
+        test_eq codes.unknown_status, 2
+        test_eq codes.action_unprocessed, 3
+        test_eq codes.batch_error, 4
+        test_eq codes.validation_failed, 5
+        test_eq codes.access_denied, 6
+        test_eq codes.good, 7
+        test_eq codes.bad, 8
+        test_eq codes.ok, 9
+        test_eq codes.wow, 10
+        test_eq codes.whew, 11
+      end
+
+      it "returns the unknown status code for non existing identifier methods" do
+        test_eq codes.doesnt_exist, 2
+        test_eq codes.so_sorry, 2
       end
     end
   end

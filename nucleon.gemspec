@@ -96,6 +96,7 @@ Gem::Specification.new do |s|
     "spec/core/config_spec.rb",
     "spec/core/core_spec.rb",
     "spec/core/util/console_spec.rb",
+    "spec/nucleon_codes.rb",
     "spec/nucleon_config.rb",
     "spec/nucleon_test.rb",
     "spec/spec_helper.rb"

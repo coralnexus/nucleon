@@ -80,6 +80,8 @@
     
     <li><a href="#method-c-render_index">::render_index</a>
     
+    <li><a href="#method-c-reset">::reset</a>
+    
     <li><a href="#method-c-status_index">::status_index</a>
     
     <li><a href="#method-i-5B-5D">#[]</a>
@@ -327,11 +329,11 @@
             <pre><span class="ruby-comment"># File lib/core/codes.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">code</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
-  
+
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">registry</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">name</span>)
-    <span class="ruby-identifier">status_code</span> = <span class="ruby-identifier">@@next_code</span>    
+    <span class="ruby-identifier">status_code</span> = <span class="ruby-identifier">@@next_code</span>
     <span class="ruby-identifier">@@next_code</span> = <span class="ruby-identifier">@@next_code</span> <span class="ruby-operator">+</span> <span class="ruby-value">1</span>
-  
+
     <span class="ruby-comment"># TODO: Add more information to the index (like a help message)</span>
     <span class="ruby-identifier">@@registry</span>[<span class="ruby-identifier">name</span>]            = <span class="ruby-identifier">status_code</span>
     <span class="ruby-identifier">@@status_index</span>[<span class="ruby-identifier">status_code</span>] = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
@@ -405,13 +407,13 @@
     <span class="ruby-identifier">@@status_index</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">status_code</span> = <span class="ruby-identifier">status_code</span>.<span class="ruby-identifier">to_i</span>
-        
+
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@status_index</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">status_code</span>)
       <span class="ruby-identifier">@@status_index</span>[<span class="ruby-identifier">status_code</span>]
     <span class="ruby-keyword">else</span>
       <span class="ruby-identifier">@@status_index</span>[<span class="ruby-identifier">registry</span>[<span class="ruby-value">:unknown_status</span>]]
-    <span class="ruby-keyword">end</span>  
-  <span class="ruby-keyword">end</span>    
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- index-source -->
           
@@ -478,12 +480,12 @@
   <span class="ruby-identifier">output</span> = <span class="ruby-string">&quot;Status index:\n&quot;</span>
   <span class="ruby-identifier">@@status_index</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">code</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/_/</span>, <span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">capitalize</span>
-    
+
     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">status_code</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">status_code</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">code</span>
       <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">sprintf</span>(<span class="ruby-string">&quot; [ %3i ] - %s\n&quot;</span>, <span class="ruby-identifier">code</span>, <span class="ruby-identifier">name</span>)
     <span class="ruby-keyword">else</span>
       <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">sprintf</span>(<span class="ruby-string">&quot;   %3i   - %s\n&quot;</span>, <span class="ruby-identifier">code</span>, <span class="ruby-identifier">name</span>)
-    <span class="ruby-keyword">end</span>      
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">output</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-string">&quot;\n&quot;</span>
   <span class="ruby-identifier">output</span>
@@ -496,6 +498,50 @@
 
         
       </div><!-- render_index-method -->
+
+    
+      <div id="method-c-reset" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">reset</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="reset-doc">
+            
+            
+            
+          </div><!-- reset-doc -->
+
+          
+          <div class="method-source-code" id="reset-source">
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 83</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">reset</span>
+  <span class="ruby-identifier">@@registry</span>     = {}
+  <span class="ruby-identifier">@@status_index</span> = {}
+  <span class="ruby-identifier">@@next_code</span>    = <span class="ruby-value">0</span>
+
+  <span class="ruby-identifier">code</span>(<span class="ruby-value">:success</span>) <span class="ruby-comment"># This must be added first (needs to be 0)</span>
+  <span class="ruby-identifier">code</span>(<span class="ruby-value">:help_wanted</span>)
+  <span class="ruby-identifier">code</span>(<span class="ruby-value">:unknown_status</span>)
+
+  <span class="ruby-identifier">code</span>(<span class="ruby-value">:action_unprocessed</span>)
+  <span class="ruby-identifier">code</span>(<span class="ruby-value">:batch_error</span>)
+
+  <span class="ruby-identifier">code</span>(<span class="ruby-value">:validation_failed</span>)
+  <span class="ruby-identifier">code</span>(<span class="ruby-value">:access_denied</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- reset-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- reset-method -->
 
     
       <div id="method-c-status_index" class="method-detail ">
@@ -554,12 +600,12 @@
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 84</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 102</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">@@registry</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">name</span>)
-    <span class="ruby-identifier">@@registry</span>[<span class="ruby-identifier">name</span>]  
+    <span class="ruby-identifier">@@registry</span>[<span class="ruby-identifier">name</span>]
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">@@registry</span>[<span class="ruby-value">:unknown_status</span>]
   <span class="ruby-keyword">end</span>
@@ -592,7 +638,7 @@
 
           
           <div class="method-source-code" id="method_missing-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 96</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 114</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">method</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-keyword">self</span>[<span class="ruby-identifier">method</span>]
 <span class="ruby-keyword">end</span></pre>

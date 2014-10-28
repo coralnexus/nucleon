@@ -4,7 +4,9 @@ require 'stringio'
 require 'nucleon'
 
 require 'nucleon_test'
+require 'nucleon_codes'
 require 'nucleon_config'
+require 'nucleon_plugin'
 
 #*******************************************************************************
 

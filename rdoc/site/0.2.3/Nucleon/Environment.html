@@ -59,7 +59,7 @@
     <nav id="parent-class-section" class="section">
   <h3 class="section-header">Parent</h3>
   
-  <p class="link">Object
+  <p class="link"><a href="Core.html">Nucleon::Core</a>
   
 </nav>
 
@@ -356,6 +356,8 @@ usually working with these instances.</p>
 <p>See also:</p>
 <ul><li>
 <p><a href="Manager.html">Nucleon::Manager</a></p>
+</li><li>
+<p><a href="Plugin/Base.html">Nucleon::Plugin::Base</a></p>
 </li></ul>
 
   </div><!-- description -->
@@ -390,18 +392,38 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="new-doc">
             
-            
+            <p>Initialize a new <a href="../Nucleon.html">Nucleon</a> environment</p>
+
+<p>IMORTANT:  The environment constructor should accept no parameters!</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Void
+<dd>
+<p>This method does not return a value</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Manager.html">Nucleon::Manager</a></p>
+</li></ul>
             
           </div><!-- new-doc -->
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 49</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>
-  <span class="ruby-ivar">@plugin_types</span> = {}
-
-  <span class="ruby-ivar">@load_info</span>    = {}
-  <span class="ruby-ivar">@active_info</span>  = {}
+  <span class="ruby-keyword">super</span>({
+    <span class="ruby-value">:plugin_types</span> =<span class="ruby-operator">&gt;</span> {},
+    <span class="ruby-value">:load_info</span>    =<span class="ruby-operator">&gt;</span> {},
+    <span class="ruby-value">:active_info</span>  =<span class="ruby-operator">&gt;</span> {}
+  }, {}, <span class="ruby-keyword">true</span>, <span class="ruby-keyword">true</span>, <span class="ruby-keyword">false</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
           
@@ -431,34 +453,85 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="active_plugins-doc">
             
-            
+            <p>Return active plugins for namespaces, plugin types, providers if specified</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace to return plugin instance</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+return plugin instance</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, String, Symbol
+<dd>
+<p><strong>provider</strong>  <a href="Plugin.html">Plugin</a> provider to
+return plugin instance</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|Symbol|Symbol|Symbol|Nucleon::Plugin::Base&gt;
+<dd>
+<p>Returns all plugin instances if no parameters given</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|Symbol|Symbol|Nucleon::Plugin::Base&gt;
+<dd>
+<p>Returns namespace plugin instances if only namespace given</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|Symbol|Nucleon::Plugin::Base&gt;
+<dd>
+<p>Returns plugin type instances if namespace and plugin type given</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|Nucleon::Plugin::Base&gt;
+<dd>
+<p>Returns provider instances if namespace, plugin type, and provider given</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- active_plugins-doc -->
 
           
           <div class="method-source-code" id="active_plugins-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 267</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 502</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">active_plugins</span>(<span class="ruby-identifier">namespace</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">plugin_type</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">active_info</span> = <span class="ruby-identifier">get_hash</span>(<span class="ruby-value">:active_info</span>)
+
   <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">namespace</span>
   <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin_type</span>
   <span class="ruby-identifier">provider</span>    = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">provider</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">provider</span>
   <span class="ruby-identifier">results</span>     = {}
 
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">namespace</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@active_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin_type</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">provider</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">empty?</span>
-        <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">instance_name</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">|</span>
-          <span class="ruby-identifier">plugin</span>                 = <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">instance_name</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">namespace</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">active_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin_type</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">active_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">provider</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">instance_name</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">plugin</span>                 = <span class="ruby-identifier">active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">instance_name</span>]
           <span class="ruby-identifier">results</span>[<span class="ruby-identifier">instance_name</span>] = <span class="ruby-identifier">plugin</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">plugin_provider</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">provider</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">provider</span>
-        <span class="ruby-identifier">results</span> = <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>]
+        <span class="ruby-identifier">results</span> = <span class="ruby-identifier">active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>]
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">plugin_type</span>
-      <span class="ruby-identifier">results</span> = <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>]
+      <span class="ruby-identifier">results</span> = <span class="ruby-identifier">active_info</span>[<span class="ruby-identifier">namespace</span>]
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">namespace</span>
-    <span class="ruby-identifier">results</span> = <span class="ruby-ivar">@active_info</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">active_info</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">results</span>
 <span class="ruby-keyword">end</span></pre>
@@ -484,13 +557,40 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="class_const-doc">
             
-            
+            <p>Return a fully formed class name as a machine usable constant</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol, Array
+<dd>
+<p><strong>name</strong>  Class name components</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>separator</strong>  Class component separator (default
+&#39;::&#39;)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Class Constant
+<dd>
+<p>Returns class constant for fully formed class name of given components</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-class_name">class_name</a></p>
+</li></ul>
             
           </div><!-- class_const-doc -->
 
           
           <div class="method-source-code" id="class_const-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 319</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 581</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">class_const</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-string">&#39;::&#39;</span>)
   <span class="ruby-identifier">components</span> = <span class="ruby-identifier">class_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span>, <span class="ruby-constant">TRUE</span>)
   <span class="ruby-identifier">constant</span>   = <span class="ruby-constant">Object</span>
@@ -516,7 +616,7 @@ usually working with these instances.</p>
         
         <div class="method-heading">
           <span class="method-name">class_name</span><span
-            class="method-args">(name, separator = '::', want_array = FALSE)</span>
+            class="method-args">(name, separator = '::', want_array = false)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -524,14 +624,45 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="class_name-doc">
             
-            
+            <p>Return a fully formed class name as a string</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol, Array
+<dd>
+<p><strong>name</strong>  Class name components</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>separator</strong>  Class component separator (default
+&#39;::&#39;)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p><strong>want_array</strong>  Whether or not to return array of final
+components or string version</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Returns fully rendered class name as string unless want_array is true</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>Array
+<dd>
+<p>Returns array of final class components if want_array is true</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- class_name-doc -->
 
           
           <div class="method-source-code" id="class_name-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 295</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">class_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-string">&#39;::&#39;</span>, <span class="ruby-identifier">want_array</span> = <span class="ruby-constant">FALSE</span>)
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 545</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">class_name</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">separator</span> = <span class="ruby-string">&#39;::&#39;</span>, <span class="ruby-identifier">want_array</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">components</span> = []
 
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">name</span>
@@ -566,7 +697,7 @@ usually working with these instances.</p>
         
         <div class="method-heading">
           <span class="method-name">create_plugin</span><span
-            class="method-args">(namespace, plugin_type, provider, options = {}, &code)</span>
+            class="method-args">(namespace, plugin_type, provider, options = {}) { |type_info, options| ... }</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -574,46 +705,115 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="create_plugin-doc">
             
-            
+            <p>Create a new plugin instance of a specified provider</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name of
+provider</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>provider</strong>  <a href="Plugin.html">Plugin</a> provider to
+return load information</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Create options (plugin initialization
+configurations)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="Plugin/Base.html">Nucleon::Plugin::Base</a>
+<dd>
+<p>Returns plugin instance (inherited from <a
+href="Plugin/Base.html">Nucleon::Plugin::Base</a>)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li><li>
+<p><strong>Yields</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|ANY&gt;
+<dd>
+<p><strong>type_info</strong>  Provider load information if it has been loaded</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../Hash.html">Hash</a>
+<dd>
+<p><strong>options</strong>  Create options (plugin initialization
+configurations)</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Plugin/Base.html">Nucleon::Plugin::Base</a></p>
+</li><li>
+<p><a href="Config.html#method-i-get">Nucleon::Config#get</a></p>
+</li><li>
+<p><a href="Config.html#method-i-set">Nucleon::Config#set</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li><li>
+<p><a
+href="Environment.html#method-i-plugin_type_defined-3F">plugin_type_defined?</a></p>
+</li><li>
+<p><a href="Environment.html#method-i-loaded_plugin">loaded_plugin</a></p>
+</li><li>
+<p><a href="Config.html">Nucleon::Config</a></p>
+</li><li>
+<p><a href="Config.html#method-c-array">Nucleon::Config.array</a></p>
+</li><li>
+<p><a href="Util/Data.html#method-c-subset">Nucleon::Util::Data.subset</a></p>
+</li><li>
+<p><a href="Facade.html#method-i-sha1">Nucleon::Facade#sha1</a></p>
+</li></ul>
             
           </div><!-- create_plugin-doc -->
 
           
           <div class="method-source-code" id="create_plugin-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 201</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">code</span>)
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 390</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">code</span>) <span class="ruby-comment"># :yields: type_info, options</span>
   <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)
   <span class="ruby-identifier">provider</span>    = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">provider</span>)
+  <span class="ruby-identifier">plugin</span>      = <span class="ruby-keyword">nil</span>
 
   <span class="ruby-keyword">unless</span> <span class="ruby-identifier">plugin_type_defined?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
-    <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">plugin</span>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">type_info</span> = <span class="ruby-identifier">loaded_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
-    <span class="ruby-identifier">ids</span>             = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">type_info</span>[<span class="ruby-value">:class</span>].<span class="ruby-identifier">register_ids</span>).<span class="ruby-identifier">flatten</span>
+    <span class="ruby-identifier">ids</span>             = <span class="ruby-identifier">array</span>(<span class="ruby-identifier">type_info</span>[<span class="ruby-value">:class</span>].<span class="ruby-identifier">register_ids</span>).<span class="ruby-identifier">flatten</span>
     <span class="ruby-identifier">instance_config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>)
     <span class="ruby-identifier">ensure_new</span>      = <span class="ruby-identifier">instance_config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:new</span>, <span class="ruby-keyword">false</span>)
 
     <span class="ruby-identifier">instance_options</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">subset</span>(<span class="ruby-identifier">instance_config</span>.<span class="ruby-identifier">export</span>, <span class="ruby-identifier">ids</span>, <span class="ruby-keyword">true</span>)
     <span class="ruby-identifier">instance_name</span>    = <span class="ruby-node">&quot;#{provider}_&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">sha1</span>(<span class="ruby-identifier">instance_options</span>)
+    <span class="ruby-identifier">plugin</span>           = <span class="ruby-identifier">get</span>([ <span class="ruby-value">:active_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">instance_name</span> ])
 
-    <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>] = {} <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@active_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-    <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>] = {} <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
-
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">ensure_new</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span> ( <span class="ruby-identifier">instance_name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">instance_name</span>) )
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">ensure_new</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span> ( <span class="ruby-identifier">instance_name</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">plugin</span> )
       <span class="ruby-identifier">type_info</span>[<span class="ruby-value">:instance_name</span>] = <span class="ruby-identifier">instance_name</span>
 
       <span class="ruby-identifier">options</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">type_info</span>, <span class="ruby-identifier">options</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">code</span>
       <span class="ruby-identifier">options</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:new</span>)
 
-      <span class="ruby-identifier">plugin</span>  = <span class="ruby-identifier">type_info</span>[<span class="ruby-value">:class</span>].<span class="ruby-identifier">new</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
-
-      <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">instance_name</span>] = <span class="ruby-identifier">plugin</span>
+      <span class="ruby-identifier">plugin</span> = <span class="ruby-identifier">type_info</span>[<span class="ruby-value">:class</span>].<span class="ruby-identifier">new</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">options</span>)
+      <span class="ruby-identifier">set</span>([ <span class="ruby-value">:active_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">instance_name</span> ], <span class="ruby-identifier">plugin</span>)
     <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">instance_name</span>]
   <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">nil</span>
+  <span class="ruby-identifier">plugin</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- create_plugin-source -->
           
@@ -629,7 +829,7 @@ usually working with these instances.</p>
         
         <div class="method-heading">
           <span class="method-name">define_plugin</span><span
-            class="method-args">(namespace, plugin_type, base_path, file, &code)</span>
+            class="method-args">(namespace, plugin_type, base_path, file) { |data| ... }</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -637,23 +837,70 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="define_plugin-doc">
             
-            
+            <p>Define a new plugin provider of a specified plugin type.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+fetch default provider</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>base_path</strong>  Base load path of the plugin provider</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>file</strong>  File that contains the provider definition</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Environment.html">Nucleon::Environment</a>
+<dd>
+<p>Returns reference to self for compound operations</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li><li>
+<p><strong>Yields</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="../Hash.html">Hash</a>&lt;Symbol|ANY&gt;
+<dd>
+<p><strong>data</strong>  <a href="Plugin.html">Plugin</a> load information</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li><li>
+<p><a href="Config.html#method-i-set">Nucleon::Config#set</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li><li>
+<p><a href="Environment.html#method-i-parse_plugin_info">parse_plugin_info</a></p>
+</li></ul>
             
           </div><!-- define_plugin-doc -->
 
           
           <div class="method-source-code" id="define_plugin-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 112</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">file</span>, &amp;<span class="ruby-identifier">code</span>)
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 223</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">define_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">file</span>, &amp;<span class="ruby-identifier">code</span>) <span class="ruby-comment"># :yields: data</span>
   <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)
-
-  <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>]              = {} <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@load_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-  <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>] = {} <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
-
   <span class="ruby-identifier">plugin_info</span> = <span class="ruby-identifier">parse_plugin_info</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">file</span>)
 
-  <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_info</span>[<span class="ruby-value">:provider</span>])
+  <span class="ruby-keyword">unless</span> <span class="ruby-identifier">get_hash</span>([ <span class="ruby-value">:load_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span> ]).<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_info</span>[<span class="ruby-value">:provider</span>])
     <span class="ruby-identifier">data</span> = {
       <span class="ruby-value">:namespace</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">namespace</span>,
       <span class="ruby-value">:type</span>             =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">plugin_type</span>,
@@ -665,8 +912,9 @@ usually working with these instances.</p>
     }
     <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">data</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">code</span>
 
-    <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">plugin_info</span>[<span class="ruby-value">:provider</span>]] = <span class="ruby-identifier">data</span>
+    <span class="ruby-identifier">set</span>([ <span class="ruby-value">:load_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_info</span>[<span class="ruby-value">:provider</span>] ], <span class="ruby-identifier">data</span>)
   <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- define_plugin-source -->
           
@@ -690,18 +938,51 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="define_plugin_type-doc">
             
-            
+            <p>Define a new plugin type in a specified namespace.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name
+within namespace</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, String, Symbol
+<dd>
+<p><strong>default_provider</strong>  Default provider (defaults to none)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Environment.html">Nucleon::Environment</a>
+<dd>
+<p>Returns reference to self for compound operations</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-set">Nucleon::Config#set</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- define_plugin_type-doc -->
 
           
           <div class="method-source-code" id="define_plugin_type-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 74</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 126</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">define_plugin_type</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">default_provider</span> = <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">namespace</span> = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-
-  <span class="ruby-ivar">@plugin_types</span>[<span class="ruby-identifier">namespace</span>] = {} <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@plugin_types</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-  <span class="ruby-ivar">@plugin_types</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)] = <span class="ruby-identifier">default_provider</span>
+  <span class="ruby-identifier">set</span>([ <span class="ruby-value">:plugin_types</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>) ], <span class="ruby-identifier">default_provider</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- define_plugin_type-source -->
           
@@ -725,19 +1006,48 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="define_plugin_types-doc">
             
-            
+            <p>Define one or more new plugin types in a specified namespace.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="../Hash.html">Hash</a>&lt;String, Symbol|String, Symbol&gt;
+<dd>
+<p><strong>type_info</strong>  <a href="Plugin.html">Plugin</a> type, default
+provider pairs</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Environment.html">Nucleon::Environment</a>
+<dd>
+<p>Returns reference to self for compound operations</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a
+href="Environment.html#method-i-define_plugin_type">define_plugin_type</a></p>
+</li></ul>
             
           </div><!-- define_plugin_types-doc -->
 
           
           <div class="method-source-code" id="define_plugin_types-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 83</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">define_plugin_types</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">type_info</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">type_info</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>)
     <span class="ruby-identifier">type_info</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">default_provider</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">define_plugin_type</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">default_provider</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">self</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- define_plugin_types-source -->
           
@@ -761,22 +1071,58 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="get_plugin-doc">
             
-            
+            <p>Return a plugin instance by name if it exists</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains the plugin</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_name</strong>  <a href="Plugin.html">Plugin</a> name to
+return</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="Plugin/Base.html">Nucleon::Plugin::Base</a>
+<dd>
+<p>Returns a plugin instance of name specified if it exists</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Plugin/Base.html">Nucleon::Plugin::Base</a></p>
+</li><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- get_plugin-doc -->
 
           
           <div class="method-source-code" id="get_plugin-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 238</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 441</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">plugin_name</span>)
   <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)
 
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@active_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
-    <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">instance_name</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">|</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">plugin_name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">plugin_name</span>.<span class="ruby-identifier">to_s</span>
-        <span class="ruby-keyword">return</span> <span class="ruby-identifier">plugin</span>
-      <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">get_hash</span>([ <span class="ruby-value">:active_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span> ]).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">instance_name</span>, <span class="ruby-identifier">plugin</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin</span>.<span class="ruby-identifier">plugin_name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">plugin_name</span>.<span class="ruby-identifier">to_s</span>
+      <span class="ruby-keyword">return</span> <span class="ruby-identifier">plugin</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">nil</span>
@@ -803,26 +1149,52 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="loaded_plugin-doc">
             
-            
+            <p>Return the load information for a specified plugin provider if it exists</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name of
+provider</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>provider</strong>  <a href="Plugin.html">Plugin</a> provider to
+return load information</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|ANY&gt;
+<dd>
+<p>Returns provider load information if provider exists, nil otherwise</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get">Nucleon::Config#get</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- loaded_plugin-doc -->
 
           
           <div class="method-source-code" id="loaded_plugin-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 139</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 263</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">loaded_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
-  <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-  <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)
-  <span class="ruby-identifier">provider</span>    = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">provider</span>)
-  <span class="ruby-identifier">info</span>        = <span class="ruby-keyword">nil</span>
-
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@load_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>) <span class="ruby-operator">&amp;&amp;</span>
-    <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>) <span class="ruby-operator">&amp;&amp;</span>
-    <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">provider</span>)
-
-    <span class="ruby-identifier">info</span> = <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">provider</span>]
-  <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">info</span>
+  <span class="ruby-identifier">get</span>([ <span class="ruby-value">:load_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>), <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">provider</span>) ], <span class="ruby-keyword">nil</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- loaded_plugin-source -->
           
@@ -846,31 +1218,89 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="loaded_plugins-doc">
             
-            
+            <p>Return the load information for namespaces, plugin types, providers if it
+exists</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace to return load information</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+return load information</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, String, Symbol
+<dd>
+<p><strong>provider</strong>  <a href="Plugin.html">Plugin</a> provider to
+return load information</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>ANY
+<dd>
+<p><strong>default</strong>  Default results if nothing found (empty hash by
+default)</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|Symbol|Symbol|Symbol|ANY&gt;
+<dd>
+<p>Returns all load information if no parameters given</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|Symbol|Symbol|ANY&gt;
+<dd>
+<p>Returns namespace load information if only namespace given</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|Symbol|ANY&gt;
+<dd>
+<p>Returns plugin type load information if namespace and plugin type given</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>nil, <a href="../Hash.html">Hash</a>&lt;Symbol|ANY&gt;
+<dd>
+<p>Returns provider load information if namespace, plugin type, and provider
+given</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- loaded_plugins-doc -->
 
           
           <div class="method-source-code" id="loaded_plugins-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 156</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 289</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">loaded_plugins</span>(<span class="ruby-identifier">namespace</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">plugin_type</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">provider</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">default</span> = {})
+  <span class="ruby-identifier">load_info</span>   = <span class="ruby-identifier">get_hash</span>(<span class="ruby-value">:load_info</span>)
+
   <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">namespace</span>
   <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin_type</span>
   <span class="ruby-identifier">provider</span>    = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">provider</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">provider</span>
   <span class="ruby-identifier">results</span>     = <span class="ruby-identifier">default</span>
 
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">namespace</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@load_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin_type</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">provider</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">provider</span>)
-        <span class="ruby-identifier">results</span> = <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">provider</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">namespace</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">load_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">plugin_type</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">load_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">provider</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">provider</span>)
+        <span class="ruby-identifier">results</span> = <span class="ruby-identifier">load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>][<span class="ruby-identifier">provider</span>]
       <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">provider</span>
-        <span class="ruby-identifier">results</span> = <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>]
+        <span class="ruby-identifier">results</span> = <span class="ruby-identifier">load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>]
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">plugin_type</span>
-      <span class="ruby-identifier">results</span> = <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>]
+      <span class="ruby-identifier">results</span> = <span class="ruby-identifier">load_info</span>[<span class="ruby-identifier">namespace</span>]
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">namespace</span>
-    <span class="ruby-identifier">results</span> = <span class="ruby-ivar">@load_info</span>
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">load_info</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">results</span>
 <span class="ruby-keyword">end</span></pre>
@@ -896,15 +1326,32 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="namespaces-doc">
             
-            
+            <p>Return all of the defined namespaces in the plugin environment.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Array&lt;Symbol&gt;
+<dd>
+<p>Array of defined plugin namespaces</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
             
           </div><!-- namespaces-doc -->
 
           
           <div class="method-source-code" id="namespaces-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 59</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 87</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">namespaces</span>
-  <span class="ruby-ivar">@plugin_types</span>.<span class="ruby-identifier">keys</span>
+  <span class="ruby-identifier">get_hash</span>(<span class="ruby-value">:plugin_types</span>).<span class="ruby-identifier">keys</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- namespaces-source -->
           
@@ -928,13 +1375,44 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="plugin_class-doc">
             
-            
+            <p>Return a class constant representing a base plugin class generated from
+namespace and plugin_type.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  <a href="Plugin.html">Plugin</a> namespace to
+constantize</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type to
+constantize</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Returns a class constant representing the plugin namespace and type</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-class_const">class_const</a></p>
+</li><li>
+<p><a href="Environment.html#method-i-sanitize_class">sanitize_class</a></p>
+</li></ul>
             
           </div><!-- plugin_class-doc -->
 
           
           <div class="method-source-code" id="plugin_class-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 347</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 638</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_class</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
   <span class="ruby-identifier">class_const</span>([ <span class="ruby-identifier">sanitize_class</span>(<span class="ruby-identifier">namespace</span>), <span class="ruby-value">:plugin</span>, <span class="ruby-identifier">sanitize_class</span>(<span class="ruby-identifier">plugin_type</span>) ])
 <span class="ruby-keyword">end</span></pre>
@@ -960,20 +1438,52 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="plugin_has_provider-3F-doc">
             
-            
+            <p>Check if a specified plugin provider has been loaded</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+check</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>provider</strong>  <a href="Plugin.html">Plugin</a> provider name
+to check</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Returns true if plugin provider has been loaded, false otherwise</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- plugin_has_provider-3F-doc -->
 
           
           <div class="method-source-code" id="plugin_has_provider-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 189</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 352</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_has_provider?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">provider</span>)
-  <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-  <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)
-  <span class="ruby-identifier">provider</span>    = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">provider</span>)
-
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@load_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
-  <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">provider</span>)
+  <span class="ruby-identifier">get_hash</span>([ <span class="ruby-value">:load_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>) ]).<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">provider</span>))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- plugin_has_provider-3F-source -->
           
@@ -997,18 +1507,47 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="plugin_has_type-3F-doc">
             
-            
+            <p>Check if a specified plugin type has been loaded</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+check</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Returns true if plugin type has been loaded, false otherwise</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- plugin_has_type-3F-doc -->
 
           
           <div class="method-source-code" id="plugin_has_type-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 180</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 330</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_has_type?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
-  <span class="ruby-identifier">namespace</span> = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@load_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-  <span class="ruby-ivar">@load_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>))
+  <span class="ruby-identifier">get_hash</span>([ <span class="ruby-value">:load_info</span>, <span class="ruby-identifier">namespace</span> ]).<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- plugin_has_type-3F-source -->
           
@@ -1032,18 +1571,47 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="plugin_type_default-doc">
             
-            
+            <p>Return the default provider currently registered for a plugin type</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+fetch default provider</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, Symbol
+<dd>
+<p>Returns default provider if plugin type exists, nil otherwise</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get">Nucleon::Config#get</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- plugin_type_default-doc -->
 
           
           <div class="method-source-code" id="plugin_type_default-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 102</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 191</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_type_default</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
-  <span class="ruby-identifier">namespace</span> = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">nil</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@plugin_types</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-  <span class="ruby-ivar">@plugin_types</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)]
+  <span class="ruby-identifier">get</span>([ <span class="ruby-value">:plugin_types</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>) ])
 <span class="ruby-keyword">end</span></pre>
           </div><!-- plugin_type_default-source -->
           
@@ -1067,18 +1635,47 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="plugin_type_defined-3F-doc">
             
-            
+            <p>Check if a specified plugin type has been defined</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+check within namespace</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Boolean
+<dd>
+<p>Returns true if plugin type exists, false otherwise</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- plugin_type_defined-3F-doc -->
 
           
           <div class="method-source-code" id="plugin_type_defined-3F-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 93</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_type_defined?</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>)
-  <span class="ruby-identifier">namespace</span> = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-
-  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@plugin_types</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-  <span class="ruby-ivar">@plugin_types</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>))
+  <span class="ruby-identifier">get_hash</span>([ <span class="ruby-value">:plugin_types</span>, <span class="ruby-identifier">namespace</span> ]).<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- plugin_type_defined-3F-source -->
           
@@ -1102,18 +1699,37 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="plugin_types-doc">
             
-            
+            <p>Return all of the defined plugin types in a plugin namespace.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Array&lt;Symbol&gt;
+<dd>
+<p>Array of defined plugin types</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Config.html#method-i-get_hash">Nucleon::Config#get_hash</a></p>
+</li></ul>
             
           </div><!-- plugin_types-doc -->
 
           
           <div class="method-source-code" id="plugin_types-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 65</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">plugin_types</span>(<span class="ruby-identifier">namespace</span>)
-  <span class="ruby-identifier">namespace</span> = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-
-  <span class="ruby-keyword">return</span> [] <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@plugin_types</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>)
-  <span class="ruby-ivar">@plugin_types</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">keys</span>
+  <span class="ruby-identifier">get_hash</span>([ <span class="ruby-value">:plugin_types</span>, <span class="ruby-identifier">namespace</span> ]).<span class="ruby-identifier">keys</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- plugin_types-source -->
           
@@ -1129,7 +1745,7 @@ usually working with these instances.</p>
         
         <div class="method-heading">
           <span class="method-name">remove_plugin</span><span
-            class="method-args">(namespace, plugin_type, instance_name, &code)</span>
+            class="method-args">(namespace, plugin_type, instance_name) { |plugin| ... }</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
@@ -1137,22 +1753,63 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="remove_plugin-doc">
             
-            
+            <p>Remove a plugin instance from the environment</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains the plugin</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>instance_name</strong>  <a href="Plugin.html">Plugin</a> instance
+name to tremove</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>nil, <a href="Plugin/Base.html">Nucleon::Plugin::Base</a>
+<dd>
+<p>Returns the plugin instance that was removed from environment</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li><li>
+<p><strong>Yields</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="Plugin/Base.html">Nucleon::Plugin::Base</a>
+<dd>
+<p><strong>plugin</strong>  <a href="Plugin.html">Plugin</a> object being
+removed (cleanup)</p>
+</dd></dl>
+</li></ul>
+</li></ul>
+
+<p>See:</p>
+<ul><li>
+<p><a href="Plugin/Base.html">Nucleon::Plugin::Base</a></p>
+</li><li>
+<p><a href="Config.html#method-i-delete">Nucleon::Config#delete</a></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li></ul>
             
           </div><!-- remove_plugin-doc -->
 
           
           <div class="method-source-code" id="remove_plugin-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 254</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">instance_name</span>, &amp;<span class="ruby-identifier">code</span>)
-  <span class="ruby-identifier">namespace</span>   = <span class="ruby-identifier">namespace</span>.<span class="ruby-identifier">to_sym</span>
-  <span class="ruby-identifier">plugin_type</span> = <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>)
-
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@active_info</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">namespace</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>].<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">plugin_type</span>)
-    <span class="ruby-identifier">plugin</span> = <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>]
-    <span class="ruby-ivar">@active_info</span>[<span class="ruby-identifier">namespace</span>][<span class="ruby-identifier">plugin_type</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">instance_name</span>)
-    <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">plugin</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">code</span>
-  <span class="ruby-keyword">end</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 475</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">remove_plugin</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">instance_name</span>, &amp;<span class="ruby-identifier">code</span>) <span class="ruby-comment"># :yields: plugin</span>
+  <span class="ruby-identifier">plugin</span> = <span class="ruby-identifier">delete</span>([ <span class="ruby-value">:active_info</span>, <span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">plugin_type</span>), <span class="ruby-identifier">instance_name</span> ])
+  <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">plugin</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">code</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">plugin</span>
+  <span class="ruby-identifier">plugin</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- remove_plugin-source -->
           
@@ -1182,13 +1839,50 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="parse_plugin_info-doc">
             
-            
+            <p>Parse plugin information for a specified namespace and plugin type.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>namespace</strong>  Namespace that contains plugin types</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>plugin_type</strong>  <a href="Plugin.html">Plugin</a> type name to
+fetch default provider</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>base_path</strong>  Base load path of the plugin provider</p>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p><strong>file</strong>  File that contains the provider definition</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="../Hash.html">Hash</a>&lt;Symbol|ANY&gt;
+<dd>
+<p>Returns a hash of the parsed plugin information</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
+
+<p>See also:</p>
+<ul><li>
+<p><a href="Environment.html#method-i-sanitize_id">sanitize_id</a></p>
+</li><li>
+<p><a href="Environment.html#method-i-sanitize_class">sanitize_class</a></p>
+</li></ul>
             
           </div><!-- parse_plugin_info-doc -->
 
           
           <div class="method-source-code" id="parse_plugin_info-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 353</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 659</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_plugin_info</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">base_path</span>, <span class="ruby-identifier">file</span>)
   <span class="ruby-identifier">dir_components</span>   = <span class="ruby-identifier">base_path</span>.<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">SEPARATOR</span>)
   <span class="ruby-identifier">file_components</span>  = <span class="ruby-identifier">file</span>.<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">SEPARATOR</span>)
@@ -1240,13 +1934,30 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="sanitize_class-doc">
             
-            
+            <p>Sanitize a class identifier for internal use.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>class_component</strong>  Class identifier to sanitize</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String
+<dd>
+<p>Returns a sanitized string representing the given class component</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- sanitize_class-doc -->
 
           
           <div class="method-source-code" id="sanitize_class-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 340</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 618</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sanitize_class</span>(<span class="ruby-identifier">class_component</span>)
   <span class="ruby-identifier">class_component</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;_&#39;</span>).<span class="ruby-identifier">collect</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">elem</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">0</span>,<span class="ruby-value">1</span>).<span class="ruby-identifier">capitalize</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">elem</span>.<span class="ruby-identifier">slice</span>(<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>) }.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1272,13 +1983,30 @@ usually working with these instances.</p>
         <div class="method-description">
           <div class="method-doc" id="sanitize_id-doc">
             
-            
+            <p>Sanitize an identifier for internal plugin environment use.</p>
+<ul><li>
+<p><strong>Parameters</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>String, Symbol
+<dd>
+<p><strong>id_component</strong>  Identifier to sanitize</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong>Returns</strong></p>
+<ul><li><dl class="rdoc-list label-list"><dt>Symbol
+<dd>
+<p>Returns a sanitized symbol representing the given id component</p>
+</dd></dl>
+</li></ul>
+</li><li>
+<p><strong><a href="Errors.html">Errors</a></strong></p>
+</li></ul>
             
           </div><!-- sanitize_id-doc -->
 
           
           <div class="method-source-code" id="sanitize_id-source">
-            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 333</span>
+            <pre><span class="ruby-comment"># File lib/core/environment.rb, line 603</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sanitize_id</span>(<span class="ruby-identifier">id_component</span>)
   <span class="ruby-identifier">id_component</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/([a-z0-9])(?:\-|\_)?([A-Z])/</span>, <span class="ruby-string">&#39;\1_\2&#39;</span>).<span class="ruby-identifier">downcase</span>.<span class="ruby-identifier">to_sym</span>
 <span class="ruby-keyword">end</span></pre>
