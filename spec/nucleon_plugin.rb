@@ -32,15 +32,70 @@ RSpec.shared_context "nucleon_plugin" do
   end
 
   let(:plugin_loaded_plugins) do
-    plugin_directory = File.join(File.expand_path('..', File.dirname(__FILE__)), 'lib', 'core', '..', 'nucleon')
+    # Keep base directory out of data object as it might change with testing platform
+    base_directory   = File.expand_path('..', File.dirname(__FILE__))
+    plugin_directory = File.join('lib', 'nucleon')
 
+    # Simulate autoloading
     project_directory    = File.join(plugin_directory, 'project')
+    project_git_file     = File.join(project_directory, 'git.rb')
+    require File.join(base_directory, project_git_file)
+    
+    project_github_file  = File.join(project_directory, 'github.rb')
+    require File.join(base_directory, project_github_file)
+    
     event_directory      = File.join(plugin_directory, 'event')
-    extension_directory  = File.join(plugin_directory, 'extension')
+    event_regex_file     = File.join(event_directory, 'regex.rb')
+    require File.join(base_directory, event_regex_file)
+    
+    extension_directory    = File.join(plugin_directory, 'extension')
+    extension_project_file = File.join(extension_directory, 'project.rb')
+    require File.join(base_directory, extension_project_file)
+    
     command_directory    = File.join(plugin_directory, 'command')
+    command_bash_file    = File.join(command_directory, 'bash.rb')
+    require File.join(base_directory, command_bash_file)
+    
     translator_directory = File.join(plugin_directory, 'translator')
-    action_directory     = File.join(plugin_directory, 'action')
+    translator_json_file = File.join(translator_directory, 'JSON.rb')
+    require File.join(base_directory, translator_json_file)
+    
+    translator_yaml_file = File.join(translator_directory, 'YAML.rb')
+    require File.join(base_directory, translator_yaml_file)
+    
+    action_directory           = File.join(plugin_directory, 'action')
+    action_project_directory   = File.join(action_directory, 'project')
+    
+    action_project_update_file = File.join(action_project_directory, 'update.rb')
+    require File.join(base_directory, action_project_update_file)
+    
+    action_project_create_file = File.join(action_project_directory, 'create.rb')
+    require File.join(base_directory, action_project_create_file)
+    
+    action_project_save_file = File.join(action_project_directory, 'save.rb')
+    require File.join(base_directory, action_project_save_file)
+    
+    action_project_remove_file = File.join(action_project_directory, 'remove.rb')
+    require File.join(base_directory, action_project_remove_file)
+    
+    action_project_add_file = File.join(action_project_directory, 'add.rb')
+    require File.join(base_directory, action_project_add_file)
+    
+    action_extract_file = File.join(action_directory, 'extract.rb')
+    require File.join(base_directory, action_extract_file)
+    
     template_directory   = File.join(plugin_directory, 'template')
+    template_json_file   = File.join(template_directory, 'JSON.rb')
+    require File.join(base_directory, template_json_file)
+    
+    template_yaml_file   = File.join(template_directory, 'YAML.rb')
+    require File.join(base_directory, template_yaml_file)
+    
+    template_wrapper_file = File.join(template_directory, 'wrapper.rb')
+    require File.join(base_directory, template_wrapper_file)
+    
+    template_environment_file = File.join(template_directory, 'environment.rb')
+    require File.join(base_directory, template_environment_file)
 
     {
       :nucleon => {
@@ -49,7 +104,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :project,
             :base_path        => project_directory,
-            :file             => File.join(project_directory, 'github.rb'),
+            :file             => project_github_file,
             :provider         => :github,
             :directory        => project_directory,
             :class_components => [ "Nucleon", "Project", "Github" ],
@@ -59,7 +114,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :project,
             :base_path        => project_directory,
-            :file             => File.join(project_directory, 'git.rb'),
+            :file             => project_git_file,
             :provider         => :git,
             :directory        => project_directory,
             :class_components => [ "Nucleon", "Project", "Git" ],
@@ -71,7 +126,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :event,
             :base_path        => event_directory,
-            :file             => File.join(event_directory, 'regex.rb'),
+            :file             => event_regex_file,
             :provider         => :regex,
             :directory        => event_directory,
             :class_components => ["Nucleon", "Event", "Regex"],
@@ -83,7 +138,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :extension,
             :base_path        => extension_directory,
-            :file             => File.join(extension_directory, 'project.rb'),
+            :file             => extension_project_file,
             :provider         => :project,
             :directory        => extension_directory,
             :class_components => ["Nucleon", "Extension", "Project"],
@@ -95,7 +150,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :command,
             :base_path        => command_directory,
-            :file             => File.join(command_directory, 'bash.rb'),
+            :file             => command_bash_file,
             :provider         => :bash,
             :directory        => command_directory,
             :class_components => ["Nucleon", "Command", "Bash"],
@@ -107,7 +162,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :translator,
             :base_path        => translator_directory,
-            :file             => File.join(translator_directory, 'JSON.rb'),
+            :file             => translator_json_file,
             :provider         => :json,
             :directory        => translator_directory,
             :class_components => [ "Nucleon", "Translator", "JSON" ],
@@ -117,7 +172,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :translator,
             :base_path        => translator_directory,
-            :file             => File.join(translator_directory, 'YAML.rb'),
+            :file             => translator_yaml_file,
             :provider         => :yaml,
             :directory        => translator_directory,
             :class_components => [ "Nucleon", "Translator", "YAML" ],
@@ -129,9 +184,9 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :action,
             :base_path        => action_directory,
-            :file             => File.join(action_directory, 'project', 'update.rb'),
+            :file             => action_project_update_file,
             :provider         => :project_update,
-            :directory        => File.join(action_directory, 'project'),
+            :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Update" ],
             :class            => Nucleon::Action::Project::Update,
             :description      => {
@@ -148,9 +203,9 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :action,
             :base_path        => action_directory,
-            :file             => File.join(action_directory, 'project', 'create.rb'),
+            :file             => action_project_create_file,
             :provider         => :project_create,
-            :directory        => File.join(action_directory, 'project'),
+            :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Create" ],
             :class            => Nucleon::Action::Project::Create,
             :description      => {
@@ -167,9 +222,9 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :action,
             :base_path        => action_directory,
-            :file             => File.join(action_directory, 'project', 'save.rb'),
+            :file             => action_project_save_file,
             :provider         => :project_save,
-            :directory        => File.join(action_directory, 'project'),
+            :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Save" ],
             :class            => Nucleon::Action::Project::Save,
             :description      => {
@@ -186,9 +241,9 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :action,
             :base_path        => action_directory,
-            :file             => File.join(action_directory, 'project', 'remove.rb'),
+            :file             => action_project_remove_file,
             :provider         => :project_remove,
-            :directory        => File.join(action_directory, 'project'),
+            :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Remove" ],
             :class            => Nucleon::Action::Project::Remove,
             :description      => {
@@ -205,9 +260,9 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :action,
             :base_path        => action_directory,
-            :file             => File.join(action_directory, 'project', 'add.rb'),
+            :file             => action_project_add_file,
             :provider         => :project_add,
-            :directory        => File.join(action_directory, 'project'),
+            :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Add" ],
             :class            => Nucleon::Action::Project::Add,
             :description      => {
@@ -224,7 +279,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :action,
             :base_path        => action_directory,
-            :file             => File.join(action_directory, 'extract.rb'),
+            :file             => action_extract_file,
             :provider         => :extract,
             :directory        => action_directory,
             :class_components => [ "Nucleon", "Action", "Extract" ],
@@ -245,7 +300,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :template,
             :base_path        => template_directory,
-            :file             => File.join(template_directory, 'JSON.rb'),
+            :file             => template_json_file,
             :provider         => :json,
             :directory        => template_directory,
             :class_components => [ "Nucleon", "Template", "JSON" ],
@@ -255,7 +310,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :template,
             :base_path        => template_directory,
-            :file             => File.join(template_directory, 'YAML.rb'),
+            :file             => template_yaml_file,
             :provider         => :yaml,
             :directory        => template_directory,
             :class_components => [ "Nucleon", "Template", "YAML" ],
@@ -265,7 +320,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :template,
             :base_path        => template_directory,
-            :file             => File.join(template_directory, 'wrapper.rb'),
+            :file             => template_wrapper_file,
             :provider         => :wrapper,
             :directory        => template_directory,
             :class_components => [ "Nucleon", "Template", "Wrapper" ],
@@ -275,7 +330,7 @@ RSpec.shared_context "nucleon_plugin" do
             :namespace        => :nucleon,
             :type             => :template,
             :base_path        => template_directory,
-            :file             => File.join(template_directory, 'environment.rb'),
+            :file             => template_environment_file,
             :provider         => :environment,
             :directory        => template_directory,
             :class_components => [ "Nucleon", "Template", "Environment" ],
