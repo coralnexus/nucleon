@@ -107,8 +107,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => project_github_file,
             :provider         => :github,
             :directory        => project_directory,
-            :class_components => [ "Nucleon", "Project", "Github" ],
-            :class            => Nucleon::Project::Github
+            :class_components => [ "Nucleon", "Project", "Github" ]
           },
           :git => {
             :namespace        => :nucleon,
@@ -117,8 +116,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => project_git_file,
             :provider         => :git,
             :directory        => project_directory,
-            :class_components => [ "Nucleon", "Project", "Git" ],
-            :class            => Nucleon::Project::Git
+            :class_components => [ "Nucleon", "Project", "Git" ]
           }
         },
         :event => {
@@ -129,8 +127,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => event_regex_file,
             :provider         => :regex,
             :directory        => event_directory,
-            :class_components => ["Nucleon", "Event", "Regex"],
-            :class            => Nucleon::Event::Regex
+            :class_components => ["Nucleon", "Event", "Regex"]
           }
         },
         :extension => {
@@ -141,8 +138,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => extension_project_file,
             :provider         => :project,
             :directory        => extension_directory,
-            :class_components => ["Nucleon", "Extension", "Project"],
-            :class            => Nucleon::Extension::Project
+            :class_components => ["Nucleon", "Extension", "Project"]
           }
         },
         :command => {
@@ -153,8 +149,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => command_bash_file,
             :provider         => :bash,
             :directory        => command_directory,
-            :class_components => ["Nucleon", "Command", "Bash"],
-            :class            => Nucleon::Command::Bash
+            :class_components => ["Nucleon", "Command", "Bash"]
           }
         },
         :translator => {
@@ -165,8 +160,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => translator_json_file,
             :provider         => :json,
             :directory        => translator_directory,
-            :class_components => [ "Nucleon", "Translator", "JSON" ],
-            :class            => Nucleon::Translator::JSON
+            :class_components => [ "Nucleon", "Translator", "JSON" ]
           },
           :yaml => {
             :namespace        => :nucleon,
@@ -175,8 +169,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => translator_yaml_file,
             :provider         => :yaml,
             :directory        => translator_directory,
-            :class_components => [ "Nucleon", "Translator", "YAML" ],
-            :class            => Nucleon::Translator::YAML
+            :class_components => [ "Nucleon", "Translator", "YAML" ]
           }
         },
         :action => {
@@ -188,7 +181,6 @@ RSpec.shared_context "nucleon_plugin" do
             :provider         => :project_update,
             :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Update" ],
-            :class            => Nucleon::Action::Project::Update,
             :description      => {
               :namespace   => :nucleon,
               :weight      => 900,
@@ -207,7 +199,6 @@ RSpec.shared_context "nucleon_plugin" do
             :provider         => :project_create,
             :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Create" ],
-            :class            => Nucleon::Action::Project::Create,
             :description      => {
               :namespace   => :nucleon,
               :weight      => 1000,
@@ -226,7 +217,6 @@ RSpec.shared_context "nucleon_plugin" do
             :provider         => :project_save,
             :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Save" ],
-            :class            => Nucleon::Action::Project::Save,
             :description      => {
               :namespace   => :nucleon,
               :weight      => 800,
@@ -245,7 +235,6 @@ RSpec.shared_context "nucleon_plugin" do
             :provider         => :project_remove,
             :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Remove" ],
-            :class            => Nucleon::Action::Project::Remove,
             :description      => {
               :namespace   => :nucleon,
               :weight      => 600,
@@ -264,7 +253,6 @@ RSpec.shared_context "nucleon_plugin" do
             :provider         => :project_add,
             :directory        => action_project_directory,
             :class_components => [ "Nucleon", "Action", "Project", "Add" ],
-            :class            => Nucleon::Action::Project::Add,
             :description      => {
               :namespace   => :nucleon,
               :weight      => 700,
@@ -283,7 +271,6 @@ RSpec.shared_context "nucleon_plugin" do
             :provider         => :extract,
             :directory        => action_directory,
             :class_components => [ "Nucleon", "Action", "Extract" ],
-            :class            => Nucleon::Action::Extract,
             :description      => {
               :namespace   => :nucleon,
               :weight      => -50,
@@ -303,8 +290,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => template_json_file,
             :provider         => :json,
             :directory        => template_directory,
-            :class_components => [ "Nucleon", "Template", "JSON" ],
-            :class            => Nucleon::Template::JSON
+            :class_components => [ "Nucleon", "Template", "JSON" ]
           },
           :yaml => {
             :namespace        => :nucleon,
@@ -313,8 +299,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => template_yaml_file,
             :provider         => :yaml,
             :directory        => template_directory,
-            :class_components => [ "Nucleon", "Template", "YAML" ],
-            :class            => Nucleon::Template::YAML
+            :class_components => [ "Nucleon", "Template", "YAML" ]
           },
           :wrapper => {
             :namespace        => :nucleon,
@@ -323,12 +308,40 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => template_wrapper_file,
             :provider         => :wrapper,
             :directory        => template_directory,
-            :class_components => [ "Nucleon", "Template", "Wrapper" ],
-            :class            => Nucleon::Template::Wrapper
+            :class_components => [ "Nucleon", "Template", "Wrapper" ]
           }
         }
       }
     }
+  end
+
+  let(:plugin_autoload_plugins) do
+    loaded_plugins = plugin_loaded_plugins
+
+    loaded_plugins[:nucleon][:project][:github][:class] = Nucleon::Project::Github
+    loaded_plugins[:nucleon][:project][:git][:class] = Nucleon::Project::Git
+
+    loaded_plugins[:nucleon][:event][:regex][:class] = Nucleon::Event::Regex
+
+    loaded_plugins[:nucleon][:extension][:project][:class] = Nucleon::Extension::Project
+
+    loaded_plugins[:nucleon][:command][:bash][:class] = Nucleon::Command::Bash
+
+    loaded_plugins[:nucleon][:translator][:json][:class] = Nucleon::Translator::JSON
+    loaded_plugins[:nucleon][:translator][:yaml][:class] = Nucleon::Translator::YAML
+
+    loaded_plugins[:nucleon][:action][:project_update][:class] = Nucleon::Action::Project::Update
+    loaded_plugins[:nucleon][:action][:project_create][:class] = Nucleon::Action::Project::Create
+    loaded_plugins[:nucleon][:action][:project_save][:class] = Nucleon::Action::Project::Save
+    loaded_plugins[:nucleon][:action][:project_remove][:class] = Nucleon::Action::Project::Remove
+    loaded_plugins[:nucleon][:action][:project_add][:class] = Nucleon::Action::Project::Add
+    loaded_plugins[:nucleon][:action][:extract][:class] = Nucleon::Action::Extract
+
+    loaded_plugins[:nucleon][:template][:json][:class] = Nucleon::Template::JSON
+    loaded_plugins[:nucleon][:template][:yaml][:class] = Nucleon::Template::YAML
+    loaded_plugins[:nucleon][:template][:wrapper][:class] = Nucleon::Template::Wrapper
+
+    loaded_plugins
   end
 
 
