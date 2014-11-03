@@ -31,71 +31,71 @@ RSpec.shared_context "nucleon_plugin" do
     }
   end
 
+  let(:plugin_base_path) do
+    File.expand_path('..', File.dirname(__FILE__))
+  end
+
   let(:plugin_loaded_plugins) do
     # Keep base directory out of data object as it might change with testing platform
-    base_directory   = File.expand_path('..', File.dirname(__FILE__))
     plugin_directory = File.join('lib', 'nucleon')
 
     # Simulate autoloading
     project_directory    = File.join(plugin_directory, 'project')
     project_git_file     = File.join(project_directory, 'git.rb')
-    require File.join(base_directory, project_git_file)
-    
+    require File.join(plugin_base_path, project_git_file)
+
     project_github_file  = File.join(project_directory, 'github.rb')
-    require File.join(base_directory, project_github_file)
-    
+    require File.join(plugin_base_path, project_github_file)
+
     event_directory      = File.join(plugin_directory, 'event')
     event_regex_file     = File.join(event_directory, 'regex.rb')
-    require File.join(base_directory, event_regex_file)
-    
+    require File.join(plugin_base_path, event_regex_file)
+
     extension_directory    = File.join(plugin_directory, 'extension')
     extension_project_file = File.join(extension_directory, 'project.rb')
-    require File.join(base_directory, extension_project_file)
-    
+    require File.join(plugin_base_path, extension_project_file)
+
     command_directory    = File.join(plugin_directory, 'command')
     command_bash_file    = File.join(command_directory, 'bash.rb')
-    require File.join(base_directory, command_bash_file)
-    
+    require File.join(plugin_base_path, command_bash_file)
+
     translator_directory = File.join(plugin_directory, 'translator')
     translator_json_file = File.join(translator_directory, 'JSON.rb')
-    require File.join(base_directory, translator_json_file)
-    
+    require File.join(plugin_base_path, translator_json_file)
+
     translator_yaml_file = File.join(translator_directory, 'YAML.rb')
-    require File.join(base_directory, translator_yaml_file)
-    
+    require File.join(plugin_base_path, translator_yaml_file)
+
     action_directory           = File.join(plugin_directory, 'action')
     action_project_directory   = File.join(action_directory, 'project')
-    
+
     action_project_update_file = File.join(action_project_directory, 'update.rb')
-    require File.join(base_directory, action_project_update_file)
-    
+    require File.join(plugin_base_path, action_project_update_file)
+
     action_project_create_file = File.join(action_project_directory, 'create.rb')
-    require File.join(base_directory, action_project_create_file)
-    
+    require File.join(plugin_base_path, action_project_create_file)
+
     action_project_save_file = File.join(action_project_directory, 'save.rb')
-    require File.join(base_directory, action_project_save_file)
-    
+    require File.join(plugin_base_path, action_project_save_file)
+
     action_project_remove_file = File.join(action_project_directory, 'remove.rb')
-    require File.join(base_directory, action_project_remove_file)
-    
+    require File.join(plugin_base_path, action_project_remove_file)
+
     action_project_add_file = File.join(action_project_directory, 'add.rb')
-    require File.join(base_directory, action_project_add_file)
-    
+    require File.join(plugin_base_path, action_project_add_file)
+
     action_extract_file = File.join(action_directory, 'extract.rb')
-    require File.join(base_directory, action_extract_file)
-    
+    require File.join(plugin_base_path, action_extract_file)
+
     template_directory   = File.join(plugin_directory, 'template')
     template_json_file   = File.join(template_directory, 'JSON.rb')
-    require File.join(base_directory, template_json_file)
-    
+    require File.join(plugin_base_path, template_json_file)
+
     template_yaml_file   = File.join(template_directory, 'YAML.rb')
-    require File.join(base_directory, template_yaml_file)
-    
+    require File.join(plugin_base_path, template_yaml_file)
+
     template_wrapper_file = File.join(template_directory, 'wrapper.rb')
-    require File.join(base_directory, template_wrapper_file)
-    
-    template_environment_file = File.join(template_directory, 'environment.rb')
-    require File.join(base_directory, template_environment_file)
+    require File.join(plugin_base_path, template_wrapper_file)
 
     {
       :nucleon => {
@@ -325,16 +325,6 @@ RSpec.shared_context "nucleon_plugin" do
             :directory        => template_directory,
             :class_components => [ "Nucleon", "Template", "Wrapper" ],
             :class            => Nucleon::Template::Wrapper
-          },
-          :environment => {
-            :namespace        => :nucleon,
-            :type             => :template,
-            :base_path        => template_directory,
-            :file             => template_environment_file,
-            :provider         => :environment,
-            :directory        => template_directory,
-            :class_components => [ "Nucleon", "Template", "Environment" ],
-            :class            => Nucleon::Template::Environment
           }
         }
       }
