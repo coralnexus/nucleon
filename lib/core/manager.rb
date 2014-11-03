@@ -409,13 +409,13 @@ class Manager
       Celluloid.logger = logger if Nucleon.parallel?
 
       define_types :nucleon, {
-        :extension  => nil,     # Core
-        :action     => :update, # Core
-        :project    => :git,    # Core
-        :command    => :bash,   # Core
-        :event      => :regex,  # Utility
-        :template   => :json,   # Utility
-        :translator => :json    # Utility
+        :extension  => nil,             # Core
+        :action     => :project_update, # Core
+        :project    => :git,            # Core
+        :command    => :bash,           # Core
+        :event      => :regex,          # Utility
+        :template   => :json,           # Utility
+        :translator => :json            # Utility
       }
     end
 

@@ -21,7 +21,7 @@ RSpec.shared_context "nucleon_plugin" do
   let(:plugin_registry) do {
       :nucleon => {
         :extension  => nil,
-        :action     => :update,
+        :action     => :project_update,
         :project    => :git,
         :command    => :bash,
         :event      => :regex,
