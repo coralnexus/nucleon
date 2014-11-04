@@ -320,6 +320,69 @@ RSpec.shared_context "nucleon_plugin" do
     loaded_plugins
   end
 
+  def plugin_define_test_environment(environment)
+    plugin_path = File.join(plugin_base_path, 'spec', 'nucleon', 'test')
+
+    environment.define_plugin_type(:nucleon, :test, :first)
+    environment.define_plugin(:nucleon, :test, plugin_path, File.join(plugin_path, "first.rb"))
+    environment.define_plugin(:nucleon, :test, plugin_path, File.join(plugin_path, "second.rb"))
+    environment # environment == plugin_test_environment
+  end
+
+  let(:plugin_test_environment) do
+    plugin_directory = File.join(plugin_base_path, 'spec', 'nucleon')
+    test_directory   = File.join(plugin_directory, 'test')
+
+    {
+      :plugin_types => {
+        :nucleon => { :test => :first }
+      },
+      :load_info => {
+        :nucleon => {
+          :test => {
+            :first => {
+              :namespace        => :nucleon,
+              :type             => :test,
+              :base_path        => test_directory,
+              :file             => File.join(test_directory, 'first.rb'),
+              :provider         => :first,
+              :directory        => test_directory,
+              :class_components => [ "Nucleon", "Test", "First" ]
+            },
+            :second => {
+              :namespace        => :nucleon,
+              :type             => :test,
+              :base_path        => test_directory,
+              :file             => File.join(test_directory, 'second.rb'),
+              :provider         => :second,
+              :directory        => test_directory,
+              :class_components => [ "Nucleon", "Test", "Second" ]
+            }
+          }
+        }
+      },
+      :active_info => {}
+    }
+  end
+
+  def plugin_autoload_test_environment(environment)
+    plugin_define_test_environment(environment)
+    environment.autoload
+    environment # environment == plugin_test_autoload_environment
+  end
+
+  let(:plugin_test_autoload_environment) do
+    test_plugins = Nucleon::Util::Data.clone(plugin_test_environment)
+
+    require test_plugins[:load_info][:nucleon][:test][:first][:file]
+    test_plugins[:load_info][:nucleon][:test][:first][:class] = Nucleon::Test::First
+
+    require test_plugins[:load_info][:nucleon][:test][:second][:file]
+    test_plugins[:load_info][:nucleon][:test][:second][:class] = Nucleon::Test::Second
+
+    test_plugins
+  end
+
 
   let(:plugin_active_plugins) do
 
