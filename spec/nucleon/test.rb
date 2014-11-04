@@ -10,6 +10,27 @@ class Test < Nucleon.plugin_class(:nucleon, :base)
   end
 
   #*****************************************************************************
+  # Plugin accessors / modifiers
+
+  def test1
+    get(:test1, 1)
+  end
+
+  def test1=test
+    set(:test1, test)
+  end
+
+
+  def test2
+    get(:test2, 2)
+  end
+
+  def test2=test
+    set(:test2, test)
+  end
+
+
+  #*****************************************************************************
   # Plugin test interface
 
   def say_hello(to_who)

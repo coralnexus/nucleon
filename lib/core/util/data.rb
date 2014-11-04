@@ -624,6 +624,41 @@ class Data
     data
   end
 
+  # Recursively clone an array or tree based hash object.
+  #
+  # * *Parameters*
+  #   - [Hash, Array] *data*  Ruby data to recursively clone
+  #
+  # * *Returns*
+  #   - [Hash]  Returns completely new nested hash if hash data given
+  #   - [Array] Returns completely new array if array data given
+  #
+  # * *Errors*
+  #
+  #
+  def self.clone(data)
+    if data.is_a?(Array)
+      new_data = []
+      data.each do |item|
+        new_data << clone(item)
+      end
+    elsif data.is_a?(Hash)
+      new_data = {}
+      data.each do |key, value|
+        new_data[key] = clone(value)
+      end
+    elsif data.respond_to?(:clone)
+      begin
+        new_data = data.clone
+      rescue # Might be symbol or immutable
+        new_data = data
+      end
+    else
+      new_data = data
+    end
+    new_data
+  end
+
   # Merge data objects together.
   #
   # This method relies on the merging capabilities of the deep_merge gem. It

@@ -353,6 +353,43 @@ class Environment < Core
     get_hash([ :load_info, namespace, sanitize_id(plugin_type) ]).has_key?(sanitize_id(provider))
   end
 
+  # Autoload all of the defined plugins
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Void]  This method does not return a value
+  #
+  # * *Errors*
+  #   - TODO
+  #
+  # * *Yields*
+  #   - [Symbol] *namespace*  Plugin namespace
+  #   - [Symbol] *plugin_type*  Plugin type
+  #   - [Symbol] *provider*  Plugin provider
+  #   - [Hash<Symbol|ANY>] *plugin*  Plugin load information
+  #
+  # See:
+  # - #loaded_plugins
+  # - #class_const
+  #
+  def autoload # :yields: namespace, plugin_type, provider, plugin
+    load_info = loaded_plugins
+
+    load_info.keys.each do |namespace|
+      load_info[namespace].keys.each do |plugin_type|
+        load_info[namespace][plugin_type].each do |provider, plugin|
+          require plugin[:file]
+
+          load_info[namespace][plugin_type][provider][:class] = class_const(plugin[:class_components])
+
+          yield(namespace, plugin_type, provider, plugin) if block_given?
+        end
+      end
+    end
+  end
+
+
   #*****************************************************************************
   # Active plugin accessor / modifiers
 
@@ -392,6 +429,7 @@ class Environment < Core
     plugin_type = sanitize_id(plugin_type)
     provider    = sanitize_id(provider)
     plugin      = nil
+    result      = nil
 
     unless plugin_type_defined?(namespace, plugin_type)
       return plugin
@@ -409,7 +447,8 @@ class Environment < Core
       if ensure_new || ! ( instance_name && plugin )
         type_info[:instance_name] = instance_name
 
-        options = code.call(type_info, options) if code
+        result  = code.call(type_info, options) if code
+        options = result if result.is_a?(Hash)
         options.delete(:new)
 
         plugin = type_info[:class].new(namespace, plugin_type, provider, options)
