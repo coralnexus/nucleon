@@ -486,32 +486,37 @@ class Manager
   end
   protected :register_type
 
+  # Autoload all of the defined plugins
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Void]  This method does not return a value
+  #
+  # * *Errors*
+  #
+  # See:
+  # - Nucleon::Environment#autoload
+  #
+  # See also:
+  # - #load
+  #
   def autoload
     logger.info("Autoloading registered plugins at #{Time.now}")
 
-    load_info = loaded_plugins
+    @@environments[@actor_id].autoload do |namespace, plugin_type, provider, plugin|
+      logger.debug("Autoloading provider #{provider} at #{plugin[:directory]}")
 
-    load_info.keys.each do |namespace|
-      load_info[namespace].keys.each do |plugin_type|
-        logger.debug("Autoloading type: #{plugin_type}")
+      # Make sure extensions are listening from the time they are loaded
+      if plugin[:namespace] == :nucleon && plugin_type == :extension
+        logger.debug("Creating #{plugin_type} #{provider}")
 
-        load_info[namespace][plugin_type].each do |provider, plugin|
-          logger.debug("Autoloading provider #{provider} at #{plugin[:directory]}")
-
-          require plugin[:file]
-
-          load_info[namespace][plugin_type][provider][:class] = class_const(plugin[:class_components])
-          logger.debug("Updated #{plugin_type} #{provider} load info")
-
-          # Make sure extensions are listening from the time they are loaded
-          if plugin[:namespace] == :nucleon && plugin_type == :extension
-            # Create a persistent instance
-            load(plugin[:namespace], :extension, provider, { :name => provider })
-          end
-        end
+        # Create a persistent instance
+        load(plugin[:namespace], :extension, provider, { :name => provider })
       end
     end
   end
+
 
   #*****************************************************************************
   # Plugin workflow
