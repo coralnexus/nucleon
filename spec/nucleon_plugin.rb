@@ -322,19 +322,16 @@ RSpec.shared_context "nucleon_plugin" do
     loaded_plugins
   end
 
-  def plugin_define_plugins(plugin_type, provider_map)
+  def plugin_define_plugins(environment, plugin_type, provider_map)
     plugin_type = plugin_type.to_sym
     plugin_path = File.join(plugin_base_path, 'lib', 'nucleon', plugin_type.to_s)
 
     provider_map.each do |provider, file_name|
-      provider = provider.to_sym
+      provider    = provider.to_sym
+      plugin_info = environment.define_plugin(:nucleon, plugin_type, plugin_path, File.join(plugin_path, "#{file_name}.rb"))
+                               .loaded_plugins[:nucleon][plugin_type][provider]
 
-      environment do |environment|
-        plugin_info = environment.define_plugin(:nucleon, plugin_type, plugin_path, File.join(plugin_path, "#{file_name}.rb"))
-                                 .loaded_plugins[:nucleon][plugin_type][provider]
-
-        test_eq plugin_info, plugin_loaded_plugins[:nucleon][plugin_type][provider]
-      end
+      test_eq plugin_info, plugin_loaded_plugins[:nucleon][plugin_type][provider]
     end
   end
 
