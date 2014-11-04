@@ -7,6 +7,8 @@ require File.join(File.dirname(__FILE__), 'nucleon', 'test.rb')
 
 RSpec.shared_context "nucleon_plugin" do
 
+  include_context "nucleon_test"
+
   #*****************************************************************************
   # Plugin environment data
 
@@ -320,14 +322,6 @@ RSpec.shared_context "nucleon_plugin" do
     loaded_plugins
   end
 
-  def plugin_define_test_environment(environment)
-    plugin_path = File.join(plugin_base_path, 'spec', 'nucleon', 'test')
-
-    environment.define_plugin_type(:nucleon, :test, :first)
-    environment.define_plugin(:nucleon, :test, plugin_path, File.join(plugin_path, "first.rb"))
-    environment.define_plugin(:nucleon, :test, plugin_path, File.join(plugin_path, "second.rb"))
-    environment # environment == plugin_test_environment
-  end
 
   let(:plugin_test_environment) do
     plugin_directory = File.join(plugin_base_path, 'spec', 'nucleon')
@@ -365,11 +359,17 @@ RSpec.shared_context "nucleon_plugin" do
     }
   end
 
-  def plugin_autoload_test_environment(environment)
-    plugin_define_test_environment(environment)
-    environment.autoload
-    environment # environment == plugin_test_autoload_environment
+  def plugin_define_test_environment(environment)
+    plugin_path = File.join(plugin_base_path, 'spec', 'nucleon', 'test')
+
+    environment.define_plugin_type(:nucleon, :test, :first)
+    environment.define_plugin(:nucleon, :test, plugin_path, File.join(plugin_path, "first.rb"))
+    environment.define_plugin(:nucleon, :test, plugin_path, File.join(plugin_path, "second.rb"))
+
+    test_config environment, plugin_test_environment
+    environment
   end
+
 
   let(:plugin_test_autoload_environment) do
     test_plugins = Nucleon::Util::Data.clone(plugin_test_environment)
@@ -381,6 +381,14 @@ RSpec.shared_context "nucleon_plugin" do
     test_plugins[:load_info][:nucleon][:test][:second][:class] = Nucleon::Test::Second
 
     test_plugins
+  end
+
+  def plugin_autoload_test_environment(environment)
+    plugin_define_test_environment(environment)
+    environment.autoload
+
+    test_config environment, plugin_test_autoload_environment
+    environment
   end
 
 
