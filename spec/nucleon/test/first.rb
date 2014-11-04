@@ -13,14 +13,14 @@ class First < Nucleon.plugin_class(:nucleon, :test)
 
   def math(a, b)
     super do
-      a * b
+      a * b * test1 * test2
     end
   end
 
   def exec_block(a, b, &code)
     super do
       z = -1
-      z = code.call(10, 20, a, b) if code
+      z = code.call(test1, test2, a, b, z) if code
     end
   end
 end
