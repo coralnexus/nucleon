@@ -429,6 +429,7 @@ class Environment < Core
     plugin_type = sanitize_id(plugin_type)
     provider    = sanitize_id(provider)
     plugin      = nil
+    result      = nil
 
     unless plugin_type_defined?(namespace, plugin_type)
       return plugin
@@ -446,7 +447,8 @@ class Environment < Core
       if ensure_new || ! ( instance_name && plugin )
         type_info[:instance_name] = instance_name
 
-        options = code.call(type_info, options) if code
+        result  = code.call(type_info, options) if code
+        options = result if result.is_a?(Hash)
         options.delete(:new)
 
         plugin = type_info[:class].new(namespace, plugin_type, provider, options)
