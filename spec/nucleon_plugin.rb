@@ -36,9 +36,7 @@ RSpec.shared_context "nucleon_plugin" do
   end
 
   let(:plugin_loaded_plugins) do
-    # Keep base directory out of data object as it might change with testing platform
-
-    plugin_directory         = File.join('lib', 'nucleon')
+    plugin_directory         = File.join(plugin_base_path, 'lib', 'nucleon')
     project_directory        = File.join(plugin_directory, 'project')
     event_directory          = File.join(plugin_directory, 'event')
     extension_directory      = File.join(plugin_directory, 'extension')
@@ -267,58 +265,56 @@ RSpec.shared_context "nucleon_plugin" do
   end
 
   let(:plugin_autoload_plugins) do
-    # Keep base directory out of data object as it might change with testing platform
-
-    loaded_plugins = plugin_loaded_plugins
+    loaded_plugins = Nucleon::Util::Data.clone(plugin_loaded_plugins)
 
     # Simulate autoloading of defined plugins
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:project][:github][:file])
+    require loaded_plugins[:nucleon][:project][:github][:file]
     loaded_plugins[:nucleon][:project][:github][:class] = Nucleon::Project::Github
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:project][:git][:file])
+    require loaded_plugins[:nucleon][:project][:git][:file]
     loaded_plugins[:nucleon][:project][:git][:class] = Nucleon::Project::Git
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:event][:regex][:file])
+    require loaded_plugins[:nucleon][:event][:regex][:file]
     loaded_plugins[:nucleon][:event][:regex][:class] = Nucleon::Event::Regex
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:extension][:project][:file])
+    require loaded_plugins[:nucleon][:extension][:project][:file]
     loaded_plugins[:nucleon][:extension][:project][:class] = Nucleon::Extension::Project
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:command][:bash][:file])
+    require loaded_plugins[:nucleon][:command][:bash][:file]
     loaded_plugins[:nucleon][:command][:bash][:class] = Nucleon::Command::Bash
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:translator][:json][:file])
+    require loaded_plugins[:nucleon][:translator][:json][:file]
     loaded_plugins[:nucleon][:translator][:json][:class] = Nucleon::Translator::JSON
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:translator][:yaml][:file])
+    require loaded_plugins[:nucleon][:translator][:yaml][:file]
     loaded_plugins[:nucleon][:translator][:yaml][:class] = Nucleon::Translator::YAML
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:action][:project_update][:file])
+    require loaded_plugins[:nucleon][:action][:project_update][:file]
     loaded_plugins[:nucleon][:action][:project_update][:class] = Nucleon::Action::Project::Update
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:action][:project_create][:file])
+    require loaded_plugins[:nucleon][:action][:project_create][:file]
     loaded_plugins[:nucleon][:action][:project_create][:class] = Nucleon::Action::Project::Create
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:action][:project_save][:file])
+    require loaded_plugins[:nucleon][:action][:project_save][:file]
     loaded_plugins[:nucleon][:action][:project_save][:class] = Nucleon::Action::Project::Save
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:action][:project_remove][:file])
+    require loaded_plugins[:nucleon][:action][:project_remove][:file]
     loaded_plugins[:nucleon][:action][:project_remove][:class] = Nucleon::Action::Project::Remove
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:action][:project_add][:file])
+    require loaded_plugins[:nucleon][:action][:project_add][:file]
     loaded_plugins[:nucleon][:action][:project_add][:class] = Nucleon::Action::Project::Add
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:action][:extract][:file])
+    require loaded_plugins[:nucleon][:action][:extract][:file]
     loaded_plugins[:nucleon][:action][:extract][:class] = Nucleon::Action::Extract
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:template][:json][:file])
+    require loaded_plugins[:nucleon][:template][:json][:file]
     loaded_plugins[:nucleon][:template][:json][:class] = Nucleon::Template::JSON
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:template][:yaml][:file])
+    require loaded_plugins[:nucleon][:template][:yaml][:file]
     loaded_plugins[:nucleon][:template][:yaml][:class] = Nucleon::Template::YAML
 
-    require File.join(plugin_base_path, loaded_plugins[:nucleon][:template][:wrapper][:file])
+    require loaded_plugins[:nucleon][:template][:wrapper][:file]
     loaded_plugins[:nucleon][:template][:wrapper][:class] = Nucleon::Template::Wrapper
 
     loaded_plugins
