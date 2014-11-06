@@ -179,35 +179,35 @@ module Nucleon
   
     describe "#loaded_plugin" do
       
-      it "registers translator plugins" do
+      it "load info of translator plugins" do
         plugin_test_loaded_plugins(environment, :translator, {:json => 'JSON', :yaml => 'YAML' })                
       end
       
-      it "registers template plugins" do
+      it "load info of template plugins" do
         plugin_test_loaded_plugins(environment, :template, { :json => 'JSON', :yaml => 'YAML', :wrapper => 'wrapper' })
       end
       
-      it "registers project plugins" do
+      it "load info of project plugins" do
         plugin_test_loaded_plugins(environment, :project, { :git => 'git', :github => 'github' })
       end
       
-      it "registers extension plugins" do
+      it "load info of extension plugins" do
         plugin_test_loaded_plugins(environment, :extension, { :project => 'project' })
       end
       
-      it "registers event plugins" do
+      it "load info of event plugins" do
         plugin_test_loaded_plugins(environment, :event, { :regex => 'regex' })
       end
       
-      it "registers command plugins" do
+      it "load info of command plugins" do
         plugin_test_loaded_plugins(environment, :command, { :bash => 'bash' })
       end
       
-      it "registers action plugins" do
+      it "load info of action plugins" do
         plugin_test_loaded_plugins(environment, :action, { :extract => 'extract' })
       end
       
-      it "registers action - project plugins" do
+      it "load info of action - project plugins" do
         plugin_test_loaded_plugins(environment, :action, { :Project_Add => 'add', :Project_Create => 'create', :Project_Remove => 'remove', :Project_Save => 'save', :Project_Update => 'update' })
       end
       
