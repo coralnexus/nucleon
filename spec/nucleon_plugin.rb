@@ -408,4 +408,33 @@ RSpec.shared_context "nucleon_plugin" do
   let(:plugin_active_plugins) do
 
   end
+  
+  let(:define_plugin_type_test1) do
+    {
+      :plugin_types=>{:nucleon=>{:test=>:first}}, 
+      :load_info=>{}, 
+      :active_info=>{}
+    }
+  end
+  
+  let(:define_plugin_type_test2) do
+    {
+      :plugin_types=>{:nucleon=>{:test1=>"test2", :test3=>"test4"}}, 
+      :load_info=>{}, 
+      :active_info=>{}
+    }
+  end
+  
+  def plugin_test_loaded_plugins(environment, plugin_type, provider_map)
+    plugin_type = plugin_type.to_sym
+    plugin_path = File.join(plugin_base_path, 'lib', 'nucleon', plugin_type.to_s)
+
+    provider_map.each do |provider, file_name|
+      provider    = provider.to_sym
+      plugin_info = environment.define_plugin(:nucleon, plugin_type, plugin_path, File.join(plugin_path, "#{file_name}.rb"))                      
+      loaded_info = environment.loaded_plugin(:nucleon, plugin_type, provider)
+      test_eq loaded_info, plugin_loaded_plugins[:nucleon][plugin_type][provider]
+    end
+  end  
+    
 end

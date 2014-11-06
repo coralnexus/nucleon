@@ -9,14 +9,14 @@ module Nucleon
     
     
     #***************************************************************************
-
+    
     def environment(*args, &code)
       test_object(Environment, *args, &code)
     end
 
 
-  #*****************************************************************************
-  # Constructor / Destructor
+    #*****************************************************************************
+    # Constructor / Destructor
   
     describe "#initialize" do
       
@@ -26,11 +26,11 @@ module Nucleon
       
     end
     
-  #*****************************************************************************
-  # Plugin type accessor / modifiers
+    #*****************************************************************************
+    # Plugin type accessor / modifiers
   
     describe "#namespaces" do
-      
+        
       it "tests namespaces with empty array values" do
         test_eq environment.namespaces,[]
       end
@@ -68,32 +68,24 @@ module Nucleon
       
     end
     
-  # Define a new plugin type in a specified namespace.
-  #
+    # Define a new plugin type in a specified namespace.
+    #
   
     describe "#define_plugin_type" do
       
       it "returns loaded plugins state" do
-          test_config environment.define_plugin_type(:nucleon, :test, :first), {
-                                                                                  :plugin_types=>{:nucleon=>{:test=>:first}}, 
-                                                                                  :load_info=>{}, 
-                                                                                  :active_info=>{}
-                                                                               }
+          test_config environment.define_plugin_type(:nucleon, :test, :first), define_plugin_type_test1
       end
       
     end
     
-  # Define one or more new plugin types in a specified namespace.
-  #
-  
+    # Define one or more new plugin types in a specified namespace.
+    #
+    
     describe "#define_plugin_types" do
       
       it "returns loaded plugins state" do
-        test_config environment.define_plugin_types(:nucleon, { :test1 => "test2", :test3 => "test4"}),{
-                                                                                                          :plugin_types=>{:nucleon=>{:test1=>"test2", :test3=>"test4"}}, 
-                                                                                                          :load_info=>{}, 
-                                                                                                          :active_info=>{}
-                                                                                                         }
+        test_config environment.define_plugin_types(:nucleon, { :test1 => "test2", :test3 => "test4"}),define_plugin_type_test2
       end
       
       it "returns environment object" do
@@ -102,8 +94,8 @@ module Nucleon
       
     end
     
-  # Check if a specified plugin type has been defined
-  #
+    # Check if a specified plugin type has been defined
+    #
     
     describe "#plugin_type_defined?" do
       
@@ -122,8 +114,8 @@ module Nucleon
       end
     end
       
-  # Return the default provider currently registered for a plugin type
-  #
+    # Return the default provider currently registered for a plugin type
+    #
   
     describe "#plugin_type_default" do
       
@@ -141,6 +133,84 @@ module Nucleon
         end
       end
  
+    end
+    
+    #*****************************************************************************
+    # Loaded plugin accessor / modifiers
+  
+    describe "#define_plugin" do
+    
+      it "registers translator plugins" do
+        plugin_define_plugins(environment, :translator, { :json => 'JSON', :yaml => 'YAML' }) 
+      end
+      
+       it "registers template plugins" do
+        plugin_define_plugins(environment, :template, { :json => 'JSON', :yaml => 'YAML', :wrapper => 'wrapper' })
+      end
+      
+      it "registers project plugins" do
+        plugin_define_plugins(environment, :project, { :git => 'git', :github => 'github' })
+      end
+      
+      it "registers extension plugins" do
+        plugin_define_plugins(environment, :extension, { :project => 'project' })
+      end
+      
+      it "registers event plugins" do
+        plugin_define_plugins(environment, :event, { :regex => 'regex' })
+      end
+      
+      it "registers command plugins" do
+        plugin_define_plugins(environment, :command, { :bash => 'bash' })
+      end
+      
+      it "registers action plugins" do
+        plugin_define_plugins(environment, :action, { :Extract => 'extract' })
+      end
+      
+      it "registers action - project plugins" do
+        plugin_define_plugins(environment, :action, { :Project_Add => 'add', :Project_Create => 'create', :Project_Remove => 'remove', :Project_Save => 'save', :Project_Update => 'update' })
+      end
+    
+    end
+    
+    # Return the load information for a specified plugin provider if it exists
+    #
+  
+    describe "#loaded_plugin" do
+      
+      it "registers translator plugins" do
+        plugin_test_loaded_plugins(environment, :translator, {:json => 'JSON', :yaml => 'YAML' })                
+      end
+      
+      it "registers template plugins" do
+        plugin_test_loaded_plugins(environment, :template, { :json => 'JSON', :yaml => 'YAML', :wrapper => 'wrapper' })
+      end
+      
+      it "registers project plugins" do
+        plugin_test_loaded_plugins(environment, :project, { :git => 'git', :github => 'github' })
+      end
+      
+      it "registers extension plugins" do
+        plugin_test_loaded_plugins(environment, :extension, { :project => 'project' })
+      end
+      
+      it "registers event plugins" do
+        plugin_test_loaded_plugins(environment, :event, { :regex => 'regex' })
+      end
+      
+      it "registers command plugins" do
+        plugin_test_loaded_plugins(environment, :command, { :bash => 'bash' })
+      end
+      
+      it "registers action plugins" do
+        plugin_test_loaded_plugins(environment, :action, { :extract => 'extract' })
+      end
+      
+      it "registers action - project plugins" do
+        plugin_test_loaded_plugins(environment, :action, { :Project_Add => 'add', :Project_Create => 'create', :Project_Remove => 'remove', :Project_Save => 'save', :Project_Update => 'update' })
+      end
+      
     end
     
   end
