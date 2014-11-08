@@ -266,6 +266,23 @@ RSpec.shared_context "nucleon_plugin" do
     }
   end
 
+  def plugin_define_plugins(environment, plugin_type, provider_map, &code)
+    plugin_type = plugin_type.to_sym
+    plugin_path = File.join(plugin_base_path, 'lib', 'nucleon', plugin_type.to_s)
+
+    provider_map.each do |provider, file_name|
+      provider = provider.to_sym
+
+      if file_name.is_a?(Array)
+        file_name = File.join(*file_name)
+      end
+
+      environment.define_plugin(:nucleon, plugin_type, plugin_path, File.join(plugin_path, "#{file_name}.rb"))
+      code.call(plugin_type, provider) if code
+    end
+  end
+
+
   let(:plugin_autoload_plugins) do
     loaded_plugins = Nucleon::Util::Data.clone(plugin_loaded_plugins)
 
@@ -322,19 +339,6 @@ RSpec.shared_context "nucleon_plugin" do
     loaded_plugins
   end
 
-  def plugin_define_plugins(environment, plugin_type, provider_map)
-    plugin_type = plugin_type.to_sym
-    plugin_path = File.join(plugin_base_path, 'lib', 'nucleon', plugin_type.to_s)
-
-    provider_map.each do |provider, file_name|
-      provider    = provider.to_sym
-      plugin_info = environment.define_plugin(:nucleon, plugin_type, plugin_path, File.join(plugin_path, "#{file_name}.rb"))
-                               .loaded_plugins[:nucleon][plugin_type][provider]
-
-      test_eq plugin_info, plugin_loaded_plugins[:nucleon][plugin_type][provider]
-    end
-  end
-
 
   let(:plugin_test_environment) do
     plugin_directory = File.join(plugin_base_path, 'spec', 'nucleon')
@@ -371,6 +375,30 @@ RSpec.shared_context "nucleon_plugin" do
       :active_info => {}
     }
   end
+
+  let(:plugin_environment_test1) do {
+      :plugin_types => {
+        :nucleon => {
+          :test => :first
+        }
+      },
+      :load_info    => {},
+      :active_info  => {}
+    }
+  end
+
+  let(:plugin_environment_test2) do {
+      :plugin_types => {
+        :nucleon => {
+          :test1 => "test2",
+          :test3 => "test4"
+        }
+      },
+      :load_info   => {},
+      :active_info => {}
+    }
+  end
+
 
   def plugin_define_test_environment(environment)
     plugin_path = File.join(plugin_base_path, 'spec', 'nucleon', 'test')
