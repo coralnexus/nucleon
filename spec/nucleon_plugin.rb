@@ -435,34 +435,259 @@ RSpec.shared_context "nucleon_plugin" do
 
   let(:plugin_active_plugins) do
 
-  end
+  end 
   
-  let(:define_plugin_type_test1) do
+  let(:plugin_loaded_plugins_method_test) do 
+    plugin_directory         = File.join(plugin_base_path, 'lib', 'nucleon')
+    project_directory        = File.join(plugin_directory, 'project')
+    event_directory          = File.join(plugin_directory, 'event')
+    extension_directory      = File.join(plugin_directory, 'extension')
+    command_directory        = File.join(plugin_directory, 'command')
+    translator_directory     = File.join(plugin_directory, 'translator')
+    action_directory         = File.join(plugin_directory, 'action')
+    action_project_directory = File.join(action_directory, 'project')
+    template_directory       = File.join(plugin_directory, 'template')
     {
-      :plugin_types=>{:nucleon=>{:test=>:first}}, 
-      :load_info=>{}, 
-      :active_info=>{}
-    }
-  end
-  
-  let(:define_plugin_type_test2) do
-    {
-      :plugin_types=>{:nucleon=>{:test1=>"test2", :test3=>"test4"}}, 
-      :load_info=>{}, 
-      :active_info=>{}
-    }
-  end
-  
-  def plugin_test_loaded_plugins(environment, plugin_type, provider_map)
-    plugin_type = plugin_type.to_sym
-    plugin_path = File.join(plugin_base_path, 'lib', 'nucleon', plugin_type.to_s)
+      :loaded_translator=>
+          {
+          :translator=>{
+                        :json=>{
+                                :namespace        => :nucleon, 
+                                :type             => :translator, 
+                                :base_path        => translator_directory,
+                                :file             => File.join(translator_directory, 'JSON.rb'),
+                                :provider         => :json, 
+                                :directory        => translator_directory, 
+                                :class_components => ["Nucleon", "Translator", "JSON"]
+                                }, 
+                        :yaml=>{
+                                :namespace        => :nucleon, 
+                                :type             => :translator, 
+                                :base_path        => translator_directory,
+                                :file             => File.join(translator_directory, 'YAML.rb'),
+                                :provider         => :yaml,
+                                :directory        => translator_directory, 
+                                :class_components => ["Nucleon", "Translator", "YAML"]
+                                }
+                       }
+          },
+        :loaded_template=>
+          {
+                    :template=>{
+                                :json=>{
+                                            :namespace        =>  :nucleon, 
+                                            :type             =>  :template, 
+                                            :base_path        =>  template_directory,
+                                            :file             =>  File.join(template_directory, 'JSON.rb'),
+                                            :provider         =>  :json,
+                                            :directory        =>  template_directory, 
+                                            :class_components =>  ["Nucleon", "Template", "JSON"]
+                                        }, 
+                        :wrapper=>{
+                                    :namespace=>:nucleon, 
+                                    :type=>:template, 
+                                    :base_path        =>  template_directory, 
+                                    :file             =>  File.join(template_directory, 'wrapper.rb'), 
+                                    :provider=>:wrapper, 
+                                    :directory        =>  template_directory, 
+                                    :class_components =>  ["Nucleon", "Template", "Wrapper"]
+                                  },
+                        :yaml=>{
+                                   :namespace=>:nucleon, 
+                                   :type=>:template, 
+                                   :base_path         =>  template_directory, 
+                                    :file             =>  File.join(template_directory, 'YAML.rb'),  
+                                   :provider          =>  :yaml, 
+                                   :directory         =>  template_directory,  
+                                   :class_components  =>  ["Nucleon", "Template", "YAML"]
+                                 }
+                        }
+           },
+           
+           :loaded_project=>
+            {
+              :project => {
+                            :github => {
+                              :namespace        => :nucleon,
+                              :type             => :project,
+                              :base_path        => project_directory,
+                              :file             => File.join(project_directory, 'github.rb'),
+                              :provider         => :github,
+                              :directory        => project_directory,
+                              :class_components => [ "Nucleon", "Project", "Github" ]
+                            },
+                            :git => {
+                              :namespace        => :nucleon,
+                              :type             => :project,
+                              :base_path        => project_directory,
+                              :file             => File.join(project_directory, 'git.rb'),
+                              :provider         => :git,
+                              :directory        => project_directory,
+                              :class_components => [ "Nucleon", "Project", "Git" ]
+                            }
+                          }
+              },
+              
+           :loaded_extension=>
+            {
+              :extension => {
+                          :project => {
+                          :namespace        => :nucleon,
+                          :type             => :extension,
+                          :base_path        => extension_directory,
+                          :file             => File.join(extension_directory, 'project.rb'),
+                          :provider         => :project,
+                          :directory        => extension_directory,
+                          :class_components => ["Nucleon", "Extension", "Project"]
+                        }
+                      }
+              },
 
-    provider_map.each do |provider, file_name|
-      provider    = provider.to_sym
-      plugin_info = environment.define_plugin(:nucleon, plugin_type, plugin_path, File.join(plugin_path, "#{file_name}.rb"))                      
-      loaded_info = environment.loaded_plugin(:nucleon, plugin_type, provider)
-      test_eq loaded_info, plugin_loaded_plugins[:nucleon][plugin_type][provider]
+           :loaded_event=>
+            {
+              :event => {
+                        :regex => {
+                          :namespace        => :nucleon,
+                          :type             => :event,
+                          :base_path        => event_directory,
+                          :file             => File.join(event_directory, 'regex.rb'),
+                          :provider         => :regex,
+                          :directory        => event_directory,
+                          :class_components => ["Nucleon", "Event", "Regex"]
+                         }
+                    }
+              },
+              
+           :loaded_command=>
+           {
+              :command => {
+                :bash => {
+                  :namespace        => :nucleon,
+                  :type             => :command,
+                  :base_path        => command_directory,
+                  :file             => File.join(command_directory, 'bash.rb'),
+                  :provider         => :bash,
+                  :directory        => command_directory,
+                  :class_components => ["Nucleon", "Command", "Bash"]
+                }
+              }
+           },
+              
+           :loaded_action=>
+            {
+              :action => {
+                :project_update => {
+                  :namespace        => :nucleon,
+                  :type             => :action,
+                  :base_path        => action_directory,
+                  :file             => File.join(action_project_directory, 'update.rb'),
+                  :provider         => :project_update,
+                  :directory        => action_project_directory,
+                  :class_components => [ "Nucleon", "Action", "Project", "Update" ],
+                  :description      => {
+                    :namespace   => :nucleon,
+                    :weight      => 900,
+                    :group       => :project,
+                    :action      => :update,
+                    :description => "Update this project from a remote",
+                    :help        => "translation missing: en.nucleon.action.project.update.help"
+                  },
+                  :_weight => 900
+                },
+                :project_create => {
+                  :namespace        => :nucleon,
+                  :type             => :action,
+                  :base_path        => action_directory,
+                  :file             => File.join(action_project_directory, 'create.rb'),
+                  :provider         => :project_create,
+                  :directory        => action_project_directory,
+                  :class_components => [ "Nucleon", "Action", "Project", "Create" ],
+                  :description      => {
+                    :namespace   => :nucleon,
+                    :weight      => 1000,
+                    :group       => :project,
+                    :action      => :create,
+                    :description => "Create a new project",
+                    :help        => "translation missing: en.nucleon.action.project.create.help"
+                  },
+                  :_weight => 1000
+                },
+                :project_save => {
+                  :namespace        => :nucleon,
+                  :type             => :action,
+                  :base_path        => action_directory,
+                  :file             => File.join(action_project_directory, 'save.rb'),
+                  :provider         => :project_save,
+                  :directory        => action_project_directory,
+                  :class_components => [ "Nucleon", "Action", "Project", "Save" ],
+                  :description      => {
+                    :namespace   => :nucleon,
+                    :weight      => 800,
+                    :group       => :project,
+                    :action      => :save,
+                    :description => "Save changes to files in this project",
+                    :help        => "translation missing: en.nucleon.action.project.save.help"
+                  },
+                  :_weight => 800
+                },
+                :project_remove => {
+                  :namespace        => :nucleon,
+                  :type             => :action,
+                  :base_path        => action_directory,
+                  :file             => File.join(action_project_directory, 'remove.rb'),
+                  :provider         => :project_remove,
+                  :directory        => action_project_directory,
+                  :class_components => [ "Nucleon", "Action", "Project", "Remove" ],
+                  :description      => {
+                    :namespace   => :nucleon,
+                    :weight      => 600,
+                    :group       => :project,
+                    :action      => :remove,
+                    :description => "Remove an existing sub-project from this project",
+                    :help        => "translation missing: en.nucleon.action.project.remove.help"
+                  },
+                  :_weight => 600
+                },
+                :project_add => {
+                  :namespace        => :nucleon,
+                  :type             => :action,
+                  :base_path        => action_directory,
+                  :file             => File.join(action_project_directory, 'add.rb'),
+                  :provider         => :project_add,
+                  :directory        => action_project_directory,
+                  :class_components => [ "Nucleon", "Action", "Project", "Add" ],
+                  :description      => {
+                    :namespace   => :nucleon,
+                    :weight      => 700,
+                    :group       => :project,
+                    :action      => :add,
+                    :description => "Add a new sub-project to this project",
+                    :help        => "translation missing: en.nucleon.action.project.add.help"
+                  },
+                  :_weight => 700
+                },
+                :extract => {
+                  :namespace        => :nucleon,
+                  :type             => :action,
+                  :base_path        => action_directory,
+                  :file             => File.join(action_directory, 'extract.rb'),
+                  :provider         => :extract,
+                  :directory        => action_directory,
+                  :class_components => [ "Nucleon", "Action", "Extract" ],
+                  :description      => {
+                    :namespace   => :nucleon,
+                    :weight      => -50,
+                    :group       => nil,
+                    :action      => :extract,
+                    :description => "Extract an encoded package into a directory",
+                    :help        => "translation missing: en.nucleon.action.extract.help"
+                  },
+                  :_weight => -50
+                }
+              }
+         }          
+          
+      }
     end
-  end  
     
 end
