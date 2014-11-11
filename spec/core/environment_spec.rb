@@ -22,33 +22,9 @@ module Nucleon
     end
 
     def test_loaded_plugins(environment, plugin_type, provider_map)
-      plugin_define_plugins(environment, plugin_type, provider_map) do |type, provider|
-        plugin_info = environment.loaded_plugins[:nucleon][type][provider]
-        test_eq plugin_info, plugin_loaded_plugins[:nucleon][type][provider]
-      end
+      plugin_define_plugins(environment, plugin_type, provider_map)
+      test_eq environment.loaded_plugins[:nucleon][plugin_type], plugin_loaded_plugins[:nucleon][plugin_type]    
     end
-    
-   
-   def test_loaded_plugins_namespace(environment, plugin_type, provider_map, plugin_loded_plugins_verify)
-      plugin_define_plugins(environment, plugin_type, provider_map) do |type, provider|
-        @plugin_info = environment.loaded_plugins[:nucleon]
-      end
-      test_eq @plugin_info, plugin_loaded_plugins_method_test[plugin_loded_plugins_verify]
-   end
-   
-   def test_loaded_plugins_namespace_plugin_type(environment, plugin_type, provider_map, plugin_loded_plugins_verify)
-      plugin_define_plugins(environment, plugin_type, provider_map) do |type, provider|
-        @plugin_info = environment.loaded_plugins[:nucleon][plugin_type]
-      end
-      test_eq @plugin_info, plugin_loaded_plugins[:nucleon][plugin_type]
-   end
-   
-   def test_loaded_plugins_namespace_plugin_type_provider(environment, plugin_type, provider_map, plugin_loded_plugins_verify)
-      plugin_define_plugins(environment, plugin_type, provider_map) do |type, provider|
-        @plugin_info = environment.loaded_plugins[:nucleon][plugin_type][provider]
-        test_eq @plugin_info, plugin_loaded_plugins[:nucleon][plugin_type][provider]
-      end
-   end
 
 
     #*****************************************************************************
@@ -236,13 +212,10 @@ module Nucleon
         test_loaded_plugin(environment, :command, { :bash => 'bash' })
       end
       
-     # it "load info of action plugins" do
-     #   test_loaded_plugin(environment, :action, { :extract => 'extract' })
-     # end
-      
-     # it "load info of action - project plugins" do
-     #   test_loaded_plugin(environment, :action, { :project_add => [ 'project',  'add' ], :project_ceate => [ 'project', 'create' ], :project_remove => [ 'project', 'remove' ], :project_save => [ 'project', 'save' ], :project_update => [ 'project', 'update' ] })
-     # end
+      it "load info of action - project plugins" do
+        plugin_define_plugins(environment, :action, { :project_update => [ 'project', 'update' ], :project_ceate => [ 'project', 'create' ], :project_save => [ 'project', 'save' ], 
+                                                      :project_remove => [ 'project', 'remove' ], :project_add => [ 'project',  'add' ],:extract => 'extract' }) 
+      end
       
     end
     
@@ -263,97 +236,97 @@ module Nucleon
                                              :project_remove => [ 'project', 'remove' ], :project_add => [ 'project',  'add' ],:extract => 'extract' }) 
           plugin_define_plugins(environment, :template, { :json => 'JSON', :yaml => 'YAML', :wrapper => 'wrapper' })
           
-          #test_eq environment.loaded_plugins, plugin_loaded_plugins
+          test_eq environment.loaded_plugins, plugin_loaded_plugins
         end
         
       end
       
       it "returns loaded translator plugins provided namespace alone" do
-         test_loaded_plugins_namespace environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }, :loaded_translator
+         test_loaded_plugins environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }
       end
       
       it "returns loaded template plugins provide namespace alone" do
-         test_loaded_plugins_namespace environment, :template,{ :json => 'JSON', :wrapper => 'wrapper', :yaml => 'YAML' }, :loaded_template
+         test_loaded_plugins environment, :template,{ :json => 'JSON', :wrapper => 'wrapper', :yaml => 'YAML' }
       end
       
       it "returns loaded project plugins provide namespace alone" do
-         test_loaded_plugins_namespace environment, :project,{ :git => 'git', :github => 'github' }, :loaded_project
+         test_loaded_plugins environment, :project,{ :git => 'git', :github => 'github' }
       end
       
       it "returns loaded extension plugins provide namespace alone" do
-         test_loaded_plugins_namespace environment, :extension,{ :project => 'project' }, :loaded_extension
+         test_loaded_plugins environment, :extension,{ :project => 'project' }
       end
 
       it "returns loaded event plugins provide namespace alone" do
-         test_loaded_plugins_namespace environment, :event,{ :regex => 'regex' }, :loaded_event
+         test_loaded_plugins environment, :event,{ :regex => 'regex' }
       end
       
       it "returns loaded command plugins provide namespace alone" do
-         test_loaded_plugins_namespace environment, :command,{ :bash => 'bash' }, :loaded_command
+         test_loaded_plugins environment, :command,{ :bash => 'bash' }
       end
       
-      #it "returns action command plugins provide namespace alone" do
-      #   test_loaded_plugins_namespace environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
-      #                                                        :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }, :loaded_action
-      #end
+      it "returns action command plugins provide namespace alone" do
+         test_loaded_plugins environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
+                                                    :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }
+      end
 
       it "returns loaded translator plugins provided namespace and plugin type" do
-         test_loaded_plugins_namespace_plugin_type environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }, :loaded_translator
+         test_loaded_plugins environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }
       end
       
       it "returns loaded template plugins provide namespace and plugin type" do
-         test_loaded_plugins_namespace_plugin_type environment, :template,{ :json => 'JSON', :wrapper => 'wrapper', :yaml => 'YAML' }, :loaded_template
+         test_loaded_plugins environment, :template,{ :json => 'JSON', :wrapper => 'wrapper', :yaml => 'YAML' }
       end
       
       it "returns loaded project plugins provide namespace and plugin type" do
-         test_loaded_plugins_namespace_plugin_type environment, :project,{ :git => 'git', :github => 'github' }, :loaded_project
+         test_loaded_plugins environment, :project,{ :git => 'git', :github => 'github' }
       end
       
       it "returns loaded extension plugins provide namespace and plugin type" do
-         test_loaded_plugins_namespace_plugin_type environment, :extension,{ :project => 'project' }, :loaded_extension
+         test_loaded_plugins environment, :extension,{ :project => 'project' }
       end
 
       it "returns loaded event plugins provide namespace and plugin type" do
-         test_loaded_plugins_namespace_plugin_type environment, :event,{ :regex => 'regex' }, :loaded_event
+         test_loaded_plugins environment, :event,{ :regex => 'regex' }
       end
       
       it "returns loaded command plugins provide namespace and plugin type" do
-         test_loaded_plugins_namespace_plugin_type environment, :command,{ :bash => 'bash' }, :loaded_command
+         test_loaded_plugins environment, :command,{ :bash => 'bash' }
       end
       
-      #it "returns action command plugins provide namespace and plugin type" do
-      #   test_loaded_plugins_namespace_plugin_type environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
-      #                                                        :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }, :loaded_action
-      #end
+      it "returns action command plugins provide namespace and plugin type" do
+        test_loaded_plugins environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
+                                                              :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }
+      end
 
       it "returns loaded translator plugins provided namespace ,plugin type and provider" do
-         test_loaded_plugins_namespace_plugin_type_provider environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }, :loaded_translator
+         test_loaded_plugins environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }
       end
       
       it "returns loaded template plugins provide namespace ,plugin type and provider" do
-         test_loaded_plugins_namespace_plugin_type_provider environment, :template,{ :json => 'JSON', :wrapper => 'wrapper', :yaml => 'YAML' }, :loaded_template
+         test_loaded_plugins environment, :template,{ :json => 'JSON', :wrapper => 'wrapper', :yaml => 'YAML' }
       end
       
       it "returns loaded project plugins provide namespace ,plugin type and provider" do
-         test_loaded_plugins_namespace_plugin_type_provider environment, :project,{ :git => 'git', :github => 'github' }, :loaded_project
+         test_loaded_plugins environment, :project,{ :git => 'git', :github => 'github' }
       end
       
       it "returns loaded extension plugins provide namespace ,plugin type and provider" do
-         test_loaded_plugins_namespace_plugin_type_provider environment, :extension,{ :project => 'project' }, :loaded_extension
+         test_loaded_plugins environment, :extension,{ :project => 'project' }
       end
 
       it "returns loaded event plugins provide namespace ,plugin type and provider" do
-         test_loaded_plugins_namespace_plugin_type_provider environment, :event,{ :regex => 'regex' }, :loaded_event
+         test_loaded_plugins environment, :event,{ :regex => 'regex' }
       end
       
       it "returns loaded command plugins provide namespace ,plugin type and provider" do
-         test_loaded_plugins_namespace_plugin_type_provider environment, :command,{ :bash => 'bash' }, :loaded_command
+         test_loaded_plugins environment, :command,{ :bash => 'bash' }
       end
       
-      #it "returns action command plugins provide namespace ,plugin type and provider" do
-      #   test_loaded_plugins_namespace_plugin_type_provider environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
-      #                                                        :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }, :loaded_action
-      #end
+      it "returns action command plugins provide namespace ,plugin type and provider" do
+         test_loaded_plugins environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
+                                                              :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }
+      end
       
     end
     
