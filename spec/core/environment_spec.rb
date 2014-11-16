@@ -25,6 +25,26 @@ module Nucleon
       plugin_define_plugins(environment, plugin_type, provider_map)
       test_eq environment.loaded_plugins[:nucleon][plugin_type], plugin_loaded_plugins[:nucleon][plugin_type]    
     end
+    
+    def test_create_plugin(environment, plugin_type, provider, options)
+      plugin_autoload_test_environment(environment)
+      plugin = environment.create_plugin(:nucleon, plugin_type, provider, options)
+      test_config plugin, options
+    end
+    
+    def test_create_plugin_math(environment, plugin_type, provider, options, num1, num2, result)
+      plugin_autoload_test_environment(environment)
+      plugin = environment.create_plugin(:nucleon, plugin_type, provider, options)
+      test_eq plugin.math(num1, num2), result
+    end
+    
+    def test_create_plugin_say_hello(environment, plugin_type, provider, options, message)
+      plugin_autoload_test_environment(environment)
+      plugin = environment.create_plugin(:nucleon, plugin_type, provider, options)
+      x = plugin.say_hello('Unit Testing')
+      puts message
+      test_eq x, message  
+    end
 
 
     #*****************************************************************************
@@ -326,6 +346,92 @@ module Nucleon
       it "returns action command plugins provide namespace ,plugin type and provider" do
          test_loaded_plugins environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
                                                               :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }
+      end
+      
+    end
+    
+    describe "#plugin_has_type?" do
+      
+      it "returns true for a loaded plugin type" do
+        environment do |environment|
+           plugin_define_plugins environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }
+           test_eq environment.plugin_has_type?(:nucleon, :translator), true
+        end
+       
+      end
+      
+      it "returns false for a non loaded plugin type" do
+        environment do |environment|
+           plugin_define_plugins environment, :translator,{ :json => 'JSON', :yaml => 'YAML' }
+           test_eq environment.plugin_has_type?(:nucleon, :action), false
+        end
+      end       
+    end
+    
+  # Check if a specified plugin provider has been loaded
+  #
+  
+    describe "#plugin_has_provider?" do
+      
+      it "returns true for a loded plugin and provider" do
+         environment do |environment|
+             plugin_define_plugins environment, :translator,{ :json => 'JSON' }
+             test_eq environment.plugin_has_provider?(:nucleon, :translator, :json), true
+         end
+      end
+  
+      it "returns false for a non loded plugin and provider" do
+         environment do |environment|
+             plugin_define_plugins environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
+                                                                :project_add => [ 'project',  'add' ],:extract => 'extract' }
+             test_eq environment.plugin_has_provider?(:nucleon, :action, :project_ceate), false
+         end
+      end    
+      
+    end  
+    
+    describe "#autoload" do
+      
+      it "is just an example" do
+        puts environment.autoload
+      end
+      
+    end
+    
+  #*****************************************************************************
+  # Active plugin accessor / modifiers
+  
+    describe "#create_plugin" do
+      
+      it "tests create plugin method" do
+        Nucleon.dump_enabled=true
+
+        environment do |environment|
+          plugin_autoload_test_environment(environment)
+  
+          plugin = environment.create_plugin(:nucleon, :test, :second, { :test1 => 15 })
+  
+          dbg(plugin.export)
+          dbg(plugin.math(12, 12))
+  
+          dbg(environment.export, 'environment')
+          plugin.say_hello 'Avinash'
+        end
+
+        Nucleon.dump_enabled=false
+
+      end
+      
+      it "tests create plugin export value" do
+        test_create_plugin environment, :test, :second, { :test1 => 15 }
+      end
+      
+      it "tests create plugin math value" do
+        test_create_plugin_math environment, :test, :second, { :test1 => 15 }, 12, 12, 41
+      end
+      
+      it "tests create plugin say hello method" do
+       # test_create_plugin_say_hello environment, :test, :second, { :test1 => 15 }, "[test::second] Greetings Unit Testing"
       end
       
     end
