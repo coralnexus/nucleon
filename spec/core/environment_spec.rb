@@ -37,14 +37,6 @@ module Nucleon
       plugin = environment.create_plugin(:nucleon, plugin_type, provider, options)
       test_eq plugin.math(num1, num2), result
     end
-    
-    def test_create_plugin_say_hello(environment, plugin_type, provider, options, message)
-      plugin_autoload_test_environment(environment)
-      plugin = environment.create_plugin(:nucleon, plugin_type, provider, options)
-      x = plugin.say_hello('Unit Testing')
-      puts message
-      test_eq x, message  
-    end
 
 
     #*****************************************************************************
@@ -420,6 +412,18 @@ module Nucleon
       end
   
     end
+    
+  # Return a plugin instance by name if it exists
+  #
+  
+  describe "#get_plugin" do
+    
+    it "just an example" do
+      
+      
+    end
+    
+  end    
     
   end
   
