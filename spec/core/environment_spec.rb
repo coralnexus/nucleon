@@ -392,8 +392,8 @@ module Nucleon
     
     describe "#autoload" do
       
-      it "is just an example" do
-        puts environment.autoload
+      it "tests autoloaded plugin export" do
+        plugin_autoload_test_environment(environment)
       end
       
     end
@@ -403,24 +403,13 @@ module Nucleon
   
     describe "#create_plugin" do
       
-      it "tests create plugin method" do
-        Nucleon.dump_enabled=true
-
-        environment do |environment|
-          plugin_autoload_test_environment(environment)
-  
-          plugin = environment.create_plugin(:nucleon, :test, :second, { :test1 => 15 })
-  
-          dbg(plugin.export)
-          dbg(plugin.math(12, 12))
-  
-          dbg(environment.export, 'environment')
-          plugin.say_hello 'Avinash'
-        end
-
-        Nucleon.dump_enabled=false
-
+      it "tests create plugin export value" do
+        test_create_plugin environment, :test, :first, { :test1 => 13 }
       end
+      
+      it "tests create plugin math value" do
+        test_create_plugin_math environment, :test, :first, { :test1 => 13 }, 12, 12, 3744
+      end      
       
       it "tests create plugin export value" do
         test_create_plugin environment, :test, :second, { :test1 => 15 }
@@ -429,11 +418,7 @@ module Nucleon
       it "tests create plugin math value" do
         test_create_plugin_math environment, :test, :second, { :test1 => 15 }, 12, 12, 41
       end
-      
-      it "tests create plugin say hello method" do
-       # test_create_plugin_say_hello environment, :test, :second, { :test1 => 15 }, "[test::second] Greetings Unit Testing"
-      end
-      
+  
     end
     
   end
