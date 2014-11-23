@@ -37,6 +37,12 @@ module Nucleon
       plugin = environment.create_plugin(:nucleon, plugin_type, provider, options)
       test_eq plugin.math(num1, num2), result
     end
+    
+    def test_get_plugin(environment, plugin_type, provider, options)
+      plugin_autoload_test_environment(environment)
+      environment.create_plugin(:nucleon, plugin_type, provider, options)
+      test_config environment.get_plugin(:nucleon, plugin_type, provider), options
+    end
 
 
     #*****************************************************************************
@@ -360,8 +366,8 @@ module Nucleon
       end       
     end
     
-  # Check if a specified plugin provider has been loaded
-  #
+    # Check if a specified plugin provider has been loaded
+    #
   
     describe "#plugin_has_provider?" do
       
@@ -390,8 +396,8 @@ module Nucleon
       
     end
     
-  #*****************************************************************************
-  # Active plugin accessor / modifiers
+    #*****************************************************************************
+    # Active plugin accessor / modifiers
   
     describe "#create_plugin" do
       
@@ -413,17 +419,57 @@ module Nucleon
   
     end
     
-  # Return a plugin instance by name if it exists
-  #
-  
-  describe "#get_plugin" do
+    # Return a plugin instance by name if it exists
+    #
     
-    it "just an example" do
+    describe "#get_plugin" do
       
+      it "returns the created plugins 1" do
+        test_get_plugin environment, :test, :first, { :test1 => 13 , :test2 => 5}
+      end
+      
+      it "returns the created plugins 2" do
+        test_get_plugin environment, :test, :second, { :test1 => 13 , :test2 => 5}
+      end
       
     end
     
-  end    
+    # Remove a plugin instance from the environment
+    #
+    
+    describe "#remove_plugin" do
+      
+      it "is an example" do
+        Nucleon.dump_enabled=true      
+        environment do |environment|
+          plugin_autoload_test_environment(environment)
+          environment.create_plugin(:nucleon, :test, :first, { :test1 => 13, :test2 => 5})
+          dbg(environment.remove_plugin(:nucleon, :test, :first))
+        end
+        Nucleon.dump_enabled=false      
+      end
+      
+    end    
+    
+    describe "#active_plugins" do
+      
+      
+      it "just an example" do
+        Nucleon.dump_enabled=true      
+        environment do |environment|
+          plugin_autoload_test_environment(environment)
+          environment.create_plugin(:nucleon, :test, :first, { :test1 => 13, :test2 => 5})
+          environment.create_plugin(:nucleon, :test, :second, { :test1 => 15 })
+          dbg(environment.active_plugins)
+          dbg(environment.active_plugins(:nucleon))
+          dbg(environment.active_plugins(:nucleon, :test))
+          dbg(environment.active_plugins(:nucleon, :test, :first))
+          dbg(environment.active_plugins(:nucleon, :test)[:first_bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f])
+        end
+        Nucleon.dump_enabled=false 
+      end
+      
+    end
     
   end
   
