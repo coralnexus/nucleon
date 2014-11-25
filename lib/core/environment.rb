@@ -428,6 +428,7 @@ class Environment < Core
     namespace   = namespace.to_sym
     plugin_type = sanitize_id(plugin_type)
     provider    = sanitize_id(provider)
+    options     = Util::Data.clone(options)
     plugin      = nil
     result      = nil
 
@@ -449,6 +450,9 @@ class Environment < Core
 
         result  = code.call(type_info, options) if code
         options = result if result.is_a?(Hash)
+
+        options[:meta] = Config.new(type_info).import(hash(options[:meta]))
+
         options.delete(:new)
 
         plugin = type_info[:class].new(namespace, plugin_type, provider, options)
