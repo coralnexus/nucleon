@@ -591,10 +591,7 @@ class Manager
   def create(namespace, plugin_type, provider, options = {})
     @@environments[@actor_id].create_plugin(namespace, plugin_type, provider, options) do |type_info, plugin_options|
       logger.info("Creating new plugin #{provider} #{plugin_type}")
-
-      plugin_options        = translate(type_info, plugin_options)
-      plugin_options[:meta] = Config.new(type_info).import(Util::Data.hash(plugin_options[:meta]))
-      plugin_options
+      translate(type_info, plugin_options)
     end
   end
 
