@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Adrian Webb"]
-  s.date = "2014-10-26"
+  s.date = "2014-11-25"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -95,9 +95,14 @@ Gem::Specification.new do |s|
     "spec/core/codes_spec.rb",
     "spec/core/config_spec.rb",
     "spec/core/core_spec.rb",
+    "spec/core/environment_spec.rb",
     "spec/core/util/console_spec.rb",
+    "spec/nucleon/test.rb",
+    "spec/nucleon/test/first.rb",
+    "spec/nucleon/test/second.rb",
     "spec/nucleon_codes.rb",
     "spec/nucleon_config.rb",
+    "spec/nucleon_plugin.rb",
     "spec/nucleon_test.rb",
     "spec/spec_helper.rb"
   ]
