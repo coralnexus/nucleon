@@ -69,6 +69,21 @@ module Nucleon
       end
     end
 
+    # Return status display information for specified codes
+    #
+    describe "#render_status" do
+
+      it "renders known status name with selected code if specified" do
+        for status_code in 0 .. 11
+          test_eq Codes.render_status(status_code), codes_rendered_status(status_code)
+        end
+      end
+
+      it "renders unknown status name code if unknown status code specified" do
+        test_eq Codes.render_status(100), codes_rendered_status(100)
+      end
+    end
+
     # Return status index information for specified codes
     #
     describe "#render_index" do
@@ -80,7 +95,7 @@ module Nucleon
       end
 
       it "renders status index without selected code if unknown status code specified" do
-          test_eq Codes.render_index(100), codes_rendered_index(100)
+        test_eq Codes.render_index(100), codes_rendered_index(100)
       end
     end
 

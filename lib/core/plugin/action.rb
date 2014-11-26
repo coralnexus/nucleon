@@ -449,7 +449,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
 
     if processed? && myself.status != code.success
       logger.warn("Execution failed for #{plugin_provider} with status #{status}")
-      warn(Codes.render_index(status), { :i18n => false })
+      warn(Codes.render_status(status), { :i18n => false })
     end
   end
   protected :finalize_execution
