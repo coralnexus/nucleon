@@ -78,7 +78,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   #-----------------------------------------------------------------------------
   # Action plugin interface
 
-  def self.exec_safe(provider, options)
+  def self.exec_safe(provider, options, handle_errors = true)
     action_result = nil
 
     begin
@@ -89,27 +89,33 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       exit_status   = action.execute
       action_result = action.result
 
+    rescue Interrupt
+      raise
     rescue => error
-      logger.error("Nucleon action #{provider} experienced an error:")
-      logger.error(error.inspect)
-      logger.error(error.message)
-      logger.error(Nucleon::Util::Data.to_yaml(error.backtrace))
+      if handle_errors
+        logger.error("Nucleon action #{provider} experienced an error:")
+        logger.error(error.inspect)
+        logger.error(error.message)
+        logger.error(Nucleon::Util::Data.to_yaml(error.backtrace))
 
-      Nucleon.ui.error(error.message, { :prefix => false }) if error.message
+        Nucleon.ui.error(error.message, { :prefix => false }) if error.message
 
-      exit_status = error.status_code if error.respond_to?(:status_code)
+        exit_status = error.status_code if error.respond_to?(:status_code)
+      else
+        raise
+      end
     end
 
     exit_status = Nucleon.code.unknown_status unless exit_status.is_a?(Integer)
     { :status => exit_status, :result => action_result }
   end
 
-  def self.exec(provider, options, quiet = true)
-    exec_safe(provider, { :settings => Config.ensure(options), :quiet => quiet })
+  def self.exec(provider, options, quiet = true, handle_errors = true)
+    exec_safe(provider, { :settings => Config.ensure(options), :quiet => quiet }, handle_errors)
   end
 
-  def self.exec_cli(provider, args, quiet = false, name = :nucleon)
-    results = exec_safe(provider, { :args => args, :quiet => quiet, :executable => name })
+  def self.exec_cli(provider, args, quiet = false, name = :nucleon, handle_errors = true)
+    results = exec_safe(provider, { :args => args, :quiet => quiet, :executable => name }, handle_errors)
     results[:status]
   end
 
