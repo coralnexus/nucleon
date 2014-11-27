@@ -335,6 +335,10 @@ module Facade
     Manager.connection.plugin_class(namespace, plugin_type)
   end
 
+  def provider_class(namespace, plugin_type, provider)
+    Manager.connection.provider_class(namespace, plugin_type, provider)
+  end
+
   #-----------------------------------------------------------------------------
   # Core plugin type facade
 

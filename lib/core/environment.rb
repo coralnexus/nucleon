@@ -592,7 +592,7 @@ class Environment < Core
     when String, Symbol
       components = name.to_s.split(separator)
     when Array
-      components = name
+      components = name.flatten
     end
 
     components.collect! do |value|
@@ -680,6 +680,29 @@ class Environment < Core
   #
   def plugin_class(namespace, plugin_type)
     class_const([ sanitize_class(namespace), :plugin, sanitize_class(plugin_type) ])
+  end
+
+  # Return a class constant representing a plugin provider class generated from
+  # namespace, plugin_type, and provider name.
+  #
+  # The provider name can be entered as an array if it is included in sub modules.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Plugin namespace to constantize
+  #   - [String, Symbol] *plugin_type*  Plugin type to constantize
+  #   - [String, Symbol, Array] *provider*  Plugin provider name to constantize
+  #
+  # * *Returns*
+  #   - [String]  Returns a class constant representing the plugin provider
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - #class_const
+  # - #sanitize_class
+  #
+  def provider_class(namespace, plugin_type, provider)
+    class_const([ sanitize_class(namespace), sanitize_class(plugin_type), provider ])
   end
 
   # Parse plugin information for a specified namespace and plugin type.
