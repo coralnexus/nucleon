@@ -7,6 +7,8 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
 
   include Mixin::Action::Registration
 
+  codes :action_interrupted
+
   #-----------------------------------------------------------------------------
   # Info
 
@@ -76,47 +78,60 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
   end
 
   #-----------------------------------------------------------------------------
-  # Action plugin interface
+  # Action execution state container
 
-  def self.exec_safe(provider, options, handle_errors = true)
-    action_result = nil
-
-    begin
-      logger = Nucleon.logger
-
-      logger.debug("Running nucleon action #{provider} with #{options.inspect}")
-      action        = Nucleon.action(provider, options)
-      exit_status   = action.execute
-      action_result = action.result
-
-    rescue Interrupt
-      raise
-    rescue => error
-      if handle_errors
-        logger.error("Nucleon action #{provider} experienced an error:")
-        logger.error(error.inspect)
-        logger.error(error.message)
-        logger.error(Nucleon::Util::Data.to_yaml(error.backtrace))
-
-        Nucleon.ui.error(error.message, { :prefix => false }) if error.message
-
-        exit_status = error.status_code if error.respond_to?(:status_code)
-      else
-        raise
-      end
+  class State
+    def initialize(status = 0, result = nil, action = nil, error = nil)
+      @status = status
+      @result = result
+      @action = action
+      @error  = error
     end
 
-    exit_status = Nucleon.code.unknown_status unless exit_status.is_a?(Integer)
-    { :status => exit_status, :result => action_result }
+    #---
+
+    attr_accessor :status, :result, :action, :error
   end
 
-  def self.exec(provider, options, quiet = true, handle_errors = true)
-    exec_safe(provider, { :settings => Config.ensure(options), :quiet => quiet }, handle_errors)
+  #-----------------------------------------------------------------------------
+  # Action plugin interface
+
+  def self.exec_safe(provider, options, display_errors = true, state = nil)
+    begin
+      state  = State.new(Nucleon.code.unknown_status) unless state
+      logger = Nucleon.logger
+
+      logger.info("Running nucleon action #{provider} with #{options.inspect}")
+
+      state.action = Nucleon.action(provider, options)
+      state.action.execute
+
+      state.status = state.action.status if state.action.status.is_a?(Integer)
+      state.result = state.action.result
+
+    rescue => error # This does NOT catch interrupts
+      state.error = error
+
+      if display_errors
+        logger.error("Nucleon action #{provider} experienced an error:")
+        logger.error(state.error.inspect)
+        logger.error(state.error.message)
+        logger.error(Nucleon::Util::Data.to_yaml(state.error.backtrace))
+
+        Nucleon.ui.error(state.error.message, { :prefix => false }) if state.error.message
+      end
+
+      state.action.finalize_execution(false) if state.action
+    end
+    state
   end
 
-  def self.exec_cli(provider, args, quiet = false, name = :nucleon, handle_errors = true)
-    results = exec_safe(provider, { :args => args, :quiet => quiet, :executable => name }, handle_errors)
-    results[:status]
+  def self.exec(provider, options, quiet = true, display_errors = true, state = nil)
+    exec_safe(provider, { :settings => Config.ensure(options), :quiet => quiet }, display_errors, state)
+  end
+
+  def self.exec_cli(provider, args, quiet = false, name = :nucleon, display_errors = true, state = nil)
+    exec_safe(provider, { :args => args, :quiet => quiet, :executable => name }, display_errors, state)
   end
 
   #---
@@ -421,17 +436,14 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     myself.result = nil
 
     if processed?
-      begin
-        if skip_validate || validate
-          yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
-        else
-          puts "\n" + I18n.t('nucleon.core.exec.help.usage') + ': ' + help + "\n" unless quiet?
-          myself.status = code.validation_failed
-          skip_hooks    = true
-        end
-      ensure
-        finalize_execution(skip_hooks)
+      if skip_validate || validate
+        yield if block_given? && ( skip_hooks || extension_check(:exec_init) )
+      else
+        puts "\n" + I18n.t('nucleon.core.exec.help.usage') + ': ' + help + "\n" unless quiet?
+        myself.status = code.validation_failed
+        skip_hooks    = true
       end
+      finalize_execution(skip_hooks)
     else
       if @parser.options[:help]
         myself.status = code.help_wanted
@@ -458,7 +470,6 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
       warn(Codes.render_status(status), { :i18n => false })
     end
   end
-  protected :finalize_execution
 
   #---
 

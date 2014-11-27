@@ -360,12 +360,12 @@ module Facade
     action.config
   end
 
-  def action_run(provider, options = {}, quiet = true, handle_errors = true)
-    Plugin::Action.exec(provider, options, quiet, handle_errors)
+  def action_run(provider, options = {}, quiet = true, display_errors = true, state = nil)
+    Plugin::Action.exec(provider, options, quiet, display_errors, state)
   end
 
-  def action_cli(provider, args = [], quiet = false, name = :nucleon, handle_errors = true)
-    Plugin::Action.exec_cli(provider, args, quiet, name, handle_errors)
+  def action_cli(provider, args = [], quiet = false, name = :nucleon, display_errors = true, state = nil)
+    Plugin::Action.exec_cli(provider, args, quiet, name, display_errors, state)
   end
 
   def search_actions(args)
@@ -504,13 +504,21 @@ module Facade
 
   #---
 
+  @@exec_state = nil
+
+
+  def executable_state
+    Plugin::Action::State.new(code.unknown_status)
+  end
+
   def executable(args, name = 'nucleon') #ARGV
     logger.info("`#{name}` invoked: #{args.inspect}")
 
     $stdout.sync = true
     $stderr.sync = true
 
-    exit_status = nil
+    @@exec_state = executable_state
+    exit_status  = code.unknown_status
 
     # We need to catch this early.
     Util::Console.use_colors = ! args.include?("--no-color")
@@ -527,7 +535,10 @@ module Facade
       action, action_components, args = search_actions(args)
 
       if main_command.processed && action.is_a?(Hash)
-        exit_status = action_cli(action[:provider], args, false, name, false)
+        action_cli(action[:provider], args, false, name, false, @@exec_state)
+
+        action_error = @@exec_state.error
+        exit_status  = @@exec_state.status
       else
         puts I18n.t('nucleon.core.exec.help.usage') + ': ' + main_command.help + "\n"
         puts I18n.t('nucleon.core.exec.help.header') + ":\n"
@@ -539,23 +550,31 @@ module Facade
         exit_status = code.help_wanted
       end
 
-    rescue Interrupt => error
-      logger.warn("Nucleon executable interrupted, shutting down")
-      exit_status = code.action_unprocessed
-
     rescue => error
-      logger.error("Nucleon executable experienced an error:")
-      logger.error(error.inspect)
-      logger.error(error.message)
-      logger.error(Util::Data.to_yaml(error.backtrace))
-
-      ui.error(error.message, { :prefix => false }) if error.message
-
-      exit_status = error.status_code if error.respond_to?(:status_code)
-      exit_status = code.unknown_status if exit_status.nil?
+      action_error = error
+      exit_status  = code.unknown_status
     end
 
+    if action_error && ! action_error.is_a?(SystemExit)
+      logger.error("Nucleon executable experienced an error:")
+      logger.error(action_error.inspect)
+      logger.error(action_error.message)
+      logger.error(Util::Data.to_yaml(action_error.backtrace))
+
+      ui.error(action_error.message, { :prefix => false }) if action_error.message
+    end
     exit_status
+  end
+
+  #---
+
+  def interrupt_handler
+    logger.warn("Nucleon executable interrupted, shutting down")
+    if @@exec_state.action
+      @@exec_state.action.status = code.action_interrupted
+      @@exec_state.action.finalize_execution(false)
+    end
+    code.action_interrupted
   end
 
   #-----------------------------------------------------------------------------
