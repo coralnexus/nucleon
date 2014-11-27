@@ -139,12 +139,20 @@ class Base < Core
   #-----------------------------------------------------------------------------
   # Status codes
 
-  def code
+  def self.code
     Nucleon.code
   end
 
-  def codes(*codes)
+  def code
+    self.class.code
+  end
+
+  def self.codes(*codes)
     Nucleon.codes(*codes)
+  end
+
+  def codes(*codes)
+    self.class.codes(*codes)
   end
 
   #---
