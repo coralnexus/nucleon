@@ -138,31 +138,36 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
 
   def normalize(reload)
     args = array(delete(:args, []))
+    help = delete(:help, false)
 
-    @action_interface = Util::Liquid.new do |method, method_args|
-      options = {}
-      options = method_args[0] if method_args.length > 0
+    unless reload
+      @action_interface = Util::Liquid.new do |method, method_args|
+        options = {}
+        options = method_args[0] if method_args.length > 0
 
-      quiet   = true
-      quiet   = method_args[1] if method_args.length > 1
+        quiet   = true
+        quiet   = method_args[1] if method_args.length > 1
 
-      myself.class.exec(method, options, quiet)
-    end
+        myself.class.exec(method, options, quiet)
+      end
 
-    set(:config, Config.new)
+      set(:config, Config.new)
 
-    if get(:settings, nil)
-      # Internal processing
-      configure
-      set(:processed, true)
-      set(:settings, Config.ensure(get(:settings)))
+      if get(:settings, nil)
+        # Internal processing
+        configure
+        set(:processed, true)
+        set(:settings, Config.ensure(get(:settings)))
 
-      Nucleon.log_level = settings[:log_level] if settings.has_key?(:log_level)
-    else
-      # External processing
-      set(:settings, Config.new)
-      configure
-      parse_base(args)
+        Nucleon.log_level = settings[:log_level] if settings.has_key?(:log_level)
+      else
+        # External processing
+        set(:settings, Config.new)
+        configure
+        parse_base(args)
+      end
+
+      yield if block_given? && ! help
     end
   end
 
@@ -628,7 +633,7 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
 
     action_index.each do |action_id, info|
       if ! multiple_found || provider_index.has_key?(info[:provider])
-        action        = Nucleon.action(info[:provider], { :settings => {}, :quiet => true })
+        action        = Nucleon.action(info[:provider], { :settings => {}, :quiet => true, :help => true })
         command_text  = action.help
 
         command_size  = command_text.gsub(/\e\[(\d+)m/, '').size
