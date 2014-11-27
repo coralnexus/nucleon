@@ -639,7 +639,6 @@ module Facade
       data.each do |key, value|
         logger.send(state, "#{padding}#{key}")
         if value.is_a?(Hash) || value.is_a?(Nucleon::Config)
-          value = value.export if value.is_a?(Nucleon::Config)
           render_tree(value, logger, state, "#{padding}  ")
         end
       end
