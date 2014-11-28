@@ -437,6 +437,70 @@ module Nucleon
       end
     end
 
+    # Append a value for key path in the configuration object.
+    #
+    describe "#append" do
+
+      it "appends values to a configuration property" do
+        config do |config|
+          config.append([ :my, :sequence ], 1)
+          config.append([ :my, :sequence ], 3)
+          config.append([ :my, :sequence ], 5)
+          config.append([ :my, :sequence ], 7)
+          test_eq config.get([ :my, :sequence]), [ 1, 3, 5, 7 ]
+        end
+
+        config do |config|
+          config.append([ "my", :sequence ], [ 1, 2 ])
+          config.append([ :my, :sequence ], 3)
+          config.append([ :my, :sequence ], [ 5, 5.5, 18 ])
+          config.append([ :my, "sequence" ], 7)
+          test_eq config.get([ :my, "sequence" ]), [ 1, 2, 3, 5, 5.5, 18, 7 ]
+        end
+      end
+    end
+
+    # Prepend a value for key path in the configuration object.
+    #
+    describe "#prepend" do
+
+      it "prepends values to a configuration property" do
+        config do |config|
+          config.prepend([ :my, :sequence ], 1)
+          config.prepend([ :my, :sequence ], 3)
+          config.prepend([ :my, :sequence ], 5)
+          config.prepend([ :my, :sequence ], 7)
+          test_eq config.get([ :my, :sequence]), [ 7, 5, 3, 1 ]
+        end
+
+        config do |config|
+          config.prepend([ "my", :sequence ], [ 1, 2 ])
+          config.prepend([ :my, :sequence, nil ], 3)
+          config.prepend([ :my, :sequence ], [ 5, 5.5, 18 ])
+          config.prepend([ :my, "sequence" ], 7)
+          test_eq config.get([ :my, "sequence" ]), [ 7, 5, 5.5, 18, 3, 1, 2 ]
+        end
+      end
+
+      it "prepends values to a configuration property with reversed arrays" do
+        config do |config|
+          config.prepend([ "my", :sequence ], [ 1, 2 ], true)
+          config.prepend([ :my, :sequence ], 3)
+          config.prepend([ :my, :sequence ], [ 5, 5.5, 18 ], true)
+          config.prepend([ :my, "sequence" ], 7)
+          test_eq config.get([ :my, "sequence" ]), [ 7, 18, 5.5, 5, 3, 2, 1 ]
+        end
+
+        config do |config|
+          config.prepend([ "my", :sequence ], [ 1, 2 ], true)
+          config.prepend([ :my, nil, :sequence ], 3)
+          config.prepend([ :my, :sequence ], [ 5, 5.5, 18 ], false)
+          config.prepend([ :my, "sequence" ], 7)
+          test_eq config.get([ :my, "sequence" ]), [ 7, 5, 5.5, 18, 3, 2, 1 ]
+        end
+      end
+    end
+
     # Set value for key in the configuration object.
     #
     describe "#[]=" do
