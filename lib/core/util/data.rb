@@ -647,12 +647,6 @@ class Data
       data.each do |key, value|
         new_data[key] = clone(value)
       end
-    elsif data.respond_to?(:clone)
-      begin
-        new_data = data.clone
-      rescue # Might be symbol or immutable
-        new_data = data
-      end
     else
       new_data = data
     end
