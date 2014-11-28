@@ -490,7 +490,7 @@ class Environment < Core
     plugin_type  = sanitize_id(plugin_type)
 
     instances    = get_hash([ :active_info, namespace, plugin_type ])
-    instance_ids = array(@instance_map.get([ namespace, plugin_type, plugin_name.to_sym ]))
+    instance_ids = array(@instance_map.get([ namespace, plugin_type, plugin_name.to_s.to_sym ]))
 
     if instance_ids.size
       return instances[instance_ids[0]]
