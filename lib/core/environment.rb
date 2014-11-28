@@ -67,6 +67,8 @@ class Environment < Core
       :load_info    => {},
       :active_info  => {}
     }, {}, true, true, false)
+
+    @instance_map = Config.new
   end
 
   #*****************************************************************************
@@ -436,7 +438,7 @@ class Environment < Core
       return plugin
     end
 
-    if type_info = loaded_plugin(namespace, plugin_type, provider)
+    if type_info = Util::Data.clone(loaded_plugin(namespace, plugin_type, provider))
       ids             = array(type_info[:class].register_ids).flatten
       instance_config = Config.new(options)
       ensure_new      = instance_config.delete(:new, false)
@@ -457,6 +459,8 @@ class Environment < Core
 
         plugin = type_info[:class].new(namespace, plugin_type, provider, options)
         set([ :active_info, namespace, plugin_type, instance_name ], plugin)
+
+        @instance_map.append([ namespace, plugin_type, plugin.plugin_name.to_sym ], instance_name.to_sym)
       end
     end
     plugin
@@ -482,13 +486,14 @@ class Environment < Core
   # - #sanitize_id
   #
   def get_plugin(namespace, plugin_type, plugin_name)
-    namespace   = namespace.to_sym
-    plugin_type = sanitize_id(plugin_type)
+    namespace    = namespace.to_sym
+    plugin_type  = sanitize_id(plugin_type)
 
-    get_hash([ :active_info, namespace, plugin_type ]).each do |instance_name, plugin|
-      if plugin.plugin_name.to_s == plugin_name.to_s
-        return plugin
-      end
+    instances    = get_hash([ :active_info, namespace, plugin_type ])
+    instance_ids = array(@instance_map.get([ namespace, plugin_type, plugin_name.to_sym ]))
+
+    if instance_ids.size
+      return instances[instance_ids[0]]
     end
     nil
   end
