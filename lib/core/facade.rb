@@ -195,8 +195,8 @@ module Facade
     end
 
     fetch_ip = lambda do
-      result     = cli_run(value(:external_address_command, 'curl --silent ifconfig.me'), { :quiet => true })
-      ip_address = result.output
+      ip_command = value(:external_address_command, 'curl --silent ifconfig.me')
+      ip_address = `#{ip_command}`.strip
 
       unless ip_address.empty?
         @@ip_cache = {
