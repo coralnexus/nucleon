@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Adrian Webb"]
-  s.date = "2014-11-28"
+  s.date = "2014-11-29"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -120,7 +120,7 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<log4r>, ["~> 1.1"])
       s.add_runtime_dependency(%q<i18n>, ["~> 0.6"])
-      s.add_runtime_dependency(%q<netrc>, ["~> 0.7"])
+      s.add_runtime_dependency(%q<netrc>, ["~> 0.8"])
       s.add_runtime_dependency(%q<highline>, ["~> 1.6"])
       s.add_runtime_dependency(%q<erubis>, ["~> 2.7"])
       s.add_runtime_dependency(%q<deep_merge>, ["~> 1.0"])
@@ -129,7 +129,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<childprocess>, ["~> 0.5"])
       s.add_runtime_dependency(%q<celluloid>, ["~> 0.15"])
       s.add_runtime_dependency(%q<rugged>, ["~> 0.19"])
-      s.add_runtime_dependency(%q<octokit>, ["~> 2.7"])
+      s.add_runtime_dependency(%q<octokit>, ["~> 3.5"])
       s.add_development_dependency(%q<bundler>, ["~> 1.2"])
       s.add_development_dependency(%q<jeweler>, ["~> 2.0"])
       s.add_development_dependency(%q<rspec>, ["~> 2.10"])
@@ -141,7 +141,7 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<log4r>, ["~> 1.1"])
       s.add_dependency(%q<i18n>, ["~> 0.6"])
-      s.add_dependency(%q<netrc>, ["~> 0.7"])
+      s.add_dependency(%q<netrc>, ["~> 0.8"])
       s.add_dependency(%q<highline>, ["~> 1.6"])
       s.add_dependency(%q<erubis>, ["~> 2.7"])
       s.add_dependency(%q<deep_merge>, ["~> 1.0"])
@@ -150,7 +150,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<childprocess>, ["~> 0.5"])
       s.add_dependency(%q<celluloid>, ["~> 0.15"])
       s.add_dependency(%q<rugged>, ["~> 0.19"])
-      s.add_dependency(%q<octokit>, ["~> 2.7"])
+      s.add_dependency(%q<octokit>, ["~> 3.5"])
       s.add_dependency(%q<bundler>, ["~> 1.2"])
       s.add_dependency(%q<jeweler>, ["~> 2.0"])
       s.add_dependency(%q<rspec>, ["~> 2.10"])
@@ -163,7 +163,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<log4r>, ["~> 1.1"])
     s.add_dependency(%q<i18n>, ["~> 0.6"])
-    s.add_dependency(%q<netrc>, ["~> 0.7"])
+    s.add_dependency(%q<netrc>, ["~> 0.8"])
     s.add_dependency(%q<highline>, ["~> 1.6"])
     s.add_dependency(%q<erubis>, ["~> 2.7"])
     s.add_dependency(%q<deep_merge>, ["~> 1.0"])
@@ -172,7 +172,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<childprocess>, ["~> 0.5"])
     s.add_dependency(%q<celluloid>, ["~> 0.15"])
     s.add_dependency(%q<rugged>, ["~> 0.19"])
-    s.add_dependency(%q<octokit>, ["~> 2.7"])
+    s.add_dependency(%q<octokit>, ["~> 3.5"])
     s.add_dependency(%q<bundler>, ["~> 1.2"])
     s.add_dependency(%q<jeweler>, ["~> 2.0"])
     s.add_dependency(%q<rspec>, ["~> 2.10"])
