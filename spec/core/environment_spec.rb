@@ -43,6 +43,14 @@ module Nucleon
       environment.create_plugin(:nucleon, plugin_type, provider, options)
       test_config environment.get_plugin(:nucleon, plugin_type, provider), options
     end
+    
+    def test_remove_plugin(environment, plugin_type, provider, options)
+      plugin_autoload_test_environment(environment)
+      plugin = environment.create_plugin(:nucleon, plugin_type, provider, options)
+      test_config environment.remove_plugin(:nucleon, plugin_type, plugin.plugin_instance_name), options
+    end    
+    
+    
 
 
     #*****************************************************************************
@@ -348,6 +356,9 @@ module Nucleon
       
     end
     
+    # Check if a specified plugin type has been loaded
+    #
+        
     describe "#plugin_has_type?" do
       
       it "returns true for a loaded plugin type" do
@@ -388,6 +399,9 @@ module Nucleon
       
     end  
     
+    # Autoload all of the defined plugins
+    #
+        
     describe "#autoload" do
       
       it "tests autoloaded plugin export" do
@@ -439,35 +453,87 @@ module Nucleon
     
     describe "#remove_plugin" do
       
-      it "is an example" do
-        Nucleon.dump_enabled=true      
-        environment do |environment|
-          plugin_autoload_test_environment(environment)
-          environment.create_plugin(:nucleon, :test, :first, { :test1 => 13, :test2 => 5})
-          dbg(environment.remove_plugin(:nucleon, :test, :first))
-        end
-        Nucleon.dump_enabled=false      
+      it "returns the instance removed from the environment" do
+        test_remove_plugin environment, :test, :first, { :test1 => 13, :test2 => 5}  
       end
       
     end    
     
+    # Return active plugins for namespaces, plugin types, providers if specified
+    #
+        
     describe "#active_plugins" do
       
-      
-      it "just an example" do
-        Nucleon.dump_enabled=true      
+      it "returns appropriate return type" do     
         environment do |environment|
           plugin_autoload_test_environment(environment)
           environment.create_plugin(:nucleon, :test, :first, { :test1 => 13, :test2 => 5})
           environment.create_plugin(:nucleon, :test, :second, { :test1 => 15 })
-          dbg(environment.active_plugins)
-          dbg(environment.active_plugins(:nucleon))
-          dbg(environment.active_plugins(:nucleon, :test))
-          dbg(environment.active_plugins(:nucleon, :test, :first))
-          dbg(environment.active_plugins(:nucleon, :test)[:first_bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f])
+          test_type(environment.active_plugins, Hash)
+          test_type(environment.active_plugins(:nucleon), Hash)
+          test_type(environment.active_plugins(:nucleon, :test), Hash)
+          test_type(environment.active_plugins(:nucleon, :test, :first), Hash)
+          test_type((environment.active_plugins(:nucleon, :test)[:first_bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f]), Nucleon::Test::First)
         end
-        Nucleon.dump_enabled=false 
+        
       end
+      
+    end
+    
+    #*****************************************************************************
+    # Utilities
+  
+    # Return a fully formed class name as a string
+    #
+        
+    describe "#class_name" do
+      
+      it "returns a fully formed class name as an array with array of symbols" do
+        test_eq environment.class_name([:Nucleon, :Test, :First], '::',true), ["Nucleon", "Test", "First"]
+      end
+      
+      it "returns a fully formed class name as string seperated by :: with array of symbols" do
+        test_eq environment.class_name([:Nucleon, :Test, :First], '::',false), "Nucleon::Test::First"
+      end
+      
+      it "returns a fully formed class name as an array with array of strings" do
+        test_eq environment.class_name(["Nucleon", "Test", "First"], '::',true), ["Nucleon", "Test", "First"]
+      end
+      
+      it "returns a fully formed class name as string seperated by .. with array of strings" do
+        test_eq environment.class_name(["Nucleon", "Test", "First"], '..',false), "Nucleon..Test..First"
+      end
+      
+    end
+    
+    
+    # Return a fully formed class name as a machine usable constant
+    #
+        
+    describe "#class_const" do
+      
+      it "returns a fully formed class name for array of symbols" do
+        test_eq environment.class_const([:Nucleon,:Test,:First], '::'), Nucleon::Test::First
+      end
+      
+      it "returns a fully formed class name for array of strings" do
+        test_eq environment.class_const(["Nucleon", "Test", "First"], '::'), Nucleon::Test::First
+      end
+      
+    end
+
+    # Return a class constant representing a base plugin class generated from namespace and plugin_type.
+    #  
+    
+    describe "#plugin_class" do
+      
+      it "returns a class constant representing a base plugin class given symbols" do
+        test_eq environment.plugin_class(:nucleon, :action), Nucleon::Plugin::Action
+      end
+      
+      it "returns a class constant representing a base plugin class given strings" do
+        test_eq environment.plugin_class("nucleon", "translator"), Nucleon::Plugin::Translator
+      end      
       
     end
     
