@@ -1,22 +1,23 @@
 #!/usr/bin/env ruby
 
-Signal.trap("INT") { exit 1 }
+begin
+  require 'nucleon'
 
-#---
+  # Set version info
 
-require 'nucleon'
-
-# Set version info
-
-module Nucleon; module Util; module CLI
-class Parser
-  def version
-    version = Nucleon.VERSION
-    "Nucleon: #{version}  (Apache License, Version 2.0)  --  https://github.com/coralnexus/nucleon/tree/v#{version}"  
+  module Nucleon; module Util; module CLI
+  class Parser
+    def version
+      version = Nucleon.VERSION
+      "Nucleon: #{version}  (Apache License, Version 2.0)  --  https://github.com/coralnexus/nucleon/tree/v#{version}"  
+    end
   end
+  end; end; end
+
+  # Execute
+
+  exit(Nucleon.executable(ARGV, :nucleon))
+
+rescue Interrupt
+  exit(Nucleon.interrupt_handler)
 end
-end; end; end
-
-# Execute
-
-exit(Nucleon.executable(ARGV, :nucleon))

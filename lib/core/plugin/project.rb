@@ -824,21 +824,23 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     end
 
     if can_persist?
+      unless remote(remote)
+        logger.warn("Project #{plugin_name} does not have the remote '#{remote}' defined")
+        return true
+      end
       localize do
         if extension_check(:push, { :directory => directory, :config => config })
           remote = config.delete(:remote)
           tries  = config.delete(:tries, 5)
 
           # TODO: Figure out a better way through specialized exception handling
-          if remote(remote)
-            begin
-              success = push_project.call(remote)
-              raise unless success
+          begin
+            success = push_project.call(remote)
+            raise unless success
 
-            rescue
-              tries -= 1
-              retry if tries > 0
-            end
+          rescue
+            tries -= 1
+            retry if tries > 0
           end
 
           if success
@@ -876,7 +878,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
         end
       end
     else
-      logger.warn("Project #{name} does not meet the criteria for persistence and can not push to remotes")
+      logger.warn("Project #{plugin_name} does not meet the criteria for persistence and can not push to remotes")
     end
     success
   end
