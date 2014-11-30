@@ -100,6 +100,8 @@ class Manager
     @logger   = Nucleon.logger
     @actor_id = actor_id.to_sym
 
+    @provider_cache = {}
+
     if reset || ! @@environments[@actor_id]
       @@environments[@actor_id] = Environment.new
     end
@@ -560,10 +562,18 @@ class Manager
     provider = config.delete(:provider, provider)
     provider = default_provider unless provider
 
-    provider = value(:manager_plugin_provider, provider, Util::Data.merge([ config.export, {
+    provider_data = Util::Data.merge([ config.export, {
       :namespace => namespace,
       :type      => plugin_type
-    }]))
+    }])
+    provider_id = Nucleon.sha1(Util::Data.merge([ provider_data, { :provider => provider }]))
+
+    if @provider_cache.has_key?(provider_id)
+      provider = @provider_cache[provider_id]
+    else
+      provider = value(:manager_plugin_provider, provider, provider_data)
+      @provider_cache[provider_id] = provider
+    end
 
     load_base(namespace, plugin_type, provider, config)
   end
@@ -831,6 +841,29 @@ class Manager
   #
   def plugin_class(namespace, plugin_type)
     @@environments[@actor_id].plugin_class(namespace, plugin_type)
+  end
+
+  # Return a class constant representing a plugin provider class generated from
+  # namespace, plugin_type, and provider name.
+  #
+  # The provider name can be entered as an array if it is included in sub modules.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Plugin namespace to constantize
+  #   - [String, Symbol] *plugin_type*  Plugin type to constantize
+  #   - [String, Symbol, Array] *provider*  Plugin provider name to constantize
+  #
+  # * *Returns*
+  #   - [String]  Returns a class constant representing the plugin provider
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - #class_const
+  # - #sanitize_class
+  #
+  def provider_class(namespace, plugin_type, provider)
+    @@environments[@actor_id].provider_class(namespace, plugin_type, provider)
   end
 end
 end

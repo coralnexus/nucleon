@@ -67,6 +67,8 @@ class Environment < Core
       :load_info    => {},
       :active_info  => {}
     }, {}, true, true, false)
+
+    @instance_map = Config.new
   end
 
   #*****************************************************************************
@@ -436,7 +438,7 @@ class Environment < Core
       return plugin
     end
 
-    if type_info = loaded_plugin(namespace, plugin_type, provider)
+    if type_info = Util::Data.clone(loaded_plugin(namespace, plugin_type, provider))
       ids             = array(type_info[:class].register_ids).flatten
       instance_config = Config.new(options)
       ensure_new      = instance_config.delete(:new, false)
@@ -457,6 +459,8 @@ class Environment < Core
 
         plugin = type_info[:class].new(namespace, plugin_type, provider, options)
         set([ :active_info, namespace, plugin_type, instance_name ], plugin)
+
+        @instance_map.append([ namespace, plugin_type, plugin.plugin_name.to_sym ], instance_name.to_sym)
       end
     end
     plugin
@@ -482,13 +486,14 @@ class Environment < Core
   # - #sanitize_id
   #
   def get_plugin(namespace, plugin_type, plugin_name)
-    namespace   = namespace.to_sym
-    plugin_type = sanitize_id(plugin_type)
+    namespace    = namespace.to_sym
+    plugin_type  = sanitize_id(plugin_type)
 
-    get_hash([ :active_info, namespace, plugin_type ]).each do |instance_name, plugin|
-      if plugin.plugin_name.to_s == plugin_name.to_s
-        return plugin
-      end
+    instances    = get_hash([ :active_info, namespace, plugin_type ])
+    instance_ids = array(@instance_map.get([ namespace, plugin_type, plugin_name.to_s.to_sym ]))
+
+    if instance_ids.size
+      return instances[instance_ids[0]]
     end
     nil
   end
@@ -592,7 +597,7 @@ class Environment < Core
     when String, Symbol
       components = name.to_s.split(separator)
     when Array
-      components = name
+      components = name.flatten
     end
 
     components.collect! do |value|
@@ -680,6 +685,29 @@ class Environment < Core
   #
   def plugin_class(namespace, plugin_type)
     class_const([ sanitize_class(namespace), :plugin, sanitize_class(plugin_type) ])
+  end
+
+  # Return a class constant representing a plugin provider class generated from
+  # namespace, plugin_type, and provider name.
+  #
+  # The provider name can be entered as an array if it is included in sub modules.
+  #
+  # * *Parameters*
+  #   - [String, Symbol] *namespace*  Plugin namespace to constantize
+  #   - [String, Symbol] *plugin_type*  Plugin type to constantize
+  #   - [String, Symbol, Array] *provider*  Plugin provider name to constantize
+  #
+  # * *Returns*
+  #   - [String]  Returns a class constant representing the plugin provider
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - #class_const
+  # - #sanitize_class
+  #
+  def provider_class(namespace, plugin_type, provider)
+    class_const([ sanitize_class(namespace), sanitize_class(plugin_type), provider ])
   end
 
   # Parse plugin information for a specified namespace and plugin type.

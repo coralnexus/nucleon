@@ -70,6 +70,16 @@ RSpec.shared_context "nucleon_codes" do
   #*****************************************************************************
   # Code test utilities
 
+  def codes_rendered_status(status_code = nil)
+    # Basically copied from the Codes class to ensure parity over time.
+    if ! status_code.nil? && codes_status_index_custom.has_key?(status_code)
+      status_name = codes_status_index_custom[status_code]
+    else
+      status_name = codes_status_index_custom[codes_registry_custom[:unknown_status]]
+    end
+    sprintf(" [ %3i ] - %s\n", status_code, status_name.gsub(/_/, ' ').capitalize)
+  end
+
   def codes_rendered_index(status_code = nil)
     # Basically copied from the Codes class to ensure parity over time.
     output = "Status index:\n"

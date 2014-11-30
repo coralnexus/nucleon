@@ -39,6 +39,17 @@ class Codes
 
   #---
 
+  def self.render_status(status_code = nil)
+    if ! status_code.nil? && @@status_index.has_key?(status_code)
+      status_name = @@status_index[status_code]
+    else
+      status_name = @@status_index[registry[:unknown_status]]
+    end
+    sprintf(" [ %3i ] - %s\n", status_code, status_name.gsub(/_/, ' ').capitalize)
+  end
+
+  #---
+
   def self.render_index(status_code = nil)
     output = "Status index:\n"
     @@status_index.each do |code, name|

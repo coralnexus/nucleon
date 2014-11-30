@@ -373,11 +373,16 @@ class Config
   #
   # * *Errors*
   #
+  # * *Yields*
+  #   - [Symbol]  *key*  Configuration key to modify
+  #   - [ANY] *value*  New value of configuration key
+  #   - [ANY] *existing*  Existing value being replaced for the configuration key
+  #
   # See:
   # - #symbol_map
   # - Nucleon::Util::Data::symbol_map
   #
-  def modify(data, keys, value = nil, delete_nil = false)
+  def modify(data, keys, value = nil, delete_nil = false, &block) # :yields: key, value, existing
     if keys.is_a?(String) || keys.is_a?(Symbol)
       keys = [ keys ]
     end
@@ -391,19 +396,17 @@ class Config
     }
 
     if keys.empty?
-      existing[:value] = data[key] if has_key
-
       if value.nil? && delete_nil
         data.delete(key) if has_key
       else
         value     = symbol_map(value) if value.is_a?(Hash)
-        data[key] = value
+        data[key] = block ? block.call(key, value, existing[:value]) : value
       end
     else
       data[key] = {} unless has_key
 
       if data[key].is_a?(Hash)
-        existing = modify(data[key], keys, value, delete_nil)
+        existing = modify(data[key], keys, value, delete_nil, &block)
       else
         existing[:value] = nil
       end
@@ -533,14 +536,78 @@ class Config
   #
   # * *Errors*
   #
+  # * *Yields*
+  #   - [Symbol]  *key*  Configuration key to modify
+  #   - [ANY] *value*  New value of configuration key
+  #   - [ANY] *existing*  Existing value being replaced for the configuration key
+  #
   # See:
   # - #modify
   #
   # See also:
   # - #array
   #
-  def set(keys, value, delete_nil = false)
-    modify(@properties, array(keys).flatten, value, delete_nil)
+  def set(keys, value, delete_nil = false, &code) # :yields: key, value, existing
+    modify(@properties, array(keys).flatten, value, delete_nil, &code)
+    return self
+  end
+
+  # Append a value for an array key path in the configuration object.
+  #
+  # * *Parameters*
+  #   - [Array<String, Symbol>, String, Symbol] *keys*  Key path to modify
+  #   - [ANY] *value*  Value to set for key path
+  #
+  # * *Returns*
+  #   - [Nucleon::Config]  Returns reference to self for compound operations
+  #
+  # * *Errors*
+  #
+  # See:
+  # - #modify
+  #
+  # See also:
+  # - #array
+  #
+  def append(keys, value)
+    modify(@properties, array(keys).flatten, value, false) do |key, processed_value, existing|
+      if existing.is_a?(Array)
+        [ existing, processed_value ].flatten
+      else
+        [ processed_value ]
+      end
+    end
+    return self
+  end
+
+  # Prepend a value to an array key path in the configuration object.
+  #
+  # * *Parameters*
+  #   - [Array<String, Symbol>, String, Symbol] *keys*  Key path to modify
+  #   - [ANY] *value*  Value to set for key path
+  #   - [Boolean] *reverse*  Whether or not to reverse any input value arrays given before prepending
+  #
+  # * *Returns*
+  #   - [Nucleon::Config]  Returns reference to self for compound operations
+  #
+  # * *Errors*
+  #
+  # See:
+  # - #modify
+  #
+  # See also:
+  # - #array
+  #
+  def prepend(keys, value, reverse = false)
+    modify(@properties, array(keys).flatten, value, false) do |key, processed_value, existing|
+      processed_value = processed_value.reverse if reverse && processed_value.is_a?(Array)
+
+      if existing.is_a?(Array)
+        [ processed_value, existing ].flatten
+      else
+        [ processed_value ]
+      end
+    end
     return self
   end
 
