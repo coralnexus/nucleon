@@ -23,7 +23,4 @@ group :development do
   gem "rspec", "~> 2.10"
   gem "rdoc", "~> 3.12"
   gem "yard", "~> 0.8"
-  gem "pry", "~> 0.9"
-  gem "pry-stack_explorer", "~> 0.4"
-  gem "pry-byebug", "~> 1.3"
 end

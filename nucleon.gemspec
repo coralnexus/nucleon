@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Adrian Webb"]
-  s.date = "2014-11-29"
+  s.date = "2014-12-02"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -111,7 +111,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--title", "Nucleon", "--main", "README.rdoc", "--line-numbers"]
   s.required_ruby_version = Gem::Requirement.new(">= 1.8.1")
   s.rubyforge_project = "nucleon"
-  s.rubygems_version = "2.2.2"
+  s.rubygems_version = "2.4.4"
   s.summary = "Easy and minimal framework for building extensible distributed applications"
 
   if s.respond_to? :specification_version then
@@ -135,9 +135,6 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rspec>, ["~> 2.10"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<yard>, ["~> 0.8"])
-      s.add_development_dependency(%q<pry>, ["~> 0.9"])
-      s.add_development_dependency(%q<pry-stack_explorer>, ["~> 0.4"])
-      s.add_development_dependency(%q<pry-byebug>, ["~> 1.3"])
     else
       s.add_dependency(%q<log4r>, ["~> 1.1"])
       s.add_dependency(%q<i18n>, ["~> 0.6"])
@@ -156,9 +153,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rspec>, ["~> 2.10"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<yard>, ["~> 0.8"])
-      s.add_dependency(%q<pry>, ["~> 0.9"])
-      s.add_dependency(%q<pry-stack_explorer>, ["~> 0.4"])
-      s.add_dependency(%q<pry-byebug>, ["~> 1.3"])
     end
   else
     s.add_dependency(%q<log4r>, ["~> 1.1"])
@@ -178,9 +172,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rspec>, ["~> 2.10"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<yard>, ["~> 0.8"])
-    s.add_dependency(%q<pry>, ["~> 0.9"])
-    s.add_dependency(%q<pry-stack_explorer>, ["~> 0.4"])
-    s.add_dependency(%q<pry-byebug>, ["~> 1.3"])
   end
 end
 
