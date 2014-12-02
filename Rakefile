@@ -6,9 +6,6 @@ require 'bundler'
 require 'jeweler'
 require 'rspec/core/rake_task'
 require 'rdoc/task'
-require 'yard'
-
-require './lib/nucleon.rb'
 
 #-------------------------------------------------------------------------------
 # Dependencies
@@ -61,7 +58,6 @@ Note: This framework is still very early in development!
     'VERSION',
     'Rakefile'
   ]
-
   # Dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
@@ -74,13 +70,12 @@ RSpec::Core::RakeTask.new(:spec, :tag) do |spec, task_args|
   options << "--tag #{task_args[:tag]}" if task_args.is_a?(Array) && ! task_args[:tag].to_s.empty?
   spec.rspec_opts = options.join(' ')
 end
-
 task :default => :spec
 
 #-------------------------------------------------------------------------------
 # Documentation
 
-version   = Nucleon.VERSION
+version   = File.read(File.join(File.dirname(__FILE__), 'VERSION'))
 doc_title = "nucleon #{version}"
 
 class RDoc::Options
@@ -101,11 +96,4 @@ Rake::RDocTask.new do |rdoc|
 
   rdoc.rdoc_files.include('*.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-#---
-
-YARD::Rake::YardocTask.new do |ydoc|
-  ydoc.files   = [ '*.rdoc', 'lib/**/*.rb' ]
-  ydoc.options = [ "--output-dir yardoc", "--title '#{doc_title}'" ]
 end
