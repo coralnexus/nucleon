@@ -42,7 +42,7 @@ A framework that provides a simple foundation for building Ruby applications tha
 
 Note: This framework is still very early in development!
 }
-  gem.required_ruby_version = '>= 1.8.1'
+  gem.required_ruby_version = '>= 1.9.1'
   gem.has_rdoc              = true
   gem.rdoc_options << '--title' << 'Nucleon' <<
                       '--main' << 'README.rdoc' <<
