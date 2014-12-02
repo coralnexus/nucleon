@@ -109,7 +109,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/coralnexus/nucleon"
   s.licenses = ["Apache License, Version 2.0"]
   s.rdoc_options = ["--title", "Nucleon", "--main", "README.rdoc", "--line-numbers"]
-  s.required_ruby_version = Gem::Requirement.new(">= 1.8.1")
+  s.required_ruby_version = Gem::Requirement.new(">= 1.9.1")
   s.rubyforge_project = "nucleon"
   s.rubygems_version = "2.4.4"
   s.summary = "Easy and minimal framework for building extensible distributed applications"
