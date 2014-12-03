@@ -92,6 +92,10 @@
     
     <li><a href="#method-c-build_info">::build_info</a>
     
+    <li><a href="#method-c-code">::code</a>
+    
+    <li><a href="#method-c-codes">::codes</a>
+    
     <li><a href="#method-c-init_plugin_collection">::init_plugin_collection</a>
     
     <li><a href="#method-c-new">::new</a>
@@ -311,6 +315,8 @@
   
     <li><a href="../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
   
+    <li><a href="../../Nucleon/Plugin/Action/State.html">Nucleon::Plugin::Action::State</a>
+  
     <li><a href="../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
   
     <li><a href="../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
@@ -428,7 +434,7 @@
 
           
           <div class="method-source-code" id="build_info-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 338</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 346</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">build_info</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-identifier">plugins</span> = []
 
@@ -463,6 +469,70 @@
       </div><!-- build_info-method -->
 
     
+      <div id="method-c-code" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">code</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="code-doc">
+            
+            
+            
+          </div><!-- code-doc -->
+
+          
+          <div class="method-source-code" id="code-source">
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">code</span>
+  <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">code</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- code-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- code-method -->
+
+    
+      <div id="method-c-codes" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">codes</span><span
+            class="method-args">(*codes)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="codes-doc">
+            
+            
+            
+          </div><!-- codes-doc -->
+
+          
+          <div class="method-source-code" id="codes-source">
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 150</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
+  <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- codes-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- codes-method -->
+
+    
       <div id="method-c-init_plugin_collection" class="method-detail ">
         
         <div class="method-heading">
@@ -481,7 +551,7 @@
 
           
           <div class="method-source-code" id="init_plugin_collection-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 399</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 407</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">init_plugin_collection</span>(*<span class="ruby-identifier">external_block_methods</span>)
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-node">&quot;Initializing plugin collection interface at #{Time.now}&quot;</span>)
 
@@ -602,7 +672,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="translate-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 365</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 373</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">translate</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">debug</span>(<span class="ruby-string">&quot;Translating input data to internal plugin structure&quot;</span>)
   <span class="ruby-keyword">return</span> ( <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">symbol_map</span>(<span class="ruby-identifier">data</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">data</span> )
@@ -635,7 +705,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="translate_reference-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 372</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 380</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">translate_reference</span>(<span class="ruby-identifier">reference</span>, <span class="ruby-identifier">editable</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-comment"># ex: provider:::name</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">reference</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">reference</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^\s*([a-zA-Z0-9_-]+)(?::::)?(.*)?\s*$/</span>)
@@ -688,7 +758,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="admin_exec-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 430</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 438</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">admin_exec</span>(<span class="ruby-identifier">return_result</span> = <span class="ruby-keyword">true</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">admin?</span>
     <span class="ruby-identifier">safe_exec</span>(<span class="ruby-identifier">return_result</span>, &amp;<span class="ruby-identifier">block</span>)
@@ -725,7 +795,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="ask-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 209</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 217</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">ask</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">ask</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -757,9 +827,9 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="code-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 142</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 146</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">code</span>
-  <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">code</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">code</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- code-source -->
           
@@ -789,9 +859,9 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="codes-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 146</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 154</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
-  <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- codes-source -->
           
@@ -821,7 +891,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="error-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 306</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 314</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">error</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:operation</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:error</span> })
 
@@ -859,7 +929,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="extended_config-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 182</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 190</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extended_config</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">config</span>(<span class="ruby-identifier">type</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:plugin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }))
   <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:plugin</span>)
@@ -893,7 +963,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="extension-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 176</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 184</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extension</span>(<span class="ruby-identifier">hook</span>, <span class="ruby-identifier">options</span> = {}, &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">exec</span>(<span class="ruby-identifier">hook_method</span>(<span class="ruby-identifier">hook</span>), <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:plugin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }), &amp;<span class="ruby-identifier">code</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -925,7 +995,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="extension_check-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 190</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 198</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extension_check</span>(<span class="ruby-identifier">hook</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">check</span>(<span class="ruby-identifier">hook_method</span>(<span class="ruby-identifier">hook</span>), <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:plugin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }))
 <span class="ruby-keyword">end</span></pre>
@@ -957,7 +1027,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="extension_collect-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 202</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 210</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extension_collect</span>(<span class="ruby-identifier">hook</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">collect</span>(<span class="ruby-identifier">hook_method</span>(<span class="ruby-identifier">hook</span>), <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:plugin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }))
 <span class="ruby-keyword">end</span></pre>
@@ -989,7 +1059,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="extension_set-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 196</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 204</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">extension_set</span>(<span class="ruby-identifier">hook</span>, <span class="ruby-identifier">value</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">hook_method</span>(<span class="ruby-identifier">hook</span>), <span class="ruby-identifier">value</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:plugin</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">myself</span> }))
 <span class="ruby-keyword">end</span></pre>
@@ -1021,7 +1091,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="hook_method-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 170</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 178</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">hook_method</span>(<span class="ruby-identifier">hook</span>)
   <span class="ruby-node">&quot;#{plugin_type}_#{plugin_provider}_#{hook}&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1053,7 +1123,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="info-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 282</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 290</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">info</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:operation</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:info</span> })
 
@@ -1220,7 +1290,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="normalize-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 163</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 171</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">normalize</span>(<span class="ruby-identifier">reload</span>)
   <span class="ruby-comment"># Implement in sub classes</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1284,7 +1354,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="password-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 215</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 223</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">password</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">ui</span>.<span class="ruby-identifier">password</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1636,7 +1706,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="prefixed_message-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 330</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 338</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">prefixed_message</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">prefix</span>, <span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">unless</span> [ <span class="ruby-value">:info</span>, <span class="ruby-value">:warn</span>, <span class="ruby-value">:error</span>, <span class="ruby-value">:success</span> ].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_sym</span>)
   <span class="ruby-identifier">send</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">prefix</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">render_message</span>(<span class="ruby-identifier">message</span>, <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:prefix</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>, <span class="ruby-value">:operation</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">type</span>.<span class="ruby-identifier">to_sym</span> }).<span class="ruby-identifier">export</span>), <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:i18n</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span> }).<span class="ruby-identifier">export</span>)
@@ -1765,7 +1835,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="render-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 267</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 275</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">render</span>(<span class="ruby-identifier">data</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
 
@@ -1806,7 +1876,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="safe_exec-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 413</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 421</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">safe_exec</span>(<span class="ruby-identifier">return_result</span> = <span class="ruby-keyword">true</span>, &amp;<span class="ruby-identifier">code</span>)
   <span class="ruby-keyword">begin</span>
     <span class="ruby-identifier">result</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">call</span>
@@ -1881,7 +1951,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="status-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 156</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 164</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">status</span>
   <span class="ruby-identifier">meta</span>.<span class="ruby-identifier">get</span>(<span class="ruby-value">:status</span>, <span class="ruby-identifier">code</span>.<span class="ruby-identifier">unknown_status</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1913,7 +1983,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="status-3D-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 152</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 160</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">status=</span><span class="ruby-identifier">status</span>
   <span class="ruby-identifier">meta</span>.<span class="ruby-identifier">set</span>(<span class="ruby-value">:status</span>, <span class="ruby-identifier">status</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1945,7 +2015,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="success-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 318</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 326</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">success</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:operation</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:success</span> })
 
@@ -1983,7 +2053,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="translate_reference-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 393</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 401</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">translate_reference</span>(<span class="ruby-identifier">reference</span>, <span class="ruby-identifier">editable</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">myself</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">translate_reference</span>(<span class="ruby-identifier">reference</span>, <span class="ruby-identifier">editable</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2015,7 +2085,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="warn-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 294</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 302</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">warn</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">import</span>({ <span class="ruby-value">:operation</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:warn</span> })
 
@@ -2059,7 +2129,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="render_message-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 240</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 248</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">render_message</span>(<span class="ruby-identifier">message</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span>     = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">use_prefix</span> = <span class="ruby-keyword">true</span>
@@ -2111,7 +2181,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="render_options-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 229</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 237</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">render_options</span>
   <span class="ruby-identifier">export</span>.<span class="ruby-identifier">merge</span>({
     <span class="ruby-value">:plugin_namespace</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:namespace</span>) <span class="ruby-operator">?</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">namespace</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">plugin_namespace</span>,
@@ -2147,7 +2217,7 @@ indirectly extend <a href="Base.html">Base</a></p>
 
           
           <div class="method-source-code" id="render_provider-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 222</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/base.rb, line 230</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">render_provider</span>
   <span class="ruby-identifier">plugin_provider</span>
 <span class="ruby-keyword">end</span></pre>

@@ -191,6 +191,8 @@
   
     <li><a href="../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
   
+    <li><a href="../../Nucleon/Plugin/Action/State.html">Nucleon::Plugin::Action::State</a>
+  
     <li><a href="../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
   
     <li><a href="../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
@@ -310,7 +312,7 @@
           <div class="method-source-code" id="decode-source">
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">decode</span>(<span class="ruby-identifier">encoded_string</span>)
-  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">symbol_map</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">parse_json</span>(<span class="ruby-constant">Base64</span>.<span class="ruby-identifier">urlsafe_decode64</span>(<span class="ruby-identifier">encoded_string</span>)))  
+  <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">symbol_map</span>(<span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">parse_json</span>(<span class="ruby-constant">Base64</span>.<span class="ruby-identifier">urlsafe_decode64</span>(<span class="ruby-identifier">encoded_string</span>)))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- decode-source -->
           
@@ -377,7 +379,7 @@
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-identifier">default</span> = <span class="ruby-value">:none</span>
   <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">default</span>.<span class="ruby-identifier">to_s</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-constant">I18n</span>.<span class="ruby-identifier">t</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>, <span class="ruby-value">:default_value</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Console</span>.<span class="ruby-identifier">purple</span>(<span class="ruby-identifier">default</span>.<span class="ruby-identifier">to_s</span>))
 <span class="ruby-keyword">end</span></pre>
           </div><!-- message-source -->
           

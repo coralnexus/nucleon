@@ -224,15 +224,19 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
 
   #---
 
+  def registration_provider
+    plugin_provider
+  end
+
   def register(name, type, default = nil, locale = nil, &code)
     name = name.to_sym
 
     if code
-      option = Option.new(namespace, plugin_provider, name, type, default, locale) do |value, success|
+      option = Option.new(namespace, registration_provider, name, type, default, locale) do |value, success|
         code.call(value, success)
       end
     else
-      option = Option.new(namespace, plugin_provider, name, type, default, locale)
+      option = Option.new(namespace, registration_provider, name, type, default, locale)
     end
 
     config[name]   = option

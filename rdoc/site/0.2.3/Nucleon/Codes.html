@@ -80,6 +80,8 @@
     
     <li><a href="#method-c-render_index">::render_index</a>
     
+    <li><a href="#method-c-render_status">::render_status</a>
+    
     <li><a href="#method-c-reset">::reset</a>
     
     <li><a href="#method-c-status_index">::status_index</a>
@@ -209,6 +211,8 @@
   
     <li><a href="../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
   
+    <li><a href="../Nucleon/Plugin/Action/State.html">Nucleon::Plugin::Action::State</a>
+  
     <li><a href="../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
   
     <li><a href="../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
@@ -326,7 +330,7 @@
 
           
           <div class="method-source-code" id="code-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 60</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">code</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
 
@@ -367,7 +371,7 @@
 
           
           <div class="method-source-code" id="codes-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 75</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">codes</span>(*<span class="ruby-identifier">codes</span>)
   <span class="ruby-identifier">codes</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">code</span>(<span class="ruby-identifier">name</span>)
@@ -475,7 +479,7 @@
 
           
           <div class="method-source-code" id="render_index-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 42</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">render_index</span>(<span class="ruby-identifier">status_code</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">output</span> = <span class="ruby-string">&quot;Status index:\n&quot;</span>
   <span class="ruby-identifier">@@status_index</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">code</span>, <span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
@@ -500,6 +504,43 @@
       </div><!-- render_index-method -->
 
     
+      <div id="method-c-render_status" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">render_status</span><span
+            class="method-args">(status_code = nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          <div class="method-doc" id="render_status-doc">
+            
+            
+            
+          </div><!-- render_status-doc -->
+
+          
+          <div class="method-source-code" id="render_status-source">
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">render_status</span>(<span class="ruby-identifier">status_code</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">status_code</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">@@status_index</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">status_code</span>)
+    <span class="ruby-identifier">status_name</span> = <span class="ruby-identifier">@@status_index</span>[<span class="ruby-identifier">status_code</span>]
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">status_name</span> = <span class="ruby-identifier">@@status_index</span>[<span class="ruby-identifier">registry</span>[<span class="ruby-value">:unknown_status</span>]]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">sprintf</span>(<span class="ruby-string">&quot; [ %3i ] - %s\n&quot;</span>, <span class="ruby-identifier">status_code</span>, <span class="ruby-identifier">status_name</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">/_/</span>, <span class="ruby-string">&#39; &#39;</span>).<span class="ruby-identifier">capitalize</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- render_status-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- render_status-method -->
+
+    
       <div id="method-c-reset" class="method-detail ">
         
         <div class="method-heading">
@@ -518,7 +559,7 @@
 
           
           <div class="method-source-code" id="reset-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 83</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 94</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">reset</span>
   <span class="ruby-identifier">@@registry</span>     = {}
   <span class="ruby-identifier">@@status_index</span> = {}
@@ -600,7 +641,7 @@
 
           
           <div class="method-source-code" id="5B-5D-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 102</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-operator">[]</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
 
@@ -638,7 +679,7 @@
 
           
           <div class="method-source-code" id="method_missing-source">
-            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 114</span>
+            <pre><span class="ruby-comment"># File lib/core/codes.rb, line 125</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">method</span>, *<span class="ruby-identifier">args</span>, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-keyword">self</span>[<span class="ruby-identifier">method</span>]
 <span class="ruby-keyword">end</span></pre>
