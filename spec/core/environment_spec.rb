@@ -61,7 +61,6 @@ module Nucleon
       it "tests initialize method" do
         test_config environment, plugin_environment_empty
       end
-      
     end
     
     #*****************************************************************************
@@ -81,7 +80,6 @@ module Nucleon
           test_eq environment.namespaces, [:nucleon, :unit, :testing]
         end
       end 
-      
     end
     
     describe "#plugin_types" do
@@ -102,8 +100,7 @@ module Nucleon
           environment.define_plugin_type :nucleon, :test, :first
           test_eq environment.plugin_types(:nonexist), []
         end
-      end      
-      
+      end
     end
     
     # Define a new plugin type in a specified namespace.
@@ -113,8 +110,7 @@ module Nucleon
       
       it "returns loaded plugins state" do
           test_config environment.define_plugin_type(:nucleon, :test, :first), plugin_environment_test1
-      end
-      
+      end  
     end
     
     # Define one or more new plugin types in a specified namespace.
@@ -129,7 +125,6 @@ module Nucleon
       it "returns environment object" do
         test_type environment.define_plugin_types(:nucleon, { :test1 => "test2", :test3 => "test4"}), Nucleon::Environment
       end
-      
     end
     
     # Check if a specified plugin type has been defined
@@ -170,7 +165,6 @@ module Nucleon
           test_eq environment.plugin_type_default(:nucleon1, :test3),"test4"
         end
       end
- 
     end
     
     #*****************************************************************************
@@ -206,7 +200,6 @@ module Nucleon
         plugin_define_plugins(environment, :action, { :project_update => [ 'project', 'update' ], :project_ceate => [ 'project', 'create' ], :project_save => [ 'project', 'save' ], 
                                              :project_remove => [ 'project', 'remove' ], :project_add => [ 'project',  'add' ],:extract => 'extract' }) 
       end
-    
     end
     
     # Return the load information for a specified plugin provider if it exists
@@ -242,7 +235,6 @@ module Nucleon
         plugin_define_plugins(environment, :action, { :project_update => [ 'project', 'update' ], :project_ceate => [ 'project', 'create' ], :project_save => [ 'project', 'save' ], 
                                                       :project_remove => [ 'project', 'remove' ], :project_add => [ 'project',  'add' ],:extract => 'extract' }) 
       end
-      
     end
     
     # Return the load information for namespaces, plugin types, providers if it exists
@@ -353,7 +345,6 @@ module Nucleon
          test_loaded_plugins environment, :action,{ :project_update => [ 'project', 'update' ], :project_save => [ 'project', 'save' ], :project_remove => [ 'project', 'remove' ], 
                                                               :project_ceate => [ 'project', 'create' ],:project_add => [ 'project',  'add' ],:extract => 'extract' }
       end
-      
     end
     
     # Check if a specified plugin type has been loaded
@@ -395,8 +386,7 @@ module Nucleon
                                                                 :project_add => [ 'project',  'add' ],:extract => 'extract' }
              test_eq environment.plugin_has_provider?(:nucleon, :action, :project_ceate), false
          end
-      end    
-      
+      end
     end  
     
     # Autoload all of the defined plugins
@@ -407,7 +397,6 @@ module Nucleon
       it "tests autoloaded plugin export" do
         plugin_autoload_test_environment(environment)
       end
-      
     end
     
     #*****************************************************************************
@@ -430,7 +419,6 @@ module Nucleon
       it "tests create plugin math value" do
         test_create_plugin_math environment, :test, :second, { :test1 => 15 }, 12, 12, 41
       end
-  
     end
     
     # Return a plugin instance by name if it exists
@@ -445,7 +433,6 @@ module Nucleon
       it "returns the created plugins 2" do
         test_get_plugin environment, :test, :second, { :test1 => 13 , :test2 => 5}
       end
-      
     end
     
     # Remove a plugin instance from the environment
@@ -456,7 +443,6 @@ module Nucleon
       it "returns the instance removed from the environment" do
         test_remove_plugin environment, :test, :first, { :test1 => 13, :test2 => 5}  
       end
-      
     end    
     
     # Return active plugins for namespaces, plugin types, providers if specified
@@ -478,6 +464,14 @@ module Nucleon
         
       end
       
+      it "returns appropriate return value" do
+        environment do |environment|
+          plugin_autoload_test_environment(environment)
+          environment.create_plugin(:nucleon, :test, :first, { :test1 => 13, :test2 => 5})
+          environment.create_plugin(:nucleon, :test, :second, { :test1 => 15 })
+          test_config((environment.active_plugins[:nucleon][:test][:first_bf21a9e8fbc5a3846fb05b4fa0859e0917b2202f]), {:test1=>13, :test2=>5})
+        end 
+      end
     end
     
     #*****************************************************************************
@@ -503,7 +497,6 @@ module Nucleon
       it "returns a fully formed class name as string seperated by .. with array of strings" do
         test_eq environment.class_name(["Nucleon", "Test", "First"], '..',false), "Nucleon..Test..First"
       end
-      
     end
     
     
@@ -519,7 +512,6 @@ module Nucleon
       it "returns a fully formed class name for array of strings" do
         test_eq environment.class_const(["Nucleon", "Test", "First"], '::'), Nucleon::Test::First
       end
-      
     end
 
     # Return a class constant representing a base plugin class generated from namespace and plugin_type.
@@ -533,10 +525,7 @@ module Nucleon
       
       it "returns a class constant representing a base plugin class given strings" do
         test_eq environment.plugin_class("nucleon", "translator"), Nucleon::Plugin::Translator
-      end      
-      
+      end
     end
-    
   end
-  
 end
