@@ -111,7 +111,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--title", "Nucleon", "--main", "README.rdoc", "--line-numbers"]
   s.required_ruby_version = Gem::Requirement.new(">= 1.9.1")
   s.rubyforge_project = "nucleon"
-  s.rubygems_version = "2.4.4"
+  s.rubygems_version = "2.4.2"
   s.summary = "Easy and minimal framework for building extensible distributed applications"
 
   if s.respond_to? :specification_version then
