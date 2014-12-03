@@ -247,6 +247,8 @@
   
     <li><a href="../../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
   
+    <li><a href="../../../Nucleon/Plugin/Action/State.html">Nucleon::Plugin::Action::State</a>
+  
     <li><a href="../../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
   
     <li><a href="../../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
@@ -452,20 +454,20 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">args</span>, <span class="ruby-identifier">banner</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">help</span> = <span class="ruby-string">&#39;&#39;</span>, <span class="ruby-identifier">split_help</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-ivar">@parser</span> = <span class="ruby-constant">OptionParser</span>.<span class="ruby-identifier">new</span>
-     
+
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">options</span>   = {}
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">arguments</span> = {}
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">extra</span>     = {}
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">processed</span> = <span class="ruby-keyword">false</span>
-  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">strict</span>    = <span class="ruby-keyword">true</span>      
-      
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">strict</span>    = <span class="ruby-keyword">true</span>
+
   <span class="ruby-ivar">@arg_settings</span>  = []
-      
+
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">banner</span>  = <span class="ruby-identifier">banner</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">help</span>    = <span class="ruby-identifier">help</span>
-      
+
   <span class="ruby-keyword">yield</span>(<span class="ruby-keyword">self</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
-     
+
   <span class="ruby-identifier">parse_command</span>(<span class="ruby-identifier">args</span>, <span class="ruby-identifier">split_help</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
@@ -513,11 +515,11 @@
 
   <span class="ruby-identifier">main_args</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">dup</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">main_args</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">results</span>   = [ <span class="ruby-constant">Parser</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">main_args</span>, <span class="ruby-identifier">banner</span>, <span class="ruby-identifier">separator</span>, <span class="ruby-keyword">true</span>) ]
-      
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">sub_command</span>
     <span class="ruby-identifier">results</span> <span class="ruby-operator">&lt;&lt;</span> [ <span class="ruby-identifier">sub_command</span>, <span class="ruby-identifier">sub_args</span> ]
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">results</span>.<span class="ruby-identifier">flatten</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- split-source -->
@@ -558,21 +560,21 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">allowed_values</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {}, &amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">config</span>       = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">config</span>)
   <span class="ruby-identifier">name</span>         = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
-      
+
   <span class="ruby-identifier">message_name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;_message&#39;</span>
   <span class="ruby-identifier">message</span>      = <span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">arguments</span>[<span class="ruby-identifier">name</span>])
-    
-  <span class="ruby-identifier">settings</span>     = { 
+
+  <span class="ruby-identifier">settings</span>     = {
     <span class="ruby-value">:name</span>    =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">name</span>,
     <span class="ruby-value">:default</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>),
-    <span class="ruby-value">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">message_name</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">message</span>) 
+    <span class="ruby-value">:message</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">message_name</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">message</span>)
   }
   <span class="ruby-identifier">settings</span>[<span class="ruby-value">:allowed</span>] = <span class="ruby-identifier">allowed_values</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">allowed_values</span>
   <span class="ruby-identifier">settings</span>[<span class="ruby-value">:block</span>]   = <span class="ruby-identifier">block</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">block</span>
-      
+
   <span class="ruby-identifier">settings</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:default</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">settings</span>[<span class="ruby-value">:default</span>].<span class="ruby-identifier">nil?</span>
-      
-  <span class="ruby-ivar">@arg_settings</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">settings</span>  
+
+  <span class="ruby-ivar">@arg_settings</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">settings</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- arg-source -->
           
@@ -605,8 +607,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 452</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_array</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">arg</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-constant">Array</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- arg_array-source -->
           
@@ -644,8 +646,8 @@
       <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
     <span class="ruby-keyword">else</span>
       <span class="ruby-keyword">nil</span>
-    <span class="ruby-keyword">end</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- arg_bool-source -->
           
@@ -678,8 +680,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 420</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_float</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">arg</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-constant">Float</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- arg_float-source -->
           
@@ -712,8 +714,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 404</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_int</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">arg</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-constant">Integer</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span> 
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- arg_int-source -->
           
@@ -746,8 +748,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 436</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">arg_str</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">arg</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- arg_str-source -->
           
@@ -779,7 +781,7 @@
           <div class="method-source-code" id="banner-3D-source">
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">banner=</span><span class="ruby-identifier">banner</span>
-  <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">banner</span> = <span class="ruby-identifier">banner</span>  
+  <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">banner</span> = <span class="ruby-identifier">banner</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- banner-3D-source -->
           
@@ -845,8 +847,8 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">help=</span><span class="ruby-identifier">help</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">help</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
     <span class="ruby-identifier">help</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">separator</span> <span class="ruby-identifier">line</span>  
-    <span class="ruby-keyword">end</span>                       
+      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">separator</span> <span class="ruby-identifier">line</span>
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">separator</span> <span class="ruby-identifier">help</span>
   <span class="ruby-keyword">end</span>
@@ -884,12 +886,12 @@
   <span class="ruby-identifier">config</span>        = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">config</span>)
   <span class="ruby-identifier">name</span>          = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
   <span class="ruby-identifier">options</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>)
-      
+
   <span class="ruby-identifier">message_name</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">+</span> <span class="ruby-string">&#39;_message&#39;</span>
   <span class="ruby-identifier">message</span>      = <span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">options</span>[<span class="ruby-identifier">name</span>])
-    
+
   <span class="ruby-identifier">option_str</span>   = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">option_str</span>)
-     
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">allowed_values</span>
     <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">on</span>(*<span class="ruby-identifier">option_str</span>, <span class="ruby-identifier">allowed_values</span>, <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">message_name</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">message</span>)) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">value</span>         = <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
@@ -899,7 +901,7 @@
     <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">on</span>(*<span class="ruby-identifier">option_str</span>, <span class="ruby-identifier">config</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">message_name</span>.<span class="ruby-identifier">to_sym</span>, <span class="ruby-identifier">message</span>)) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">value</span>         = <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
       <span class="ruby-identifier">options</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">value</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>
-    <span class="ruby-keyword">end</span>  
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- option-source -->
@@ -933,8 +935,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 444</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">option_array</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">option</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-constant">Array</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- option_array-source -->
           
@@ -972,8 +974,8 @@
       <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
     <span class="ruby-keyword">else</span>
       <span class="ruby-keyword">nil</span>
-    <span class="ruby-keyword">end</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- option_bool-source -->
           
@@ -1006,8 +1008,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 412</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">option_float</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">option</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-constant">Float</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- option_float-source -->
           
@@ -1040,8 +1042,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 396</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">option_int</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">option</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-constant">Integer</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span> 
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- option_int-source -->
           
@@ -1074,8 +1076,8 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 428</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">option_str</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span> = {})
   <span class="ruby-identifier">option</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">option_str</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">message_id</span>, <span class="ruby-identifier">config</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span> 
-  <span class="ruby-keyword">end</span>  
+    <span class="ruby-identifier">block_given?</span> <span class="ruby-operator">?</span> <span class="ruby-keyword">yield</span>(<span class="ruby-identifier">value</span>) <span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- option_str-source -->
           
@@ -1109,23 +1111,23 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_command</span>(<span class="ruby-identifier">args</span>, <span class="ruby-identifier">split_help</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">args</span>  = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">error</span> = <span class="ruby-keyword">false</span>
-      
+
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">processed</span> = <span class="ruby-keyword">false</span>
-  
-  <span class="ruby-identifier">option_bool</span>(<span class="ruby-value">:version</span>, <span class="ruby-keyword">false</span>, 
-    <span class="ruby-string">&#39;--version&#39;</span>, 
+
+  <span class="ruby-identifier">option_bool</span>(<span class="ruby-value">:version</span>, <span class="ruby-keyword">false</span>,
+    <span class="ruby-string">&#39;--version&#39;</span>,
     <span class="ruby-string">&#39;nucleon.core.util.cli.options.version&#39;</span>
   )
-  <span class="ruby-identifier">option_bool</span>(<span class="ruby-value">:color</span>, <span class="ruby-keyword">true</span>, 
-    <span class="ruby-string">&#39;--[no]-color&#39;</span>, 
+  <span class="ruby-identifier">option_bool</span>(<span class="ruby-value">:color</span>, <span class="ruby-keyword">true</span>,
+    <span class="ruby-string">&#39;--[no]-color&#39;</span>,
     <span class="ruby-string">&#39;nucleon.core.util.cli.options.color&#39;</span>
   )
-  <span class="ruby-identifier">option_str</span>(<span class="ruby-value">:log_level</span>, <span class="ruby-keyword">nil</span>, 
-    <span class="ruby-string">&#39;--log_level STR&#39;</span>, 
+  <span class="ruby-identifier">option_str</span>(<span class="ruby-value">:log_level</span>, <span class="ruby-keyword">nil</span>,
+    <span class="ruby-string">&#39;--log_level STR&#39;</span>,
     <span class="ruby-string">&#39;nucleon.core.util.cli.options.log_level&#39;</span>
   )
-  <span class="ruby-identifier">option_str</span>(<span class="ruby-value">:encoded_params</span>, <span class="ruby-keyword">false</span>, 
-    <span class="ruby-string">&#39;--encoded STR&#39;</span>, 
+  <span class="ruby-identifier">option_str</span>(<span class="ruby-value">:encoded_params</span>, <span class="ruby-keyword">false</span>,
+    <span class="ruby-string">&#39;--encoded STR&#39;</span>,
     <span class="ruby-string">&#39;nucleon.core.util.cli.options.encoded&#39;</span>
   )
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">split_help</span>
@@ -1139,35 +1141,35 @@
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">on_tail</span>(<span class="ruby-string">&#39;-h&#39;</span>, <span class="ruby-string">&#39;--help&#39;</span>, <span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-string">&#39;nucleon.core.util.cli.options.short_help&#39;</span>)) <span class="ruby-keyword">do</span>
       <span class="ruby-identifier">options</span>[<span class="ruby-value">:help</span>] = <span class="ruby-keyword">true</span>
-    <span class="ruby-keyword">end</span>  
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">strict</span>
     <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">parse!</span>(<span class="ruby-identifier">args</span>)
     <span class="ruby-identifier">extra_args</span> = {}
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">args</span>, <span class="ruby-identifier">extra_args</span> = <span class="ruby-identifier">parse_known_args</span>(<span class="ruby-identifier">parser</span>, <span class="ruby-identifier">args</span>)
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-comment"># Now we can act on options given</span>
   <span class="ruby-identifier">options</span>[<span class="ruby-value">:color</span>] = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">use_colors</span>
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:version</span>]
     <span class="ruby-identifier">puts</span> <span class="ruby-identifier">version</span>
     <span class="ruby-identifier">exit</span> <span class="ruby-value">0</span>
   <span class="ruby-keyword">end</span>
-  
+
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:help</span>]
-  
+
   <span class="ruby-identifier">parse_encoded</span>
-  
+
   <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">log_level</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:log_level</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:log_level</span>]
-  
+
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">extra</span> = <span class="ruby-identifier">normalize_extra_options</span>(<span class="ruby-identifier">extra_args</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">extra_args</span>.<span class="ruby-identifier">empty?</span>
-     
+
   <span class="ruby-identifier">remaining_args</span> = <span class="ruby-identifier">args</span>.<span class="ruby-identifier">dup</span>
   <span class="ruby-identifier">arg_messages</span>   = []
-      
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>
     <span class="ruby-ivar">@arg_settings</span>.<span class="ruby-identifier">each_with_index</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">settings</span>, <span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">index</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-identifier">args</span>.<span class="ruby-identifier">length</span>
@@ -1175,7 +1177,7 @@
       <span class="ruby-keyword">else</span>
         <span class="ruby-identifier">value</span> = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">args</span>[<span class="ruby-identifier">index</span>])
       <span class="ruby-keyword">end</span>
-        
+
       <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">settings</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:allowed</span>)
         <span class="ruby-identifier">allowed</span> = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:allowed</span>]
         <span class="ruby-keyword">case</span> <span class="ruby-identifier">allowed</span>
@@ -1191,11 +1193,11 @@
         <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>
           <span class="ruby-keyword">unless</span> <span class="ruby-identifier">allowed</span>.<span class="ruby-identifier">include</span>(<span class="ruby-identifier">value</span>)
             <span class="ruby-identifier">arg_messages</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-identifier">settings</span>[<span class="ruby-value">:message</span>])
-            <span class="ruby-identifier">error</span> = <span class="ruby-keyword">true</span>  
+            <span class="ruby-identifier">error</span> = <span class="ruby-keyword">true</span>
           <span class="ruby-keyword">end</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
-        
+
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">settings</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:default</span>)
           <span class="ruby-identifier">value</span> = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:default</span>]
@@ -1203,29 +1205,29 @@
           <span class="ruby-identifier">error</span> = <span class="ruby-keyword">true</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
-        
+
       <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">settings</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-value">:block</span>)
         <span class="ruby-identifier">value</span> = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:block</span>].<span class="ruby-identifier">call</span>(<span class="ruby-identifier">value</span>)
         <span class="ruby-identifier">error</span> = <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">nil?</span>
       <span class="ruby-keyword">end</span>
-        
+
       <span class="ruby-keyword">break</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">error</span>
-        
+
       <span class="ruby-identifier">remaining_args</span>.<span class="ruby-identifier">shift</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">remaining_args</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-keyword">self</span>.<span class="ruby-identifier">arguments</span>[<span class="ruby-identifier">settings</span>[<span class="ruby-value">:name</span>]] = <span class="ruby-identifier">value</span>
-    <span class="ruby-keyword">end</span>          
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
-      
+
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">error</span>
     <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span> <span class="ruby-identifier">arg_messages</span>.<span class="ruby-identifier">empty?</span>
       <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-string">&#39;nucleon.core.util.cli.parse.error&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">arg_messages</span>.<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">help</span>)
     <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-string">&#39;nucleon.core.util.cli.parse.error&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">help</span>)  
+      <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-string">&#39;nucleon.core.util.cli.parse.error&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">help</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-keyword">self</span>.<span class="ruby-identifier">processed</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">end</span>
-    
+
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidOption</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
   <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-identifier">e</span>.<span class="ruby-identifier">message</span> <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">help</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1261,16 +1263,16 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_encoded</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:encoded_params</span>]
     <span class="ruby-identifier">encoded_properties</span> = <span class="ruby-constant">CLI</span>.<span class="ruby-identifier">decode</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:encoded_params</span>])
-        
+
     <span class="ruby-ivar">@arg_settings</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">settings</span><span class="ruby-operator">|</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">encoded_properties</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">settings</span>[<span class="ruby-value">:name</span>].<span class="ruby-identifier">to_sym</span>)
         <span class="ruby-keyword">self</span>.<span class="ruby-identifier">arguments</span>[<span class="ruby-identifier">settings</span>[<span class="ruby-value">:name</span>]] = <span class="ruby-identifier">encoded_properties</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">settings</span>[<span class="ruby-value">:name</span>].<span class="ruby-identifier">to_sym</span>)
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
-        
+
     <span class="ruby-identifier">encoded_properties</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
       <span class="ruby-keyword">self</span>.<span class="ruby-identifier">options</span>[<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">value</span>
-      
+
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-value">:color</span>
         <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Console</span>.<span class="ruby-identifier">use_colors</span> = <span class="ruby-identifier">value</span>
       <span class="ruby-keyword">end</span>
@@ -1309,14 +1311,14 @@
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 263</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parse_known_args</span>(<span class="ruby-identifier">parser</span>, <span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">extra_args</span> = []
-  
+
   <span class="ruby-identifier">parse_args</span> = <span class="ruby-identifier">lambda</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">arg_list</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">begin</span>
       <span class="ruby-identifier">original_list</span> = <span class="ruby-identifier">arg_list</span>.<span class="ruby-identifier">clone</span>
-      
+
       <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">parse!</span> <span class="ruby-identifier">arg_list</span>
       <span class="ruby-identifier">args</span> = <span class="ruby-identifier">arg_list</span>
-      
+
     <span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidOption</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">e</span>
       <span class="ruby-identifier">extra_args</span> <span class="ruby-operator">+=</span> <span class="ruby-identifier">e</span>.<span class="ruby-identifier">args</span>
       <span class="ruby-keyword">while</span> <span class="ruby-identifier">arg_list</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">arg_list</span>[<span class="ruby-value">0</span>][<span class="ruby-value">0</span>] <span class="ruby-operator">!=</span> <span class="ruby-string">&#39;-&#39;</span>
@@ -1396,35 +1398,35 @@
           <div class="method-source-code" id="normalize_extra_options-source">
             <pre><span class="ruby-comment"># File lib/core/util/cli.rb, line 287</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">normalize_extra_options</span>(<span class="ruby-identifier">arg_list</span>)
-  <span class="ruby-identifier">options</span>     = {}      
+  <span class="ruby-identifier">options</span>     = {}
   <span class="ruby-identifier">last_option</span> = <span class="ruby-keyword">nil</span>
-  
+
   <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">array</span>(<span class="ruby-identifier">arg_list</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">arg</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">components</span> = <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&#39;=&#39;</span>)
-    <span class="ruby-identifier">value</span>      = <span class="ruby-keyword">nil</span>      
-    
+    <span class="ruby-identifier">value</span>      = <span class="ruby-keyword">nil</span>
+
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">components</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">1</span>
       <span class="ruby-identifier">arg</span>   = <span class="ruby-identifier">components</span>[<span class="ruby-value">0</span>]
-      <span class="ruby-identifier">value</span> = <span class="ruby-identifier">components</span>[<span class="ruby-value">1</span>]  
+      <span class="ruby-identifier">value</span> = <span class="ruby-identifier">components</span>[<span class="ruby-value">1</span>]
     <span class="ruby-keyword">end</span>
-    
+
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">arg</span>[<span class="ruby-value">0</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;-&#39;</span>
       <span class="ruby-identifier">last_option</span>          = <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp">/^\-+/</span>, <span class="ruby-string">&#39;&#39;</span>).<span class="ruby-identifier">to_sym</span>
-      <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>] = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">value</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>          
+      <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>] = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">value</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>
     <span class="ruby-keyword">else</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">last_option</span>
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>]
           <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>] = [ <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>] ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>].<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
           <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">arg</span>)
         <span class="ruby-keyword">else</span>
-          <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>] = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">arg</span>)  
-        <span class="ruby-keyword">end</span>  
+          <span class="ruby-identifier">options</span>[<span class="ruby-identifier">last_option</span>] = <span class="ruby-constant">Util</span><span class="ruby-operator">::</span><span class="ruby-constant">Data</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">arg</span>)
+        <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">else</span>
         <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-constant">CLI</span>.<span class="ruby-identifier">message</span>(<span class="ruby-string">&#39;nucleon.core.util.cli.parse.error&#39;</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;\n\n&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">parser</span>.<span class="ruby-identifier">help</span>)
-        <span class="ruby-keyword">break</span>  
+        <span class="ruby-keyword">break</span>
       <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">end</span>        
-  <span class="ruby-keyword">end</span>      
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">options</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- normalize_extra_options-source -->

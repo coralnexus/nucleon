@@ -195,6 +195,8 @@
   
     <li><a href="../../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
   
+    <li><a href="../../../Nucleon/Plugin/Action/State.html">Nucleon::Plugin::Action::State</a>
+  
     <li><a href="../../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
   
     <li><a href="../../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
@@ -397,7 +399,7 @@
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/action.rb, line 53</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/action.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">provider</span>, <span class="ruby-identifier">name</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">default</span>, <span class="ruby-identifier">locale</span> = <span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">validator</span>)
   <span class="ruby-ivar">@provider</span>  = <span class="ruby-identifier">provider</span>
   <span class="ruby-ivar">@name</span>      = <span class="ruby-identifier">name</span>
@@ -440,7 +442,7 @@
 
           
           <div class="method-source-code" id="validate-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/action.rb, line 69</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/action.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">validate</span>(<span class="ruby-identifier">value</span>, *<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">success</span> = <span class="ruby-keyword">true</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@validator</span>

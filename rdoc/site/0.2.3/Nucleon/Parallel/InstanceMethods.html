@@ -193,6 +193,8 @@
   
     <li><a href="../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
   
+    <li><a href="../../Nucleon/Plugin/Action/State.html">Nucleon::Plugin::Action::State</a>
+  
     <li><a href="../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
   
     <li><a href="../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
@@ -313,12 +315,12 @@
             <pre><span class="ruby-comment"># File lib/core/facade.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parallel</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">args</span>, *<span class="ruby-identifier">shared_args</span>)
   <span class="ruby-identifier">results</span> = <span class="ruby-keyword">nil</span>
-  
+
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">args</span>
   <span class="ruby-keyword">when</span> <span class="ruby-constant">Hash</span>
     <span class="ruby-identifier">results</span> = <span class="ruby-identifier">parallel_hash</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">args</span>, *<span class="ruby-identifier">shared_args</span>)
   <span class="ruby-keyword">when</span> <span class="ruby-constant">Array</span>, <span class="ruby-constant">String</span>, <span class="ruby-constant">Symbol</span>
-    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">parallel_array</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">args</span>, *<span class="ruby-identifier">shared_args</span>)   
+    <span class="ruby-identifier">results</span> = <span class="ruby-identifier">parallel_array</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">args</span>, *<span class="ruby-identifier">shared_args</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">results</span>
 <span class="ruby-keyword">end</span></pre>
@@ -354,7 +356,7 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parallel_array</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">array_args</span>, *<span class="ruby-identifier">shared_args</span>)
   <span class="ruby-identifier">results</span>    = []
   <span class="ruby-identifier">array_args</span> = [ <span class="ruby-identifier">array_args</span> ] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">array_args</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Array</span>)
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">parallel?</span>
     <span class="ruby-identifier">array_args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">arg</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">results</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">future</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">arg</span>, *<span class="ruby-identifier">shared_args</span>)
@@ -363,7 +365,7 @@
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">array_args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">arg</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">results</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">send</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">arg</span>, *<span class="ruby-identifier">shared_args</span>)
-    <span class="ruby-keyword">end</span>  
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">results</span>
 <span class="ruby-keyword">end</span></pre>
@@ -397,7 +399,7 @@
           <div class="method-source-code" id="parallel_finalize-source">
             <pre><span class="ruby-comment"># File lib/core/facade.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parallel_finalize</span>
-  <span class="ruby-comment"># Override if needed  </span>
+  <span class="ruby-comment"># Override if needed</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- parallel_finalize-source -->
           
@@ -430,7 +432,7 @@
             <pre><span class="ruby-comment"># File lib/core/facade.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">parallel_hash</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">hash_args</span>, *<span class="ruby-identifier">shared_args</span>)
   <span class="ruby-identifier">results</span> = {}
-  
+
   <span class="ruby-keyword">if</span> <span class="ruby-constant">Nucleon</span>.<span class="ruby-identifier">parallel?</span>
     <span class="ruby-identifier">hash_args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">results</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">future</span>.<span class="ruby-identifier">send</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, *<span class="ruby-identifier">shared_args</span>)
@@ -441,7 +443,7 @@
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">hash_args</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">results</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">send</span>(<span class="ruby-identifier">method</span>, <span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span>, *<span class="ruby-identifier">shared_args</span>)
-    <span class="ruby-keyword">end</span>  
+    <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">results</span>
 <span class="ruby-keyword">end</span></pre>
