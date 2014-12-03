@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib"]
   s.authors = ["Adrian Webb"]
-  s.date = "2014-12-02"
+  s.date = "2014-12-03"
   s.description = "\nA framework that provides a simple foundation for building Ruby applications that are:\n\n* Highly configurable (with both distributed and persistent configurations)\n* Extremely pluggable and extendable\n* Easily parallel\n\nNote: This framework is still very early in development!\n"
   s.email = "adrian.webb@coralnexus.com"
   s.executables = ["nucleon"]
@@ -133,7 +133,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 1.7"])
       s.add_development_dependency(%q<jeweler>, ["~> 2.0"])
       s.add_development_dependency(%q<rspec>, ["~> 3.1"])
-      s.add_development_dependency(%q<rdoc>, ["~> 4.1"])
+      s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
     else
       s.add_dependency(%q<log4r>, ["~> 1.1"])
       s.add_dependency(%q<i18n>, ["~> 0.6"])
@@ -150,7 +150,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<bundler>, ["~> 1.7"])
       s.add_dependency(%q<jeweler>, ["~> 2.0"])
       s.add_dependency(%q<rspec>, ["~> 3.1"])
-      s.add_dependency(%q<rdoc>, ["~> 4.1"])
+      s.add_dependency(%q<rdoc>, ["~> 3.12"])
     end
   else
     s.add_dependency(%q<log4r>, ["~> 1.1"])
@@ -168,7 +168,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["~> 1.7"])
     s.add_dependency(%q<jeweler>, ["~> 2.0"])
     s.add_dependency(%q<rspec>, ["~> 3.1"])
-    s.add_dependency(%q<rdoc>, ["~> 4.1"])
+    s.add_dependency(%q<rdoc>, ["~> 3.12"])
   end
 end
 
