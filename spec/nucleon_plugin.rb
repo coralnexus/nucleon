@@ -131,16 +131,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => File.join(action_project_directory, 'update.rb'),
             :provider         => :project_update,
             :directory        => action_project_directory,
-            :class_components => [ "Nucleon", "Action", "Project", "Update" ],
-            :description      => {
-              :namespace   => :nucleon,
-              :weight      => 900,
-              :group       => :project,
-              :action      => :update,
-              :description => "Update this project from a remote",
-              :help        => "translation missing: en.nucleon.action.project.update.help"
-            },
-            :_weight => 900
+            :class_components => [ "Nucleon", "Action", "Project", "Update" ]
           },
           :project_create => {
             :namespace        => :nucleon,
@@ -149,16 +140,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => File.join(action_project_directory, 'create.rb'),
             :provider         => :project_create,
             :directory        => action_project_directory,
-            :class_components => [ "Nucleon", "Action", "Project", "Create" ],
-            :description      => {
-              :namespace   => :nucleon,
-              :weight      => 1000,
-              :group       => :project,
-              :action      => :create,
-              :description => "Create a new project",
-              :help        => "translation missing: en.nucleon.action.project.create.help"
-            },
-            :_weight => 1000
+            :class_components => [ "Nucleon", "Action", "Project", "Create" ]
           },
           :project_save => {
             :namespace        => :nucleon,
@@ -167,16 +149,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => File.join(action_project_directory, 'save.rb'),
             :provider         => :project_save,
             :directory        => action_project_directory,
-            :class_components => [ "Nucleon", "Action", "Project", "Save" ],
-            :description      => {
-              :namespace   => :nucleon,
-              :weight      => 800,
-              :group       => :project,
-              :action      => :save,
-              :description => "Save changes to files in this project",
-              :help        => "translation missing: en.nucleon.action.project.save.help"
-            },
-            :_weight => 800
+            :class_components => [ "Nucleon", "Action", "Project", "Save" ]
           },
           :project_remove => {
             :namespace        => :nucleon,
@@ -185,16 +158,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => File.join(action_project_directory, 'remove.rb'),
             :provider         => :project_remove,
             :directory        => action_project_directory,
-            :class_components => [ "Nucleon", "Action", "Project", "Remove" ],
-            :description      => {
-              :namespace   => :nucleon,
-              :weight      => 600,
-              :group       => :project,
-              :action      => :remove,
-              :description => "Remove an existing sub-project from this project",
-              :help        => "translation missing: en.nucleon.action.project.remove.help"
-            },
-            :_weight => 600
+            :class_components => [ "Nucleon", "Action", "Project", "Remove" ]
           },
           :project_add => {
             :namespace        => :nucleon,
@@ -203,16 +167,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => File.join(action_project_directory, 'add.rb'),
             :provider         => :project_add,
             :directory        => action_project_directory,
-            :class_components => [ "Nucleon", "Action", "Project", "Add" ],
-            :description      => {
-              :namespace   => :nucleon,
-              :weight      => 700,
-              :group       => :project,
-              :action      => :add,
-              :description => "Add a new sub-project to this project",
-              :help        => "translation missing: en.nucleon.action.project.add.help"
-            },
-            :_weight => 700
+            :class_components => [ "Nucleon", "Action", "Project", "Add" ]
           },
           :extract => {
             :namespace        => :nucleon,
@@ -221,16 +176,7 @@ RSpec.shared_context "nucleon_plugin" do
             :file             => File.join(action_directory, 'extract.rb'),
             :provider         => :extract,
             :directory        => action_directory,
-            :class_components => [ "Nucleon", "Action", "Extract" ],
-            :description      => {
-              :namespace   => :nucleon,
-              :weight      => -50,
-              :group       => nil,
-              :action      => :extract,
-              :description => "Extract an encoded package into a directory",
-              :help        => "translation missing: en.nucleon.action.extract.help"
-            },
-            :_weight => -50
+            :class_components => [ "Nucleon", "Action", "Extract" ]
           }
         },
         :template => {
@@ -435,5 +381,6 @@ RSpec.shared_context "nucleon_plugin" do
 
   let(:plugin_active_plugins) do
 
-  end
+  end 
+  
 end
