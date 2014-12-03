@@ -323,6 +323,8 @@
   
     <li><a href="../../Nucleon/Plugin/Action/Option.html">Nucleon::Plugin::Action::Option</a>
   
+    <li><a href="../../Nucleon/Plugin/Action/State.html">Nucleon::Plugin::Action::State</a>
+  
     <li><a href="../../Nucleon/Plugin/Base.html">Nucleon::Plugin::Base</a>
   
     <li><a href="../../Nucleon/Plugin/Command.html">Nucleon::Plugin::Command</a>
@@ -440,7 +442,7 @@
 
           
           <div class="method-source-code" id="build_info-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 926</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 928</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">build_info</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">data</span>)
   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">data</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/\s*,\s*/</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">data</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">String</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">namespace</span>, <span class="ruby-identifier">plugin_type</span>, <span class="ruby-identifier">data</span>)
@@ -473,7 +475,7 @@
 
           
           <div class="method-source-code" id="clear_provider-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 907</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 909</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">clear_provider</span>(<span class="ruby-identifier">directory</span>)
   <span class="ruby-identifier">@@project_data</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">directory</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -537,7 +539,7 @@
 
           
           <div class="method-source-code" id="load_provider-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 913</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 915</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">load_provider</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">override</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">@@project_data</span>[<span class="ruby-identifier">directory</span>] = {} <span class="ruby-keyword">unless</span> <span class="ruby-identifier">@@project_data</span>.<span class="ruby-identifier">has_key?</span>(<span class="ruby-identifier">directory</span>)
 
@@ -654,7 +656,7 @@
 
           
           <div class="method-source-code" id="state_file-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 887</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 889</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">state_file</span>
   <span class="ruby-string">&#39;.corl&#39;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -686,7 +688,7 @@
 
           
           <div class="method-source-code" id="store_provider-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 895</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 897</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">store_provider</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">provider</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">directory?</span>(<span class="ruby-identifier">directory</span>)
     <span class="ruby-identifier">@@project_data</span>[<span class="ruby-identifier">directory</span>] = {
@@ -724,7 +726,7 @@
 
           
           <div class="method-source-code" id="translate-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 933</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 935</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">translate</span>(<span class="ruby-identifier">data</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-keyword">super</span>(<span class="ruby-identifier">data</span>)
 
@@ -775,7 +777,7 @@
 
           
           <div class="method-source-code" id="translate_reference-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 958</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 960</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">translate_reference</span>(<span class="ruby-identifier">reference</span>, <span class="ruby-identifier">editable</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-comment"># ex: github:::username/project[branch/revision]</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">reference</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">reference</span>.<span class="ruby-identifier">match</span>(<span class="ruby-regexp">/^\s*([a-zA-Z0-9_-]+):::([^\]\s]+)\s*(?:\[\s*([^\]\s]+)\s*\])?\s*$/</span>)
@@ -1412,7 +1414,7 @@
 
           
           <div class="method-source-code" id="full_path-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1041</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1043</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">full_path</span>(<span class="ruby-identifier">local_path</span>)
   <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">directory</span>, <span class="ruby-identifier">local_path</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1515,7 +1517,7 @@
 
           
           <div class="method-source-code" id="local_path-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1035</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1037</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">local_path</span>(<span class="ruby-identifier">file_path</span>)
   <span class="ruby-identifier">file_path</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-identifier">directory</span> <span class="ruby-operator">+</span> <span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">SEPARATOR</span>, <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1547,7 +1549,7 @@
 
           
           <div class="method-source-code" id="localize-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1019</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1021</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">localize</span>(<span class="ruby-identifier">path</span> = <span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">prev_directory</span> = <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">pwd</span>
   <span class="ruby-identifier">path</span>           = <span class="ruby-identifier">directory</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">path</span>.<span class="ruby-identifier">nil?</span>
@@ -1994,21 +1996,23 @@
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">can_persist?</span>
+    <span class="ruby-keyword">unless</span> <span class="ruby-identifier">remote</span>(<span class="ruby-identifier">remote</span>)
+      <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Project #{plugin_name} does not have the remote &#39;#{remote}&#39; defined&quot;</span>)
+      <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-keyword">end</span>
     <span class="ruby-identifier">localize</span> <span class="ruby-keyword">do</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">extension_check</span>(<span class="ruby-value">:push</span>, { <span class="ruby-value">:directory</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">directory</span>, <span class="ruby-value">:config</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">config</span> })
         <span class="ruby-identifier">remote</span> = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:remote</span>)
         <span class="ruby-identifier">tries</span>  = <span class="ruby-identifier">config</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:tries</span>, <span class="ruby-value">5</span>)
 
         <span class="ruby-comment"># TODO: Figure out a better way through specialized exception handling</span>
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">remote</span>(<span class="ruby-identifier">remote</span>)
-          <span class="ruby-keyword">begin</span>
-            <span class="ruby-identifier">success</span> = <span class="ruby-identifier">push_project</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">remote</span>)
-            <span class="ruby-identifier">raise</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">success</span>
+        <span class="ruby-keyword">begin</span>
+          <span class="ruby-identifier">success</span> = <span class="ruby-identifier">push_project</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">remote</span>)
+          <span class="ruby-identifier">raise</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">success</span>
 
-          <span class="ruby-keyword">rescue</span>
-            <span class="ruby-identifier">tries</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
-            <span class="ruby-keyword">retry</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">tries</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
-          <span class="ruby-keyword">end</span>
+        <span class="ruby-keyword">rescue</span>
+          <span class="ruby-identifier">tries</span> <span class="ruby-operator">-=</span> <span class="ruby-value">1</span>
+          <span class="ruby-keyword">retry</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">tries</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
         <span class="ruby-keyword">end</span>
 
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">success</span>
@@ -2046,7 +2050,7 @@
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Project #{name} does not meet the criteria for persistence and can not push to remotes&quot;</span>)
+    <span class="ruby-identifier">logger</span>.<span class="ruby-identifier">warn</span>(<span class="ruby-node">&quot;Project #{plugin_name} does not meet the criteria for persistence and can not push to remotes&quot;</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">success</span>
 <span class="ruby-keyword">end</span></pre>
@@ -2571,7 +2575,7 @@
 
           
           <div class="method-source-code" id="translate_edit_url-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1007</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 1009</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">translate_edit_url</span>(<span class="ruby-identifier">url</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
 
@@ -2609,7 +2613,7 @@
 
           
           <div class="method-source-code" id="translate_reference-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 988</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 990</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">translate_reference</span>(<span class="ruby-identifier">reference</span>, <span class="ruby-identifier">editable</span> = <span class="ruby-keyword">false</span>)
   <span class="ruby-identifier">myself</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">translate_reference</span>(<span class="ruby-identifier">reference</span>, <span class="ruby-identifier">editable</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -2641,7 +2645,7 @@
 
           
           <div class="method-source-code" id="translate_url-source">
-            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 994</span>
+            <pre><span class="ruby-comment"># File lib/core/plugin/project.rb, line 996</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">translate_url</span>(<span class="ruby-identifier">host</span>, <span class="ruby-identifier">path</span>, <span class="ruby-identifier">options</span> = {})
   <span class="ruby-identifier">config</span> = <span class="ruby-constant">Config</span>.<span class="ruby-identifier">ensure</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-identifier">url</span>    = <span class="ruby-node">&quot;#{host}/#{path}&quot;</span>

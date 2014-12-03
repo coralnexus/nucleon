@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class Nucleon::Action::Project::Add - nucleon 0.2.3</title>
+<title>class Nucleon::Plugin::Action::State - nucleon 0.2.3</title>
 
 <link type="text/css" media="screen" href="../../../rdoc.css" rel="stylesheet">
 
@@ -47,7 +47,7 @@
     <nav id="file-list-section" class="section">
   <h3 class="section-header">Defined In</h3>
   <ul>
-    <li>lib/nucleon/action/project/add.rb
+    <li>lib/core/plugin/action.rb
   </ul>
 </nav>
 
@@ -59,40 +59,18 @@
     <nav id="parent-class-section" class="section">
   <h3 class="section-header">Parent</h3>
   
-  <p class="link">Nucleon.plugin_class(:nucleon, :action)
+  <p class="link">Object
   
 </nav>
 
-    <!-- Included Modules -->
-<nav id="includes-section" class="section">
-  <h3 class="section-header">Included Modules</h3>
-
-  <ul class="link-list">
-  
-  
-    <li><a class="include" href="../../Mixin/Action/Project.html">Nucleon::Mixin::Action::Project</a>
-  
-  
-  
-    <li><a class="include" href="../../Mixin/Action/Push.html">Nucleon::Mixin::Action::Push</a>
-  
-  
-  </ul>
-</nav>
-
+    
     <!-- Method Quickref -->
 <nav id="method-list-section" class="section">
   <h3 class="section-header">Methods</h3>
 
   <ul class="link-list">
     
-    <li><a href="#method-c-describe">::describe</a>
-    
-    <li><a href="#method-i-arguments">#arguments</a>
-    
-    <li><a href="#method-i-configure">#configure</a>
-    
-    <li><a href="#method-i-execute">#execute</a>
+    <li><a href="#method-c-new">::new</a>
     
   </ul>
 </nav>
@@ -292,7 +270,7 @@
 </nav>
 
 <div id="documentation">
-  <h1 class="class">class Nucleon::Action::Project::Add</h1>
+  <h1 class="class">class Nucleon::Plugin::Action::State</h1>
 
   <div id="description" class="description">
     
@@ -309,6 +287,65 @@
     
 
     
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-action" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">action</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-error" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">error</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-result" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">result</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-status" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">status</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
 
     <!-- Methods -->
     
@@ -316,178 +353,42 @@
       <h3 class="section-header">Public Class Methods</h3>
 
     
-      <div id="method-c-describe" class="method-detail ">
+      <div id="method-c-new" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">describe</span><span
-            class="method-args">()</span>
+          <span class="method-name">new</span><span
+            class="method-args">(status = 0, result = nil, action = nil, error = nil)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
 
         <div class="method-description">
-          <div class="method-doc" id="describe-doc">
+          <div class="method-doc" id="new-doc">
             
             
             
-          </div><!-- describe-doc -->
+          </div><!-- new-doc -->
 
           
-          <div class="method-source-code" id="describe-source">
-            <pre><span class="ruby-comment"># File lib/nucleon/action/project/add.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">describe</span>
-  <span class="ruby-keyword">super</span>(<span class="ruby-value">:project</span>, <span class="ruby-value">:add</span>, <span class="ruby-value">700</span>)
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/core/plugin/action.rb, line 84</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">status</span> = <span class="ruby-value">0</span>, <span class="ruby-identifier">result</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">action</span> = <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">error</span> = <span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@status</span> = <span class="ruby-identifier">status</span>
+  <span class="ruby-ivar">@result</span> = <span class="ruby-identifier">result</span>
+  <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">action</span>
+  <span class="ruby-ivar">@error</span>  = <span class="ruby-identifier">error</span>
 <span class="ruby-keyword">end</span></pre>
-          </div><!-- describe-source -->
+          </div><!-- new-source -->
           
         </div>
 
         
 
         
-      </div><!-- describe-method -->
+      </div><!-- new-method -->
 
     
     </section><!-- public-class-method-details -->
-  
-     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
-      <h3 class="section-header">Public Instance Methods</h3>
-
-    
-      <div id="method-i-arguments" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">arguments</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          <div class="method-doc" id="arguments-doc">
-            
-            
-            
-          </div><!-- arguments-doc -->
-
-          
-          <div class="method-source-code" id="arguments-source">
-            <pre><span class="ruby-comment"># File lib/nucleon/action/project/add.rb, line 40</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">arguments</span>
-  [ <span class="ruby-value">:sub_path</span>, <span class="ruby-value">:sub_reference</span> ]
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- arguments-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- arguments-method -->
-
-    
-      <div id="method-i-configure" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">configure</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          <div class="method-doc" id="configure-doc">
-            
-            
-            
-          </div><!-- configure-doc -->
-
-          
-          <div class="method-source-code" id="configure-source">
-            <pre><span class="ruby-comment"># File lib/nucleon/action/project/add.rb, line 20</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">configure</span>
-  <span class="ruby-keyword">super</span> <span class="ruby-keyword">do</span>    
-    <span class="ruby-identifier">codes</span> <span class="ruby-value">:project_failure</span>,
-          <span class="ruby-value">:add_failure</span>,
-          <span class="ruby-value">:push_failure</span>
-    
-    <span class="ruby-identifier">register_str</span> <span class="ruby-value">:path</span>, <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">pwd</span>        
-    <span class="ruby-identifier">register_str</span> <span class="ruby-value">:sub_path</span>, <span class="ruby-keyword">nil</span>
-    
-    <span class="ruby-identifier">register_project</span> <span class="ruby-value">:sub_reference</span>, <span class="ruby-keyword">nil</span>
-    
-    <span class="ruby-identifier">register_bool</span> <span class="ruby-value">:editable</span>
-    
-    <span class="ruby-identifier">project_config</span>
-    <span class="ruby-identifier">push_config</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- configure-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- configure-method -->
-
-    
-      <div id="method-i-execute" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">execute</span><span
-            class="method-args">()</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          <div class="method-doc" id="execute-doc">
-            
-            
-            
-          </div><!-- execute-doc -->
-
-          
-          <div class="method-source-code" id="execute-source">
-            <pre><span class="ruby-comment"># File lib/nucleon/action/project/add.rb, line 47</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">execute</span>
-  <span class="ruby-keyword">super</span> <span class="ruby-keyword">do</span>
-    <span class="ruby-identifier">info</span>(<span class="ruby-string">&#39;start&#39;</span>)
-    
-    <span class="ruby-keyword">if</span> <span class="ruby-identifier">project</span> = <span class="ruby-identifier">project_load</span>(<span class="ruby-identifier">settings</span>[<span class="ruby-value">:path</span>], <span class="ruby-keyword">false</span>)
-      <span class="ruby-identifier">sub_info</span> = <span class="ruby-identifier">project</span>.<span class="ruby-identifier">translate_reference</span>(<span class="ruby-identifier">settings</span>[<span class="ruby-value">:sub_reference</span>], <span class="ruby-identifier">settings</span>[<span class="ruby-value">:editable</span>])
-      <span class="ruby-identifier">sub_path</span> = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:sub_path</span>]
-        
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">sub_info</span>
-        <span class="ruby-identifier">sub_url</span>      = <span class="ruby-identifier">sub_info</span>[<span class="ruby-value">:url</span>]
-        <span class="ruby-identifier">sub_revision</span> = <span class="ruby-identifier">sub_info</span>[<span class="ruby-value">:revision</span>]
-      <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">sub_url</span>      = <span class="ruby-identifier">settings</span>[<span class="ruby-value">:sub_reference</span>]
-        <span class="ruby-identifier">sub_revision</span> = <span class="ruby-keyword">nil</span>
-      <span class="ruby-keyword">end</span>
-        
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">project</span>.<span class="ruby-identifier">add_subproject</span>(<span class="ruby-identifier">sub_path</span>, <span class="ruby-identifier">sub_url</span>, <span class="ruby-identifier">sub_revision</span>)
-        <span class="ruby-identifier">myself</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">push_failure</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">push</span>(<span class="ruby-identifier">project</span>)
-      <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">myself</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">add_failure</span>
-      <span class="ruby-keyword">end</span>
-    <span class="ruby-keyword">else</span>
-      <span class="ruby-identifier">myself</span>.<span class="ruby-identifier">status</span> = <span class="ruby-identifier">code</span>.<span class="ruby-identifier">project_failure</span>               
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- execute-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- execute-method -->
-
-    
-    </section><!-- public-instance-method-details -->
   
   </section><!-- 5Buntitled-5D -->
 
