@@ -377,10 +377,4 @@ RSpec.shared_context "nucleon_plugin" do
     test_config environment, plugin_test_autoload_environment
     environment
   end
-
-
-  let(:plugin_active_plugins) do
-
-  end 
-  
 end
