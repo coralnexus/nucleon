@@ -263,6 +263,41 @@ class Logger
     self.class.add_logger(@resource, @logger) unless self.class.loggers.has_key?(@resource)
   end
 
+  # Set instance logger level
+  #
+  # NOTE: This will detach the logger from the global log level!
+  #
+  # * *Parameters*
+  #   - [Integer] *level*  Log4r::Logger level
+  #
+  # * *Returns*
+  #   - [Void]  This method does not return a value
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - Log4r::Logger
+  #
+  def level=level
+    @logger.level = level unless level.nil?
+  end
+
+  # Get instance logger level
+  #
+  # * *Parameters*
+  #
+  # * *Returns*
+  #   - [Integer]  Return current Log4r::Logger level
+  #
+  # * *Errors*
+  #
+  # See also:
+  # - Log4r::Logger
+  #
+  def level
+    @logger.level
+  end
+
   #*****************************************************************************
   # Log statements
 
