@@ -73,7 +73,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
       @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
       init_cache
 
-      unless self.class.load_provider(directory)
+      if get(:corl_file, true) && ! self.class.load_provider(directory)
         self.class.store_provider(directory, plugin_provider)
       end
     end
