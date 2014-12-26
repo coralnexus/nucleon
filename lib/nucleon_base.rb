@@ -321,6 +321,17 @@ module Nucleon
 
   #*****************************************************************************
 
+  #
+  # Check for no-parallel flag early so we can avoid loading unncessary
+  # libraries.  In case we are coming in through the CLI.
+  #
+  ARGV.each do |arg|
+    if arg == '--no-parallel'
+      ENV['NUCLEON_NO_PARALLEL'] = '1'
+      break
+    end
+  end
+
   # Check if parallel execution is enabled
   #
   # This uses the environment variable *"NUCLEON_NO_PARALLEL"*.  Parallelism is
