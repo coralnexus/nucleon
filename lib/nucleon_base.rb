@@ -505,6 +505,8 @@ require 'thread'
 #
 if Nucleon.parallel?
   require 'celluloid'
+  Celluloid.shutdown_timeout = 1000
+
   require 'celluloid/autostart'
 end
 
