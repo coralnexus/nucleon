@@ -698,7 +698,7 @@ class Manager
 
     logger.debug("Generating #{type} extended configuration")
 
-    exec("#{type}_config", Config.new(config.export)) do |op, data|
+    exec("#{type}_config", Config.new(config.export, {}, true, false)) do |op, data|
       if op == :reduce
         data.each do |provider, result|
           config.import(result)

@@ -174,7 +174,7 @@ module PluginInterface
       define_method "#{_type}_config" do |provider = nil|
         keys = [ _plural ]
         keys << provider unless provider.nil?
-        Config.new(get(keys, {}))
+        Config.new(get(keys, {}), {}, true, false)
       end
 
       #---
@@ -273,7 +273,7 @@ module PluginInterface
         keys = [ _plural ]
         keys << provider unless provider.nil?
         keys << name unless name.nil?
-        Config.new(get(keys, {}))
+        Config.new(get(keys, {}), {}, true, false)
       end
 
       #---

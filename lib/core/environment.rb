@@ -440,7 +440,7 @@ class Environment < Core
 
     if type_info = Util::Data.clone(loaded_plugin(namespace, plugin_type, provider))
       ids             = array(type_info[:class].register_ids).flatten
-      instance_config = Config.new(options)
+      instance_config = Config.new(options, {}, true, false)
       ensure_new      = instance_config.delete(:new, false)
 
       instance_options = Util::Data.subset(instance_config.export, ids, true)
@@ -453,7 +453,7 @@ class Environment < Core
         result  = code.call(type_info, options) if code
         options = result if result.is_a?(Hash)
 
-        options[:meta] = Config.new(type_info).import(hash(options[:meta]))
+        options[:meta] = Config.new(type_info, {}, true, false).import(hash(options[:meta]))
 
         options.delete(:new)
 

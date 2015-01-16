@@ -37,7 +37,7 @@ module ObjectInterface
     logger.debug("Defining object interface method: #{_type}_config")
 
     define_method "#{_type}_config" do |name = nil|
-      Config.new( name ? get([ _plural, name ], {}) : get(_plural, {}) )
+      Config.new((name ? get([ _plural, name ], {}) : get(_plural, {})), {}, true, false)
     end
 
     #---

@@ -581,7 +581,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
 
     if can_persist?
       localize do
-        config = Config.new({ :path => path })
+        config = Config.new({ :path => path }, {}, true, false)
 
         if extension_check(:delete_project, { :config => config })
           logger.info("Deleting a sub project at #{config[:path]}")
