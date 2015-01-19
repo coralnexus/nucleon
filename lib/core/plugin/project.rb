@@ -28,9 +28,9 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
       logger.info("Creating new project at #{directory} with #{provider}")
 
       return Nucleon.project(config.import({
-        :name      => directory,
-        :directory => directory,
-        :corl_file => config.get(:corl_file, true)
+        :name         => directory,
+        :directory    => directory,
+        :nucleon_file => config.get(:nucleon_file, true)
       }), provider)
 
     else
@@ -74,8 +74,14 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
       @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
       init_cache
 
-      if get(:corl_file, true) && ! self.class.load_provider(directory)
-        self.class.store_provider(directory, plugin_provider)
+      if get(:nucleon_file, true) && ( get(:nucleon_resave, false) || self.class.load_project_info(directory).empty? )
+        self.class.store_project_info(directory, plugin_provider, Util::Data.subset(export, [
+          :provider,
+          :url,
+          :edit,
+          :revision,
+          :manage_ignore
+        ]))
       end
     end
   end
@@ -523,7 +529,7 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
           if add_project
             logger.debug("Directory #{project_path} is a valid sub project for this #{plugin_provider} project")
 
-            project = myself.class.open(project_path, plugin_provider, { :corl_file => get(:corl_file, true) })
+            project = myself.class.open(project_path, plugin_provider, { :nucleon_file => get(:nucleon_file, true) })
 
             extension(:load_project, { :project => project })
             subprojects[path] = project
@@ -888,18 +894,18 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
   # State configurations
 
   def self.state_file
-    '.corl'
+    '.nucleon'
   end
 
   #---
 
   @@project_data = {}
 
-  def self.store_provider(directory, provider)
+  def self.store_project_info(directory, provider, options)
     if File.directory?(directory)
-      @@project_data[directory] = {
+      @@project_data[directory] = Config.ensure(options).import({
         :provider => provider
-      }
+      }).export
       json_data = Util::Data.to_json(@@project_data[directory], true)
       Util::Disk.write(File.join(directory, state_file), json_data)
     end
@@ -907,20 +913,20 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
 
   #---
 
-  def self.clear_provider(directory)
+  def self.clear_project_info(directory)
     @@project_data.delete(directory)
   end
 
   #---
 
-  def self.load_provider(directory, override = nil)
+  def self.load_project_info(directory)
     @@project_data[directory] = {} unless @@project_data.has_key?(directory)
 
-    if override.nil? && @@project_data[directory].empty?
+    if @@project_data[directory].empty?
       json_data                 = Util::Disk.read(File.join(directory, state_file))
       @@project_data[directory] = hash(Util::Data.parse_json(json_data)) if json_data
     end
-    override.nil? ? symbol_map(@@project_data[directory])[:provider] : override
+    symbol_map(@@project_data[directory])
   end
 
   #-----------------------------------------------------------------------------

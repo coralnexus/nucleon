@@ -529,6 +529,8 @@ class Manager
     type_info  = loaded_plugin(namespace, plugin_type, provider)
     options    = translate_type(type_info, options)
     config     = Config.ensure(options)
+
+    provider   = config.get(:provider, provider)
     name       = config.get(:name, nil)
     ensure_new = config.get(:new, false)
 
