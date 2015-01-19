@@ -162,12 +162,12 @@ class SSH < Core
         :user_known_hosts_file => [ File.join(key_path, 'known_hosts'), File.join(key_path, 'known_hosts2') ],
         :auth_methods          => [ 'publickey' ],
         :paranoid              => :very
-      }, {}, true, false).import(Util::Data.subset(config, config.keys - [ :keypair, :key_dir, :key_name ]))
+      }, {}, true, false).import(Util::Data.subset(config, config.keys - [ :keypair, :key_dir, :key_name, :reset_conn ]))
 
       if private_key
         auth_id = [ session_id, private_key ].join('_')
 
-        if ! @@auth[auth_id] && keypair = unlock_private_key(private_key, config)
+        if (config[:reset_conn] || ! @@auth[auth_id]) && keypair = unlock_private_key(private_key, config)
           @@auth[auth_id] = keypair
         end
         config[:keypair] = @@auth[auth_id] # Reset so caller can access updated keypair
