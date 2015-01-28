@@ -416,7 +416,7 @@ class Git < Nucleon.plugin_class(:nucleon, :project)
     config         = Config.ensure(options)
     local_revision = config.get(:revision, get(:revision, :master))
 
-    result = cli.fetch({}, remote, &block)
+    result = cli.fetch({ :tags => true }, remote, &block)
 
     if result.status == code.success
       new?(true)
@@ -432,10 +432,7 @@ class Git < Nucleon.plugin_class(:nucleon, :project)
   def pull(remote = :origin, options = {}, &block)
     return super do |config, processed_remote|
       success = false
-
-      if new? || get(:create, false)
-        success = git_fetch(processed_remote, config)
-      end
+      success = git_fetch(processed_remote, config)
 
       pull_options = {}
       pull_options[:tags] = true if config.get(:tags, true)
