@@ -413,14 +413,12 @@ class Git < Nucleon.plugin_class(:nucleon, :project)
   # SSH operations
 
   def git_fetch(remote = :origin, options = {}, &block)
-    config         = Config.ensure(options)
-    local_revision = config.get(:revision, get(:revision, :master))
-
-    result = cli.fetch({ :tags => true }, remote, &block)
+    config = Config.ensure(options)
+    result = cli.fetch({}, remote, &block)
 
     if result.status == code.success
       new?(true)
-      checkout(local_revision)
+      true
     else
       false
     end
@@ -432,19 +430,16 @@ class Git < Nucleon.plugin_class(:nucleon, :project)
   def pull(remote = :origin, options = {}, &block)
     return super do |config, processed_remote|
       success = false
-      success = git_fetch(processed_remote, config)
 
       pull_options = {}
       pull_options[:tags] = true if config.get(:tags, true)
 
       local_revision = config.get(:revision, get(:revision, :master))
 
-      if checkout(local_revision)
-        result = cli.pull(pull_options, processed_remote, local_revision, &block)
-
-        if result.status == code.success
-          new?(true)
-          success = true
+      if git_fetch(processed_remote, config)
+        if checkout(local_revision)
+          result  = cli.pull(pull_options, processed_remote, local_revision, &block)
+          success = true if result.status == code.success
         end
       end
       success
