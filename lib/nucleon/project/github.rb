@@ -80,7 +80,9 @@ class Github < Git
   # Utilities
 
   def self.expand_url(path, editable = false)
-    if path =~ /^[a-zA-Z0-9_\-\/]+$/
+    if path =~ /^[a-zA-Z0-9_\-\/]+(.git)?$/
+      path = path.gsub('.git', '')
+
       if editable
         protocol  = 'git@'
         separator = ':'
