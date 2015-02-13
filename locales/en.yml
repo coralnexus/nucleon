@@ -17,7 +17,7 @@ en:
             For help on any individual action run `%{command}`
         errors:
           missing_argument: |-
-            Argument <%{name}> must be specified          
+            Argument <%{name}> must be specified
       util:
         cli:
           options:
@@ -69,11 +69,26 @@ en:
               propogate_push: |-
                 Propogate pushes to the remote throughout the project tree (default %{default_value})
     action:
-      unknown: 
+      unknown:
         description: |-
           This Nucleon action has no description available
         help: |-
           There is no extended help information available for this Nucleon action.
+      extract:
+        description: |-
+          Extract an encoded package into a directory
+        help: |-
+          Extract an encoded package into a directory
+        options:
+          path: |-
+            Base path in which to extract the encoded data
+          encoded: |-
+            Encoded data to be extracted into the base path
+        errors:
+          path: |-
+            "Base path for extracted files must be an existing directory"
+          encoded: |-
+            "Data is either not properly encoded or is empty %{value}"
       project:
         create:
           description: |-
@@ -100,7 +115,7 @@ en:
             files: |-
               Optional space separated list of files to save
           start: |-
-            Saving project changes with provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})        
+            Saving project changes with provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})
         add:
           description: |-
             Add a new sub-project to this project
@@ -123,17 +138,3 @@ en:
               Subproject path
           start: |-
             Removing existing subproject at %{sub_path}
-      extract:
-        description: |-
-          Extract an encoded package into a directory
-        options:
-          path: |-
-            Base path in which to extract the encoded data
-          encoded: |-
-            Encoded data to be extracted into the base path
-        errors:
-          path: |-
-            "Base path for extracted files must be an existing directory"
-          encoded: |-
-            "Data is either not properly encoded or is empty %{value}"
-        
