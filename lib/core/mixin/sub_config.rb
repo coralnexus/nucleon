@@ -32,7 +32,7 @@ module SubConfig
   #-----------------------------------------------------------------------------
 
   def _get(keys, default = nil, format = false)
-    return fetch(@properties, array(keys).flatten, default, format)
+    return fetch(@properties, symbol_array(array(keys).flatten), default, format)
   end
   protected :_get
 
@@ -53,7 +53,7 @@ module SubConfig
   #---
 
   def _set(keys, value = '', delete_nil = false)
-    modify(@properties, array(keys).flatten, value, delete_nil)
+    modify(@properties, symbol_array(array(keys).flatten), value, delete_nil)
   end
   protected :_set
 
@@ -67,7 +67,7 @@ module SubConfig
   #---
 
   def _delete(keys, default = nil)
-    existing = modify(@properties, array(keys).flatten, nil, true)
+    existing = modify(@properties, symbol_array(array(keys).flatten), nil, true)
     return existing[:value] if existing[:value]
     return default
   end
