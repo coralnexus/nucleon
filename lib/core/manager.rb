@@ -660,7 +660,7 @@ class Manager
 
     logger.info("Executing extension hook #{Nucleon.blue(method)} at #{Nucleon.green(Time.now.to_s)}")
 
-    extensions = active_plugins(:nucleon, :extension)
+    extensions = Util::Data.clone(active_plugins(:nucleon, :extension))
 
     extensions.each do |name, plugin|
       provider = plugin.plugin_provider
