@@ -76,6 +76,21 @@ en:
           This Nucleon action has no description available
         help: |-
           There is no extended help information available for this Nucleon action.
+      extract:
+        description: |-
+          Extract an encoded package into a directory
+        help: |-
+          Extract an encoded package into a directory
+        options:
+          path: |-
+            Base path in which to extract the encoded data
+          encoded: |-
+            Encoded data to be extracted into the base path
+        errors:
+          path: |-
+            "Base path for extracted files must be an existing directory"
+          encoded: |-
+            "Data is either not properly encoded or is empty %{value}"
       project:
         create:
           description: |-
@@ -125,16 +140,3 @@ en:
               Subproject path
           start: |-
             Removing existing subproject at %{sub_path}
-      extract:
-        description: |-
-          Extract an encoded package into a directory
-        options:
-          path: |-
-            Base path in which to extract the encoded data
-          encoded: |-
-            Encoded data to be extracted into the base path
-        errors:
-          path: |-
-            "Base path for extracted files must be an existing directory"
-          encoded: |-
-            "Data is either not properly encoded or is empty %{value}"
