@@ -535,8 +535,9 @@ module Facade
       logger.info("Beginning #{name} execution run with arguments: #{args.inspect}")
 
       exec(:executable_load)
-      exec(:executable_init)
       load_plugins
+
+      exec(:executable_init, { :name => name, :args => args })
 
       action, action_components, args = search_actions(args)
 
