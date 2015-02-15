@@ -215,7 +215,7 @@ module Facade
       updated_time   = Time.parse(@@ip_cache['updated'])
       cache_duration = (Time.new - updated_time) / 60 # Seconds to minutes
 
-      if cache_duration >= value(:external_address_lifetime, 60)
+      if cache_duration >= value(:external_address_lifetime, 360)
         external_ip = fetch_ip.call
       end
     end
