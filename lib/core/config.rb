@@ -239,7 +239,7 @@ class Config
     @properties  = {}
 
     if defaults.is_a?(Hash) && ! defaults.empty?
-      defaults = symbol_map(defaults.clone)
+      defaults = symbol_map(Util::Data.clone(defaults))
     end
 
     case data
@@ -248,7 +248,7 @@ class Config
     when Hash
       @properties = {}
       if data.is_a?(Hash)
-        @properties = Util::Data.merge([ defaults, symbol_map(data.clone) ], force, basic_merge)
+        @properties = Util::Data.merge([ defaults, symbol_map(Util::Data.clone(data)) ], force, basic_merge)
       end
     else
       @properties = defaults if defaults.is_a?(Hash)
@@ -339,7 +339,7 @@ class Config
     end
 
     keys = keys.flatten.compact
-    key  = keys.shift.to_sym
+    key  = keys.shift
 
     if data.has_key?(key)
       value = data[key]
@@ -388,7 +388,7 @@ class Config
     end
 
     keys     = keys.flatten.compact
-    key      = keys.shift.to_sym
+    key      = keys.shift
     has_key  = data.has_key?(key)
     existing = {
       :key   => key,
@@ -435,7 +435,7 @@ class Config
   # - #array
   #
   def get(keys, default = nil, format = false)
-    return fetch(@properties, array(keys).flatten, default, format)
+    return fetch(@properties, symbol_array(array(keys).flatten), default, format)
   end
 
   # Fetch value for key path in the configuration object.
@@ -548,7 +548,7 @@ class Config
   # - #array
   #
   def set(keys, value, delete_nil = false, &code) # :yields: key, value, existing
-    modify(@properties, array(keys).flatten, value, delete_nil, &code)
+    modify(@properties, symbol_array(array(keys).flatten), value, delete_nil, &code)
     return self
   end
 
@@ -570,7 +570,7 @@ class Config
   # - #array
   #
   def append(keys, value)
-    modify(@properties, array(keys).flatten, value, false) do |key, processed_value, existing|
+    modify(@properties, symbol_array(array(keys).flatten), value, false) do |key, processed_value, existing|
       if existing.is_a?(Array)
         [ existing, processed_value ].flatten
       else
@@ -599,7 +599,7 @@ class Config
   # - #array
   #
   def prepend(keys, value, reverse = false)
-    modify(@properties, array(keys).flatten, value, false) do |key, processed_value, existing|
+    modify(@properties, symbol_array(array(keys).flatten), value, false) do |key, processed_value, existing|
       processed_value = processed_value.reverse if reverse && processed_value.is_a?(Array)
 
       if existing.is_a?(Array)
@@ -650,7 +650,7 @@ class Config
   # - #array
   #
   def delete(keys, default = nil)
-    existing = modify(@properties, array(keys).flatten, nil, true)
+    existing = modify(@properties, symbol_array(array(keys).flatten), nil, true)
     return existing[:value] unless existing[:value].nil?
     return default
   end
@@ -708,7 +708,7 @@ class Config
 
     case properties
     when Hash
-      data = [ @properties, symbol_map(properties.clone) ]
+      data = [ @properties, symbol_map(Util::Data.clone(properties)) ]
       data = data.reverse if import_type != :override
 
       @properties = Util::Data.merge(data, config)
@@ -724,7 +724,7 @@ class Config
       end
 
     when Array
-      properties.clone.each do |item|
+      Util::Data.clone(properties).each do |item|
         import_base(item, config)
       end
     end
@@ -792,7 +792,7 @@ class Config
   # * *Errors*
   #
   def export
-    return @properties.clone
+    return Util::Data.clone(@properties)
   end
 
   #*****************************************************************************
@@ -820,6 +820,24 @@ class Config
   #
   def symbol_map(data)
     return self.class.symbol_map(data)
+  end
+
+  # Return a symbolized array
+  #
+  # * *Parameters*
+  #   - [Array<String, Symbol>] *array*  Array of strings or symbols
+  #
+  # * *Returns*
+  #   - [Array<Symbol>]  Returns array of symbols
+  #
+  # * *Errors*
+  #
+  def symbol_array(array)
+    result = []
+    array.each do |item|
+      result << item.to_sym
+    end
+    result
   end
 
   # Return hash as a string map.
