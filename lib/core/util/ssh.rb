@@ -255,13 +255,13 @@ class SSH < Core
               end
 
               channel.on_data do |ch, data|
+                data = yield(:output, command, data) if block_given?
                 result.append_output(data)
-                yield(:output, command, data) if block_given?
               end
 
               channel.on_extended_data do |ch, type, data|
+                data = yield(:error, command, data) if block_given?
                 result.append_errors(data)
-                yield(:error, command, data) if block_given?
               end
 
               channel.on_request('exit-status') do |ch, data|
