@@ -529,12 +529,13 @@ module Facade
     args = args - [ "--no-color", "--color" ]
 
     begin
-      logger.debug("Beginning execution run")
-
-      load_plugins
-
       arg_components = Util::CLI::Parser.split(args, cyan(name) + yellow(" <action components> [<arg> ...]"))
       main_command   = arg_components.shift
+
+      logger.info("Beginning execution run")
+
+      load_plugins
+      exec(:executable_init)
 
       action, action_components, args = search_actions(args)
 
@@ -567,6 +568,7 @@ module Facade
 
       ui.error(action_error.message, { :prefix => false }) if action_error.message
     end
+    exec(:executable_exit, { :status => exit_status })
     exit_status
   end
 

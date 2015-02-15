@@ -58,20 +58,39 @@ module CLI
     #---
 
     def self.split(args, banner, separator = '')
+      check_args  = []
       main_args   = nil
       sub_command = nil
       sub_args    = []
 
-      args.each_index do |index|
-        if !args[index].start_with?('-')
-          main_args   = args[0, index]
-          sub_command = args[index]
-          sub_args    = args[index + 1, args.length - index + 1]
+      # Log level gets processed in main args so we can log executable init
+      parse_log_value = false
+
+      args.each do |arg|
+        if arg =~ /^\-\-log_level(?=\=(.*))?/
+          if $1
+            Nucleon.log_level = $1
+          else
+            parse_log_value = true
+          end
+        elsif parse_log_value
+          Nucleon.log_level = arg
+          parse_log_value = false
+        else
+          check_args << arg
+        end
+      end
+
+      check_args.each_index do |index|
+        if !check_args[index].start_with?('-')
+          main_args   = check_args[0, index]
+          sub_command = check_args[index]
+          sub_args    = check_args[index + 1, check_args.length - index + 1]
           break
         end
       end
 
-      main_args = args.dup if main_args.nil?
+      main_args = check_args.dup if main_args.nil?
       results   = [ Parser.new(main_args, banner, separator, true) ]
 
       if sub_command
@@ -129,6 +148,10 @@ module CLI
         '--log_level STR',
         'nucleon.core.util.cli.options.log_level'
       )
+      option_str(:exec_dir, nil,
+        '--exec_dir STR',
+        'nucleon.core.util.cli.options.exec_dir'
+      )
       option_str(:encoded_params, false,
         '--encoded STR',
         'nucleon.core.util.cli.options.encoded'
@@ -162,11 +185,13 @@ module CLI
         exit 0
       end
 
+      if options[:exec_dir]
+        Dir.chdir(options[:exec_dir])
+      end
+
       return if options[:help]
 
       parse_encoded
-
-      Nucleon.log_level = options[:log_level] if options[:log_level]
 
       self.extra = normalize_extra_options(extra_args) unless extra_args.empty?
 

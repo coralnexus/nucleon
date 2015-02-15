@@ -17,7 +17,7 @@ en:
             For help on any individual action run `%{command}`
         errors:
           missing_argument: |-
-            Argument <%{name}> must be specified          
+            Argument <%{name}> must be specified
       util:
         cli:
           options:
@@ -31,6 +31,8 @@ en:
               Display a more extended breakdown of available options for this commands available actions
             log_level: |-
               Set the logging level for this execution run
+            exec_dir: |-
+              Change to a specified directory before this execution run
             encoded: |-
               Optional encoded parameter set that contains default action settings (machine use only)
           parse:
@@ -69,7 +71,7 @@ en:
               propogate_push: |-
                 Propogate pushes to the remote throughout the project tree (default %{default_value})
     action:
-      unknown: 
+      unknown:
         description: |-
           This Nucleon action has no description available
         help: |-
@@ -100,7 +102,7 @@ en:
             files: |-
               Optional space separated list of files to save
           start: |-
-            Saving project changes with provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})        
+            Saving project changes with provider %{project_provider} (ref: %{project_reference} rev: %{project_revision})
         add:
           description: |-
             Add a new sub-project to this project
@@ -136,4 +138,3 @@ en:
             "Base path for extracted files must be an existing directory"
           encoded: |-
             "Data is either not properly encoded or is empty %{value}"
-        
