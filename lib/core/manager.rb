@@ -666,7 +666,7 @@ class Manager
       provider = plugin.plugin_provider
       result   = nil
 
-      logger.debug("Checking extension #{provider}")
+      logger.info("Checking extension #{provider}")
 
       if plugin.respond_to?(method)
         results = {} if results.nil?
@@ -698,7 +698,7 @@ class Manager
   def config(type, options = {})
     config = Config.ensure(options)
 
-    logger.debug("Generating #{type} extended configuration")
+    logger.info("Generating #{type} extended configuration")
 
     exec("#{type}_config", Config.new(config.export, {}, true, false)) do |op, data|
       if op == :reduce
@@ -717,7 +717,7 @@ class Manager
   def check(method, options = {})
     config = Config.ensure(options)
 
-    logger.debug("Checking extension #{method}")
+    logger.info("Checking extension #{method}")
 
     success = exec(method, config.import({ :extension_type => :check })) do |op, data|
       if op == :reduce
@@ -736,7 +736,7 @@ class Manager
   def value(method, value, options = {})
     config = Config.ensure(options)
 
-    logger.debug("Setting extension #{method} value")
+    logger.info("Setting extension #{method} value")
 
     exec(method, config.import({ :value => value, :extension_type => :value })) do |op, data|
       if op == :process
@@ -752,7 +752,7 @@ class Manager
     config = Config.ensure(options)
     values = []
 
-    logger.debug("Collecting extension #{method} values")
+    logger.info("Collecting extension #{method} values")
 
     exec(method, config.import({ :extension_type => :collect })) do |op, data|
       if op == :process
