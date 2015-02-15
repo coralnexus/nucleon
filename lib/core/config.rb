@@ -835,7 +835,7 @@ class Config
   def symbol_array(array)
     result = []
     array.each do |item|
-      result << item.to_sym
+      result << item.to_sym unless item.nil?
     end
     result
   end
