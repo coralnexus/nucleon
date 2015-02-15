@@ -262,7 +262,7 @@ module Facade
 
   #---
 
-  def load_plugins(base_dir = nil)
+  def load_plugins(base_dir = nil, search_parents = true)
     base_dir = base_dir.nil? ? Dir.pwd : base_dir
 
     search_plugins = lambda do |search_dir|
@@ -273,8 +273,10 @@ module Facade
         register(lib_dir)
       end
 
-      parent_search_dir = search_dir.sub(/#{File::SEPARATOR}[^#{File::SEPARATOR}]+$/, '')
-      search_plugins.call(parent_search_dir) unless parent_search_dir.split(File::SEPARATOR).empty?
+      if search_parents
+        parent_search_dir = search_dir.sub(/#{File::SEPARATOR}[^#{File::SEPARATOR}]+$/, '')
+        search_plugins.call(parent_search_dir) unless parent_search_dir.split(File::SEPARATOR).empty?
+      end
     end
 
     search_plugins.call(base_dir)
