@@ -516,8 +516,6 @@ module Facade
   end
 
   def executable(args, name = 'nucleon') #ARGV
-    logger.info("`#{name}` invoked: #{args.inspect}")
-
     $stdout.sync = true
     $stderr.sync = true
 
@@ -532,7 +530,7 @@ module Facade
       arg_components = Util::CLI::Parser.split(args, cyan(name) + yellow(" <action components> [<arg> ...]"))
       main_command   = arg_components.shift
 
-      logger.info("Beginning execution run")
+      logger.info("Beginning #{name} execution run with arguments: #{args.inspect}")
 
       load_plugins
       exec(:executable_init)
