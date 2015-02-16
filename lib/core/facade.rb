@@ -518,6 +518,8 @@ module Facade
   end
 
   def executable(args, name = 'nucleon') #ARGV
+    $0 = name # Set process name
+
     $stdout.sync = true
     $stderr.sync = true
 
