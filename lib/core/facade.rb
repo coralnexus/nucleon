@@ -170,12 +170,14 @@ module Facade
   #-----------------------------------------------------------------------------
 
   def admin?
-    is_admin  = ( ENV['USER'] == 'root' )
-    ext_admin = exec(:check_admin) do |op, results|
-      if op == :reduce
-        results.values.include?(true)
-      else
-        results ? true : false
+    is_admin = ( ENV['USER'] == 'root' )
+    unless is_admin
+      ext_admin = exec(:check_admin) do |op, results|
+        if op == :reduce
+          results.values.include?(true)
+        else
+          results ? true : false
+        end
       end
     end
     is_admin || ext_admin ? true : false
