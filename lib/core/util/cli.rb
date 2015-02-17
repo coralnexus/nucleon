@@ -141,7 +141,7 @@ module CLI
         'nucleon.core.util.cli.options.version'
       )
       option_bool(:color, true,
-        '--[no]-color',
+        '--[no-]color',
         'nucleon.core.util.cli.options.color'
       )
       option_str(:log_level, nil,
