@@ -140,7 +140,7 @@ module CLI
         '--version',
         'nucleon.core.util.cli.options.version'
       )
-      option_bool(:color, true,
+      option_bool(:color, Util::Console.use_colors,
         '--[no-]color',
         'nucleon.core.util.cli.options.color'
       )
