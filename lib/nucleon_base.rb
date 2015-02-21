@@ -452,6 +452,10 @@ end
 #
 require 'rubygems'
 #
+# Extra time functions
+#
+require 'time'
+#
 # Basic CLI option parsing
 #
 require 'optparse'
