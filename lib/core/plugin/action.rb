@@ -580,13 +580,26 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
 
     search_action = lambda do |components|
       unless components.empty?
+        index             = action_index
         action_id         = components.is_a?(Array) ? components.flatten.join('::') : components
         action_id_pattern = action_id.gsub('::', ':.*:')
 
-        action_index.each do |loaded_action_id, loaded_action_info|
-          if loaded_action_id.match(/(^|\:)#{action_id_pattern.gsub(/\-/, '\-')}(\:|$)/)
+        # Check for exact matches
+        index.each do |loaded_action_id, loaded_action_info|
+          if loaded_action_id.match(/^[^\:]+\:\:#{action_id.gsub(/\-/, '\-')}$/)
             loaded_action_info[:action_id] = loaded_action_id
             actions_found << loaded_action_info
+            break
+          end
+        end
+
+        if actions_found.empty?
+          # Check for similarly named actions
+          index.each do |loaded_action_id, loaded_action_info|
+            if loaded_action_id.match(/(^|\:)#{action_id_pattern.gsub(/\-/, '\-')}(\:|$)/)
+              loaded_action_info[:action_id] = loaded_action_id
+              actions_found << loaded_action_info
+            end
           end
         end
       end
