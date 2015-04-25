@@ -160,7 +160,7 @@ class SSH < Core
 
       ssh_options = Config.new({
         :user_known_hosts_file => [ File.join(key_path, 'known_hosts'), File.join(key_path, 'known_hosts2') ],
-        :auth_methods          => [ 'publickey' ],
+        :auth_methods          => [ 'publickey', 'password' ],
         :paranoid              => :very
       }, {}, true, false).import(Util::Data.subset(config, config.keys - [ :keypair, :key_dir, :key_name, :reset_conn ]))
 
@@ -179,6 +179,8 @@ class SSH < Core
           ssh_options[:keys_only] = true
           ssh_options[:key_data]  = [ @@auth[auth_id].private_key ]
         end
+      else
+        ssh_options[:password] = config[:password] if config[:password]
       end
 
       ssh_options[:port] = port
