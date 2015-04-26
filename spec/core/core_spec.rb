@@ -173,7 +173,7 @@ module Nucleon
     describe "#ui_group" do
 
       it "prints a colored message with a set prefix to the console" do
-        test_output("[\e\[36mtest string\e\[0m] -----------------------------------------------------") do |output|
+        test_output("[\e\[36mtest string\e\[0m] -----------------------------------------------------\n") do |output|
           Core.ui_group("test string", :cyan) do |ui|
             ui.output = output
             ui.info("-----------------------------------------------------")

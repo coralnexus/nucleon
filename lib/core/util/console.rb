@@ -274,7 +274,7 @@ class Console
     puts_options           = { :printer => printer }
     puts_options[:channel] = options[:channel] if options.has_key?(:channel)
 
-    safe_puts(format_message(type, message, options), puts_options)
+    safe_puts(format_message(type, message, options) + "\n", puts_options)
   end
 
   # Dump an object to an output channel even if quiet specified

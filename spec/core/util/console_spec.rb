@@ -23,7 +23,7 @@ module Nucleon
     describe "#say" do
 
       it "can delegate to another class that contains this method" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output }) do |console|
             console({ :console_delegate => console }).say(:info, 'message')
           end
@@ -31,11 +31,11 @@ module Nucleon
       end
 
       it "prints a message with default options" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output }).say(:info, 'message')
         end
 
-        test_output('[component] message', :puts) do |output|
+        test_output("[component] message\n", :puts) do |output|
           console({
             :resource => 'component',
             :output   => output,
@@ -44,18 +44,18 @@ module Nucleon
       end
 
       it "prints a message with and without newlines included" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output }).say(:info, 'message', { :new_line => true })
         end
 
-        test_output('message', :print) do |output|
+        test_output("message\n", :print) do |output|
           console({ :output => output }).say(:info, 'message', { :new_line => false })
         end
       end
 
       it "routes message of different types" do
         [:info, :warn, :success, :error].each do |type|
-          test_output('message', :puts) do |output|
+          test_output("message\n", :puts) do |output|
             console({ :output => output, :color => false }).say(type, 'message')
           end
         end
@@ -63,7 +63,7 @@ module Nucleon
 
       it "routes message to output and error channels based on channel given" do
         [:info, :warn, :success].each do |type|
-          test_output(type.to_s, :puts) do |output|
+          test_output(type.to_s + "\n", :puts) do |output|
             console({ :color => false }).say(type, type.to_s, { :channel => output })
           end
         end
@@ -116,7 +116,7 @@ module Nucleon
     describe "#info" do
 
       it "can delegate to another class that contains this method" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output }) do |console|
             console({ :console_delegate => console }).info('message')
           end
@@ -124,7 +124,7 @@ module Nucleon
       end
 
       it "prints an uncolored information message" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output }).info('message')
         end
       end
@@ -135,7 +135,7 @@ module Nucleon
     describe "#warn" do
 
       it "can delegate to another class that contains this method" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output, :color => false }) do |console|
             console({ :console_delegate => console }).warn('message')
           end
@@ -143,13 +143,13 @@ module Nucleon
       end
 
       it "prints an uncolored warning message" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output, :color => false }).warn('message')
         end
       end
 
       it "prints a colored warning message" do
-        test_output("\e\[33mmessage\e\[0m", :print) do |output|
+        test_output("\e\[33mmessage\e\[0m\n", :print) do |output|
           console({ :output => output, :color => true }).warn('message', { :new_line => false })
         end
       end
@@ -160,7 +160,7 @@ module Nucleon
     describe "#error" do
 
       it "can delegate to another class that contains this method" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output, :color => false }) do |console|
             console({ :console_delegate => console }).error('message')
           end
@@ -168,13 +168,13 @@ module Nucleon
       end
 
       it "prints an uncolored error message" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output, :color => false }).error('message')
         end
       end
 
       it "prints a colored error message" do
-        test_output("\e\[31mmessage\e\[0m", :print) do |output|
+        test_output("\e\[31mmessage\e\[0m\n", :print) do |output|
           console({ :output => output, :color => true }).error('message', { :new_line => false })
         end
       end
@@ -185,7 +185,7 @@ module Nucleon
     describe "#success" do
 
       it "can delegate to another class that contains this method" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output, :color => false }) do |console|
             console({ :console_delegate => console }).success('message')
           end
@@ -193,13 +193,13 @@ module Nucleon
       end
 
       it "prints an uncolored success message" do
-        test_output('message', :puts) do |output|
+        test_output("message\n", :puts) do |output|
           console({ :output => output, :color => false }).success('message')
         end
       end
 
       it "prints a colored success message" do
-        test_output("\e\[32mmessage\e\[0m", :print) do |output|
+        test_output("\e\[32mmessage\e\[0m\n", :print) do |output|
           console({ :output => output, :color => true }).success('message', { :new_line => false })
         end
       end
