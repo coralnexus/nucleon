@@ -10,9 +10,13 @@ class SSH < Core
 
   #---
 
-  def self.key_path
+  def self.key_path(ssh_user = nil)
     unless @@key_path
-      home_path  = ( ENV['USER'] == 'root' ? '/root' : ENV['HOME'] ) # In case we are using sudo
+      if ssh_user
+        home_path = "/home/#{ssh_user}"
+      else
+        home_path = ( ENV['USER'] == 'root' ? '/root' : ENV['HOME'] ) # In case we are using sudo
+      end
       @@key_path = File.join(home_path, '.ssh')
 
       FileUtils.mkdir(@@key_path) unless File.directory?(@@key_path)
