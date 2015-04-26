@@ -378,6 +378,8 @@ class SSH < Core
 
     port         = config.get(:port, 22)
     private_keys = config.get(:private_keys, File.join(ENV['HOME'], '.ssh', 'id_rsa'))
+    key_dir      = config.get(:key_dir, nil)
+    key_name     = config.get(:key_name, 'default')
 
     command_options = [
       "#{user}@#{hostname}",
@@ -390,8 +392,15 @@ class SSH < Core
       "-o", "IdentitiesOnly=yes"
     ]
 
-    Util::Data.array(private_keys).each do |path|
-      command_options += [ "-i", File.expand_path(path) ]
+    Util::Data.array(private_keys).each do |private_key|
+      unless ENV['NUCLEON_NO_SSH_KEY_SAVE'] || key_dir.nil?
+        keypair = unlock_private_key(private_key, {
+          :key_dir  => key_dir,
+          :key_name => key_name
+        })
+        private_key = keypair.private_key_file(key_dir, key_name) if keypair
+      end
+      command_options += [ "-i", File.expand_path(private_key) ]
     end
 
     if config.get(:forward_x11, false)
