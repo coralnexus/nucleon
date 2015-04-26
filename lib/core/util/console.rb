@@ -270,11 +270,12 @@ class Console
     defaults = { :new_line => true, :prefix => true }
     options  = defaults.merge(options)
     printer  = options[:new_line] ? :puts : :print
+    suffix   = options[:new_line] ? "\n" : ''
 
     puts_options           = { :printer => printer }
     puts_options[:channel] = options[:channel] if options.has_key?(:channel)
 
-    safe_puts(format_message(type, message, options) + "\n", puts_options)
+    safe_puts(format_message(type, message, options) + suffix, puts_options)
   end
 
   # Dump an object to an output channel even if quiet specified
@@ -336,7 +337,10 @@ class Console
 
     user_input = nil
 
-    say(:info, message, Config.ensure(options).import({ :quiet_override => true }).export)
+    say(:info, message, Config.ensure(options).import({
+      :quiet_override => true,
+      :new_line => false
+    }).export)
 
     if options[:echo]
       user_input = @input.gets.chomp
@@ -386,7 +390,8 @@ class Console
         try_again = false
       end
     end
-    password.strip
+    password = password.strip if password
+    password
   end
 
   #*****************************************************************************

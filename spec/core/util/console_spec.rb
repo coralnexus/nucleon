@@ -48,7 +48,7 @@ module Nucleon
           console({ :output => output }).say(:info, 'message', { :new_line => true })
         end
 
-        test_output("message\n", :print) do |output|
+        test_output('message', :print) do |output|
           console({ :output => output }).say(:info, 'message', { :new_line => false })
         end
       end
@@ -149,7 +149,7 @@ module Nucleon
       end
 
       it "prints a colored warning message" do
-        test_output("\e\[33mmessage\e\[0m\n", :print) do |output|
+        test_output("\e\[33mmessage\e\[0m", :print) do |output|
           console({ :output => output, :color => true }).warn('message', { :new_line => false })
         end
       end
@@ -174,7 +174,7 @@ module Nucleon
       end
 
       it "prints a colored error message" do
-        test_output("\e\[31mmessage\e\[0m\n", :print) do |output|
+        test_output("\e\[31mmessage\e\[0m", :print) do |output|
           console({ :output => output, :color => true }).error('message', { :new_line => false })
         end
       end
@@ -199,7 +199,7 @@ module Nucleon
       end
 
       it "prints a colored success message" do
-        test_output("\e\[32mmessage\e\[0m\n", :print) do |output|
+        test_output("\e\[32mmessage\e\[0m", :print) do |output|
           console({ :output => output, :color => true }).success('message', { :new_line => false })
         end
       end
