@@ -25,6 +25,10 @@ class Cache < Core
     @cache_filename   = "#{id}.#{translator}"
     @cache_path       = File.join(@cache_root, @cache_filename)
 
+    unless File.exist?(file)
+      parser = CORL.translator({}, translator)
+      Disk.write(file, parser.generate({}))
+    end
     load
   end
 
