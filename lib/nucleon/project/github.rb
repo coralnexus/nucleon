@@ -44,7 +44,7 @@ class Github < Git
 
   def init_auth
     super do
-      external_ip = Nucleon.ip_address
+      external_ip = get(:external_ip, Nucleon.ip_address)
       internal_ip = get(:internal_ip, nil)
 
       if internal_ip && internal_ip.to_s != external_ip
