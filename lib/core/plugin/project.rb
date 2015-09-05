@@ -28,9 +28,10 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
       logger.info("Creating new project at #{directory} with #{provider}")
 
       return Nucleon.project(config.import({
-        :name         => directory,
-        :directory    => directory,
-        :nucleon_file => config.get(:nucleon_file, true)
+        :name          => directory,
+        :directory     => directory,
+        :nucleon_cache => config.get(:nucleon_cache, true),
+        :nucleon_file  => config.get(:nucleon_file, true)
       }), provider)
 
     else
@@ -71,8 +72,10 @@ class Project < Nucleon.plugin_class(:nucleon, :base)
     pull if get(:pull, false)
 
     unless reload
-      @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
-      init_cache
+      if get(:nucleon_cache, true)
+        @cache = Util::Cache.new(directory, Nucleon.sha1(plugin_name), '.project_cache')
+        init_cache
+      end
 
       if get(:nucleon_file, true) && ( get(:nucleon_resave, false) || self.class.load_project_info(directory).empty? )
         self.class.store_project_info(directory, plugin_provider, Util::Data.subset(export, [
