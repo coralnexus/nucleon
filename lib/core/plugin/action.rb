@@ -544,25 +544,28 @@ class Action < Nucleon.plugin_class(:nucleon, :base)
     end
 
     Nucleon.loaded_plugins(:nucleon, :action).each do |provider, data|
-      description        = data[:class].describe
-      data[:description] = description
-      data[:_weight]     = description[:weight]
+      description = data[:class].describe
 
-      keys = [ description[:namespace], description[:group], description[:action] ].flatten.compact
-      action_config.set(keys, data)
+      unless description.nil? || !description.is_a?(Hash)
+        data[:description] = description
+        data[:_weight]     = description[:weight]
 
-      keys.pop
+        keys = [ description[:namespace], description[:group], description[:action] ].flatten.compact
+        action_config.set(keys, data)
 
-      while ! keys.empty?
-        group_config = action_config.get(keys)
-
-        if group_config.has_key?(:_weights)
-          group_config[:_weights].push(description[:weight])
-        else
-          action_config.set([ keys, :_weights ], [ description[:weight] ])
-        end
-        action_config.set([ keys, :_weight ], group_config[:_weights].inject(0.0) { |sum, el| sum + el } / group_config[:_weights].size)
         keys.pop
+
+        while ! keys.empty?
+          group_config = action_config.get(keys)
+
+          if group_config.has_key?(:_weights)
+            group_config[:_weights].push(description[:weight])
+          else
+            action_config.set([ keys, :_weights ], [ description[:weight] ])
+          end
+          action_config.set([ keys, :_weight ], group_config[:_weights].inject(0.0) { |sum, el| sum + el } / group_config[:_weights].size)
+          keys.pop
+        end
       end
     end
 
