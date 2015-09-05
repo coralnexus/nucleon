@@ -26,7 +26,7 @@ class Cache < Core
     @cache_path       = File.join(@cache_root, @cache_filename)
 
     unless File.exist?(file)
-      parser = CORL.translator({}, translator)
+      parser = Nucleon.translator({}, translator)
       Disk.write(file, parser.generate({}))
     end
     load
@@ -126,7 +126,7 @@ class Cache < Core
     @@cache_lock.synchronize do
       logger.info("Loading #{translator} translated cache from #{file}")
 
-      parser = CORL.translator({}, translator)
+      parser = Nucleon.translator({}, translator)
       raw    = Disk.read(file)
 
       if parser && raw && ! raw.empty?
@@ -150,7 +150,7 @@ class Cache < Core
     @status = 255
 
     @@cache_lock.synchronize do
-      if renderer = CORL.translator({}, translator)
+      if renderer = Nucleon.translator({}, translator)
         rendering = renderer.generate(export)
 
         Nucleon.remove_plugin(renderer)
