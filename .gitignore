@@ -48,3 +48,7 @@ pkg
 .project
 .buildpath
 .cache
+
+# Nucleon files
+.project_cache
+
