@@ -197,7 +197,7 @@ module Facade
     end
 
     fetch_ip = lambda do
-      ip_command = value(:external_address_command, 'curl --silent ifconfig.me')
+      ip_command = value(:external_address_command, 'dig +short myip.opendns.com @resolver1.opendns.com')
       ip_address = `#{ip_command}`.strip
 
       unless ip_address.empty?
