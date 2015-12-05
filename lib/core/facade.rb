@@ -144,7 +144,7 @@ module Facade
       manager = parallel? ? Celluloid::Actor[actor_id] : collection[actor_id]
     else
       if parallel?
-        klass.supervise_as(actor_id, actor_id, reset)
+        klass.supervise({ :as => actor_id, :args => [actor_id, reset] })
         manager = Celluloid::Actor[actor_id]
       else
         manager = klass.new(actor_id, reset) # Managers should have standardized initialization parameters
