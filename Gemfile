@@ -18,8 +18,8 @@ gem "rugged", "~> 0.21"
 gem "octokit", "~> 3.6"
 
 group :development do
-  gem "bundler", "~> 1.7"
+  gem "bundler", "~> 1.10"
   gem "jeweler", "~> 2.0"
-  gem "rspec", "~> 3.1"
-  gem "rdoc", "~> 3.12"
+  gem "rspec", "~> 3.4"
+  gem "rdoc", "~> 4.2"
 end
