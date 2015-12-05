@@ -144,6 +144,10 @@ module CLI
         '--[no-]color',
         'nucleon.core.util.cli.options.color'
       )
+      option_bool(:parallel, Nucleon.parallel?,
+        '--[no-]parallel',
+        'nucleon.core.util.cli.options.parallel'
+      )
       option_str(:log_level, nil,
         '--log_level STR',
         'nucleon.core.util.cli.options.log_level'
