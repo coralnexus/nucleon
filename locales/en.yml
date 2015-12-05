@@ -25,6 +25,8 @@ en:
               Print the current version information and exit
             color: |-
               Whether or not to output console messages in color (default %{default_value})
+            parallel: |-
+              Whether or not to run in parallel mode (default %{default_value})
             short_help: |-
               Display brief help information for this command
             extended_help: |-
