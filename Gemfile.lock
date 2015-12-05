@@ -3,8 +3,23 @@ GEM
   specs:
     addressable (2.3.6)
     builder (3.2.2)
-    celluloid (0.16.0)
-      timers (~> 4.0.0)
+    celluloid (0.17.2)
+      celluloid-essentials
+      celluloid-extras
+      celluloid-fsm
+      celluloid-pool
+      celluloid-supervision
+      timers (>= 4.1.1)
+    celluloid-essentials (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-extras (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-fsm (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-pool (0.20.5)
+      timers (>= 4.1.1)
+    celluloid-supervision (0.20.5)
+      timers (>= 4.1.1)
     childprocess (0.5.5)
       ffi (~> 1.0, >= 1.0.11)
     deep_merge (1.0.1)
@@ -26,7 +41,7 @@ GEM
       oauth2
     hashie (3.3.2)
     highline (1.6.21)
-    hitimes (1.2.2)
+    hitimes (1.2.3)
     i18n (0.6.11)
     jeweler (2.0.1)
       builder
@@ -77,7 +92,7 @@ GEM
       faraday (~> 0.8, < 0.10)
     sshkey (1.6.1)
     thread_safe (0.3.4)
-    timers (4.0.1)
+    timers (4.1.1)
       hitimes
 
 PLATFORMS
@@ -85,7 +100,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.7)
-  celluloid (~> 0.16)
+  celluloid (~> 0.17)
   childprocess (~> 0.5)
   deep_merge (~> 1.0)
   erubis (~> 2.7)
