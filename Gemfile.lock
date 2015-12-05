@@ -91,6 +91,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    rugged (0.23.3)
     sawyer (0.6.0)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
@@ -119,6 +120,7 @@ DEPENDENCIES
   octokit (~> 3.6)
   rdoc (~> 4.2)
   rspec (~> 3.4)
+  rugged (~> 0.23)
   sshkey (~> 1.6)
 
 BUNDLED WITH
