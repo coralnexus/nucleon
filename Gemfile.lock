@@ -30,6 +30,7 @@ GEM
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.10)
+    ffi (1.9.10-java)
     git (1.2.9.1)
     github_api (0.13.0)
       addressable (~> 2.3)
@@ -42,6 +43,7 @@ GEM
     hashie (3.4.3)
     highline (1.7.8)
     hitimes (1.2.3)
+    hitimes (1.2.3-java)
     i18n (0.7.0)
     jeweler (2.0.1)
       builder
@@ -53,6 +55,7 @@ GEM
       rake
       rdoc
     json (1.8.3)
+    json (1.8.3-java)
     jwt (1.5.2)
     log4r (1.1.10)
     mini_portile2 (2.0.0)
@@ -62,6 +65,7 @@ GEM
     netrc (0.11.0)
     nokogiri (1.6.7)
       mini_portile2 (~> 2.0.0.rc2)
+    nokogiri (1.6.7-java)
     oauth2 (1.0.0)
       faraday (>= 0.8, < 0.10)
       jwt (~> 1.0)
@@ -87,16 +91,17 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
-    rugged (0.23.3)
     sawyer (0.6.0)
       addressable (~> 2.3.5)
       faraday (~> 0.8, < 0.10)
     sshkey (1.8.0)
     thread_safe (0.3.5)
+    thread_safe (0.3.5-java)
     timers (4.1.1)
       hitimes
 
 PLATFORMS
+  java
   ruby
 
 DEPENDENCIES
@@ -114,7 +119,6 @@ DEPENDENCIES
   octokit (~> 3.6)
   rdoc (~> 4.2)
   rspec (~> 3.4)
-  rugged (~> 0.21)
   sshkey (~> 1.6)
 
 BUNDLED WITH

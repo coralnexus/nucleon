@@ -14,7 +14,7 @@ gem "sshkey", "~> 1.6"
 gem "childprocess", "~> 0.5"
 gem "celluloid", "~> 0.17"
 
-gem "rugged", "~> 0.21"
+gem "rugged", "~> 0.23"
 gem "octokit", "~> 3.6"
 
 group :development do
