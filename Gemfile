@@ -1,21 +1,21 @@
 source "http://rubygems.org"
 
 gem "log4r", "~> 1.1"
-gem "i18n", "~> 0.6"
-gem "netrc", "~> 0.9"
-gem "highline", "~> 1.6"
+gem "i18n", "~> 0.7"
+gem "netrc", "~> 0.11"
+gem "highline", "~> 1.7"
 gem "erubis", "~> 2.7"
 
 gem "deep_merge", "~> 1.0"
-gem "multi_json", "~> 1.10"
+gem "multi_json", "~> 1.11"
 
-gem "sshkey", "~> 1.6"
+gem "sshkey", "~> 1.8"
 
 gem "childprocess", "~> 0.5"
 gem "celluloid", "~> 0.17"
 
 gem "rugged", "~> 0.23"
-gem "octokit", "~> 3.6"
+gem "octokit", "~> 4.2"
 
 group :development do
   gem "bundler", "~> 1.10"
