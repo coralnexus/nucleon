@@ -44,7 +44,8 @@ module Project
       :url            => settings[:project_reference],
       :revision       => settings[:project_revision],
       :pull           => update,
-      :nucleon_resave => true
+      :nucleon_resave => true,
+      :nucleon_cache  => false
     }))
   end
 end
