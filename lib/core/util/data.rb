@@ -193,6 +193,11 @@ class Data
       data.each do |key, value|
         results[key.to_sym] = symbol_map(value)
       end
+    when Array
+      results = []
+      data.each do |value|
+        results << symbol_map(value)
+      end
     else
       results = data
     end
@@ -226,6 +231,11 @@ class Data
     when Hash
       data.each do |key, value|
         results[key.to_s] = string_map(value)
+      end
+    when Array
+      results = []
+      data.each do |value|
+        results << string_map(value)
       end
     else
       results = data
